@@ -10,7 +10,7 @@ Site estático idêntico ao frontend do [xpv-xp_site](https://github.com/waltfil
 | 24–30 | Blue Collar Prospects | 15 |
 | >30 | Standout Experience | 15 |
 
-Rankings recalculados dentro do pool de 45 jogadores.
+Rankings e métricas preservados do pool completo de meio-campistas europeus (~500+), idênticos ao site principal.
 
 ## Desenvolvimento
 
