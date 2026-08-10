@@ -40,6 +40,7 @@ const TIER_ACCENT: Record<string, string> = {
 
 function formatImpactValue(key: string, value: number | null | undefined): string {
   if (value == null || Number.isNaN(value)) return "—";
+  if (key === "threat_pass_pct") return `${value.toFixed(1)}%`;
   if (key.startsWith("def_") || key === "defensive_actions_p90") return formatMetric(value, key);
   if (key === "chance_creation_xpv") return value.toFixed(2);
   if (key === "xp_residual_mean") {

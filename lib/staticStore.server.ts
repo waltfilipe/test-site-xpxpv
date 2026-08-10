@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import { playerIdsForProfileGroup } from "@/lib/playerReports";
 import { enrichPlayerProfile } from "@/lib/enrichProfile.server";
+import { getImpactRateStats } from "@/lib/passImpactRate.server";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 
@@ -33,7 +34,18 @@ const PASS_LETTER_FIELDS: Record<string, string> = {
   efficiency_grade: "pass_efficiency_letter",
   buildup_grade: "pass_buildup_letter",
   chance_grade: "pass_chance_creation_letter",
+  impact_grade: "pass_impact_letter",
 };
+
+const PLAYER_LIST_LETTER_FIELDS = [
+  "pass_volume_letter",
+  "pass_efficiency_letter",
+  "pass_buildup_letter",
+  "pass_chance_creation_letter",
+  "pass_impact_letter",
+  "defense_letter",
+  "defense_display",
+] as const;
 
 const AGE_BANDS: Record<string, [number | null, number | null]> = {
   all: [null, null],
@@ -81,6 +93,26 @@ function getXpById(): Record<string, JsonRecord> {
     out[String(row.player_id)] = row;
   }
   return out;
+}
+
+function mergePlayerListRow(player: JsonRecord): JsonRecord {
+  const pid = String(player.player_id);
+  const xp = getXpById()[pid] ?? {};
+  const impactRate = getImpactRateStats(pid);
+  const merged: JsonRecord = { ...player };
+
+  for (const field of PLAYER_LIST_LETTER_FIELDS) {
+    if (xp[field] != null) merged[field] = xp[field];
+  }
+
+  if (impactRate?.letter) {
+    merged.pass_impact_letter = impactRate.letter;
+  }
+  if (impactRate?.displayScore != null) {
+    merged.pass_impact_display = impactRate.displayScore;
+  }
+
+  return merged;
 }
 
 function getProfile(playerId: string): JsonRecord | null {
@@ -221,7 +253,7 @@ export function getStaticMeta() {
 
 export function getStaticPlayers(params: URLSearchParams) {
   const data = getPlayersData();
-  const filtered = filterPool(data.players, params);
+  const filtered = filterPool(data.players, params).map(mergePlayerListRow);
   const limit = Math.min(Number(params.get("limit") ?? 200), 2000);
   const offset = Number(params.get("offset") ?? 0);
   return {
@@ -289,6 +321,7 @@ export function getStaticCompare(playerA: string, playerB: string) {
     ["pass_efficiency_display", "Efficiency"],
     ["pass_buildup_display", "Build-up"],
     ["pass_chance_creation_display", "Chance creation"],
+    ["pass_impact_display", "Impact"],
   ] as const;
 
   const metric = (source: JsonRecord, key: string) => {
@@ -347,10 +380,16 @@ export function getStaticCompare(playerA: string, playerB: string) {
       const letterKey = key.replace("_display", "_letter");
       const indexKey = key.replace("_display", "_index");
       const sectionA = sectionForLabel(profileA, label);
+      const sectionB = sectionForLabel(profileB, label);
+      const componentValue = (section: typeof sectionA, source: JsonRecord, compKey: string) => {
+        const fromSection = section?.components?.find((c) => String(c.key) === compKey)?.value;
+        if (fromSection != null && fromSection !== "") return Number(fromSection);
+        return metric(source, compKey);
+      };
       const components = (sectionA?.components ?? []).map((comp) => {
         const compKey = String(comp.key);
-        const fa = metric(sourceA, compKey);
-        const fb = metric(sourceB, compKey);
+        const fa = componentValue(sectionA, sourceA, compKey);
+        const fb = componentValue(sectionB, sourceB, compKey);
         return { key: compKey, value_a: fa, value_b: fb, winner: winner(fa, fb) };
       });
       return {
@@ -358,10 +397,18 @@ export function getStaticCompare(playerA: string, playerB: string) {
         label,
         value_a: a,
         value_b: b,
-        letter_a: sourceA[letterKey],
-        letter_b: sourceB[letterKey],
-        score_a: metric(sourceA, indexKey),
-        score_b: metric(sourceB, indexKey),
+        letter_a: label === "Impact"
+          ? (getImpactRateStats(playerA)?.letter ?? sourceA[letterKey])
+          : sourceA[letterKey],
+        letter_b: label === "Impact"
+          ? (getImpactRateStats(playerB)?.letter ?? sourceB[letterKey])
+          : sourceB[letterKey],
+        score_a: label === "Impact"
+          ? (getImpactRateStats(playerA)?.displayScore ?? metric(sourceA, indexKey))
+          : metric(sourceA, indexKey),
+        score_b: label === "Impact"
+          ? (getImpactRateStats(playerB)?.displayScore ?? metric(sourceB, indexKey))
+          : metric(sourceB, indexKey),
         winner: winner(a, b),
         components,
       };

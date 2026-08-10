@@ -34,9 +34,15 @@ const CHANCE_CREATION_METRIC_KEYS = new Set([
   "chance_creation_xpv",
 ]);
 
+function formatImpactRate(value: unknown): string {
+  if (value == null || Number.isNaN(Number(value))) return "—";
+  return `${Number(value).toFixed(1)}%`;
+}
+
 export function formatMetric(value: unknown, key?: string): string {
   if (value == null) return "—";
   if (typeof value === "number") {
+    if (key === "threat_pass_pct") return formatImpactRate(value);
     if (key?.startsWith("def_") && key.endsWith("_pct")) {
       return `${value.toFixed(1)}%`;
     }

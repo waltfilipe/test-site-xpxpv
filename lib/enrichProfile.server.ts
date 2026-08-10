@@ -2,6 +2,7 @@ import "server-only";
 
 import fs from "fs";
 import path from "path";
+import { getImpactRateStats } from "@/lib/passImpactRate.server";
 
 type JsonRecord = Record<string, unknown>;
 
@@ -77,15 +78,79 @@ function enrichChanceCreationSection(section: JsonRecord, derived: DerivedPlayer
   };
 }
 
+function enrichImpactIndex(indices: JsonRecord[] | undefined, playerId: string): JsonRecord[] | undefined {
+  if (!indices) return indices;
+
+  const impactRate = getImpactRateStats(playerId);
+  if (impactRate?.value == null) return indices;
+
+  return indices.map((item) => {
+    if (item.key !== "impact" || !Array.isArray(item.components)) return item;
+
+    const residual = (item.components as JsonRecord[]).find((c) => c.key === "xp_residual_mean");
+    const components: JsonRecord[] = [
+      {
+        key: "threat_pass_pct",
+        label: "Impact Rate",
+        value: impactRate.value,
+        rank: impactRate.rank,
+        rank_pool: impactRate.rankPool,
+      },
+    ];
+    if (residual) components.push(residual);
+
+    return { ...item, components };
+  });
+}
+
+function buildImpactPassScoreSection(playerId: string, xp: JsonRecord): JsonRecord | null {
+  const impactRate = getImpactRateStats(playerId);
+  if (impactRate?.value == null) return null;
+
+  return {
+    title: "Impact",
+    display_score: impactRate.displayScore ?? xp.pass_impact_display ?? null,
+    letter: impactRate.letter ?? xp.pass_impact_letter ?? null,
+    index: xp.pass_impact_index ?? null,
+    rank: impactRate.rank ?? xp.pass_impact_index_rank_in_group ?? null,
+    rank_pool: impactRate.rankPool ?? xp.pass_impact_index_rank_pool_in_group ?? null,
+    components: [
+      {
+        key: "threat_pass_pct",
+        value: impactRate.value,
+        rank: impactRate.rank,
+        rank_pool: impactRate.rankPool,
+        stratum_star: false,
+      },
+    ],
+  };
+}
+
+function enrichPassScores(
+  passScores: JsonRecord[] | undefined,
+  derived: DerivedPlayerMetrics | null,
+  playerId: string,
+  xp: JsonRecord,
+): JsonRecord[] | undefined {
+  const base = (passScores ?? [])
+    .filter((section) => section.title !== "Impact")
+    .map((section) => (derived ? enrichChanceCreationSection(section, derived) : section));
+
+  const impactSection = buildImpactPassScoreSection(playerId, xp);
+  if (!impactSection) return base.length ? base : passScores;
+
+  return [...base, impactSection];
+}
+
 export function enrichPlayerProfile(profile: JsonRecord): JsonRecord {
   const playerId = String((profile.player as JsonRecord | undefined)?.player_id ?? "");
   if (!playerId) return profile;
 
   const derived = getDerivedForPlayer(playerId);
-  if (!derived) return profile;
+  const xp = (profile.xp as JsonRecord | undefined) ?? {};
 
-  const xpIndices = (profile.xp_indices as JsonRecord[] | undefined)?.map((item) => {
-    if (item.key !== "defense" || !Array.isArray(item.components)) return item;
+  let xpIndices = (profile.xp_indices as JsonRecord[] | undefined)?.map((item) => {
+    if (!derived || item.key !== "defense" || !Array.isArray(item.components)) return item;
     return {
       ...item,
       components: enrichDefenseComponents(
@@ -101,8 +166,13 @@ export function enrichPlayerProfile(profile: JsonRecord): JsonRecord {
     };
   });
 
-  const passScores = (profile.pass_scores as JsonRecord[] | undefined)?.map((section) =>
-    enrichChanceCreationSection(section, derived),
+  xpIndices = enrichImpactIndex(xpIndices, playerId);
+
+  const passScores = enrichPassScores(
+    profile.pass_scores as JsonRecord[] | undefined,
+    derived,
+    playerId,
+    xp,
   );
 
   return {

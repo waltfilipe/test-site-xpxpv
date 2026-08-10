@@ -97,6 +97,7 @@ export type Messages = {
     efficiency: string;
     buildup: string;
     chanceCreation: string;
+    impact: string;
     defense: string;
     reportsPromoTitle: string;
     reportsPromoDesc: string;
@@ -378,6 +379,7 @@ const en: Messages = {
     efficiency: "Efficiency",
     buildup: "Build-up",
     chanceCreation: "Chance creation",
+    impact: "Impact",
     defense: "Defense",
     reportsPromoTitle: "Reports",
     reportsPromoDesc: "PDF-ready reports — U23 Breakout, Blue Collar 24–30 and Experience 30+",
@@ -512,7 +514,7 @@ const en: Messages = {
       Efficiency: "How cleanly they complete passes.",
       "Build-up": "Progression and line-breaking.",
       "Chance creation": "Passes that threaten the goal.",
-      Impact: "Surprise passes that beat the model.",
+      Impact: "Share of passes classified as impact passes.",
       "Defensive Contribution": "Defensive volume and duel quality.",
     },
     components: {
@@ -529,6 +531,7 @@ const en: Messages = {
       test_impact_v2_start_final_third_p90: "Danger from the final third.",
       defensive_actions_p90: "Tackles, interceptions and clearances.",
       chance_creation_xpv: "Quality of chance-creating passes.",
+      threat_pass_pct: "Impact passes as a share of all passes.",
       def_won_tackle_p90: "Tackles won.",
       def_interception_p90: "Interceptions.",
       def_clearance_p90: "Clearances.",
@@ -553,6 +556,7 @@ const en: Messages = {
       test_impact_v2_start_final_third_p90: "Final-third impact / game",
       defensive_actions_p90: "Defensive actions / 90",
       chance_creation_xpv: "Creation value",
+      threat_pass_pct: "Impact rate",
       def_won_tackle_p90: "Tackles won / 90",
       def_interception_p90: "Interceptions / 90",
       def_clearance_p90: "Clearances / 90",
@@ -564,14 +568,15 @@ const en: Messages = {
     },
     index: {
       Consistency: "How steady their game xP is from match to match.",
-      Impact: "Destination value plus beating the model.",
+      Impact: "Impact rate plus beating the model.",
       xp_idx_consistency: "How steady their game xP is from match to match.",
-      xp_idx_impact: "Destination value plus beating the model.",
+      xp_idx_impact: "Impact rate plus beating the model.",
       xp_idx_defense: "Defensive volume and duel quality.",
     },
     passGrade: "Overall pass grade within the position pool.",
     passLength: "Share of long passes vs league midpoint.",
     impactExtra: {
+      threat_pass_pct: "Impact passes divided by total passes.",
       xpv_per_pass: "Average destination value on completed passes.",
       xp_residual_mean: "Mean edge over the geometric model per pass.",
     },
@@ -754,6 +759,7 @@ const pt: Messages = {
     efficiency: "Efficiency",
     buildup: "Build-up",
     chanceCreation: "Chance creation",
+    impact: "Impact",
     defense: "Defense",
     reportsPromoTitle: "Relatórios",
     reportsPromoDesc: "Relatórios PDF — U23 Breakout, Blue Collar 24–30 e Experience 30+",
@@ -888,7 +894,7 @@ const pt: Messages = {
       Efficiency: "Quão limpo é o passe.",
       "Build-up": "Progressão e quebra de linha.",
       "Chance creation": "Passes que ameaçam o gol.",
-      Impact: "Passes surpresa que superam o modelo.",
+      Impact: "Parcela de passes classificados como impact passes.",
       "Defensive Contribution": "Volume defensivo e qualidade de duelo.",
     },
     components: {
@@ -905,6 +911,7 @@ const pt: Messages = {
       test_impact_v2_start_final_third_p90: "Perigo no terço final.",
       defensive_actions_p90: "Desarmes, interceptações e cortes.",
       chance_creation_xpv: "Qualidade na criação de chances.",
+      threat_pass_pct: "Impact passes sobre o total de passes.",
       def_won_tackle_p90: "Desarmes ganhos.",
       def_interception_p90: "Interceptações.",
       def_clearance_p90: "Cortes.",
@@ -929,6 +936,7 @@ const pt: Messages = {
       test_impact_v2_start_final_third_p90: "Impact terço final / jogo",
       defensive_actions_p90: "Ações defensivas / 90",
       chance_creation_xpv: "Creation value",
+      threat_pass_pct: "Impact rate",
       def_won_tackle_p90: "Desarmes / 90",
       def_interception_p90: "Interceptações / 90",
       def_clearance_p90: "Cortes / 90",
@@ -940,14 +948,15 @@ const pt: Messages = {
     },
     index: {
       Consistency: "Quão estável é o xP de jogo entre partidas.",
-      Impact: "Valor de destino mais superação do modelo.",
+      Impact: "Impact rate mais superação do modelo.",
       xp_idx_consistency: "Quão estável é o xP de jogo entre partidas.",
-      xp_idx_impact: "Valor de destino mais superação do modelo.",
+      xp_idx_impact: "Impact rate mais superação do modelo.",
       xp_idx_defense: "Volume defensivo e qualidade de duelo.",
     },
     passGrade: "Nota geral de passe no pool de posição.",
     passLength: "Share de passes longos vs média da liga.",
     impactExtra: {
+      threat_pass_pct: "Impact passes dividido pelo total de passes.",
       xpv_per_pass: "Valor médio de destino nos passes completados.",
       xp_residual_mean: "Média de superação do modelo geométrico.",
     },
