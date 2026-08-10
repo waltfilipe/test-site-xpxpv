@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useTransition } from "react";
+import { useI18n } from "@/lib/i18n/context";
 
 type Props = {
   leagues: string[];
@@ -16,14 +17,13 @@ type Props = {
 export function PlayersFilters({
   leagues,
   positionGroups,
-  positionFamilies,
   currentLeague,
   currentPositionGroup,
-  currentPositionFamily,
   currentSearch,
 }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { m } = useI18n();
   const [isPending, startTransition] = useTransition();
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -54,11 +54,11 @@ export function PlayersFilters({
       <input
         name="search"
         type="search"
-        placeholder="Buscar jogador..."
+        placeholder={m.players.searchPlaceholder}
         defaultValue={currentSearch ?? searchParams.get("search") ?? ""}
       />
       <select name="league" defaultValue={currentLeague ?? searchParams.get("league") ?? ""}>
-        <option value="">Todas as ligas</option>
+        <option value="">{m.common.allLeagues}</option>
         {leagues.map((l) => (
           <option key={l} value={l}>
             {l}
@@ -69,7 +69,7 @@ export function PlayersFilters({
         name="position_group"
         defaultValue={currentPositionGroup ?? searchParams.get("position_group") ?? ""}
       >
-        <option value="">Todas as posições</option>
+        <option value="">{m.common.allPositions}</option>
         {positionGroups.map((pg) => (
           <option key={pg} value={pg}>
             {pg}
@@ -77,10 +77,10 @@ export function PlayersFilters({
         ))}
       </select>
       <button type="submit" className="btn" disabled={isPending}>
-        {isPending ? "Filtrando..." : "Filtrar"}
+        {isPending ? m.common.filtering : m.common.filter}
       </button>
       <button type="button" className="btn" style={{ background: "var(--surface-2)", color: "var(--text)" }} onClick={clearFilters}>
-        Limpar
+        {m.common.clear}
       </button>
     </form>
   );

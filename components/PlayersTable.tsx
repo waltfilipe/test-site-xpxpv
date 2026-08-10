@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import type { PlayerSummary } from "@/lib/api";
 import { GradeBadge } from "@/components/ui/GradeBadge";
 import { formatLeagueName } from "@/lib/formatters";
+import { useI18n } from "@/lib/i18n/context";
 
 const LETTER_ORDER = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D"] as const;
 
@@ -70,7 +71,7 @@ function compareValues(a: unknown, b: unknown, key: SortKey): number {
     const nb = typeof b === "number" ? b : -Infinity;
     return na - nb;
   }
-  return String(a ?? "").localeCompare(String(b ?? ""), "pt-BR", { sensitivity: "base" });
+  return String(a ?? "").localeCompare(String(b ?? ""), undefined, { sensitivity: "base" });
 }
 
 function defaultDirForKey(key: SortKey): SortDir {
@@ -78,6 +79,7 @@ function defaultDirForKey(key: SortKey): SortDir {
 }
 
 export function PlayersTable({ players, positionFamily }: Props) {
+  const { m } = useI18n();
   const [sortStack, setSortStack] = useState<SortEntry[]>([
     { key: "pass_rating", dir: "desc" },
   ]);
@@ -131,47 +133,47 @@ export function PlayersTable({ players, positionFamily }: Props) {
           <tr>
             <th>
               <button type="button" className="players-sort-btn" onClick={() => toggleSort("player_name")}>
-                Jogador {sortIndicator("player_name")}
+                {m.common.player} {sortIndicator("player_name")}
               </button>
             </th>
             <th>
               <button type="button" className="players-sort-btn" onClick={() => toggleSort("league")}>
-                Liga {sortIndicator("league")}
+                {m.players.league} {sortIndicator("league")}
               </button>
             </th>
             <th>
               <button type="button" className="players-sort-btn" onClick={() => toggleSort("age")}>
-                Idade {sortIndicator("age")}
+                {m.common.age} {sortIndicator("age")}
               </button>
             </th>
             <th>
               <button type="button" className="players-sort-btn" onClick={() => toggleSort("pass_rating")}>
-                Pass Rating {sortIndicator("pass_rating")}
+                {m.players.passRating} {sortIndicator("pass_rating")}
               </button>
             </th>
             <th>
               <button type="button" className="players-sort-btn" onClick={() => toggleSort("pass_volume_letter")}>
-                Volume {sortIndicator("pass_volume_letter")}
+                {m.players.volume} {sortIndicator("pass_volume_letter")}
               </button>
             </th>
             <th>
               <button type="button" className="players-sort-btn" onClick={() => toggleSort("pass_efficiency_letter")}>
-                Efficiency {sortIndicator("pass_efficiency_letter")}
+                {m.players.efficiency} {sortIndicator("pass_efficiency_letter")}
               </button>
             </th>
             <th>
               <button type="button" className="players-sort-btn" onClick={() => toggleSort("pass_buildup_letter")}>
-                Build-up {sortIndicator("pass_buildup_letter")}
+                {m.players.buildup} {sortIndicator("pass_buildup_letter")}
               </button>
             </th>
             <th>
               <button type="button" className="players-sort-btn" onClick={() => toggleSort("pass_chance_creation_letter")}>
-                Chance creation {sortIndicator("pass_chance_creation_letter")}
+                {m.players.chanceCreation} {sortIndicator("pass_chance_creation_letter")}
               </button>
             </th>
             <th>
               <button type="button" className="players-sort-btn" onClick={() => toggleSort("defense_letter")}>
-                Defense {sortIndicator("defense_letter")}
+                {m.players.defense} {sortIndicator("defense_letter")}
               </button>
             </th>
           </tr>
@@ -201,7 +203,7 @@ export function PlayersTable({ players, positionFamily }: Props) {
           {sorted.length === 0 && (
             <tr>
               <td colSpan={9} className="muted" style={{ textAlign: "center", padding: "2rem" }}>
-                Nenhum jogador encontrado.
+                {m.common.noResults}
               </td>
             </tr>
           )}

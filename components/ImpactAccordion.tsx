@@ -4,7 +4,7 @@ import { Tooltip } from "@/components/ui/Tooltip";
 import { ImpactMetricBar } from "@/components/ui/ImpactMetricBar";
 import { XP_INDEX_TIER_LABELS, xpIndexTierClass } from "@/lib/gradeColors";
 import { formatMetric } from "@/lib/formatters";
-import { COMPONENT_TOOLTIPS, INDEX_TOOLTIPS } from "@/lib/tooltips";
+import { useI18n } from "@/lib/i18n/context";
 
 export type ImpactIndexComponent = {
   key: string;
@@ -37,16 +37,6 @@ const TIER_ACCENT: Record<string, string> = {
   below: "#fb923c",
 };
 
-const COMPONENT_TIPS: Record<string, string> = {
-  xpv_per_pass: "Average destination value (xPV) on completed passes.",
-  xp_residual_mean:
-    "Mean (actual xP − expected xP) per completed pass — how much the player beats the model on average.",
-  defensive_actions_p90:
-    "Sum of won tackles, interceptions and clearances per 90 minutes.",
-  chance_creation_xpv:
-    "Weighted average xPV on key passes, passes into the box and impact passes from the final third.",
-  ...COMPONENT_TOOLTIPS,
-};
 
 function formatImpactValue(key: string, value: number | null | undefined): string {
   if (value == null || Number.isNaN(value)) return "—";
@@ -67,8 +57,12 @@ export function ImpactAccordion({
   components,
   expandAll = false,
 }: Props) {
+  const { m } = useI18n();
+  const componentTips = m.tooltips.components;
+  const indexTips = m.tooltips.index;
+  const impactExtra = m.tooltips.impactExtra;
   const tierLabel = XP_INDEX_TIER_LABELS[tier ?? "mid"] ?? tier ?? "—";
-  const tip = INDEX_TOOLTIPS[tierKey ?? label] ?? INDEX_TOOLTIPS[label] ?? "";
+  const tip = indexTips[tierKey ?? label] ?? indexTips[label] ?? "";
   const tierClass = xpIndexTierClass(tier);
   const tierKeyNorm = tier ?? "mid";
   const bgColor = TIER_BG[tierKeyNorm] ?? TIER_BG.mid;
@@ -109,7 +103,8 @@ export function ImpactAccordion({
             <ImpactMetricBar rank={item.rank} rankPool={item.rank_pool} />
           </div>
         );
-        const rowTip = COMPONENT_TIPS[item.key];
+        const rowTip =
+          impactExtra[item.key as keyof typeof impactExtra] ?? componentTips[item.key];
         return rowTip ? (
           <Tooltip key={item.key} content={rowTip} block>
             {row}

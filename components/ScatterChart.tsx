@@ -1,6 +1,7 @@
 "use client";
 
 import type { ScatterPoint } from "@/lib/api";
+import { useI18n } from "@/lib/i18n/context";
 
 type Props = {
   points: ScatterPoint[];
@@ -14,7 +15,9 @@ const H = 420;
 const PAD = 48;
 
 export function ScatterChart({ points, xLabel, yLabel, means }: Props) {
-  if (!points.length) return <p className="muted">Sem dados para scatter.</p>;
+  const { m } = useI18n();
+
+  if (!points.length) return <p className="muted">{m.maps.noScatterData}</p>;
 
   const xs = points.map((p) => p.x);
   const ys = points.map((p) => p.y);
@@ -49,7 +52,7 @@ export function ScatterChart({ points, xLabel, yLabel, means }: Props) {
         <text x={W / 2} y={H - 8} textAnchor="middle" className="scatter-axis-label">{xLabel}</text>
         <text x={14} y={H / 2} textAnchor="middle" transform={`rotate(-90 14 ${H / 2})`} className="scatter-axis-label">{yLabel}</text>
       </svg>
-      <p className="muted scatter-caption">{points.length} jogadores · linhas douradas = média</p>
+      <p className="muted scatter-caption">{points.length} {m.maps.scatterCaption}</p>
     </div>
   );
 }

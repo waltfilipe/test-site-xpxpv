@@ -9,6 +9,7 @@ import { ProfileView } from "@/components/ProfileView";
 import { getPlayerOptions, getPlayers } from "@/lib/api";
 import { PROFILE_ALL_GROUP, profileGroupCounts } from "@/lib/playerReports";
 import { filtersFromRecord, type ProfileFilterState } from "@/lib/profileParams";
+import { useI18n } from "@/lib/i18n/context";
 
 function filtersForGroup(filters: ProfileFilterState): ProfileFilterState {
   const group = filters.profile_group ?? PROFILE_ALL_GROUP.id;
@@ -20,6 +21,7 @@ function filtersForGroup(filters: ProfileFilterState): ProfileFilterState {
 }
 
 function ProfilePageBodyInner() {
+  const { m } = useI18n();
   const searchParams = useSearchParams();
   const filters = useMemo(
     () => filtersFromRecord(Object.fromEntries(searchParams.entries())),
@@ -54,7 +56,7 @@ function ProfilePageBodyInner() {
       })
       .catch((e) => {
         if (cancelled) return;
-        setError(e instanceof Error ? e.message : "Backend indisponível");
+        setError(e instanceof Error ? e.message : m.compare.backendUnavailable);
         setOptions([]);
       })
       .finally(() => {
@@ -64,19 +66,19 @@ function ProfilePageBodyInner() {
     return () => {
       cancelled = true;
     };
-  }, [family, filterKey, searchParams]);
+  }, [family, filterKey, searchParams, m.compare.backendUnavailable]);
 
   const playerId = filters.player ?? options[0]?.player_id;
 
   if (loading) {
-    return <LoadingState message="Carregando pool de jogadores…" />;
+    return <LoadingState message={m.profile.loadingPool} />;
   }
 
   return (
     <>
       {error && (
         <p className="muted profile-empty-note">
-          {error}. O backend pode levar alguns minutos no primeiro carregamento — tente novamente em instantes.
+          {error}. {m.profile.backendRetryNote}
         </p>
       )}
 
@@ -86,7 +88,7 @@ function ProfilePageBodyInner() {
         <PlayerSearchRow options={options} currentId={playerId} filters={activeFilters} />
       ) : !error ? (
         <p className="muted profile-empty-note">
-          Nenhum jogador encontrado neste grupo.
+          {m.profile.noPlayersInGroup}
         </p>
       ) : null}
 
@@ -96,8 +98,10 @@ function ProfilePageBodyInner() {
 }
 
 export function ProfilePageBody() {
+  const { m } = useI18n();
+
   return (
-    <Suspense fallback={<LoadingState message="Carregando perfil…" />}>
+    <Suspense fallback={<LoadingState message={m.profile.loadingProfile} />}>
       <ProfilePageBodyInner />
     </Suspense>
   );

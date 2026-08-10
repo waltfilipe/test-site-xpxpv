@@ -1,7 +1,7 @@
 "use client";
 
 import { Tooltip } from "@/components/ui/Tooltip";
-import { PASS_LENGTH_TOOLTIP } from "@/lib/tooltips";
+import { useI18n } from "@/lib/i18n/context";
 
 const REF_CENTER_PCT = 11.4;
 
@@ -12,6 +12,7 @@ export type PassLengthData = {
 };
 
 export function PassLengthMix({ data }: { data: PassLengthData }) {
+  const { m } = useI18n();
   const share = data.long_pass_share_pct;
   if (share == null) return null;
 
@@ -25,33 +26,37 @@ export function PassLengthMix({ data }: { data: PassLengthData }) {
         <span className="pass-mix-icon">
           <i className="fa-solid fa-ruler-horizontal" />
         </span>
-        <span className="pass-mix-title">Pass Length Mix</span>
+        <span className="pass-mix-title">{m.passLengthMix.title}</span>
       </div>
 
       <div className="pass-mix-track">
         <span
           className="pass-mix-center"
           style={{ left: `${refPos}%` }}
-          title={`League reference: ${REF_CENTER_PCT}% long`}
+          title={m.passLengthMix.leagueRefTitle.replace("{pct}", String(REF_CENTER_PCT))}
         />
         <span
           className="pass-mix-marker"
           style={{ left: `${playerPos}%` }}
-          title={`Player: ${share.toFixed(1)}% long`}
+          title={m.passLengthMix.playerLongTitle.replace("{pct}", share.toFixed(1))}
         />
       </div>
 
       <div className="pass-mix-axis">
-        <span className="axis-short">Short</span>
-        <span className="axis-long">Long</span>
+        <span className="axis-short">{m.passLengthMix.short}</span>
+        <span className="axis-long">{m.passLengthMix.long}</span>
       </div>
 
       <div className="pass-mix-legend">
-        <span className="legend-short"><strong>{shortShare.toFixed(1)}%</strong> short</span>
-        <span className="legend-long"><strong>{share.toFixed(1)}%</strong> long</span>
+        <span className="legend-short">
+          <strong>{m.passLengthMix.shortLegend.replace("{pct}", shortShare.toFixed(1))}</strong>
+        </span>
+        <span className="legend-long">
+          <strong>{m.passLengthMix.longLegend.replace("{pct}", share.toFixed(1))}</strong>
+        </span>
       </div>
     </div>
   );
 
-  return <Tooltip content={PASS_LENGTH_TOOLTIP} block>{card}</Tooltip>;
+  return <Tooltip content={m.tooltips.passLength} block>{card}</Tooltip>;
 }

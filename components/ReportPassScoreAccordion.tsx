@@ -7,7 +7,7 @@ import { MetricGradientBar } from "@/components/ui/MetricGradientBar";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { formatMetric } from "@/lib/formatters";
 import { rankToBarScore } from "@/lib/gradeColors";
-import { COMPONENT_LABELS, COMPONENT_TOOLTIPS, PASS_SCORE_TOOLTIPS } from "@/lib/tooltips";
+import { useI18n } from "@/lib/i18n/context";
 
 type Props = {
   sections: PassScoreSection[];
@@ -15,16 +15,20 @@ type Props = {
 };
 
 function SectionMetrics({ section }: { section: PassScoreSection }) {
+  const { m } = useI18n();
+  const tips = m.tooltips.components;
+  const labels = m.tooltips.componentLabels;
+
   return (
     <div className="pass-score-metrics">
       {section.components.map((c) => {
         const barScore = rankToBarScore(c.rank, c.rank_pool);
         return (
-          <Tooltip key={c.key} content={COMPONENT_TOOLTIPS[c.key] ?? ""} block>
+          <Tooltip key={c.key} content={tips[c.key] ?? ""} block>
             <div className="pass-metric-block">
               <div className="pass-metric-head">
                 <span className="pass-metric-label">
-                  {COMPONENT_LABELS[c.key] ?? c.key.replace(/_/g, " ")}
+                  {labels[c.key] ?? c.key.replace(/_/g, " ")}
                   <PassMetricStratumStar show={c.stratum_star} />
                 </span>
                 <span className="pass-metric-value tabular">
@@ -45,9 +49,12 @@ function SectionMetrics({ section }: { section: PassScoreSection }) {
 }
 
 function SectionHead({ section }: { section: PassScoreSection }) {
+  const { m } = useI18n();
+  const passTips = m.tooltips.passScores;
+
   return (
     <div className="report-pass-accordion-head">
-      <Tooltip content={PASS_SCORE_TOOLTIPS[section.title] ?? ""}>
+      <Tooltip content={passTips[section.title] ?? ""}>
         <span className="report-pass-accordion-title">{section.title}</span>
       </Tooltip>
       <GradeBadge letter={section.letter} displayScore={section.display_score} size="sm" />
@@ -56,6 +63,9 @@ function SectionHead({ section }: { section: PassScoreSection }) {
 }
 
 export function ReportPassScoreAccordion({ sections, expandAll = false }: Props) {
+  const { m } = useI18n();
+  const passTips = m.tooltips.passScores;
+
   if (!sections.length) return null;
 
   if (expandAll) {
@@ -81,7 +91,7 @@ export function ReportPassScoreAccordion({ sections, expandAll = false }: Props)
           <summary className="report-pass-accordion-trigger">
             <span className="report-pass-accordion-left">
               <i className="fa-solid fa-chevron-right report-pass-accordion-chevron" aria-hidden="true" />
-              <Tooltip content={PASS_SCORE_TOOLTIPS[section.title] ?? ""}>
+              <Tooltip content={passTips[section.title] ?? ""}>
                 <span className="report-pass-accordion-title">{section.title}</span>
               </Tooltip>
             </span>

@@ -4,7 +4,7 @@ import type { CompareMetric } from "@/lib/api";
 import { CompareDualMetricTip } from "@/components/CompareDualMetricTip";
 import { GradeBadge } from "@/components/ui/GradeBadge";
 import { Tooltip } from "@/components/ui/Tooltip";
-import { PASS_SCORE_TOOLTIPS } from "@/lib/tooltips";
+import { useI18n } from "@/lib/i18n/context";
 
 type Props = {
   metrics: CompareMetric[];
@@ -13,6 +13,7 @@ type Props = {
 };
 
 export function ComparePassGridTable({ metrics, nameA, nameB }: Props) {
+  const { m } = useI18n();
   if (!metrics.length) return null;
 
   return (
@@ -20,7 +21,7 @@ export function ComparePassGridTable({ metrics, nameA, nameB }: Props) {
       <table className="compare-radar-table compare-pass-grid-table">
         <thead>
           <tr>
-            <th scope="col">Métrica</th>
+            <th scope="col">{m.compare.metric}</th>
             <th scope="col" className="compare-radar-th-a">{nameA}</th>
             <th scope="col" className="compare-radar-th-b">{nameB}</th>
           </tr>
@@ -34,7 +35,7 @@ export function ComparePassGridTable({ metrics, nameA, nameB }: Props) {
                 components={metric.components}
               />
             ) : (
-              PASS_SCORE_TOOLTIPS[metric.label] ?? ""
+              m.tooltips.passScores[metric.label] ?? ""
             );
             return (
               <tr key={metric.key} className="compare-radar-table-row">

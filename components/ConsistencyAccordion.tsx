@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { XpRoundGrade } from "@/lib/api";
 import { GameStatsModal } from "@/components/GameStatsModal";
 import { XP_INDEX_TIER_LABELS, xpIndexTierClass } from "@/lib/gradeColors";
-import { INDEX_TOOLTIPS } from "@/lib/tooltips";
+import { useI18n } from "@/lib/i18n/context";
 import { RoundGradeChart } from "@/components/RoundGradeChart";
 import { Tooltip } from "@/components/ui/Tooltip";
 
@@ -42,8 +42,10 @@ export function ConsistencyAccordion({
   expandAll = false,
 }: Props) {
   const [selectedGame, setSelectedGame] = useState<XpRoundGrade | null>(null);
+  const { m } = useI18n();
   const tierLabel = XP_INDEX_TIER_LABELS[tier ?? "mid"] ?? tier ?? "—";
-  const tip = INDEX_TOOLTIPS[tierKey ?? label] ?? INDEX_TOOLTIPS[label] ?? "";
+  const indexTips = m.tooltips.index;
+  const tip = indexTips[tierKey ?? label] ?? indexTips[label] ?? "";
   const tierClass = xpIndexTierClass(tier);
   const tierKeyNorm = tier ?? "mid";
   const chartAccent = accent ?? TIER_ACCENT[tierKeyNorm] ?? "#a78bfa";

@@ -10,6 +10,8 @@ import { LoadingState } from "@/components/LoadingState";
 import { getPassMap, type PlayerProfile } from "@/lib/api";
 import type { EnrichedReportPlayer } from "@/lib/playerReports";
 import { formatContractUntil } from "@/lib/formatters";
+import { useI18n } from "@/lib/i18n/context";
+import type { Messages } from "@/lib/i18n/messages";
 
 export type PlayerReportMaps = {
   pass_map_b64?: string | null;
@@ -25,12 +27,23 @@ export type ReportMapSlot = {
   error?: string | null;
 };
 
-export const REPORT_MAP_FILTERS: { key: string; label: string }[] = [
-  { key: "progressive", label: "Progressive Passes" },
-  { key: "test_impact_v2", label: "Impact Passes" },
-  { key: "long_passes", label: "Long Passes" },
-  { key: "line_break", label: "Break line passes" },
-];
+export const REPORT_MAP_FILTER_KEYS = [
+  "progressive",
+  "test_impact_v2",
+  "long_passes",
+  "line_break",
+] as const;
+
+export function mapFilterLabel(m: Messages, key: string): string {
+  return m.mapFilters[key as keyof Messages["mapFilters"]] ?? key;
+}
+
+function translateGroupLabel(m: Messages, label?: string): string | undefined {
+  if (!label) return undefined;
+  if (label === "Top 10") return m.groupLabels.top10;
+  if (label === "Extended watchlist") return m.groupLabels.extendedWatchlist;
+  return label;
+}
 
 function FactIcon({ icon }: { icon: string }) {
   return (
@@ -73,9 +86,10 @@ export function PlayerReportSheet({
   onExportPdf,
   exportDisabled = false,
 }: Props) {
+  const { m } = useI18n();
   const [activePage, setActivePage] = useState<1 | 2>(1);
   const [localSlots, setLocalSlots] = useState<ReportMapSlot[]>(
-    REPORT_MAP_FILTERS.map((f) => ({ key: f.key, label: f.label })),
+    REPORT_MAP_FILTER_KEYS.map((key) => ({ key, label: mapFilterLabel(m, key) })),
   );
   const [mapsLoading, setMapsLoading] = useState(false);
   const [mapsError, setMapsError] = useState<string | null>(null);
@@ -85,6 +99,10 @@ export function PlayerReportSheet({
 
   const p = profile.player;
   const category = entry.category;
+  const categoryMeta = m.profileCategories[category.id];
+  const categoryTitle = categoryMeta?.title ?? category.title;
+  const categorySubtitle = categoryMeta?.subtitle ?? category.subtitle;
+  const categoryDescription = categoryMeta?.description ?? category.description;
   const displayName = String(p.player_name ?? "—");
   const playerId = entry.playerId;
   const accent = category.accent;
@@ -100,11 +118,11 @@ export function PlayerReportSheet({
     let cancelled = false;
     setMapsLoading(true);
     setMapsError(null);
-    setMapSlots(REPORT_MAP_FILTERS.map((f) => {
-      const existing = mapSlots.find((s) => s.key === f.key);
+    setMapSlots(REPORT_MAP_FILTER_KEYS.map((key) => {
+      const existing = mapSlots.find((s) => s.key === key);
       return existing?.pass_map_b64
         ? { ...existing, loading: false }
-        : { key: f.key, label: f.label, loading: true };
+        : { key, label: mapFilterLabel(m, key), loading: true };
     }));
 
     (async () => {
@@ -112,19 +130,19 @@ export function PlayerReportSheet({
       let firstLoaded: PlayerReportMaps | null = initialMaps;
       const nextSlots: ReportMapSlot[] = [...mapSlots];
 
-      for (const filter of REPORT_MAP_FILTERS) {
+      for (const key of REPORT_MAP_FILTER_KEYS) {
         if (cancelled) return;
-        const existing = nextSlots.find((s) => s.key === filter.key);
+        const existing = nextSlots.find((s) => s.key === key);
         if (existing?.pass_map_b64) continue;
 
         try {
-          const res = await getPassMap(playerId, filter.key, "all", family);
+          const res = await getPassMap(playerId, key, "all", family);
           if (cancelled) return;
 
-          const idx = nextSlots.findIndex((s) => s.key === filter.key);
+          const idx = nextSlots.findIndex((s) => s.key === key);
           const slot: ReportMapSlot = {
-            key: filter.key,
-            label: filter.label,
+            key,
+            label: mapFilterLabel(m, key),
             pass_map_b64: res.pass_map_b64,
             loading: false,
             error: null,
@@ -144,8 +162,8 @@ export function PlayerReportSheet({
           setMapSlots([...nextSlots]);
         } catch (e) {
           if (cancelled) return;
-          const msg = e instanceof Error ? e.message : "Falha ao carregar";
-          const idx = nextSlots.findIndex((s) => s.key === filter.key);
+          const msg = e instanceof Error ? e.message : m.common.loadFailed;
+          const idx = nextSlots.findIndex((s) => s.key === key);
           if (idx >= 0) nextSlots[idx] = { ...nextSlots[idx], loading: false, error: msg };
           setMapSlots([...nextSlots]);
         }
@@ -163,7 +181,7 @@ export function PlayerReportSheet({
       }
     })().catch((e) => {
       if (!cancelled) {
-        setMapsError(e instanceof Error ? e.message : "Falha ao carregar mapas");
+        setMapsError(e instanceof Error ? e.message : m.reports.loadingMaps);
         setMapsLoading(false);
       }
     });
@@ -213,24 +231,24 @@ export function PlayerReportSheet({
             <div className="identity-facts identity-facts-side">
               <div className="identity-fact">
                 <FactIcon icon="fa-cake-candles" />
-                <span className="identity-fact-label">Idade</span>
+                <span className="identity-fact-label">{m.common.age}</span>
                 <span className="identity-fact-value tabular">
                   {p.age != null ? String(p.age) : "—"}
                 </span>
               </div>
               <div className="identity-fact">
                 <FactIcon icon="fa-ruler-vertical" />
-                <span className="identity-fact-label">Altura</span>
+                <span className="identity-fact-label">{m.common.height}</span>
                 <span className="identity-fact-value">{String(p.height ?? "—")}</span>
               </div>
               <div className="identity-fact">
                 <FactIcon icon="fa-earth-americas" />
-                <span className="identity-fact-label">Nacionalidade</span>
+                <span className="identity-fact-label">{m.common.nationality}</span>
                 <span className="identity-fact-value">{String(p.nationality ?? "—")}</span>
               </div>
               <div className="identity-fact">
                 <FactIcon icon="fa-shoe-prints" />
-                <span className="identity-fact-label">Pé</span>
+                <span className="identity-fact-label">{m.common.foot}</span>
                 <span className="identity-fact-value">{String(p.dominant_foot ?? "—")}</span>
               </div>
             </div>
@@ -239,7 +257,7 @@ export function PlayerReportSheet({
           {compact && (
             <div className="identity-facts identity-facts-compact">
               <span className="identity-fact-inline tabular">
-                {p.age != null ? `${p.age} anos` : "—"}
+                {p.age != null ? m.reports.ageYears.replace("{age}", String(p.age)) : "—"}
               </span>
               <span className="identity-fact-inline">{String(p.league_source ?? p.league ?? "—")}</span>
             </div>
@@ -251,11 +269,11 @@ export function PlayerReportSheet({
         {!compact && (
           <>
             <div className="identity-meta-pill">
-              <span><FactIcon icon="fa-coins" /> Valor</span>
+              <span><FactIcon icon="fa-coins" /> {m.common.value}</span>
               <strong>{String(p.market_value ?? "—")}</strong>
             </div>
             <div className="identity-meta-pill">
-              <span><FactIcon icon="fa-calendar-days" /> Contrato</span>
+              <span><FactIcon icon="fa-calendar-days" /> {m.common.contract}</span>
               <strong>{formatContractUntil(p.contract_until)}</strong>
             </div>
           </>
@@ -265,11 +283,11 @@ export function PlayerReportSheet({
           style={minutesPillStyle(minutesPct)}
           title={
             minutesPct != null
-              ? `${(minutesPct * 100).toFixed(0)}% dos minutos possíveis`
+              ? `${(minutesPct * 100).toFixed(0)}${m.common.minutesPct}`
               : undefined
           }
         >
-          <span><FactIcon icon="fa-clock" /> Minutos</span>
+          <span><FactIcon icon="fa-clock" /> {m.common.minutes}</span>
           <strong className="tabular">{p.minutes != null ? String(p.minutes) : "—"}</strong>
         </div>
       </div>
@@ -277,7 +295,7 @@ export function PlayerReportSheet({
       {!compact && profile.origin_heatmap_b64 && (
         <img
           src={`data:image/png;base64,${profile.origin_heatmap_b64}`}
-          alt="Origem dos passes"
+          alt={m.profile.passOriginAlt}
           className="heatmap-img report-heatmap"
         />
       )}
@@ -291,7 +309,7 @@ export function PlayerReportSheet({
             onClick={() => setActivePage(2)}
           >
             <i className="fa-solid fa-map-location-dot" />
-            <span>Ver mapas</span>
+            <span>{m.reports.viewMaps}</span>
             <i className="fa-solid fa-arrow-right report-card-maps-arrow" />
           </button>
         ) : (
@@ -301,7 +319,7 @@ export function PlayerReportSheet({
             onClick={() => setActivePage(1)}
           >
             <i className="fa-solid fa-arrow-left" />
-            <span>Voltar ao perfil</span>
+            <span>{m.reports.backToProfile}</span>
           </button>
         )}
       </div>
@@ -338,7 +356,7 @@ export function PlayerReportSheet({
         className="identity-meta-pill identity-meta-pill-minutes report-maps-strip-minutes"
         style={minutesPillStyle(minutesPct)}
       >
-        <span><FactIcon icon="fa-clock" /> Min</span>
+        <span><FactIcon icon="fa-clock" /> {m.reports.minutesShort}</span>
         <strong className="tabular">{p.minutes != null ? String(p.minutes) : "—"}</strong>
       </div>
     </div>
@@ -362,17 +380,17 @@ export function PlayerReportSheet({
               <i className="fa-solid fa-futbol" />
             </span>
             <div>
-              <span className="report-sheet-eyebrow">Pass Scout · Midfielder Report</span>
+              <span className="report-sheet-eyebrow">{m.reports.midfielderReportEyebrow}</span>
               <h2 className="report-sheet-category" style={{ color: accent }}>
-                {category.title}
+                {categoryTitle}
               </h2>
             </div>
           </div>
           <div className="report-sheet-meta">
             {entry.groupLabel && (
-              <span className="report-sheet-group">{entry.groupLabel}</span>
+              <span className="report-sheet-group">{translateGroupLabel(m, entry.groupLabel)}</span>
             )}
-            <span className="report-sheet-page-label report-print-only">Overview</span>
+            <span className="report-sheet-page-label report-print-only">{m.reports.overview}</span>
             <div className="report-sheet-meta-row">
               <span className="report-sheet-index tabular">
                 {String(categoryIndex).padStart(2, "0")}
@@ -383,7 +401,7 @@ export function PlayerReportSheet({
                   className="report-export-one-btn report-screen-only"
                   onClick={() => onExportPdf(playerId)}
                   disabled={exportDisabled}
-                  title={`Exportar PDF de ${displayName}`}
+                  title={`${m.reports.exportPdfTitle} ${displayName}`}
                 >
                   <i className="fa-solid fa-file-pdf" />
                 </button>
@@ -392,7 +410,7 @@ export function PlayerReportSheet({
           </div>
         </header>
 
-        <p className="report-sheet-description">{category.description}</p>
+        <p className="report-sheet-description">{categoryDescription}</p>
 
         <div className="report-sheet-body pa-layout report-layout-v2">
           <div className="pa-col pa-col-identity">{renderIdentity(false)}</div>
@@ -406,7 +424,7 @@ export function PlayerReportSheet({
 
           <div className="pa-col pa-col-pillars">
             <div className="player-card pillars-card report-pillars-card">
-              <h3 className="section-label">Pass Scores</h3>
+              <h3 className="section-label">{m.sections.passScores}</h3>
               <ReportPassScoreAccordion sections={profile.pass_scores} expandAll={expandAll} />
             </div>
           </div>
@@ -421,10 +439,10 @@ export function PlayerReportSheet({
               href={`/profile?player=${playerId}&position_family=midfielders`}
               className="report-screen-only"
             >
-              Perfil completo
+              {m.common.fullProfile}
             </Link>
             <span className="report-print-only tabular">
-              {displayName} · {category.subtitle}
+              {displayName} · {categorySubtitle}
             </span>
           </span>
         </footer>
@@ -439,7 +457,7 @@ export function PlayerReportSheet({
               <i className="fa-solid fa-map-location-dot" />
             </span>
             <div>
-              <span className="report-sheet-eyebrow">Pass Maps</span>
+              <span className="report-sheet-eyebrow">{m.reports.passMapsEyebrow}</span>
               <h2 className="report-sheet-category" style={{ color: accent }}>
                 {displayName}
               </h2>
@@ -452,9 +470,9 @@ export function PlayerReportSheet({
               onClick={() => setActivePage(1)}
             >
               <i className="fa-solid fa-arrow-left" />
-              Voltar ao perfil
+              {m.reports.backToProfile}
             </button>
-            <span className="report-sheet-page-label report-print-only">Maps</span>
+            <span className="report-sheet-page-label report-print-only">{m.reports.mapsPageLabel}</span>
             <span className="report-sheet-index tabular">
               {String(categoryIndex).padStart(2, "0")}
             </span>
@@ -466,7 +484,7 @@ export function PlayerReportSheet({
 
           <div className="report-maps-body">
             {mapsLoading && loadedMaps.length === 0 && (
-              <LoadingState message="Gerando mapas do jogador…" />
+              <LoadingState message={m.reports.generatingMaps} />
             )}
             {mapsError && <p className="error-box">{mapsError}</p>}
 
@@ -490,7 +508,7 @@ export function PlayerReportSheet({
                     />
                   )}
                   {!slot.loading && !slot.error && !slot.pass_map_b64 && shouldLoadMaps && (
-                    <p className="placeholder-note">Indisponível</p>
+                    <p className="placeholder-note">{m.common.unavailable}</p>
                   )}
                 </div>
               ))}
@@ -498,7 +516,7 @@ export function PlayerReportSheet({
 
             {anyLoading && loadedMaps.length > 0 && (
               <p className="muted report-maps-loading-hint report-screen-only">
-                Carregando mapas… ({loadedMaps.length}/{REPORT_MAP_FILTERS.length})
+                {m.reports.loadingMaps} ({loadedMaps.length}/{REPORT_MAP_FILTER_KEYS.length})
               </p>
             )}
           </div>
@@ -506,7 +524,7 @@ export function PlayerReportSheet({
 
         <footer className="report-sheet-footer">
           <span>
-            <strong>Pass Scout</strong> · Maps · {displayName}
+            <strong>Pass Scout</strong> · {m.reports.mapsPageLabel} · {displayName}
           </span>
           <span className="report-sheet-footer-right report-print-only tabular">
             {displayName}

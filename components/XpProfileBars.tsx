@@ -1,7 +1,9 @@
+"use client";
+
 import type { XpBar } from "@/lib/api";
 import { XpHeatBar } from "@/components/ui/XpHeatBar";
 import { Tooltip } from "@/components/ui/Tooltip";
-import { XP_PROFILE_BAR_TOOLTIPS } from "@/lib/tooltips";
+import { useI18n } from "@/lib/i18n/context";
 
 const ICONS: Record<string, string> = {
   xp_activity_display: "fa-chart-simple",
@@ -10,10 +12,13 @@ const ICONS: Record<string, string> = {
 };
 
 export function XpProfileBars({ bars }: { bars: XpBar[] }) {
+  const { m } = useI18n();
+  const tips = m.tooltips.xpProfileBars;
+
   return (
     <div className="xp-profile-bars">
       {bars.map((bar) => (
-        <Tooltip key={bar.key} content={XP_PROFILE_BAR_TOOLTIPS[bar.key] ?? ""} block>
+        <Tooltip key={bar.key} content={tips[bar.key] ?? ""} block>
           <div className="xp-metric-block">
             <div className="pass-metric-head">
               <span className="pass-metric-label xp-metric-label">

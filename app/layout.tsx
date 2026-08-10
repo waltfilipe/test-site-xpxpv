@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { LocaleProvider } from "@/lib/i18n/context";
+import { SiteHeader } from "@/components/SiteHeader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -21,22 +22,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <header className="site-header">
-          <div className="container">
-            <Link href="/" className="brand">
-              <span className="brand-icon"><i className="fa-solid fa-futbol" /></span>
-              Pass<span>Scout</span>
-            </Link>
-            <nav className="nav">
-              <Link href="/reports">Reports</Link>
-              <Link href="/profile">Profile</Link>
-              <Link href="/compare">Compare</Link>
-              <Link href="/maps">Maps</Link>
-              <Link href="/players">Players</Link>
-            </nav>
-          </div>
-        </header>
-        <main>{children}</main>
+        <LocaleProvider>
+          <SiteHeader />
+          <main>{children}</main>
+        </LocaleProvider>
       </body>
     </html>
   );
