@@ -155,6 +155,7 @@ export type Messages = {
     long_passes: string;
     report_progressive_origin: string;
     report_progressive_dest: string;
+    report_progressive_links: string;
     report_impact_passes: string;
   };
   reports: {
@@ -422,8 +423,9 @@ const en: Messages = {
     line_break: "Breakline passes",
     key_passes: "Key Passes",
     long_passes: "Long Passes",
-    report_progressive_origin: "Origin",
-    report_progressive_dest: "Destination",
+    report_progressive_origin: "Progressive Pass · Origin",
+    report_progressive_dest: "Progressive Pass · Destination",
+    report_progressive_links: "Top Progressive Links",
     report_impact_passes: "Impact Passes",
   },
   reports: {
@@ -808,8 +810,9 @@ const pt: Messages = {
     line_break: "Line breaks",
     key_passes: "Key Passes",
     long_passes: "Passes longos",
-    report_progressive_origin: "Origem",
-    report_progressive_dest: "Destino",
+    report_progressive_origin: "Progressive Pass · Origem",
+    report_progressive_dest: "Progressive Pass · Destino",
+    report_progressive_links: "Top Ligações Progressivas",
     report_impact_passes: "Impact Passes",
   },
   reports: {

@@ -3986,6 +3986,35 @@ tr:last-child td { border-bottom: none; }
   margin-bottom: 0;
 }
 
+.report-maps-trio {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.15rem;
+  align-items: stretch;
+}
+
+.report-map-card-tall {
+  padding: 0.3rem 0.2rem 0.35rem;
+}
+
+.report-map-card-tall .section-label-sm {
+  margin-bottom: 0.25rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+}
+
+.report-map-skeleton-tall,
+.report-map-img-tall {
+  aspect-ratio: 0.7;
+  width: 100%;
+}
+
+.report-map-img-tall {
+  max-height: min(62vh, 620px);
+  object-fit: contain;
+  display: block;
+}
+
 .report-maps-layout-v2 {
   display: flex;
   flex-direction: column;
@@ -4742,6 +4771,15 @@ tr:last-child td { border-bottom: none; }
     break-inside: avoid;
     padding: 0.35rem 0.5rem;
     margin-bottom: 0.25rem;
+  }
+
+  .report-maps-trio {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.25rem;
+  }
+
+  .report-map-img-tall {
+    max-height: 68mm !important;
   }
 
   .report-maps-layout-v2 {
