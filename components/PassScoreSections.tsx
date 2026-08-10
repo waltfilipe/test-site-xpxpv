@@ -4,7 +4,7 @@ import { PassMetricStratumStar } from "@/components/PassMetricStratumStar";
 import type { PassScoreSection } from "@/lib/api";
 import { GradeBadge } from "@/components/ui/GradeBadge";
 import { MetricGradientBar } from "@/components/ui/MetricGradientBar";
-import { OrganizerBadge } from "@/components/ui/OrganizerBadge";
+import { PassScoreBadges } from "@/components/PassScoreBadges";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { formatMetric } from "@/lib/formatters";
 import { rankToBarScore } from "@/lib/gradeColors";
@@ -76,7 +76,7 @@ export function PassScoreSections({
           </details>
         ))}
       </div>
-      <OrganizerBadge show={organizerBadge} />
+      <PassScoreBadges organizerBadge={organizerBadge} />
     </div>
   );
 }
