@@ -30,7 +30,7 @@ export type ReportMapSlot = {
 export const REPORT_MAP_FILTER_KEYS = [
   "progressive",
   "test_impact_v2",
-  "long_passes",
+  "key_passes",
   "line_break",
 ] as const;
 
@@ -346,7 +346,7 @@ export function PlayerReportSheet({
         <strong className="report-maps-strip-name">{displayName}</strong>
         <span className="report-maps-strip-meta">
           {String(p.team ?? "—")} · {String(p.position ?? "—")}
-          {p.age != null ? ` · ${p.age} anos` : ""}
+          {p.age != null ? ` · ${m.reports.ageYears.replace("{age}", String(p.age))}` : ""}
         </span>
         <span className="report-maps-strip-league muted">
           {String(p.league_source ?? p.league ?? "—")}
@@ -374,58 +374,60 @@ export function PlayerReportSheet({
       <section
         className={`player-report-sheet report-page-1${activePage === 2 && !expandAll ? " report-page-screen-hidden" : ""}`}
       >
-        <header className="report-sheet-header">
-          <div className="report-sheet-brand">
-            <span className="brand-icon report-brand-icon">
-              <i className="fa-solid fa-futbol" />
-            </span>
-            <div>
-              <span className="report-sheet-eyebrow">{m.reports.midfielderReportEyebrow}</span>
-              <h2 className="report-sheet-category" style={{ color: accent }}>
-                {categoryTitle}
-              </h2>
-            </div>
-          </div>
-          <div className="report-sheet-meta">
-            {entry.groupLabel && (
-              <span className="report-sheet-group">{translateGroupLabel(m, entry.groupLabel)}</span>
-            )}
-            <span className="report-sheet-page-label report-print-only">{m.reports.overview}</span>
-            <div className="report-sheet-meta-row">
-              <span className="report-sheet-index tabular">
-                {String(categoryIndex).padStart(2, "0")}
+        <div className="report-page-1-inner">
+          <header className="report-sheet-header">
+            <div className="report-sheet-brand">
+              <span className="brand-icon report-brand-icon">
+                <i className="fa-solid fa-futbol" />
               </span>
-              {onExportPdf && (
-                <button
-                  type="button"
-                  className="report-export-one-btn report-screen-only"
-                  onClick={() => onExportPdf(playerId)}
-                  disabled={exportDisabled}
-                  title={`${m.reports.exportPdfTitle} ${displayName}`}
-                >
-                  <i className="fa-solid fa-file-pdf" />
-                </button>
+              <div>
+                <span className="report-sheet-eyebrow">{m.reports.midfielderReportEyebrow}</span>
+                <h2 className="report-sheet-category" style={{ color: accent }}>
+                  {categoryTitle}
+                </h2>
+              </div>
+            </div>
+            <div className="report-sheet-meta">
+              {entry.groupLabel && (
+                <span className="report-sheet-group">{translateGroupLabel(m, entry.groupLabel)}</span>
               )}
+              <span className="report-sheet-page-label report-print-only">{m.reports.overview}</span>
+              <div className="report-sheet-meta-row">
+                <span className="report-sheet-index tabular">
+                  {String(categoryIndex).padStart(2, "0")}
+                </span>
+                {onExportPdf && (
+                  <button
+                    type="button"
+                    className="report-export-one-btn report-screen-only"
+                    onClick={() => onExportPdf(playerId)}
+                    disabled={exportDisabled}
+                    title={`${m.reports.exportPdfTitle} ${displayName}`}
+                  >
+                    <i className="fa-solid fa-file-pdf" />
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-        </header>
+          </header>
 
-        <p className="report-sheet-description">{categoryDescription}</p>
+          <p className="report-sheet-description">{categoryDescription}</p>
 
-        <div className="report-sheet-body pa-layout report-layout-v2">
-          <div className="pa-col pa-col-identity">{renderIdentity(false)}</div>
+          <div className="report-sheet-body pa-layout report-layout-v2">
+            <div className="pa-col pa-col-identity">{renderIdentity(false)}</div>
 
-          <div className="pa-col pa-col-score">
-            <div className="score-stack">
-              <PassGradePanel rating={profile.xp_pass_rating} />
-              <ReportXpPanel profile={profile} accent={accent} expandAll={expandAll} />
+            <div className="pa-col pa-col-score">
+              <div className="score-stack">
+                <PassGradePanel rating={profile.xp_pass_rating} />
+                <ReportXpPanel profile={profile} accent={accent} expandAll={expandAll} />
+              </div>
             </div>
-          </div>
 
-          <div className="pa-col pa-col-pillars">
-            <div className="player-card pillars-card report-pillars-card">
-              <h3 className="section-label">{m.sections.passScores}</h3>
-              <ReportPassScoreAccordion sections={profile.pass_scores} expandAll={expandAll} />
+            <div className="pa-col pa-col-pillars">
+              <div className="player-card pillars-card report-pillars-card">
+                <h3 className="section-label">{m.sections.passScores}</h3>
+                <ReportPassScoreAccordion sections={profile.pass_scores} expandAll={expandAll} />
+              </div>
             </div>
           </div>
         </div>

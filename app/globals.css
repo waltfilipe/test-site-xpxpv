@@ -4230,6 +4230,10 @@ tr:last-child td { border-bottom: none; }
     -webkit-font-smoothing: antialiased;
   }
 
+  .report-page-1-inner {
+    display: contents;
+  }
+
   .player-report-sheet .fa-solid {
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
@@ -4504,11 +4508,11 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-heatmap {
-    max-height: 56mm !important;
-    min-height: 44mm;
+    max-height: 24mm !important;
+    min-height: 0 !important;
     width: 100%;
     object-fit: contain;
-    margin-top: 0.15rem;
+    margin-top: 0.1rem;
     flex-shrink: 0;
   }
 
@@ -4582,7 +4586,7 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .round-grade-chart-svg {
-    max-height: 20mm;
+    max-height: 11mm;
     width: 100%;
   }
 
@@ -4622,22 +4626,112 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-page-1 {
-    zoom: 0.88;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     max-width: 100%;
     overflow: visible;
+    break-inside: avoid;
+    page-break-inside: avoid;
     page-break-after: always;
+    break-after: page;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
-  .report-print-root .report-sheet-header {
-    margin-bottom: 0.2rem !important;
-    padding-bottom: 0.2rem !important;
+  .report-print-root .report-page-1-inner {
+    display: block;
+    flex: 1 1 auto;
+    min-height: 0;
+    zoom: 0.73;
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
-  .report-print-root .report-sheet-description {
-    margin-bottom: 0.25rem !important;
-    font-size: 0.65rem !important;
-    line-height: 1.35 !important;
+  .report-print-root .report-page-1 .player-card,
+  .report-print-root .report-page-1 .pass-grade-card,
+  .report-print-root .report-page-1 .report-xp-card,
+  .report-print-root .report-page-1 .report-pillars-card,
+  .report-print-root .report-page-1 .report-identity-card {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  .report-print-root .report-page-1 .report-sheet-footer {
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    padding-top: 0.2rem;
+  }
+
+  .report-print-root .report-page-2 {
+    page-break-before: always;
+    break-before: page;
+    page-break-after: auto;
+    break-after: auto;
+  }
+
+  .report-print-root .report-page-1 .report-sheet-header {
+    margin-bottom: 0.12rem !important;
+    padding-bottom: 0.12rem !important;
+  }
+
+  .report-print-root .report-page-1 .report-sheet-description {
+    margin-bottom: 0.18rem !important;
+    font-size: 0.62rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .report-print-root .report-page-1 .report-sheet-body.pa-layout {
+    gap: 1.5mm !important;
+  }
+
+  .report-print-root .report-page-1 .identity-photo-side {
+    width: 46px !important;
+    min-height: 52px !important;
+  }
+
+  .report-print-root .report-page-1 .pa-col-score .score-stack {
+    gap: 0.22rem !important;
+  }
+
+  .report-print-root .report-page-1 .identity-card,
+  .report-print-root .report-page-1 .report-identity-card,
+  .report-print-root .report-page-1 .report-xp-card,
+  .report-print-root .report-page-1 .report-pillars-card,
+  .report-print-root .report-page-1 .pass-grade-card {
+    padding: 0.32rem 0.38rem !important;
+  }
+
+  .report-print-root .report-page-1 .xp-profile-bars,
+  .report-print-root .report-page-1 .xp-indices-list {
+    gap: 0.18rem !important;
+  }
+
+  .report-print-root .report-page-1 .consistency-accordion,
+  .report-print-root .report-page-1 .impact-accordion {
+    margin-bottom: 0.1rem !important;
+  }
+
+  .report-print-root .report-page-1 .report-pass-flat-item {
+    margin-bottom: 0.08rem !important;
+    padding: 0.14rem 0.22rem !important;
+  }
+
+  .report-print-root .report-page-1 .pass-metric-block {
+    margin-bottom: 0.08rem !important;
+  }
+
+  .report-print-root .report-page-1 .pass-grade-score {
+    font-size: 1.35rem !important;
+  }
+
+  .report-print-root .report-page-1 .identity-meta-row {
+    gap: 0.2rem !important;
+    margin-top: 0.2rem !important;
+  }
+
+  .report-print-root .report-page-1 .identity-meta-pill {
+    padding: 0.22rem 0.28rem !important;
   }
 
   .report-print-root .report-pass-flat-item,
