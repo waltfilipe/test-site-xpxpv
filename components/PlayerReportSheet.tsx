@@ -431,7 +431,11 @@ export function PlayerReportSheet({
           <div className="pa-col pa-col-pillars">
             <div className="player-card pillars-card report-pillars-card">
               <h3 className="section-label">{m.sections.passScores}</h3>
-              <ReportPassScoreAccordion sections={profile.pass_scores} expandAll={expandAll} />
+              <ReportPassScoreAccordion
+                sections={profile.pass_scores}
+                expandAll={expandAll}
+                organizerBadge={profile.organizer_badge}
+              />
             </div>
           </div>
         </div>

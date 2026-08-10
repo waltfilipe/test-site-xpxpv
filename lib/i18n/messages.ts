@@ -204,6 +204,10 @@ export type Messages = {
     xpPillars: string;
     passProfile: string;
   };
+  badges: {
+    organizer: string;
+    organizerTooltip: string;
+  };
   roundStats: {
     grade: string;
     passes: string;
@@ -487,6 +491,11 @@ const en: Messages = {
     xpIndices: "xP Indices",
     xpPillars: "xP Pillars",
     passProfile: "Pass Profile",
+  },
+  badges: {
+    organizer: "Organizer",
+    organizerTooltip:
+      "High xPV/Pass and pass volume with below-median Impact Rate and strong short-pass COE vs the midfielder pool.",
   },
   roundStats: {
     grade: "Grade",
@@ -875,6 +884,11 @@ const pt: Messages = {
     xpIndices: "Índices xP",
     xpPillars: "Pilares xP",
     passProfile: "Perfil de passes",
+  },
+  badges: {
+    organizer: "Organizador",
+    organizerTooltip:
+      "Alto xPV/Pass e volume de passes, Impact Rate abaixo da mediana e COE em passes curtos forte vs o pool de médios.",
   },
   roundStats: {
     grade: "Nota",

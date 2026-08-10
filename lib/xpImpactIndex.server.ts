@@ -5,6 +5,11 @@ import path from "path";
 
 const XP_INDEX_ELITE_TOP_N = 10;
 const PROFILES_DIR = path.join(process.cwd(), "data", "profiles");
+const POOL_REF_PATH = path.join(process.cwd(), "data", "midfielder-pool-ref.json");
+
+type PoolRefFile = {
+  threat_pass_ranks: Record<string, { rank: number; rank_pool: number }>;
+};
 
 export type ImpactIndexComponent = {
   key: string;
@@ -29,6 +34,15 @@ type ImpactRow = {
 };
 
 let impactIndexCache: Map<string, ImpactIndexStats> | null = null;
+let threatPassRanks: Map<string, { rank: number; rank_pool: number }> | null = null;
+
+function getThreatPassRanks(): Map<string, { rank: number; rank_pool: number }> {
+  if (!threatPassRanks) {
+    const payload = JSON.parse(fs.readFileSync(POOL_REF_PATH, "utf-8")) as PoolRefFile;
+    threatPassRanks = new Map(Object.entries(payload.threat_pass_ranks ?? {}));
+  }
+  return threatPassRanks;
+}
 
 function tierFromRank(rank: number, pool: number): string {
   if (rank <= 0 || pool <= 0) return "mid";
@@ -130,13 +144,11 @@ function buildImpactIndexCache(): Map<string, ImpactIndexStats> {
     const compositeRanks = rankDescending(
       composites.map((entry) => ({ playerId: entry.playerId, value: entry.composite })),
     );
-    const rateRanks = rankDescending(
-      bucket.map((row) => ({ playerId: row.playerId, value: row.threatPassPct })),
-    );
+    const poolThreatRanks = getThreatPassRanks();
 
     composites.forEach((entry) => {
       const rankInfo = compositeRanks.get(entry.playerId);
-      const rateRank = rateRanks.get(entry.playerId);
+      const rateRank = poolThreatRanks.get(entry.playerId) ?? null;
       const tier = rankInfo ? tierFromRank(rankInfo.rank, rankInfo.rankPool) : "mid";
 
       out.set(entry.playerId, {
@@ -154,7 +166,7 @@ function buildImpactIndexCache(): Map<string, ImpactIndexStats> {
             label: "Impact Rate",
             value: entry.row.threatPassPct,
             rank: rateRank?.rank ?? null,
-            rank_pool: rateRank?.rankPool ?? null,
+            rank_pool: rateRank?.rank_pool ?? null,
           },
         ],
       });

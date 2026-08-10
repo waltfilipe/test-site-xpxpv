@@ -22,6 +22,7 @@ export function ImpactMetricBar({ rank, rankPool }: Props) {
     <div className={`impact-metric-bar${score == null ? " impact-metric-bar-empty" : ""}${elite ? " impact-metric-bar-elite" : ""}`}>
       <div className="impact-metric-bar-track">
         <div className="impact-metric-bar-spectrum" aria-hidden="true" />
+        <div className="impact-metric-bar-midline" aria-hidden="true" />
         {score != null && (
           <div
             className="impact-metric-bar-fill"
