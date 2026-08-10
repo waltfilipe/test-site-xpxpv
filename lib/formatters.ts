@@ -44,7 +44,7 @@ export function formatMetric(value: unknown, key?: string): string {
       return `${value >= 0 ? "+" : ""}${value.toFixed(1)} pp`;
     }
     if (key && CHANCE_CREATION_METRIC_KEYS.has(key)) {
-      if (key === "chance_creation_xpv") return value.toFixed(4);
+      if (key === "chance_creation_xpv") return value.toFixed(2);
       return value.toFixed(2);
     }
     if (Number.isInteger(value) && !key?.includes("p90") && !key?.includes("score")) {

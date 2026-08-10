@@ -246,15 +246,18 @@ export function getStaticPlayerOptions(params: URLSearchParams) {
     })
     .sort((a, b) => b.rating - a.rating || String(a.player.player_name).localeCompare(String(b.player.player_name)));
 
-  const options = ranked.map(({ player, pid, rating }, idx) => {
+  const options = ranked.map(({ player, pid, rating }) => {
     const name = String(player.player_name ?? "—");
     const team = String(player.team ?? "—");
-    const suffix = Number.isFinite(rating) ? `· Pass ${rating.toFixed(1)}` : "· Pass —";
+    const score =
+      Number.isFinite(rating) && rating > -Infinity
+        ? (rating * 10).toFixed(1)
+        : "—";
     return {
       player_id: pid,
       player_name: name,
       team,
-      label: `#${idx + 1} ${name} (${team}) ${suffix}`,
+      label: `${name} (${team}) - ${score}`,
     };
   });
 

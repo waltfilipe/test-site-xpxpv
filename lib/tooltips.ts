@@ -59,7 +59,7 @@ export const COMPONENT_LABELS: Record<string, string> = {
   special_line_break_p90: "Line breaking passes / game",
   test_impact_v2_start_final_third_p90: "Impact Passes / game",
   defensive_actions_p90: "Defensive actions / 90",
-  chance_creation_xpv: "Chance creation xPV / pass",
+  chance_creation_xpv: "Creation value",
   def_won_tackle_p90: "Won tackles / 90",
   def_interception_p90: "Interceptions / 90",
   def_clearance_p90: "Clearances / 90",
@@ -72,11 +72,11 @@ export const COMPONENT_LABELS: Record<string, string> = {
 
 export const INDEX_TOOLTIPS: Record<string, string> = {
   Consistency:
-    "Each match gets a 3–9 grade from game xP vs. all peer matches in the position. Badge when dispersion of those grades is low (MAD).",
+    "Each match gets a 3–9 grade from game xP vs. all peer matches in the position. Badge when dispersion of those grades is low (MAD). Per-match drill-down: Key passes only count when the event feed tags shot-assisting passes (otherwise 0). Short and long pass % efficiency (COE) need xPass on every attempt in that match — not available in this static export, so they show as —.",
   Impact:
     "50% xPV per completed pass and 50% mean (xP − xP expected) per pass — destination value plus beating the geometric model.",
   xp_idx_consistency:
-    "Each match gets a 3–9 grade from game xP vs. all peer matches in the position. Badge when dispersion of those grades is low (MAD).",
+    "Each match gets a 3–9 grade from game xP vs. all peer matches in the position. Badge when dispersion of those grades is low (MAD). Per-match drill-down: Key passes only count when the event feed tags shot-assisting passes (otherwise 0). Short and long pass % efficiency (COE) need xPass on every attempt in that match — not available in this static export, so they show as —.",
   xp_idx_impact:
     "50% xPV per completed pass and 50% mean (xP − xP expected) per pass — destination value plus beating the geometric model.",
   xp_idx_defense:
