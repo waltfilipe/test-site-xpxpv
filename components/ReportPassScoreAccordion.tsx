@@ -4,6 +4,7 @@ import { PassMetricStratumStar } from "@/components/PassMetricStratumStar";
 import type { PassScoreSection } from "@/lib/api";
 import { GradeBadge } from "@/components/ui/GradeBadge";
 import { MetricGradientBar } from "@/components/ui/MetricGradientBar";
+import { OrganizerBadge } from "@/components/ui/OrganizerBadge";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { formatMetric } from "@/lib/formatters";
 import { rankToBarScore } from "@/lib/gradeColors";
@@ -12,6 +13,7 @@ import { useI18n } from "@/lib/i18n/context";
 type Props = {
   sections: PassScoreSection[];
   expandAll?: boolean;
+  organizerBadge?: boolean;
 };
 
 function SectionMetrics({ section }: { section: PassScoreSection }) {
@@ -62,7 +64,7 @@ function SectionHead({ section }: { section: PassScoreSection }) {
   );
 }
 
-export function ReportPassScoreAccordion({ sections, expandAll = false }: Props) {
+export function ReportPassScoreAccordion({ sections, expandAll = false, organizerBadge = false }: Props) {
   const { m } = useI18n();
   const passTips = m.tooltips.passScores;
 
@@ -70,41 +72,47 @@ export function ReportPassScoreAccordion({ sections, expandAll = false }: Props)
 
   if (expandAll) {
     return (
-      <div className="report-pass-accordion report-pass-flat">
-        {sections.map((section) => (
-          <div key={section.title} className="report-pass-accordion-item report-pass-flat-item">
-            <SectionHead section={section} />
-            <SectionMetrics section={section} />
-          </div>
-        ))}
-      </div>
+      <>
+        <div className="report-pass-accordion report-pass-flat">
+          {sections.map((section) => (
+            <div key={section.title} className="report-pass-accordion-item report-pass-flat-item">
+              <SectionHead section={section} />
+              <SectionMetrics section={section} />
+            </div>
+          ))}
+        </div>
+        <OrganizerBadge show={organizerBadge} />
+      </>
     );
   }
 
   return (
-    <div className="report-pass-accordion">
-      {sections.map((section) => (
-        <details
-          key={section.title}
-          className="report-pass-accordion-item"
-        >
-          <summary className="report-pass-accordion-trigger">
-            <span className="report-pass-accordion-left">
-              <i className="fa-solid fa-chevron-right report-pass-accordion-chevron" aria-hidden="true" />
-              <Tooltip content={passTips[section.title] ?? ""}>
-                <span className="report-pass-accordion-title">{section.title}</span>
-              </Tooltip>
-            </span>
-            <span className="report-pass-accordion-right">
-              <GradeBadge letter={section.letter} displayScore={section.display_score} size="sm" />
-            </span>
-          </summary>
+    <>
+      <div className="report-pass-accordion">
+        {sections.map((section) => (
+          <details
+            key={section.title}
+            className="report-pass-accordion-item"
+          >
+            <summary className="report-pass-accordion-trigger">
+              <span className="report-pass-accordion-left">
+                <i className="fa-solid fa-chevron-right report-pass-accordion-chevron" aria-hidden="true" />
+                <Tooltip content={passTips[section.title] ?? ""}>
+                  <span className="report-pass-accordion-title">{section.title}</span>
+                </Tooltip>
+              </span>
+              <span className="report-pass-accordion-right">
+                <GradeBadge letter={section.letter} displayScore={section.display_score} size="sm" />
+              </span>
+            </summary>
 
-          <div className="report-pass-accordion-panel">
-            <SectionMetrics section={section} />
-          </div>
-        </details>
-      ))}
-    </div>
+            <div className="report-pass-accordion-panel">
+              <SectionMetrics section={section} />
+            </div>
+          </details>
+        ))}
+      </div>
+      <OrganizerBadge show={organizerBadge} />
+    </>
   );
 }

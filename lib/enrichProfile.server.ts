@@ -3,6 +3,7 @@ import "server-only";
 import fs from "fs";
 import path from "path";
 import { getImpactIndexStats } from "@/lib/xpImpactIndex.server";
+import { hasOrganizerBadge } from "@/lib/organizerBadge.server";
 
 type JsonRecord = Record<string, unknown>;
 
@@ -129,5 +130,6 @@ export function enrichPlayerProfile(profile: JsonRecord): JsonRecord {
     ...profile,
     ...(xpIndices ? { xp_indices: xpIndices } : {}),
     ...(passScores ? { pass_scores: passScores } : {}),
+    organizer_badge: hasOrganizerBadge(playerId),
   };
 }

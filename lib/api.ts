@@ -112,6 +112,7 @@ export type PlayerProfile = {
   test_impact_v2_p90?: number | null;
   xp_indices?: XpIndexItem[];
   xp_round_grades?: XpRoundGrade[];
+  organizer_badge?: boolean;
 };
 
 export type CompareMetric = {

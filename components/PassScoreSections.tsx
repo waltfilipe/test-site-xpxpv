@@ -4,6 +4,7 @@ import { PassMetricStratumStar } from "@/components/PassMetricStratumStar";
 import type { PassScoreSection } from "@/lib/api";
 import { GradeBadge } from "@/components/ui/GradeBadge";
 import { MetricGradientBar } from "@/components/ui/MetricGradientBar";
+import { OrganizerBadge } from "@/components/ui/OrganizerBadge";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { formatMetric } from "@/lib/formatters";
 import { rankToBarScore } from "@/lib/gradeColors";
@@ -43,7 +44,13 @@ function SectionMetrics({ section }: { section: PassScoreSection }) {
   );
 }
 
-export function PassScoreSections({ sections }: { sections: PassScoreSection[] }) {
+export function PassScoreSections({
+  sections,
+  organizerBadge = false,
+}: {
+  sections: PassScoreSection[];
+  organizerBadge?: boolean;
+}) {
   const { m } = useI18n();
   const passTips = m.tooltips.passScores;
 
@@ -69,6 +76,7 @@ export function PassScoreSections({ sections }: { sections: PassScoreSection[] }
           </details>
         ))}
       </div>
+      <OrganizerBadge show={organizerBadge} />
     </div>
   );
 }

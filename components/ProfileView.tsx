@@ -148,7 +148,7 @@ export function ProfileView({
         <div className="pa-col pa-col-pillars">
           <div className="player-card pillars-card">
             <h3 className="section-label">{m.sections.passScores}</h3>
-            <PassScoreSections sections={data.pass_scores} />
+            <PassScoreSections sections={data.pass_scores} organizerBadge={data.organizer_badge} />
           </div>
         </div>
       </div>
