@@ -1,13 +1,8 @@
 /** Position family options — shared without pulling in full filter defaults. */
 
-export type PositionFamilyOption = { key: string; label: string };
-
-export const POSITION_FAMILIES: readonly PositionFamilyOption[] = [
-  { key: "centerbacks", label: "Zagueiros" },
-  { key: "fullbacks", label: "Laterais" },
+export const POSITION_FAMILIES = [
   { key: "midfielders", label: "Meio-campistas" },
-  { key: "wingers", label: "Extremos" },
-] as const satisfies readonly PositionFamilyOption[];
+] as const;
 
 export function positionBlocksForFamily(family: string): { key: string; label: string }[] {
   const match = POSITION_FAMILIES.find((f) => f.key === family);

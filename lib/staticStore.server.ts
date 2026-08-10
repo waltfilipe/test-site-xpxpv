@@ -306,9 +306,15 @@ export function getStaticCompare(playerA: string, playerB: string) {
     long_pass_share_ref_avg_pct: xp.long_pass_share_ref_avg_pct,
     long_pass_share_pctile: xp.long_pass_share_pctile,
     xp_bars: profile.xp_bars,
+    xp_indices: profile.xp_indices,
     xp_game_consistency_score: xp.xp_game_consistency_score,
     test_impact_v2_p90: xp.test_impact_v2_p90,
   });
+
+  const sectionForLabel = (profile: JsonRecord, label: string) => {
+    const sections = (profile.pass_scores as { title: string; display_score?: unknown; letter?: unknown; index?: unknown; components?: JsonRecord[] }[]) ?? [];
+    return sections.find((s) => s.title === label);
+  };
 
   return {
     player_a: playerCard(playerA, sourceA, profileA.xp as JsonRecord, profileA),
@@ -324,6 +330,14 @@ export function getStaticCompare(playerA: string, playerB: string) {
       const a = metric(sourceA, key);
       const b = metric(sourceB, key);
       const letterKey = key.replace("_display", "_letter");
+      const indexKey = key.replace("_display", "_index");
+      const sectionA = sectionForLabel(profileA, label);
+      const components = (sectionA?.components ?? []).map((comp) => {
+        const compKey = String(comp.key);
+        const fa = metric(sourceA, compKey);
+        const fb = metric(sourceB, compKey);
+        return { key: compKey, value_a: fa, value_b: fb, winner: winner(fa, fb) };
+      });
       return {
         key,
         label,
@@ -331,7 +345,10 @@ export function getStaticCompare(playerA: string, playerB: string) {
         value_b: b,
         letter_a: sourceA[letterKey],
         letter_b: sourceB[letterKey],
+        score_a: metric(sourceA, indexKey),
+        score_b: metric(sourceB, indexKey),
         winner: winner(a, b),
+        components,
       };
     }),
   };
