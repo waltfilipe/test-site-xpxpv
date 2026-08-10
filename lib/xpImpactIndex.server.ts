@@ -9,6 +9,7 @@ const POOL_REF_PATH = path.join(process.cwd(), "data", "midfielder-pool-ref.json
 
 type PoolRefFile = {
   threat_pass_ranks: Record<string, { rank: number; rank_pool: number }>;
+  impact_index_ranks: Record<string, { rank: number; rank_pool: number }>;
 };
 
 export type ImpactIndexComponent = {
@@ -26,7 +27,6 @@ export type ImpactIndexStats = {
 
 type ImpactRow = {
   playerId: string;
-  positionGroup: string;
   xpvPerPass: number;
   threatPassPct: number;
   xpvRank: number | null;
@@ -34,14 +34,13 @@ type ImpactRow = {
 };
 
 let impactIndexCache: Map<string, ImpactIndexStats> | null = null;
-let threatPassRanks: Map<string, { rank: number; rank_pool: number }> | null = null;
+let poolRef: PoolRefFile | null = null;
 
-function getThreatPassRanks(): Map<string, { rank: number; rank_pool: number }> {
-  if (!threatPassRanks) {
-    const payload = JSON.parse(fs.readFileSync(POOL_REF_PATH, "utf-8")) as PoolRefFile;
-    threatPassRanks = new Map(Object.entries(payload.threat_pass_ranks ?? {}));
+function getPoolRef(): PoolRefFile {
+  if (!poolRef) {
+    poolRef = JSON.parse(fs.readFileSync(POOL_REF_PATH, "utf-8")) as PoolRefFile;
   }
-  return threatPassRanks;
+  return poolRef;
 }
 
 function tierFromRank(rank: number, pool: number): string {
@@ -51,27 +50,6 @@ function tierFromRank(rank: number, pool: number): string {
   if (pct <= 1 / 3) return "above";
   if (pct <= 2 / 3) return "mid";
   return "below";
-}
-
-function zScores(values: number[]): number[] {
-  if (!values.length) return [];
-  const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
-  const variance = values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / values.length;
-  const std = Math.sqrt(variance);
-  if (!std || !Number.isFinite(std)) return values.map(() => 0);
-  return values.map((value) => (value - mean) / std);
-}
-
-function rankDescending(
-  entries: { playerId: string; value: number }[],
-): Map<string, { rank: number; rankPool: number }> {
-  const pool = entries.length;
-  const ordered = [...entries].sort((a, b) => b.value - a.value);
-  const out = new Map<string, { rank: number; rankPool: number }>();
-  ordered.forEach((entry, index) => {
-    out.set(entry.playerId, { rank: index + 1, rankPool: pool });
-  });
-  return out;
 }
 
 function readImpactRows(): ImpactRow[] {
@@ -106,7 +84,6 @@ function readImpactRows(): ImpactRow[] {
 
     rows.push({
       playerId,
-      positionGroup: String(player.position_group ?? "central_midfielders"),
       xpvPerPass: Number(xpvPerPass),
       threatPassPct: Number(threatPassPct),
       xpvRank: xpvComponent?.rank ?? (xp.xpv_per_pass_rank_in_group as number | null) ?? null,
@@ -119,57 +96,34 @@ function readImpactRows(): ImpactRow[] {
 
 function buildImpactIndexCache(): Map<string, ImpactIndexStats> {
   const rows = readImpactRows();
-  const grouped = new Map<string, ImpactRow[]>();
-
-  for (const row of rows) {
-    const bucket = grouped.get(row.positionGroup) ?? [];
-    bucket.push(row);
-    grouped.set(row.positionGroup, bucket);
-  }
-
+  const { threat_pass_ranks: threatPassRanks, impact_index_ranks: impactIndexRanks } = getPoolRef();
   const out = new Map<string, ImpactIndexStats>();
 
-  for (const bucket of grouped.values()) {
-    const pool = bucket.length;
-    if (!pool) continue;
+  for (const row of rows) {
+    const rateRank = threatPassRanks[row.playerId] ?? null;
+    const compositeRank = impactIndexRanks[row.playerId] ?? null;
+    const tier = compositeRank
+      ? tierFromRank(compositeRank.rank, compositeRank.rank_pool)
+      : "mid";
 
-    const xpvZs = zScores(bucket.map((row) => row.xpvPerPass));
-    const rateZs = zScores(bucket.map((row) => row.threatPassPct));
-    const composites = bucket.map((row, index) => ({
-      playerId: row.playerId,
-      composite: (xpvZs[index] + rateZs[index]) / 2,
-      row,
-    }));
-
-    const compositeRanks = rankDescending(
-      composites.map((entry) => ({ playerId: entry.playerId, value: entry.composite })),
-    );
-    const poolThreatRanks = getThreatPassRanks();
-
-    composites.forEach((entry) => {
-      const rankInfo = compositeRanks.get(entry.playerId);
-      const rateRank = poolThreatRanks.get(entry.playerId) ?? null;
-      const tier = rankInfo ? tierFromRank(rankInfo.rank, rankInfo.rankPool) : "mid";
-
-      out.set(entry.playerId, {
-        tier,
-        components: [
-          {
-            key: "xpv_per_pass",
-            label: "xPV/Pass",
-            value: entry.row.xpvPerPass,
-            rank: entry.row.xpvRank,
-            rank_pool: entry.row.xpvRankPool,
-          },
-          {
-            key: "threat_pass_pct",
-            label: "Impact Rate",
-            value: entry.row.threatPassPct,
-            rank: rateRank?.rank ?? null,
-            rank_pool: rateRank?.rank_pool ?? null,
-          },
-        ],
-      });
+    out.set(row.playerId, {
+      tier,
+      components: [
+        {
+          key: "xpv_per_pass",
+          label: "xPV/Pass",
+          value: row.xpvPerPass,
+          rank: row.xpvRank,
+          rank_pool: row.xpvRankPool,
+        },
+        {
+          key: "threat_pass_pct",
+          label: "Impact Rate",
+          value: row.threatPassPct,
+          rank: rateRank?.rank ?? null,
+          rank_pool: rateRank?.rank_pool ?? null,
+        },
+      ],
     });
   }
 

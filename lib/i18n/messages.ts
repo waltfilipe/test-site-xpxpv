@@ -200,6 +200,7 @@ export type Messages = {
   sections: {
     xpProfile: string;
     passScores: string;
+    badges: string;
     xpIndices: string;
     xpPillars: string;
     passProfile: string;
@@ -488,6 +489,7 @@ const en: Messages = {
   sections: {
     xpProfile: "xP Profile",
     passScores: "Pass Scores",
+    badges: "Badges",
     xpIndices: "xP Indices",
     xpPillars: "xP Pillars",
     passProfile: "Pass Profile",
@@ -881,6 +883,7 @@ const pt: Messages = {
   sections: {
     xpProfile: "Perfil xP",
     passScores: "Pass Scores",
+    badges: "Badges",
     xpIndices: "Índices xP",
     xpPillars: "Pilares xP",
     passProfile: "Perfil de passes",
