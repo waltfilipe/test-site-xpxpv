@@ -31,6 +31,7 @@ const CHANCE_CREATION_METRIC_KEYS = new Set([
   "key_passes",
   "passes_to_box",
   "test_impact_v2_start_final_third_p90",
+  "chance_creation_xpv",
 ]);
 
 export function formatMetric(value: unknown, key?: string): string {
@@ -43,6 +44,7 @@ export function formatMetric(value: unknown, key?: string): string {
       return `${value >= 0 ? "+" : ""}${value.toFixed(1)} pp`;
     }
     if (key && CHANCE_CREATION_METRIC_KEYS.has(key)) {
+      if (key === "chance_creation_xpv") return value.toFixed(4);
       return value.toFixed(2);
     }
     if (Number.isInteger(value) && !key?.includes("p90") && !key?.includes("score")) {

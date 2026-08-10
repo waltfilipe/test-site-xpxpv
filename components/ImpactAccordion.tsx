@@ -41,12 +41,17 @@ const COMPONENT_TIPS: Record<string, string> = {
   xpv_per_pass: "Average destination value (xPV) on completed passes.",
   xp_residual_mean:
     "Mean (actual xP − expected xP) per completed pass — how much the player beats the model on average.",
+  defensive_actions_p90:
+    "Sum of won tackles, interceptions and clearances per 90 minutes.",
+  chance_creation_xpv:
+    "Weighted average xPV on key passes, passes into the box and impact passes from the final third.",
   ...COMPONENT_TOOLTIPS,
 };
 
 function formatImpactValue(key: string, value: number | null | undefined): string {
   if (value == null || Number.isNaN(value)) return "—";
-  if (key.startsWith("def_")) return formatMetric(value, key);
+  if (key.startsWith("def_") || key === "defensive_actions_p90") return formatMetric(value, key);
+  if (key === "chance_creation_xpv") return value.toFixed(4);
   if (key === "xp_residual_mean") {
     const cents = value * 100;
     return `${cents >= 0 ? "+" : ""}${cents.toFixed(2)}¢`;

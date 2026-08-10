@@ -33,6 +33,10 @@ export const COMPONENT_TOOLTIPS: Record<string, string> = {
   special_line_break_p90: "Line-breaking passes per game — lateral exit bands, forward angle ≤ 50°.",
   test_impact_v2_start_final_third_p90:
     "Impact passes per game originating in the final third (x_start ≥ 72 m).",
+  defensive_actions_p90:
+    "Sum of won tackles, interceptions and clearances per 90 minutes.",
+  chance_creation_xpv:
+    "Weighted average xPV on key passes, passes into the box and impact passes from the final third.",
   def_won_tackle_p90: "Successful tackles per 90 minutes.",
   def_interception_p90: "Interceptions per 90 minutes.",
   def_clearance_p90: "Clearances per 90 minutes.",
@@ -54,6 +58,8 @@ export const COMPONENT_LABELS: Record<string, string> = {
   passes_to_box: "Passes into box / game",
   special_line_break_p90: "Line breaking passes / game",
   test_impact_v2_start_final_third_p90: "Impact Passes / game",
+  defensive_actions_p90: "Defensive actions / 90",
+  chance_creation_xpv: "Chance creation xPV / pass",
   def_won_tackle_p90: "Won tackles / 90",
   def_interception_p90: "Interceptions / 90",
   def_clearance_p90: "Clearances / 90",

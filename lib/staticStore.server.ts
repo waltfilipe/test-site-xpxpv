@@ -3,6 +3,7 @@ import "server-only";
 import fs from "fs";
 import path from "path";
 import { playerIdsForProfileGroup } from "@/lib/playerReports";
+import { enrichPlayerProfile } from "@/lib/enrichProfile.server";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 
@@ -261,13 +262,15 @@ export function getStaticPlayerOptions(params: URLSearchParams) {
 }
 
 export function getStaticPlayerProfile(playerId: string) {
-  return getProfile(playerId);
+  const profile = getProfile(playerId);
+  if (!profile) return null;
+  return enrichPlayerProfile(profile);
 }
 
 export function getStaticCompare(playerA: string, playerB: string) {
-  const profileA = getProfile(playerA);
-  const profileB = getProfile(playerB);
-  if (!profileA || !profileB) return null;
+  const profileA = enrichPlayerProfile(getProfile(playerA) ?? {});
+  const profileB = enrichPlayerProfile(getProfile(playerB) ?? {});
+  if (!profileA?.player || !profileB?.player) return null;
 
   const sourceA = { ...(profileA.player as JsonRecord), ...(profileA.xp as JsonRecord) };
   const sourceB = { ...(profileB.player as JsonRecord), ...(profileB.xp as JsonRecord) };
