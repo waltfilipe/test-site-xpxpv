@@ -153,6 +153,9 @@ export type Messages = {
     line_break: string;
     key_passes: string;
     long_passes: string;
+    report_progressive_origin: string;
+    report_progressive_dest: string;
+    report_impact_passes: string;
   };
   reports: {
     heroTitle: string;
@@ -415,6 +418,9 @@ const en: Messages = {
     line_break: "Breakline passes",
     key_passes: "Key Passes",
     long_passes: "Long Passes",
+    report_progressive_origin: "Progressive · origin",
+    report_progressive_dest: "Progressive · destination",
+    report_impact_passes: "Impact Passes",
   },
   reports: {
     heroTitle: "Midfielder reports",
@@ -794,6 +800,9 @@ const pt: Messages = {
     line_break: "Line breaks",
     key_passes: "Key Passes",
     long_passes: "Passes longos",
+    report_progressive_origin: "Progressivos · origem",
+    report_progressive_dest: "Progressivos · destino",
+    report_impact_passes: "Impact Passes",
   },
   reports: {
     heroTitle: "Relatórios de meias",

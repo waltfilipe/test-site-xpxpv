@@ -3998,6 +3998,21 @@ tr:last-child td { border-bottom: none; }
   margin: 0;
 }
 
+.report-maps-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  max-width: 100%;
+  margin: 0;
+}
+
+.report-maps-grid-3 .report-map-skeleton {
+  aspect-ratio: 0.74;
+}
+
+.report-maps-grid-3 .report-map-img {
+  max-height: 420px;
+}
+
 .report-map-skeleton {
   aspect-ratio: 1.45;
   border-radius: var(--radius-sm);
@@ -4675,8 +4690,9 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-maps-grid,
-  .report-maps-grid-4 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .report-maps-grid-4,
+  .report-maps-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.3rem;
   }
 
