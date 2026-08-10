@@ -72,11 +72,11 @@ export const COMPONENT_LABELS: Record<string, string> = {
 
 export const INDEX_TOOLTIPS: Record<string, string> = {
   Consistency:
-    "Each match gets a 3–9 grade from game xP vs. all peer matches in the position. Badge when dispersion of those grades is low (MAD). Per-match drill-down: Key passes only count when the event feed tags shot-assisting passes (otherwise 0). Short and long pass % efficiency (COE) need xPass on every attempt in that match — not available in this static export, so they show as —.",
+    "Each match gets a 3–9 grade from game xP vs. all peer matches in the position. Badge when dispersion of those grades is low (MAD). Per-match drill-down: Key passes only count when the event feed tags shot-assisting passes (otherwise 0).",
   Impact:
     "50% xPV per completed pass and 50% mean (xP − xP expected) per pass — destination value plus beating the geometric model.",
   xp_idx_consistency:
-    "Each match gets a 3–9 grade from game xP vs. all peer matches in the position. Badge when dispersion of those grades is low (MAD). Per-match drill-down: Key passes only count when the event feed tags shot-assisting passes (otherwise 0). Short and long pass % efficiency (COE) need xPass on every attempt in that match — not available in this static export, so they show as —.",
+    "Each match gets a 3–9 grade from game xP vs. all peer matches in the position. Badge when dispersion of those grades is low (MAD). Per-match drill-down: Key passes only count when the event feed tags shot-assisting passes (otherwise 0).",
   xp_idx_impact:
     "50% xPV per completed pass and 50% mean (xP − xP expected) per pass — destination value plus beating the geometric model.",
   xp_idx_defense:
