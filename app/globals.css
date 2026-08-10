@@ -762,11 +762,24 @@ button, input, select { font: inherit; }
 }
 
 .profile-page-body .filter-card,
+.profile-page-body .profile-group-panel,
+.profile-page-body .profile-group-banner,
 .profile-page-body .player-search-row,
 .profile-page-body .player-card {
   backdrop-filter: blur(12px);
   background: rgba(12, 18, 30, 0.72);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+}
+
+.profile-group-panel {
+  margin-bottom: 1rem;
+  padding: 0.85rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-subtle);
+}
+
+.profile-group-banner {
+  margin-bottom: 1rem;
 }
 
 .profile-empty-note {
