@@ -7,10 +7,17 @@ import { PlayerSearchRow } from "@/components/PlayerSearchRow";
 import { ProfileGroupCards } from "@/components/ProfileGroupCards";
 import { ProfileView } from "@/components/ProfileView";
 import { getPlayerOptions, getPlayers } from "@/lib/api";
-import { PLAYER_REPORT_CATEGORIES, profileGroupCounts } from "@/lib/playerReports";
-import { filtersFromRecord } from "@/lib/profileParams";
+import { PROFILE_ALL_GROUP, profileGroupCounts } from "@/lib/playerReports";
+import { filtersFromRecord, type ProfileFilterState } from "@/lib/profileParams";
 
-const DEFAULT_GROUP = PLAYER_REPORT_CATEGORIES[0]?.id ?? "u23-breakout";
+function filtersForGroup(filters: ProfileFilterState): ProfileFilterState {
+  const group = filters.profile_group ?? PROFILE_ALL_GROUP.id;
+  if (group === PROFILE_ALL_GROUP.id) {
+    const { profile_group: _removed, ...rest } = filters;
+    return rest;
+  }
+  return { ...filters, profile_group: group };
+}
 
 function ProfilePageBodyInner() {
   const searchParams = useSearchParams();
@@ -19,7 +26,8 @@ function ProfilePageBodyInner() {
     [searchParams],
   );
   const family = filters.position_family ?? "midfielders";
-  const profileGroup = filters.profile_group ?? DEFAULT_GROUP;
+  const profileGroup = filters.profile_group ?? PROFILE_ALL_GROUP.id;
+  const activeFilters = useMemo(() => filtersForGroup(filters), [filters]);
 
   const [options, setOptions] = useState<{ player_id: string; label: string }[]>([]);
   const [groupCounts, setGroupCounts] = useState<Record<string, number>>({});
@@ -34,11 +42,10 @@ function ProfilePageBodyInner() {
     setError(null);
 
     const currentFilters = filtersFromRecord(Object.fromEntries(searchParams.entries()));
-    const group = currentFilters.profile_group ?? DEFAULT_GROUP;
 
     Promise.all([
       getPlayers({ position_family: family, limit: 100 }),
-      getPlayerOptions({ ...currentFilters, profile_group: group }),
+      getPlayerOptions(filtersForGroup(currentFilters)),
     ])
       .then(([playersRes, optionsRes]) => {
         if (cancelled) return;
@@ -76,11 +83,7 @@ function ProfilePageBodyInner() {
       <ProfileGroupCards current={{ ...filters, profile_group: profileGroup }} counts={groupCounts} />
 
       {options.length > 0 ? (
-        <PlayerSearchRow
-          options={options}
-          currentId={playerId}
-          filters={{ ...filters, profile_group: profileGroup }}
-        />
+        <PlayerSearchRow options={options} currentId={playerId} filters={activeFilters} />
       ) : !error ? (
         <p className="muted profile-empty-note">
           Nenhum jogador encontrado neste grupo.

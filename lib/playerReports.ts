@@ -24,6 +24,14 @@ function p(playerId: string, note?: string): ReportPlayerRef {
   return { playerId, positionFamily: mid, note };
 }
 
+export const PROFILE_ALL_GROUP = {
+  id: "all",
+  title: "All Players",
+  subtitle: "Full curated pool",
+  description: "All 45 midfielders with rankings against the full European midfielder pool.",
+  accent: "#cbd5e1",
+} as const;
+
 export const PLAYER_REPORT_CATEGORIES: PlayerReportCategory[] = [
   {
     id: "u23-breakout",
@@ -189,7 +197,9 @@ export function profileGroupCounts(
   players: { player_id?: string | number | null }[],
 ): Record<string, number> {
   const available = new Set(players.map((p) => String(p.player_id)));
-  const counts: Record<string, number> = {};
+  const counts: Record<string, number> = {
+    [PROFILE_ALL_GROUP.id]: players.length,
+  };
   for (const category of PLAYER_REPORT_CATEGORIES) {
     const ids = playerIdsForProfileGroup(category.id);
     counts[category.id] = [...ids].filter((id) => available.has(id)).length;

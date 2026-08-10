@@ -776,6 +776,41 @@ button, input, select { font: inherit; }
   padding: 0.85rem;
   border-radius: var(--radius);
   border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.profile-group-all-card {
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 1rem;
+  min-height: 0;
+}
+
+.profile-group-all-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.profile-group-all-title {
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.profile-group-all-count {
+  flex-shrink: 0;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.profile-group-age-grid {
+  margin-top: 0;
 }
 
 .profile-group-banner {

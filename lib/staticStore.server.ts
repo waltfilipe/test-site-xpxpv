@@ -203,7 +203,7 @@ function filterPool(players: JsonRecord[], params: URLSearchParams): JsonRecord[
   }
 
   const profileGroup = params.get("profile_group");
-  if (profileGroup) {
+  if (profileGroup && profileGroup !== "all") {
     const allowed = playerIdsForProfileGroup(profileGroup);
     if (allowed.size) {
       filtered = filtered.filter((p) => allowed.has(String(p.player_id)));
