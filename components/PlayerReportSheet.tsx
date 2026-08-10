@@ -19,16 +19,10 @@ export type PlayerReportMaps = {
   caption?: string;
 };
 
-export type ReportMapLink = {
-  rank: number;
-  count: number;
-};
-
 export type ReportMapSlot = {
   key: string;
   label: string;
   pass_map_b64?: string | null;
-  links?: ReportMapLink[] | null;
   loading?: boolean;
   error?: string | null;
 };
@@ -36,7 +30,7 @@ export type ReportMapSlot = {
 export const REPORT_MAP_FILTER_KEYS = [
   "report_progressive_origin",
   "report_progressive_dest",
-  "report_progressive_links",
+  "report_impact_final_third",
 ] as const;
 
 export function mapFilterLabel(m: Messages, key: string): string {
@@ -149,7 +143,6 @@ export function PlayerReportSheet({
             key,
             label: mapFilterLabel(m, key),
             pass_map_b64: res.pass_map_b64,
-            links: key === "report_progressive_links" ? (res.links ?? null) : undefined,
             loading: false,
             error: null,
           };
@@ -508,49 +501,32 @@ export function PlayerReportSheet({
             {mapsError && <p className="error-box">{mapsError}</p>}
 
             <div className="report-maps-trio">
-              {mapSlots.map((slot) => {
-                const isLinksMap = slot.key === "report_progressive_links";
-                return (
-                  <div
-                    key={slot.key}
-                    className={`report-map-card report-map-card-tall${isLinksMap ? " report-map-card-links" : ""}`}
-                  >
-                    <h4 className="section-label-sm">{slot.label}</h4>
-                    {slot.loading && !slot.pass_map_b64 && (
-                      <div className="report-map-skeleton report-map-skeleton-tall" aria-busy="true">
-                        <span className="report-map-skeleton-pulse" />
-                      </div>
-                    )}
-                    {slot.error && !slot.pass_map_b64 && (
-                      <p className="placeholder-note report-map-error">{slot.error}</p>
-                    )}
-                    {slot.pass_map_b64 && (
-                      <div className={isLinksMap ? "report-map-links-body" : undefined}>
-                        <img
-                          src={`data:image/png;base64,${slot.pass_map_b64}`}
-                          alt={slot.label}
-                          className="report-map-img report-map-img-tall"
-                        />
-                        {isLinksMap && slot.links && slot.links.length > 0 && (
-                          <ol className="report-map-links-legend" aria-label={slot.label}>
-                            {slot.links.map((link) => (
-                              <li key={link.rank} className="report-map-links-legend-item">
-                                <span className="report-map-links-rank">{link.rank}</span>
-                                <span className="report-map-links-count tabular">
-                                  {m.reports.progressiveLinkPasses.replace("{count}", String(link.count))}
-                                </span>
-                              </li>
-                            ))}
-                          </ol>
-                        )}
-                      </div>
-                    )}
-                    {!slot.loading && !slot.error && !slot.pass_map_b64 && shouldLoadMaps && (
-                      <p className="placeholder-note">{m.common.unavailable}</p>
-                    )}
-                  </div>
-                );
-              })}
+              {mapSlots.map((slot) => (
+                <div
+                  key={slot.key}
+                  className="report-map-card report-map-card-tall"
+                >
+                  <h4 className="section-label-sm">{slot.label}</h4>
+                  {slot.loading && !slot.pass_map_b64 && (
+                    <div className="report-map-skeleton report-map-skeleton-tall" aria-busy="true">
+                      <span className="report-map-skeleton-pulse" />
+                    </div>
+                  )}
+                  {slot.error && !slot.pass_map_b64 && (
+                    <p className="placeholder-note report-map-error">{slot.error}</p>
+                  )}
+                  {slot.pass_map_b64 && (
+                    <img
+                      src={`data:image/png;base64,${slot.pass_map_b64}`}
+                      alt={slot.label}
+                      className="report-map-img report-map-img-tall"
+                    />
+                  )}
+                  {!slot.loading && !slot.error && !slot.pass_map_b64 && shouldLoadMaps && (
+                    <p className="placeholder-note">{m.common.unavailable}</p>
+                  )}
+                </div>
+              ))}
             </div>
 
             {anyLoading && loadedMaps.length > 0 && (
