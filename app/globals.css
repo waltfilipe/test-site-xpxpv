@@ -3262,7 +3262,7 @@ body.report-maps-expanded .reports-container {
 }
 
 .player-report-bundle-maps-open .report-maps-trio {
-  min-height: min(84vh, 1280px);
+  min-height: min(76vh, 1152px);
   gap: 0.55rem;
 }
 
@@ -3271,9 +3271,9 @@ body.report-maps-expanded .reports-container {
 }
 
 .player-report-bundle-maps-open .report-map-img-tall {
-  max-height: min(84vh, 1280px);
-  min-height: 68vh;
-  aspect-ratio: 6.8 / 10;
+  max-height: min(76vh, 1152px);
+  min-height: 61vh;
+  aspect-ratio: 6.12 / 9;
 }
 
 .report-page-tabs {
@@ -4150,15 +4150,15 @@ body.report-maps-expanded .reports-container {
 
 .report-map-skeleton-tall,
 .report-map-img-tall {
-  aspect-ratio: 6.8 / 10;
+  aspect-ratio: 6.12 / 9;
   width: 100%;
   flex: 1 1 auto;
   min-height: 0;
 }
 
 .report-map-img-tall {
-  max-height: min(72vh, 1080px);
-  min-height: 420px;
+  max-height: min(65vh, 972px);
+  min-height: 378px;
   object-fit: fill;
   display: block;
   border-radius: 6px;
