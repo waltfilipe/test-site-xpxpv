@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import type { CSSProperties } from "react";
-import { PROFILE_GROUP_CARDS } from "@/lib/positionFamilies";
+import { PLAYER_REPORT_CATEGORIES } from "@/lib/playerReports";
 import { buildProfileUrl, type ProfileFilterState } from "@/lib/profileParams";
 
 type Props = {
@@ -10,17 +10,21 @@ type Props = {
   counts: Record<string, number>;
 };
 
+const DEFAULT_GROUP = PLAYER_REPORT_CATEGORIES[0]?.id ?? "u23-breakout";
+
 export function ProfileGroupCards({ current, counts }: Props) {
   const router = useRouter();
-  const activeKey = current.position_block ?? "all";
-  const activeCard = PROFILE_GROUP_CARDS.find((card) => card.key === activeKey) ?? PROFILE_GROUP_CARDS[0];
+  const activeKey = current.profile_group ?? DEFAULT_GROUP;
+  const activeCard =
+    PLAYER_REPORT_CATEGORIES.find((card) => card.id === activeKey) ??
+    PLAYER_REPORT_CATEGORIES[0];
 
-  function selectGroup(key: string) {
-    if (key === activeKey) return;
+  function selectGroup(id: string) {
+    if (id === activeKey) return;
     router.push(
       buildProfileUrl({
         position_family: current.position_family,
-        position_block: key === "all" ? undefined : key,
+        profile_group: id,
         player: undefined,
         search: current.search,
       }),
@@ -31,16 +35,16 @@ export function ProfileGroupCards({ current, counts }: Props) {
     <>
       <section className="reports-category-panel profile-group-panel">
         <div className="reports-category-grid">
-          {PROFILE_GROUP_CARDS.map((card) => {
-            const isActive = activeKey === card.key;
-            const count = counts[card.key] ?? 0;
+          {PLAYER_REPORT_CATEGORIES.map((card) => {
+            const isActive = activeKey === card.id;
+            const count = counts[card.id] ?? 0;
             return (
               <button
-                key={card.key}
+                key={card.id}
                 type="button"
                 className={`reports-category-card${isActive ? " active" : ""}`}
                 style={{ "--category-accent": card.accent } as CSSProperties}
-                onClick={() => selectGroup(card.key)}
+                onClick={() => selectGroup(card.id)}
               >
                 <span className="reports-category-card-eyebrow">{card.subtitle}</span>
                 <strong className="reports-category-card-title">{card.title}</strong>

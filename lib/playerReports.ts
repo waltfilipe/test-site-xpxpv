@@ -172,3 +172,27 @@ export function enrichedReportPlayers(): EnrichedReportPlayer[] {
   }
   return out;
 }
+
+export function playerIdsForProfileGroup(groupId: string): Set<string> {
+  const category = PLAYER_REPORT_CATEGORIES.find((cat) => cat.id === groupId);
+  if (!category) return new Set();
+  const ids = new Set<string>();
+  for (const group of category.groups) {
+    for (const player of group.players) {
+      ids.add(player.playerId);
+    }
+  }
+  return ids;
+}
+
+export function profileGroupCounts(
+  players: { player_id?: string | number | null }[],
+): Record<string, number> {
+  const available = new Set(players.map((p) => String(p.player_id)));
+  const counts: Record<string, number> = {};
+  for (const category of PLAYER_REPORT_CATEGORIES) {
+    const ids = playerIdsForProfileGroup(category.id);
+    counts[category.id] = [...ids].filter((id) => available.has(id)).length;
+  }
+  return counts;
+}

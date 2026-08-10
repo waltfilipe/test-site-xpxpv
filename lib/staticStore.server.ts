@@ -2,6 +2,7 @@ import "server-only";
 
 import fs from "fs";
 import path from "path";
+import { playerIdsForProfileGroup } from "@/lib/playerReports";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 
@@ -199,6 +200,14 @@ function filterPool(players: JsonRecord[], params: URLSearchParams): JsonRecord[
   const exclude = params.get("exclude");
   if (exclude) {
     filtered = filtered.filter((p) => String(p.player_id) !== exclude);
+  }
+
+  const profileGroup = params.get("profile_group");
+  if (profileGroup) {
+    const allowed = playerIdsForProfileGroup(profileGroup);
+    if (allowed.size) {
+      filtered = filtered.filter((p) => allowed.has(String(p.player_id)));
+    }
   }
 
   return filtered;
