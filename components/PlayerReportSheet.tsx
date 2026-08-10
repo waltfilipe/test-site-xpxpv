@@ -369,10 +369,19 @@ export function PlayerReportSheet({
   );
   const loadedMaps = mapSlots.filter((s) => s.pass_map_b64);
   const anyLoading = mapSlots.some((s) => s.loading);
+  const mapsOpenOnScreen = activePage === 2 && !expandAll;
+
+  useEffect(() => {
+    if (!mapsOpenOnScreen) return;
+    document.body.classList.add("report-maps-expanded");
+    return () => {
+      document.body.classList.remove("report-maps-expanded");
+    };
+  }, [mapsOpenOnScreen]);
 
   return (
     <div
-      className="player-report-bundle"
+      className={`player-report-bundle${mapsOpenOnScreen ? " player-report-bundle-maps-open" : ""}`}
       data-category={category.id}
       data-player-id={playerId}
       id={`report-${playerId}`}
