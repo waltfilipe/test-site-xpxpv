@@ -79,6 +79,7 @@ async function loadMapSlots(
         key,
         label: mapFilterLabel(m, key),
         pass_map_b64: res.pass_map_b64,
+        links: key === "report_progressive_links" ? (res.links ?? null) : undefined,
         loading: false,
         error: null,
       };

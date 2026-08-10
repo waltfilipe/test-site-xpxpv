@@ -249,6 +249,7 @@ export function getPassMap(
     pass_map_b64?: string | null;
     dest_map_b64?: string | null;
     caption: string;
+    links?: { rank: number; count: number }[] | null;
     pass_filter_options: { key: string; label: string }[];
     scatter_metric_options: { key: string; label: string }[];
   }>(`/api/maps/players/${playerId}/pass-map?${qs}`);

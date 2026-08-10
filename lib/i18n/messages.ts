@@ -187,6 +187,7 @@ export type Messages = {
     reportMapOrigin: string;
     reportMapDestination: string;
     reportImpactPassesTitle: string;
+    progressiveLinkPasses: string;
     minutesShort: string;
     ageYears: string;
     categories: {
@@ -458,6 +459,7 @@ const en: Messages = {
     reportMapOrigin: "Origin",
     reportMapDestination: "Destination",
     reportImpactPassesTitle: "Impact Passes",
+    progressiveLinkPasses: "{count} passes",
     minutesShort: "Min",
     ageYears: "{age} yrs",
     categories: {
@@ -845,6 +847,7 @@ const pt: Messages = {
     reportMapOrigin: "Origem",
     reportMapDestination: "Destino",
     reportImpactPassesTitle: "Impact Passes",
+    progressiveLinkPasses: "{count} passes",
     minutesShort: "Min",
     ageYears: "{age} anos",
     categories: {
