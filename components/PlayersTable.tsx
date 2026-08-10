@@ -18,7 +18,6 @@ type SortKey =
   | "pass_efficiency_letter"
   | "pass_buildup_letter"
   | "pass_chance_creation_letter"
-  | "pass_impact_letter"
   | "defense_letter";
 
 type SortDir = "asc" | "desc";
@@ -63,7 +62,6 @@ function compareValues(a: unknown, b: unknown, key: SortKey): number {
     || key === "pass_efficiency_letter"
     || key === "pass_buildup_letter"
     || key === "pass_chance_creation_letter"
-    || key === "pass_impact_letter"
     || key === "defense_letter"
   ) {
     return letterRank(String(a ?? "")) - letterRank(String(b ?? ""));
@@ -174,11 +172,6 @@ export function PlayersTable({ players, positionFamily }: Props) {
               </button>
             </th>
             <th>
-              <button type="button" className="players-sort-btn" onClick={() => toggleSort("pass_impact_letter")}>
-                {m.players.impact} {sortIndicator("pass_impact_letter")}
-              </button>
-            </th>
-            <th>
               <button type="button" className="players-sort-btn" onClick={() => toggleSort("defense_letter")}>
                 {m.players.defense} {sortIndicator("defense_letter")}
               </button>
@@ -204,13 +197,12 @@ export function PlayersTable({ players, positionFamily }: Props) {
               <td><GradeBadge letter={player.pass_efficiency_letter} size="sm" /></td>
               <td><GradeBadge letter={player.pass_buildup_letter} size="sm" /></td>
               <td><GradeBadge letter={player.pass_chance_creation_letter} size="sm" /></td>
-              <td><GradeBadge letter={player.pass_impact_letter} size="sm" /></td>
               <td><GradeBadge letter={player.defense_letter} displayScore={player.defense_display} size="sm" /></td>
             </tr>
           ))}
           {sorted.length === 0 && (
             <tr>
-              <td colSpan={10} className="muted" style={{ textAlign: "center", padding: "2rem" }}>
+              <td colSpan={9} className="muted" style={{ textAlign: "center", padding: "2rem" }}>
                 {m.common.noResults}
               </td>
             </tr>

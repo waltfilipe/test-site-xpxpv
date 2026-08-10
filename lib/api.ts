@@ -45,8 +45,6 @@ export type PlayerSummary = {
   pass_efficiency_letter?: string | null;
   pass_buildup_letter?: string | null;
   pass_chance_creation_letter?: string | null;
-  pass_impact_letter?: string | null;
-  pass_impact_display?: number | null;
   defense_letter?: string | null;
   defense_display?: number | null;
 };

@@ -97,7 +97,6 @@ export type Messages = {
     efficiency: string;
     buildup: string;
     chanceCreation: string;
-    impact: string;
     defense: string;
     reportsPromoTitle: string;
     reportsPromoDesc: string;
@@ -379,7 +378,6 @@ const en: Messages = {
     efficiency: "Efficiency",
     buildup: "Build-up",
     chanceCreation: "Chance creation",
-    impact: "Impact",
     defense: "Defense",
     reportsPromoTitle: "Reports",
     reportsPromoDesc: "PDF-ready reports — U23 Breakout, Blue Collar 24–30 and Experience 30+",
@@ -514,7 +512,7 @@ const en: Messages = {
       Efficiency: "How cleanly they complete passes.",
       "Build-up": "Progression and line-breaking.",
       "Chance creation": "Passes that threaten the goal.",
-      Impact: "Share of passes classified as impact passes.",
+      Impact: "xPV/Pass and Impact Rate combined.",
       "Defensive Contribution": "Defensive volume and duel quality.",
     },
     components: {
@@ -568,9 +566,9 @@ const en: Messages = {
     },
     index: {
       Consistency: "How steady their game xP is from match to match.",
-      Impact: "Impact rate plus beating the model.",
+      Impact: "xPV/Pass and Impact Rate combined.",
       xp_idx_consistency: "How steady their game xP is from match to match.",
-      xp_idx_impact: "Impact rate plus beating the model.",
+      xp_idx_impact: "50% xPV/Pass and 50% Impact Rate — average z-score among position peers.",
       xp_idx_defense: "Defensive volume and duel quality.",
     },
     passGrade: "Overall pass grade within the position pool.",
@@ -759,7 +757,6 @@ const pt: Messages = {
     efficiency: "Efficiency",
     buildup: "Build-up",
     chanceCreation: "Chance creation",
-    impact: "Impact",
     defense: "Defense",
     reportsPromoTitle: "Relatórios",
     reportsPromoDesc: "Relatórios PDF — U23 Breakout, Blue Collar 24–30 e Experience 30+",
@@ -894,7 +891,7 @@ const pt: Messages = {
       Efficiency: "Quão limpo é o passe.",
       "Build-up": "Progressão e quebra de linha.",
       "Chance creation": "Passes que ameaçam o gol.",
-      Impact: "Parcela de passes classificados como impact passes.",
+      Impact: "xPV/Pass e Impact Rate combinados.",
       "Defensive Contribution": "Volume defensivo e qualidade de duelo.",
     },
     components: {
@@ -948,9 +945,9 @@ const pt: Messages = {
     },
     index: {
       Consistency: "Quão estável é o xP de jogo entre partidas.",
-      Impact: "Impact rate mais superação do modelo.",
+      Impact: "xPV/Pass e Impact Rate combinados.",
       xp_idx_consistency: "Quão estável é o xP de jogo entre partidas.",
-      xp_idx_impact: "Impact rate mais superação do modelo.",
+      xp_idx_impact: "50% xPV/Pass e 50% Impact Rate — média de z-score entre pares da posição.",
       xp_idx_defense: "Volume defensivo e qualidade de duelo.",
     },
     passGrade: "Nota geral de passe no pool de posição.",
