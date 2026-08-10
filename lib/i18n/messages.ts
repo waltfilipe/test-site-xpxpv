@@ -405,7 +405,7 @@ const en: Messages = {
     passOriginAlt: "Pass origin heatmap",
   },
   maps: {
-    subtitle: "Pass maps and scatter plots for the curated midfielder pool.",
+    subtitle: "Pass maps for the curated midfielder pool.",
     generating: "Generating maps…",
     backendUnavailable: "API unavailable — try again shortly.",
     aggregateNote: "Aggregate view · top 250 by volume",
@@ -793,7 +793,7 @@ const pt: Messages = {
     passOriginAlt: "Heatmap de origem dos passes",
   },
   maps: {
-    subtitle: "Mapas de passes e scatter do pool de meias.",
+    subtitle: "Mapas de passes do pool de meias.",
     generating: "Gerando mapas…",
     backendUnavailable: "API indisponível — tente novamente em instantes.",
     aggregateNote: "Visão agregada · top 250 por volume",

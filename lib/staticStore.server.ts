@@ -59,6 +59,33 @@ const POSITION_BLOCKS: Record<string, string | null> = {
 
 type JsonRecord = Record<string, unknown>;
 
+let footOverrides: Record<string, string> | null = null;
+
+function normalizeFoot(value: unknown): string | null {
+  if (value == null) return null;
+  const text = String(value).trim().toLowerCase();
+  if (!text) return null;
+  if (text === "both") return "Both";
+  if (text.startsWith("left")) return "Left";
+  if (text.startsWith("right")) return "Right";
+  return String(value).trim();
+}
+
+function getFootOverrides(): Record<string, string> {
+  if (!footOverrides) {
+    try {
+      footOverrides = readJson<Record<string, string>>("foot-overrides.json");
+    } catch {
+      footOverrides = {};
+    }
+  }
+  return footOverrides;
+}
+
+function resolveDominantFoot(playerId: string, value: unknown): string | null {
+  return normalizeFoot(getFootOverrides()[playerId] ?? value);
+}
+
 function readJson<T>(filename: string): T {
   const filePath = path.join(DATA_DIR, filename);
   return JSON.parse(fs.readFileSync(filePath, "utf-8")) as T;
@@ -112,7 +139,14 @@ function getProfile(playerId: string): JsonRecord | null {
     if (!fs.existsSync(filePath)) return null;
     cache.profiles.set(playerId, readJson(relativePath));
   }
-  return cache.profiles.get(playerId) ?? null;
+  const profile = cache.profiles.get(playerId) ?? null;
+  if (!profile) return null;
+  const player = profile.player as JsonRecord | undefined;
+  if (player) {
+    const foot = resolveDominantFoot(playerId, player.dominant_foot);
+    if (foot) player.dominant_foot = foot;
+  }
+  return profile;
 }
 
 function normalizeLetter(letter: unknown): string {
@@ -180,7 +214,7 @@ function filterPool(players: JsonRecord[], params: URLSearchParams): JsonRecord[
     }
 
     if (foot !== "all") {
-      const playerFoot = String(player.dominant_foot ?? "").toLowerCase();
+      const playerFoot = normalizeFoot(resolveDominantFoot(String(player.player_id ?? ""), player.dominant_foot))?.toLowerCase();
       if (playerFoot !== foot) return false;
     }
 

@@ -4,15 +4,11 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { LoadingState } from "@/components/LoadingState";
 import { PageHero } from "@/components/PageHero";
-import { ScatterChart } from "@/components/ScatterChart";
 import {
   getAggregatedMaps,
   getMapsOptions,
   getPassMap,
   getPlayerOptions,
-  getScatter,
-  type PlayerOption,
-  type ScatterData,
 } from "@/lib/api";
 import { useI18n } from "@/lib/i18n/context";
 
@@ -20,14 +16,10 @@ function MapsContent() {
   const { m } = useI18n();
   const searchParams = useSearchParams();
   const positionFamily = "midfielders";
-  const [options, setOptions] = useState<PlayerOption[]>([]);
-  const [mapOpts, setMapOpts] = useState<{ scatter_metrics: { key: string; label: string }[]; pass_filters: { key: string; label: string }[] } | null>(null);
+  const [options, setOptions] = useState<{ player_id: string; label: string }[]>([]);
+  const [mapOpts, setMapOpts] = useState<{ pass_filters: { key: string; label: string }[] } | null>(null);
   const [playerId, setPlayerId] = useState(searchParams.get("player") ?? "");
-  const [view, setView] = useState<"scatter" | "pass_map">("scatter");
-  const [xKey, setXKey] = useState("xpass_coe_pct");
-  const [yKey, setYKey] = useState("test_impact_v2_p90");
   const [passFilter, setPassFilter] = useState("progressive");
-  const [scatter, setScatter] = useState<ScatterData | null>(null);
   const [passMap, setPassMap] = useState<{ pass_map_b64?: string | null; dest_map_b64?: string | null; caption: string } | null>(null);
   const [aggregated, setAggregated] = useState<{ common_map_b64?: string | null; rare_map_b64?: string | null; quadrant_stats: { quadrant: string; passes: number; share_pct: number }[] } | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -53,22 +45,13 @@ function MapsContent() {
   }, [positionFamily, m.maps.backendUnavailable]);
 
   useEffect(() => {
-    if (view !== "scatter" || !playerId) return;
-    setLoading(true);
-    getScatter(xKey, yKey, playerId, positionFamily)
-      .then(setScatter)
-      .catch((e) => setError(String(e)))
-      .finally(() => setLoading(false));
-  }, [view, xKey, yKey, playerId, positionFamily]);
-
-  useEffect(() => {
-    if (view !== "pass_map" || !playerId) return;
+    if (!playerId) return;
     setLoading(true);
     getPassMap(playerId, passFilter, "all", positionFamily)
       .then(setPassMap)
       .catch((e) => setError(String(e)))
       .finally(() => setLoading(false));
-  }, [view, passFilter, playerId, positionFamily]);
+  }, [passFilter, playerId, positionFamily]);
 
   return (
     <div className="container">
@@ -81,44 +64,22 @@ function MapsContent() {
           <select value={playerId} onChange={(e) => setPlayerId(e.target.value)}>
             {options.map((o) => <option key={o.player_id} value={o.player_id}>{o.label}</option>)}
           </select>
-          <div className="view-toggle">
-            <button type="button" className={view === "scatter" ? "active" : ""} onClick={() => setView("scatter")}>{m.maps.scatterView}</button>
-            <button type="button" className={view === "pass_map" ? "active" : ""} onClick={() => setView("pass_map")}>{m.maps.passMapView}</button>
-          </div>
+          {mapOpts && (
+            <select value={passFilter} onChange={(e) => setPassFilter(e.target.value)}>
+              {mapOpts.pass_filters.map((f) => <option key={f.key} value={f.key}>{f.label}</option>)}
+            </select>
+          )}
         </div>
       </div>
 
       {loading && <LoadingState message={m.maps.generating} />}
 
-      {view === "scatter" && mapOpts && !loading && (
-        <>
-          <div className="filters">
-            <select value={xKey} onChange={(e) => setXKey(e.target.value)}>
-              {mapOpts.scatter_metrics.map((metric) => <option key={metric.key} value={metric.key}>{metric.label} (X)</option>)}
-            </select>
-            <select value={yKey} onChange={(e) => setYKey(e.target.value)}>
-              {mapOpts.scatter_metrics.map((metric) => <option key={metric.key} value={metric.key}>{metric.label} (Y)</option>)}
-            </select>
-          </div>
-          {scatter && <ScatterChart points={scatter.points} xLabel={scatter.x_label} yLabel={scatter.y_label} means={scatter.means} />}
-        </>
-      )}
-
-      {view === "pass_map" && mapOpts && !loading && (
-        <>
-          <div className="filters">
-            <select value={passFilter} onChange={(e) => setPassFilter(e.target.value)}>
-              {mapOpts.pass_filters.map((f) => <option key={f.key} value={f.key}>{f.label}</option>)}
-            </select>
-          </div>
-          {passMap && (
-            <div className="maps-grid">
-              {passMap.pass_map_b64 && <img src={`data:image/png;base64,${passMap.pass_map_b64}`} alt={m.maps.passMapAlt} className="map-img" />}
-              {passMap.dest_map_b64 && <img src={`data:image/png;base64,${passMap.dest_map_b64}`} alt={m.maps.destMapAlt} className="map-img" />}
-              <p className="muted" style={{ gridColumn: "1 / -1" }}>{passMap.caption}</p>
-            </div>
-          )}
-        </>
+      {!loading && passMap && (
+        <div className="maps-grid">
+          {passMap.pass_map_b64 && <img src={`data:image/png;base64,${passMap.pass_map_b64}`} alt={m.maps.passMapAlt} className="map-img" />}
+          {passMap.dest_map_b64 && <img src={`data:image/png;base64,${passMap.dest_map_b64}`} alt={m.maps.destMapAlt} className="map-img" />}
+          <p className="muted" style={{ gridColumn: "1 / -1" }}>{passMap.caption}</p>
+        </div>
       )}
 
       {aggregated && (
