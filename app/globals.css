@@ -4084,36 +4084,46 @@ tr:last-child td { border-bottom: none; }
 .report-maps-trio {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.15rem;
+  gap: 0.4rem;
   align-items: stretch;
+  width: 100%;
 }
 
 .report-map-card-tall {
-  padding: 0.3rem 0.2rem 0.35rem;
+  padding: 0.2rem 0.15rem 0.25rem;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .report-map-card-tall .section-label-sm {
-  margin-bottom: 0.25rem;
-  font-size: 0.62rem;
+  margin-bottom: 0.2rem;
+  font-size: 0.6rem;
   letter-spacing: 0.04em;
+  flex-shrink: 0;
 }
 
 .report-map-skeleton-tall,
 .report-map-img-tall {
-  aspect-ratio: 0.7;
+  aspect-ratio: 5.2 / 7.4;
   width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .report-map-img-tall {
-  max-height: min(93vh, 930px);
-  object-fit: contain;
+  max-height: min(78vh, 1180px);
+  object-fit: fill;
   display: block;
+  border-radius: 6px;
 }
 
 .report-map-card-links .report-map-links-body {
   display: flex;
   align-items: stretch;
-  gap: 0.35rem;
+  gap: 0.3rem;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .report-map-card-links .report-map-img-tall {
@@ -4124,12 +4134,12 @@ tr:last-child td { border-bottom: none; }
 .report-map-links-legend {
   list-style: none;
   margin: 0;
-  padding: 0.15rem 0 0;
+  padding: 0.1rem 0 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 0.35rem;
-  flex: 0 0 4.75rem;
+  gap: 0.3rem;
+  flex: 0 0 3.5rem;
 }
 
 .report-map-links-legend-item {
@@ -4918,11 +4928,12 @@ tr:last-child td { border-bottom: none; }
 
   .report-maps-trio {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.25rem;
+    gap: 0.2rem;
   }
 
   .report-map-img-tall {
-    max-height: 102mm !important;
+    max-height: 108mm !important;
+    object-fit: fill !important;
   }
 
   .report-map-links-legend {
