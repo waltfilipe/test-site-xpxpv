@@ -28,10 +28,9 @@ export type ReportMapSlot = {
 };
 
 export const REPORT_MAP_FILTER_KEYS = [
-  "progressive",
-  "test_impact_v2",
-  "long_passes",
-  "line_break",
+  "report_progressive_origin",
+  "report_progressive_dest",
+  "report_impact_passes",
 ] as const;
 
 export function mapFilterLabel(m: Messages, key: string): string {
@@ -488,7 +487,7 @@ export function PlayerReportSheet({
             )}
             {mapsError && <p className="error-box">{mapsError}</p>}
 
-            <div className="report-maps-grid report-maps-grid-4">
+            <div className="report-maps-grid report-maps-grid-3">
               {mapSlots.map((slot) => (
                 <div key={slot.key} className="report-map-card">
                   <h4 className="section-label-sm">{slot.label}</h4>
