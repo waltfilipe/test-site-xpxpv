@@ -105,7 +105,7 @@ function emptyReports(): ReportEntry[] {
   }));
 }
 
-async function waitForPrintMapImages(playerIds: string[], expectedPerPlayer = 4) {
+async function waitForPrintMapImages(playerIds: string[], expectedPerPlayer = 3) {
   const deadline = Date.now() + 25000;
   while (Date.now() < deadline) {
     const ready = playerIds.every((id) => {

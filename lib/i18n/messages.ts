@@ -182,6 +182,10 @@ export type Messages = {
     midfielderReportEyebrow: string;
     backToProfile: string;
     viewMaps: string;
+    progressivePassesBlock: string;
+    reportMapOrigin: string;
+    reportMapDestination: string;
+    reportImpactPassesTitle: string;
     minutesShort: string;
     ageYears: string;
     categories: {
@@ -418,8 +422,8 @@ const en: Messages = {
     line_break: "Breakline passes",
     key_passes: "Key Passes",
     long_passes: "Long Passes",
-    report_progressive_origin: "Progressive · origin",
-    report_progressive_dest: "Progressive · destination",
+    report_progressive_origin: "Origin",
+    report_progressive_dest: "Destination",
     report_impact_passes: "Impact Passes",
   },
   reports: {
@@ -448,6 +452,10 @@ const en: Messages = {
     midfielderReportEyebrow: "Pass Scout · Midfielder Report",
     backToProfile: "Back to profile",
     viewMaps: "View maps",
+    progressivePassesBlock: "Progressive Passes (Origin & Destination)",
+    reportMapOrigin: "Origin",
+    reportMapDestination: "Destination",
+    reportImpactPassesTitle: "Impact Passes",
     minutesShort: "Min",
     ageYears: "{age} yrs",
     categories: {
@@ -800,8 +808,8 @@ const pt: Messages = {
     line_break: "Line breaks",
     key_passes: "Key Passes",
     long_passes: "Passes longos",
-    report_progressive_origin: "Progressivos · origem",
-    report_progressive_dest: "Progressivos · destino",
+    report_progressive_origin: "Origem",
+    report_progressive_dest: "Destino",
     report_impact_passes: "Impact Passes",
   },
   reports: {
@@ -830,6 +838,10 @@ const pt: Messages = {
     midfielderReportEyebrow: "Pass Scout · Midfielder Report",
     backToProfile: "Voltar ao perfil",
     viewMaps: "Ver mapas",
+    progressivePassesBlock: "Progressive Passes (Origin & Destination)",
+    reportMapOrigin: "Origem",
+    reportMapDestination: "Destino",
+    reportImpactPassesTitle: "Impact Passes",
     minutesShort: "Min",
     ageYears: "{age} anos",
     categories: {
