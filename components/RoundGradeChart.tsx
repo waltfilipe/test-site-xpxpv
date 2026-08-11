@@ -51,7 +51,7 @@ export function RoundGradeChart({ points, accent = "#a78bfa", embedded = false, 
 
   const grades = data.map((p) => p.grade as number);
   const minG = Math.max(4, Math.min(...grades) - 0.4);
-  const maxG = Math.min(9.5, Math.max(...grades) + 0.4);
+  const maxG = Math.min(10, Math.max(...grades) + 0.4);
   const span = maxG - minG || 1;
   const innerW = WIDTH - PAD_X * 2;
   const innerH = HEIGHT - PAD_Y * 2;
