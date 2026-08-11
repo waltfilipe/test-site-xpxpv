@@ -5,21 +5,10 @@ import { useEffect, useState } from "react";
 import { ComparePlayerPicker } from "@/components/ComparePlayerPicker";
 import { CompareXpIndicesStrip } from "@/components/CompareXpIndicesStrip";
 import { PassLengthMix } from "@/components/PassLengthMix";
+import { mapFilterLabel, REPORT_MAP_FILTER_KEYS } from "@/components/PlayerReportSheet";
 import { getPassMap } from "@/lib/api";
 import { formatContractUntil } from "@/lib/formatters";
 import { useI18n } from "@/lib/i18n/context";
-import type { Messages } from "@/lib/i18n/messages";
-
-export const COMPARE_MAP_FILTER_KEYS = [
-  "progressive",
-  "test_impact_v2",
-  "line_break",
-  "key_passes",
-] as const;
-
-function mapFilterLabel(m: Messages, key: string): string {
-  return m.mapFilters[key as keyof Messages["mapFilters"]] ?? key;
-}
 
 const POSITION_FAMILY = "midfielders";
 
@@ -78,7 +67,7 @@ export function ComparePlayerCard({
     }
 
     let cancelled = false;
-    setMapSlots(COMPARE_MAP_FILTER_KEYS.map((key) => ({
+    setMapSlots(REPORT_MAP_FILTER_KEYS.map((key) => ({
       key,
       label: mapFilterLabel(m, key),
       loading: true,
@@ -86,7 +75,7 @@ export function ComparePlayerCard({
 
     (async () => {
       const next = await Promise.all(
-        COMPARE_MAP_FILTER_KEYS.map(async (key) => {
+        REPORT_MAP_FILTER_KEYS.map(async (key) => {
           const label = mapFilterLabel(m, key);
           try {
             const res = await getPassMap(playerId, key, "all", POSITION_FAMILY);
@@ -137,7 +126,7 @@ export function ComparePlayerCard({
                 <img
                   src={`data:image/png;base64,${slot.pass_map_b64}`}
                   alt={slot.label}
-                  className="heatmap-img compare-map-slot-img"
+                  className="heatmap-img compare-map-slot-img compare-map-slot-img-portrait"
                 />
               )}
             </div>
