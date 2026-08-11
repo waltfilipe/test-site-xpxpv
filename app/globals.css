@@ -33,11 +33,7 @@ html, body {
 }
 
 body {
-  background:
-    radial-gradient(ellipse 90% 60% at 50% -20%, rgba(99, 102, 241, 0.09), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 100% 0%, rgba(56, 189, 248, 0.06), transparent 50%),
-    radial-gradient(ellipse 45% 35% at 0% 30%, rgba(167, 139, 250, 0.05), transparent 48%),
-    linear-gradient(180deg, #070b12 0%, #060910 100%);
+  background: linear-gradient(180deg, #090d15 0%, #070a11 100%);
   background-attachment: fixed;
 }
 
@@ -2212,6 +2208,7 @@ button, input, select { font: inherit; }
 .home-shell {
   position: relative;
   overflow: hidden;
+  background: linear-gradient(175deg, #0b1018 0%, #080c14 48%, #070a11 100%);
 }
 
 .home-shell-bg {
@@ -2219,39 +2216,9 @@ button, input, select { font: inherit; }
   inset: 0;
   pointer-events: none;
   z-index: 0;
-}
-
-.home-shell-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.55;
-}
-
-.home-shell-orb-a {
-  width: min(52vw, 520px);
-  height: min(52vw, 520px);
-  top: 8%;
-  right: -8%;
-  background: radial-gradient(circle, rgba(167, 139, 250, 0.22) 0%, transparent 68%);
-}
-
-.home-shell-orb-b {
-  width: min(48vw, 460px);
-  height: min(48vw, 460px);
-  bottom: 4%;
-  left: -10%;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.16) 0%, transparent 70%);
-}
-
-.home-shell-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.65) 0%, transparent 92%);
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(99, 102, 241, 0.07), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(56, 189, 248, 0.04), transparent 55%);
 }
 
 .home-page {
@@ -2418,10 +2385,10 @@ button, input, select { font: inherit; }
   max-width: 54ch;
   margin: 0 auto 2.5rem;
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(24px);
   transition:
-    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .home-insights-title {
@@ -2459,10 +2426,10 @@ button, input, select { font: inherit; }
   );
   box-shadow: 0 8px 32px rgba(2, 6, 23, 0.22);
   opacity: 0;
-  transform: translateY(32px);
+  transform: translateY(28px);
   transition:
-    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.2s ease,
     box-shadow 0.2s ease;
   transition-delay: var(--reveal-delay, 0ms);

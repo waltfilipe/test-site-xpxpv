@@ -366,17 +366,17 @@ const en: Messages = {
     insightsLead:
       "A quick guide to the metrics behind the reports — written for scouts and analysts, not statisticians.",
     insights: {
-      xp: {
-        tag: "xP",
-        title: "How valuable is each pass?",
-        body:
-          "xP measures the quality of a midfielder’s passing game. It goes beyond completion rate to ask a simpler question: when this player passes, does the team usually end up in a better place?",
-      },
       xpv: {
         tag: "xPV",
-        title: "Impact created per pass",
+        title: "How valuable is the destination?",
         body:
-          "xPV highlights passes that genuinely change the picture — breaking lines, advancing play or opening chances. High xPV players don’t just circulate the ball; they repeatedly move the attack forward.",
+          "xPV measures how much it’s worth arriving at a point on the pitch. It doesn’t ask whether the pass will arrive — it asks whether the destination is good: does it advance play, is it a rare or strategic spot, and is it reachable in that situation. Only completed passes count.",
+      },
+      xp: {
+        tag: "xP",
+        title: "How hard was the pass?",
+        body:
+          "xP measures how difficult it was to complete a pass — the “xG of passing”. Given where the player is, where they’re aiming, the distance and angle, how likely was the ball to arrive? Both completed and missed passes count.",
       },
       grades: {
         tag: "Grades",
@@ -400,7 +400,7 @@ const en: Messages = {
     modules: {
       reports: {
         title: "Reports",
-        description: "PDF-ready reports for 44 midfielders — xP grades, pass scores and maps by age group.",
+        description: "PDF-ready reports for 45 midfielders — xP grades, pass scores and maps by age group.",
       },
       profile: {
         title: "Profile",
@@ -530,7 +530,7 @@ const en: Messages = {
     categories: {
       all: {
         title: "All players",
-        description: "Full curated pool of 44 midfielders.",
+        description: "Full curated pool of 45 midfielders.",
       },
       u23: {
         title: "U23",
@@ -707,7 +707,7 @@ const en: Messages = {
     all: {
       title: "All Players",
       subtitle: "Full curated pool",
-      description: "All 44 midfielders ranked against the full European midfielder pool.",
+      description: "All 45 midfielders ranked against the full European midfielder pool.",
     },
     "u23-breakout": {
       title: "U23 — Breakout Promises",
@@ -803,17 +803,17 @@ const pt: Messages = {
     insightsLead:
       "Um guia rápido das métricas por trás dos relatórios — feito para scouts e analistas, não para estatísticos.",
     insights: {
-      xp: {
-        tag: "xP",
-        title: "Quão valioso é cada passe?",
-        body:
-          "O xP mede a qualidade do jogo de passes de um meia. Vai além da taxa de acerto e responde a uma pergunta simples: quando esse jogador passa, o time costuma sair em melhor situação?",
-      },
       xpv: {
         tag: "xPV",
-        title: "Impacto gerado por passe",
+        title: "Quanto vale chegar lá?",
         body:
-          "O xPV destaca passes que realmente mudam o jogo — quebrando linhas, avançando a bola ou abrindo chances. Meias com xPV alto não só circulam a bola; eles empurram o ataque para frente com frequência.",
+          "O xPV mede quanto vale chegar num ponto do campo. Não pergunta se o passe vai chegar — pergunta se o destino é bom: avança o jogo, é um lugar raro ou estratégico, e é acessível na situação. Só entra quando o passe foi completado.",
+      },
+      xp: {
+        tag: "xP",
+        title: "Quão difícil era o passe?",
+        body:
+          "O xP mede quão difícil era completar esse passe — o “xG do passe”. Dado onde o jogador está, onde quer ir, a distância e o ângulo, quão provável era que a bola chegasse? Conta passes certos e errados.",
       },
       grades: {
         tag: "Grades",
@@ -837,7 +837,7 @@ const pt: Messages = {
     modules: {
       reports: {
         title: "Relatórios",
-        description: "Relatórios PDF de 44 meias — grades xP, pass scores e mapas por faixa etária.",
+        description: "Relatórios PDF de 45 meias — grades xP, pass scores e mapas por faixa etária.",
       },
       profile: {
         title: "Perfil",
@@ -967,7 +967,7 @@ const pt: Messages = {
     categories: {
       all: {
         title: "Todos os jogadores",
-        description: "Pool completo de 44 meio-campistas.",
+        description: "Pool completo de 45 meio-campistas.",
       },
       u23: {
         title: "U23",
@@ -1144,7 +1144,7 @@ const pt: Messages = {
     all: {
       title: "Todos os jogadores",
       subtitle: "Pool completo",
-      description: "Os 44 meias com ranking contra o pool europeu completo.",
+      description: "Os 45 meias com ranking contra o pool europeu completo.",
     },
     "u23-breakout": {
       title: "U23 — Promessas",
