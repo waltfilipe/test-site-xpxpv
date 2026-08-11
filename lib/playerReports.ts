@@ -68,7 +68,7 @@ export const PLAYER_REPORT_CATEGORIES: PlayerReportCategory[] = [
   },
   {
     id: "blue-collar-24-30",
-    title: "24–30 — Blue Collar Prospects",
+    title: "24–30 — Prime Prospects",
     subtitle: "Prime-age engine room",
     description: "Reliable progression and pass-value profiles in the peak development window.",
     accent: "#38bdf8",
