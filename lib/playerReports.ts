@@ -80,7 +80,7 @@ export const PLAYER_REPORT_CATEGORIES: PlayerReportCategory[] = [
           p("901882"),
           p("352802"),
           p("822600"),
-          p("149593"),
+          p("1493305"),
           p("866469"),
           p("901850"),
           p("816763"),
@@ -110,6 +110,7 @@ export const PLAYER_REPORT_CATEGORIES: PlayerReportCategory[] = [
       {
         label: "Top 10",
         players: [
+          p("149593"),
           p("581314"),
           p("100389"),
           p("296434"),
@@ -119,7 +120,6 @@ export const PLAYER_REPORT_CATEGORIES: PlayerReportCategory[] = [
           p("149370"),
           p("44241"),
           p("147289"),
-          p("913679"),
         ],
       },
       {
@@ -130,6 +130,7 @@ export const PLAYER_REPORT_CATEGORIES: PlayerReportCategory[] = [
           p("1035996"),
           p("368120"),
           p("106337"),
+          p("913679"),
         ],
       },
     ],

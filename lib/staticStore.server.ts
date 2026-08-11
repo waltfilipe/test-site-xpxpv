@@ -363,29 +363,34 @@ export function getStaticCompare(playerA: string, playerB: string) {
     return "tie";
   };
 
-  const playerCard = (pid: string, source: JsonRecord, xp: JsonRecord, profile: JsonRecord) => ({
-    player_id: pid,
-    player_name: source.player_name,
-    team: source.team,
-    position: source.position,
-    position_group: source.position_group,
-    photo_url: source.photo_url,
-    market_value: source.market_value,
-    contract_until: source.contract_until,
-    dominant_foot: source.dominant_foot,
-    age: source.age,
-    height: source.height,
-    nationality: source.nationality,
-    minutes: source.minutes,
-    minutes_pct: source.minutes_pct,
-    long_pass_share_pct: xp.long_pass_share_pct,
-    long_pass_share_ref_avg_pct: xp.long_pass_share_ref_avg_pct,
-    long_pass_share_pctile: xp.long_pass_share_pctile,
-    xp_bars: profile.xp_bars,
-    xp_indices: profile.xp_indices,
-    xp_game_consistency_score: xp.xp_game_consistency_score,
-    test_impact_v2_p90: xp.test_impact_v2_p90,
-  });
+  const playerCard = (pid: string, source: JsonRecord, xp: JsonRecord, profile: JsonRecord) => {
+    const poolPlayer = getPlayersData().players.find((row) => String(row.player_id) === pid);
+    const dominantFoot = resolveDominantFoot(pid, source.dominant_foot ?? poolPlayer?.dominant_foot);
+
+    return {
+      player_id: pid,
+      player_name: source.player_name,
+      team: source.team,
+      position: source.position,
+      position_group: source.position_group,
+      photo_url: source.photo_url,
+      market_value: source.market_value,
+      contract_until: source.contract_until,
+      dominant_foot: dominantFoot,
+      age: source.age,
+      height: source.height,
+      nationality: source.nationality,
+      minutes: source.minutes,
+      minutes_pct: source.minutes_pct,
+      long_pass_share_pct: xp.long_pass_share_pct,
+      long_pass_share_ref_avg_pct: xp.long_pass_share_ref_avg_pct,
+      long_pass_share_pctile: xp.long_pass_share_pctile,
+      xp_bars: profile.xp_bars,
+      xp_indices: profile.xp_indices,
+      xp_game_consistency_score: xp.xp_game_consistency_score,
+      test_impact_v2_p90: xp.test_impact_v2_p90,
+    };
+  };
 
   const sectionForLabel = (profile: JsonRecord, label: string) => {
     const sections = (profile.pass_scores as { title: string; display_score?: unknown; letter?: unknown; index?: unknown; components?: JsonRecord[] }[]) ?? [];

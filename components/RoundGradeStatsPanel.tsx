@@ -28,7 +28,6 @@ const COUNT_GRADE_CAPS: Record<string, { min: number; max: number }> = {
   passes: { min: 12, max: 75 },
   breakline: { min: 0, max: 5 },
   impact: { min: 0, max: 3 },
-  key: { min: 0, max: 2 },
 };
 
 function formatPct(value?: number | null): string {
@@ -123,13 +122,6 @@ function buildRows(point: XpRoundGrade, rs: Messages["roundStats"]): StatRow[] {
       value: point.impact != null ? String(point.impact) : "—",
       tone: "count",
       countValue: point.impact,
-    },
-    {
-      key: "key",
-      label: rs.keyPasses,
-      value: point.key_passes != null ? String(point.key_passes) : "—",
-      tone: "count",
-      countValue: point.key_passes,
     },
   ];
 }

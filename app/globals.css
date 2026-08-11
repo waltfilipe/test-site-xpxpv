@@ -3532,7 +3532,7 @@ body.report-maps-expanded .reports-container {
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-subtle);
   background: rgba(15, 23, 42, 0.35);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .report-pass-accordion-trigger {
@@ -5408,6 +5408,15 @@ body.report-maps-expanded .reports-container {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+}
+
+.compare-dual-tip-summary {
+  margin: 0;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+  color: #cbd5e1;
+  font-size: 0.72rem;
+  line-height: 1.4;
 }
 
 .compare-dual-tip-cols {

@@ -17,6 +17,7 @@ export function SiteHeader() {
           {m.brand.nameMain}<span>{m.brand.nameAccent}</span>
         </Link>
         <nav className="nav">
+          <Link href="/">{m.nav.home}</Link>
           <Link href="/profile">{m.nav.profile}</Link>
           <Link href="/compare">{m.nav.compare}</Link>
           <Link href="/maps">{m.nav.maps}</Link>

@@ -59,7 +59,10 @@ export function PassScoreSections({
       <div className="report-pass-accordion">
         {sections.map((section) => (
           <details key={section.title} className="report-pass-accordion-item">
-            <summary className="report-pass-accordion-trigger">
+            <summary
+              className="report-pass-accordion-trigger"
+              title={passTips[section.title] ?? undefined}
+            >
               <span className="report-pass-accordion-left">
                 <i className="fa-solid fa-chevron-right report-pass-accordion-chevron" aria-hidden="true" />
                 <Tooltip content={passTips[section.title] ?? ""}>
