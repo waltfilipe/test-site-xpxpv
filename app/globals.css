@@ -4828,86 +4828,100 @@ body.report-maps-expanded .reports-container {
     flex-shrink: 0;
   }
 
-  /* Center column — match profile stack (grade + xP profile + indices + length mix) */
+  /* Center column — grade + xP profile (keep on page 1) */
+  .report-print-root .pa-col-score {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
   .report-print-root .pa-col-score .score-stack {
-    gap: 0.38rem;
+    gap: 0.24rem;
     height: 100%;
   }
 
   .report-print-root .pass-grade-card {
-    padding: 0.42rem 0.48rem !important;
+    padding: 0.32rem 0.4rem !important;
     break-inside: avoid;
   }
 
   .report-print-root .pass-grade-score {
-    font-size: 1.55rem !important;
+    font-size: 1.38rem !important;
   }
 
   .report-print-root .pass-grade-scale {
-    font-size: 0.72rem !important;
+    font-size: 0.66rem !important;
   }
 
   .report-print-root .pass-grade-title {
-    font-size: 0.62rem !important;
+    font-size: 0.58rem !important;
   }
 
   .report-print-root .pass-grade-tier {
-    font-size: 0.58rem !important;
-    padding: 0.12rem 0.35rem;
+    font-size: 0.54rem !important;
+    padding: 0.1rem 0.3rem;
   }
 
   .report-print-root .report-xp-card {
-    padding: 0.42rem 0.48rem !important;
-    gap: 0.42rem;
+    padding: 0.32rem 0.4rem !important;
+    gap: 0.28rem;
     flex: 1;
   }
 
   .report-print-root .report-xp-card .section-label {
-    font-size: 0.68rem !important;
-    margin-bottom: 0.28rem !important;
+    font-size: 0.62rem !important;
+    margin-bottom: 0.18rem !important;
   }
 
   .report-print-root .report-xp-card .section-label-sm {
-    font-size: 0.64rem !important;
-    margin-bottom: 0.22rem !important;
+    font-size: 0.58rem !important;
+    margin-bottom: 0.14rem !important;
   }
 
   .report-print-root .xp-profile-bars,
   .report-print-root .xp-indices-list {
-    gap: 0.28rem;
+    gap: 0.2rem;
   }
 
   .report-print-root .xp-metric-block {
-    margin-bottom: 0.12rem !important;
+    margin-bottom: 0.08rem !important;
+  }
+
+  .report-print-root .xp-index-row {
+    padding: 0.14rem 0.22rem !important;
+    font-size: 0.58rem !important;
   }
 
   .report-print-root .consistency-accordion,
   .report-print-root .impact-accordion {
-    margin-bottom: 0.18rem !important;
+    margin-bottom: 0.12rem !important;
   }
 
   .report-print-root .consistency-accordion-panel,
   .report-print-root .impact-accordion-metrics {
-    padding-top: 0.22rem;
+    padding-top: 0.14rem;
   }
 
   .report-print-root .round-grade-chart-embedded {
     display: block !important;
     margin: 0 !important;
-    padding: 0.12rem 0.1rem 0.18rem !important;
+    padding: 0.08rem 0.08rem 0.12rem !important;
   }
 
   .report-print-root .round-grade-chart-svg {
-    max-height: 20mm;
+    max-height: 14mm;
     width: 100%;
   }
 
   .report-print-root .pass-length-mix {
-    margin-top: 0.1rem;
+    margin-top: 0.06rem;
   }
 
   .report-print-root .pass-length-labels {
-    font-size: 0.58rem !important;
+    font-size: 0.54rem !important;
+  }
+
+  .report-print-root .pass-length-bar {
+    height: 0.28rem !important;
   }
 
   /* Right column — pass scores */

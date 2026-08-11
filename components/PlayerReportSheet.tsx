@@ -443,7 +443,6 @@ export function PlayerReportSheet({
               <ReportPassScoreAccordion
                 sections={profile.pass_scores}
                 expandAll={expandAll}
-                organizerBadge={profile.organizer_badge}
               />
             </div>
           </div>
