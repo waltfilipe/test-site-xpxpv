@@ -4726,7 +4726,25 @@ body.report-maps-expanded .reports-container {
   }
 
   .report-print-root .report-league-line {
-    display: none !important;
+    display: block !important;
+    font-size: 0.62rem !important;
+    margin-top: 0.08rem !important;
+  }
+
+  .report-print-root .identity-photo-side .identity-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .report-print-root .pass-score-badges-section,
+  .report-print-root .pass-badge-tile-organizer,
+  .report-print-root .organizer-badge-wrap {
+    break-inside: avoid;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   .report-print-root .identity-facts-side {
@@ -4920,7 +4938,7 @@ body.report-maps-expanded .reports-container {
   }
 
   .report-print-root .report-page-1 {
-    zoom: 0.88;
+    zoom: 0.84;
     width: 100%;
     max-width: 100%;
     overflow: visible;
