@@ -5554,6 +5554,11 @@ body.report-maps-expanded .reports-container {
   border: 1px solid rgba(148, 163, 184, 0.12);
 }
 
+.compare-map-slot-img-portrait {
+  aspect-ratio: 6.12 / 9;
+  object-fit: fill;
+}
+
 .compare-map-slot-skeleton {
   min-height: 140px;
   border-radius: var(--radius-sm);
