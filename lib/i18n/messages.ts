@@ -594,7 +594,7 @@ const en: Messages = {
     xpProfileBars: {
       xp_activity_display: "How much value they generate per game.",
       xp_efficiency_display: "Passing precision vs expectation.",
-      xp_edge_display: "Value generated through passing impact.",
+      xp_edge_display: "How dangerous a player's passing is (per pass).",
     },
     passScores: {
       Volume: "How much they pass.",
@@ -655,9 +655,9 @@ const en: Messages = {
     },
     index: {
       Consistency: "How steady their game xP is from match to match.",
-      Impact: "xPV/Pass and Impact Rate combined.",
+      Impact: "How much a player impacts the game per pass.",
       xp_idx_consistency: "How steady their game xP is from match to match.",
-      xp_idx_impact: "50% xPV/Pass and 50% Impact Rate — average z-score among position peers.",
+      xp_idx_impact: "How much a player impacts the game per pass.",
       xp_idx_defense: "Defensive volume and duel quality.",
     },
     passGrade: "Overall pass grade within the position pool.",
@@ -1031,7 +1031,7 @@ const pt: Messages = {
     xpProfileBars: {
       xp_activity_display: "Quanto valor geram por jogo.",
       xp_efficiency_display: "Precisão de passe vs expectativa.",
-      xp_edge_display: "Valor gerado pelo impacto dos passes.",
+      xp_edge_display: "Quão perigoso é o passe do jogador (por passe).",
     },
     passScores: {
       Volume: "Quanto o jogador passa.",
@@ -1092,9 +1092,9 @@ const pt: Messages = {
     },
     index: {
       Consistency: "Quão estável é o xP de jogo entre partidas.",
-      Impact: "xPV/Pass e Impact Rate combinados.",
+      Impact: "Quanto o jogador impacta o jogo por passe.",
       xp_idx_consistency: "Quão estável é o xP de jogo entre partidas.",
-      xp_idx_impact: "50% xPV/Pass e 50% Impact Rate — média de z-score entre pares da posição.",
+      xp_idx_impact: "Quanto o jogador impacta o jogo por passe.",
       xp_idx_defense: "Volume defensivo e qualidade de duelo.",
     },
     passGrade: "Nota geral de passe no pool de posição.",
