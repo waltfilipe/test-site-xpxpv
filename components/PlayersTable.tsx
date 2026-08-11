@@ -75,6 +75,15 @@ function compareValues(a: unknown, b: unknown, key: SortKey): number {
 }
 
 function defaultDirForKey(key: SortKey): SortDir {
+  if (
+    key === "pass_volume_letter"
+    || key === "pass_efficiency_letter"
+    || key === "pass_buildup_letter"
+    || key === "pass_chance_creation_letter"
+    || key === "defense_letter"
+  ) {
+    return "asc";
+  }
   return key === "player_name" || key === "league" ? "asc" : "desc";
 }
 
