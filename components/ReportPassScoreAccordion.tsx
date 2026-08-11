@@ -4,7 +4,6 @@ import { PassMetricStratumStar } from "@/components/PassMetricStratumStar";
 import type { PassScoreSection } from "@/lib/api";
 import { GradeBadge } from "@/components/ui/GradeBadge";
 import { MetricGradientBar } from "@/components/ui/MetricGradientBar";
-import { PassScoreBadges } from "@/components/PassScoreBadges";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { formatMetric } from "@/lib/formatters";
 import { rankToBarScore } from "@/lib/gradeColors";
@@ -13,7 +12,6 @@ import { useI18n } from "@/lib/i18n/context";
 type Props = {
   sections: PassScoreSection[];
   expandAll?: boolean;
-  organizerBadge?: boolean;
 };
 
 function SectionMetrics({ section }: { section: PassScoreSection }) {
@@ -64,7 +62,7 @@ function SectionHead({ section }: { section: PassScoreSection }) {
   );
 }
 
-export function ReportPassScoreAccordion({ sections, expandAll = false, organizerBadge = false }: Props) {
+export function ReportPassScoreAccordion({ sections, expandAll = false }: Props) {
   const { m } = useI18n();
   const passTips = m.tooltips.passScores;
 
@@ -81,7 +79,6 @@ export function ReportPassScoreAccordion({ sections, expandAll = false, organize
             </div>
           ))}
         </div>
-        <PassScoreBadges organizerBadge={organizerBadge} />
       </>
     );
   }
@@ -112,7 +109,6 @@ export function ReportPassScoreAccordion({ sections, expandAll = false, organize
           </details>
         ))}
       </div>
-      <PassScoreBadges organizerBadge={organizerBadge} />
     </>
   );
 }
