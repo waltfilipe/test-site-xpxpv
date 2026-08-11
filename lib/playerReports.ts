@@ -80,7 +80,7 @@ export const PLAYER_REPORT_CATEGORIES: PlayerReportCategory[] = [
           p("901882"),
           p("352802"),
           p("822600"),
-          p("1493305"),
+          p("911848"),
           p("866469"),
           p("901850"),
           p("816763"),
@@ -91,11 +91,11 @@ export const PLAYER_REPORT_CATEGORIES: PlayerReportCategory[] = [
       {
         label: "Extended watchlist",
         players: [
-          p("911848"),
           p("327755"),
           p("814882"),
           p("991421"),
           p("927361"),
+          p("359272"),
         ],
       },
     ],
