@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Recompute per-match composite grades and consistency for static profiles."""
+"""Recompute per-match composite grades, consistency tiers, and profile indices."""
 
 from __future__ import annotations
 
@@ -18,7 +18,11 @@ os.environ.setdefault("PASS_SCOUT_MODE", "local")
 import xpass_engine as xpe  # noqa: E402
 import xp_engine as xe  # noqa: E402
 from services.data_parts import clear_data_parts_cache, get_data_parts  # noqa: E402
-from services.profile_service import build_round_grade_series  # noqa: E402
+from services.profile_service import (  # noqa: E402
+    build_round_grade_series,
+    build_xp_indices,
+    build_xp_profile_bars,
+)
 from xp_stats_engine import XP_ROUND_SERIES_KEY, round_production_series  # noqa: E402
 import xp_stats_engine as xstats  # noqa: E402
 
@@ -26,6 +30,35 @@ DATA_DIR = Path(__file__).resolve().parents[1] / "data"
 PROFILES_DIR = DATA_DIR / "profiles"
 PLAYER_IDS_FILE = DATA_DIR / "player-ids.json"
 POSITION_FAMILY = "midfielders"
+
+XP_COMPOSITE_PREFIXES = (
+    "xp_game_grade",
+    "xp_game_consistency",
+    "xp_idx_",
+    "xp_activity_",
+    "xp_efficiency_",
+    "xp_edge_",
+    "xp_quality_",
+    "xp_consistency_",
+    "xp_profile_archetype",
+)
+
+POOL_METRICS_COMPOSITE_KEYS = (
+    "xp_game_grades",
+    "xp_game_grade_mean",
+    "xp_game_grade_mad",
+    "xp_game_consistency_score",
+    "xp_idx_consistency",
+    "xp_idx_consistency_tier",
+    "xp_idx_impact",
+    "xp_idx_impact_tier",
+    "xp_consistency_display",
+    "xp_activity_display",
+    "xp_efficiency_display",
+    "xp_edge_display",
+    "xp_quality_display",
+    "xp_profile_archetype",
+)
 
 
 def _refresh_round_series(
@@ -51,6 +84,14 @@ def _refresh_round_series(
     return refreshed
 
 
+def _merge_xp_composite_fields(xp: dict[str, Any], row: dict[str, Any]) -> None:
+    for key, val in row.items():
+        if key == XP_ROUND_SERIES_KEY:
+            xp[key] = list(val) if val else []
+        elif any(key.startswith(prefix) for prefix in XP_COMPOSITE_PREFIXES):
+            xp[key] = val
+
+
 def main() -> None:
     player_ids = [str(pid) for pid in json.loads(PLAYER_IDS_FILE.read_text(encoding="utf-8"))]
 
@@ -67,7 +108,7 @@ def main() -> None:
     refreshed = _refresh_round_series(pool_rows, passes_by_player)
     print(f"  {refreshed} players with xPass round series")
 
-    print("Recomputing composite match grades on full position pool…")
+    print("Recomputing composite match grades and profile indices on full position pool…")
     xstats.attach_composite_indices(pool_rows)
     xp_lookup = {str(row["player_id"]): row for row in pool_rows}
 
@@ -85,17 +126,10 @@ def main() -> None:
         if not isinstance(xp, dict):
             continue
 
-        series = list(row.get(XP_ROUND_SERIES_KEY) or ())
-        for key in (
-            "xp_game_grades",
-            "xp_game_grade_mean",
-            "xp_game_grade_mad",
-            "xp_game_consistency_score",
-            XP_ROUND_SERIES_KEY,
-        ):
-            if key in row:
-                xp[key] = list(series) if key == XP_ROUND_SERIES_KEY else row[key]
-
+        _merge_xp_composite_fields(xp, row)
+        profile["xp"] = xp
+        profile["xp_indices"] = build_xp_indices(xp)
+        profile["xp_bars"] = build_xp_profile_bars(xp)
         profile["xp_round_grades"] = build_round_grade_series(xp, None)
         profile["xp_game_consistency_score"] = row.get("xp_game_consistency_score")
         profile_path.write_text(json.dumps(profile, ensure_ascii=False), encoding="utf-8")
@@ -108,11 +142,14 @@ def main() -> None:
             if g.get("short_pass_eff_pct") is not None or g.get("long_pass_eff_pct") is not None
         )
         with_eff += filled
+        consistency = next((i for i in profile["xp_indices"] if i.get("key") == "consistency"), {})
         grades = row.get("xp_game_grades") or ()
         if grades:
             print(
-                f"  {pid}: COE {filled}/{len(games)}, grades {min(grades):.2f}–{max(grades):.2f}, "
-                f"consistency {row.get('xp_game_consistency_score')}"
+                f"  {row.get('player_name', pid)}: COE {filled}/{len(games)}, "
+                f"grades {min(grades):.2f}–{max(grades):.2f}, "
+                f"consistency tier={consistency.get('tier')}, "
+                f"display={xp.get('xp_consistency_display')}"
             )
 
     pool_metrics_path = DATA_DIR / "pool-metrics.json"
@@ -123,12 +160,7 @@ def main() -> None:
             src = xp_lookup.get(pid)
             if not src:
                 continue
-            for key in (
-                "xp_game_grades",
-                "xp_game_grade_mean",
-                "xp_game_grade_mad",
-                "xp_game_consistency_score",
-            ):
+            for key in POOL_METRICS_COMPOSITE_KEYS:
                 if key in src:
                     row[key] = src[key]
         pool_metrics_path.write_text(json.dumps(pool_rows_json, ensure_ascii=False), encoding="utf-8")
