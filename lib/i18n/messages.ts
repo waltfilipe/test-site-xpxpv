@@ -654,9 +654,9 @@ const en: Messages = {
       def_aerial_won_pct: "Aerial won %",
     },
     index: {
-      Consistency: "How steady their game xP is from match to match.",
+      Consistency: "How steady their per-match composite grades are (production, quality, threat and precision).",
       Impact: "How much a player impacts the game per pass.",
-      xp_idx_consistency: "How steady their game xP is from match to match.",
+      xp_idx_consistency: "How steady their per-match composite grades are (production, quality, threat and precision).",
       xp_idx_impact: "How much a player impacts the game per pass.",
       xp_idx_defense: "Defensive volume and duel quality.",
     },
@@ -1091,9 +1091,9 @@ const pt: Messages = {
       def_aerial_won_pct: "Aéreo %",
     },
     index: {
-      Consistency: "Quão estável é o xP de jogo entre partidas.",
+      Consistency: "Quão estáveis são as notas compostas por jogo (produção, qualidade, ameaça e precisão).",
       Impact: "Quanto o jogador impacta o jogo por passe.",
-      xp_idx_consistency: "Quão estável é o xP de jogo entre partidas.",
+      xp_idx_consistency: "Quão estáveis são as notas compostas por jogo (produção, qualidade, ameaça e precisão).",
       xp_idx_impact: "Quanto o jogador impacta o jogo por passe.",
       xp_idx_defense: "Volume defensivo e qualidade de duelo.",
     },
