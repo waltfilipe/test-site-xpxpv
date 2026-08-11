@@ -129,7 +129,6 @@ export const PLAYER_REPORT_CATEGORIES: PlayerReportCategory[] = [
           p("51665"),
           p("1035996"),
           p("368120"),
-          p("106337"),
           p("913679"),
         ],
       },
