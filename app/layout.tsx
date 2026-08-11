@@ -4,8 +4,8 @@ import { SiteHeader } from "@/components/SiteHeader";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Pass Scout",
-  description: "European outfield pass analysis — xT, xP, progression ratings by position pool",
+  title: "xP & xPV Analysis",
+  description: "Pass analysis of top midfielders from non-Champions League teams across Europe's top five leagues.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

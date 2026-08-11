@@ -45,7 +45,7 @@ export default function ComparePageContent() {
         <div className="container">
           <div className="profile-page-hero-inner">
             <div>
-              <span className="profile-page-eyebrow">Pass Scout</span>
+              <span className="profile-page-eyebrow">{m.brand.name}</span>
               <h1>{m.nav.compare}</h1>
               <p>{m.compare.pageLead}</p>
             </div>

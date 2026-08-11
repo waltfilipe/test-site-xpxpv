@@ -14,7 +14,7 @@ export function SiteHeader() {
           <span className="brand-icon">
             <i className="fa-solid fa-futbol" />
           </span>
-          Pass<span>Scout</span>
+          {m.brand.nameMain}<span>{m.brand.nameAccent}</span>
         </Link>
         <nav className="nav">
           <Link href="/profile">{m.nav.profile}</Link>
