@@ -2,6 +2,7 @@ export type Locale = "en" | "pt";
 
 export type Messages = {
   nav: {
+    home: string;
     reports: string;
     profile: string;
     compare: string;
@@ -285,6 +286,7 @@ export type Messages = {
 
 const en: Messages = {
   nav: {
+    home: "Home",
     reports: "Reports",
     profile: "Profile",
     compare: "Compare",
@@ -546,7 +548,7 @@ const en: Messages = {
     xpProfileBars: {
       xp_activity_display: "How much value they generate per game.",
       xp_efficiency_display: "Passing precision vs expectation.",
-      xp_edge_display: "Threat and destination value combined.",
+      xp_edge_display: "Value generated through passing impact.",
     },
     passScores: {
       Volume: "How much they pass.",
@@ -592,7 +594,7 @@ const en: Messages = {
       key_passes: "Key passes / game",
       passes_to_box: "Into box / game",
       special_line_break_p90: "Line breaks / game",
-      test_impact_v2_start_final_third_p90: "Final-third impact / game",
+      test_impact_v2_start_final_third_p90: "I.P. on Final Third / game",
       defensive_actions_p90: "Defensive actions / 90",
       chance_creation_xpv: "Creation value",
       threat_pass_pct: "Impact rate",
@@ -685,6 +687,7 @@ const en: Messages = {
 
 const pt: Messages = {
   nav: {
+    home: "Início",
     reports: "Relatórios",
     profile: "Perfil",
     compare: "Comparar",
@@ -946,7 +949,7 @@ const pt: Messages = {
     xpProfileBars: {
       xp_activity_display: "Quanto valor geram por jogo.",
       xp_efficiency_display: "Precisão de passe vs expectativa.",
-      xp_edge_display: "Ameaça e valor de destino combinados.",
+      xp_edge_display: "Valor gerado pelo impacto dos passes.",
     },
     passScores: {
       Volume: "Quanto o jogador passa.",
@@ -992,7 +995,7 @@ const pt: Messages = {
       key_passes: "Key passes / jogo",
       passes_to_box: "Na área / jogo",
       special_line_break_p90: "Line breaks / jogo",
-      test_impact_v2_start_final_third_p90: "Impact terço final / jogo",
+      test_impact_v2_start_final_third_p90: "I.P. no Terço Final / jogo",
       defensive_actions_p90: "Ações defensivas / 90",
       chance_creation_xpv: "Creation value",
       threat_pass_pct: "Impact rate",

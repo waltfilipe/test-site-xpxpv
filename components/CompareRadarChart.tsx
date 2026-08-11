@@ -224,14 +224,16 @@ export function CompareRadarChart({ metrics, nameA, nameB }: Props) {
         </thead>
         <tbody>
           {metrics.map((metric) => {
+            const sectionTip = m.tooltips.passScores[metric.label] ?? "";
             const tip = metric.components?.length ? (
               <CompareDualMetricTip
                 nameA={nameA}
                 nameB={nameB}
                 components={metric.components}
+                summary={sectionTip}
               />
             ) : (
-              m.tooltips.passScores[metric.label] ?? ""
+              sectionTip
             );
             return (
               <tr key={metric.key} className="compare-radar-table-row">

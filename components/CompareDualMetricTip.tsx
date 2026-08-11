@@ -15,6 +15,7 @@ type Props = {
   nameA: string;
   nameB: string;
   components: CompareComponentMetric[];
+  summary?: string;
 };
 
 type WinSide = "a" | "b" | "tie";
@@ -51,14 +52,15 @@ function WinnerArrows({ strength, side }: { strength: WinStrength; side: WinSide
   return <i className="fa-solid fa-arrow-up compare-dual-tip-arrow compare-dual-tip-arrow-win" aria-hidden="true" />;
 }
 
-export function CompareDualMetricTip({ nameA, nameB, components }: Props) {
+export function CompareDualMetricTip({ nameA, nameB, components, summary }: Props) {
   const { m } = useI18n();
   const labels = m.tooltips.componentLabels;
 
-  if (!components.length) return null;
+  if (!components.length) return summary ? <p className="compare-dual-tip-summary">{summary}</p> : null;
 
   return (
     <div className="compare-dual-tip">
+      {summary ? <p className="compare-dual-tip-summary">{summary}</p> : null}
       <div className="compare-dual-tip-cols">
         <div className="compare-dual-tip-col compare-dual-tip-col-a">
           <div className="compare-dual-tip-player">{nameA}</div>
