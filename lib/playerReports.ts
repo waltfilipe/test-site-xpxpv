@@ -28,7 +28,7 @@ export const PROFILE_ALL_GROUP = {
   id: "all",
   title: "All Players",
   subtitle: "Full curated pool",
-  description: "All 45 midfielders with rankings against the full European midfielder pool.",
+  description: "All 44 midfielders with rankings against the full European midfielder pool.",
   accent: "#cbd5e1",
 } as const;
 
@@ -129,7 +129,6 @@ export const PLAYER_REPORT_CATEGORIES: PlayerReportCategory[] = [
           p("51665"),
           p("1035996"),
           p("368120"),
-          p("913679"),
         ],
       },
     ],
