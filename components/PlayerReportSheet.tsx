@@ -41,6 +41,11 @@ function translateGroupLabel(m: Messages, label?: string): string | undefined {
   return label;
 }
 
+function formatReportSheetTitle(m: Messages, categoryTitle: string): string {
+  const compact = categoryTitle.replace(/\s*—\s*/g, " ").trim();
+  return `${m.reports.midfielderReportLabel} - ${compact}`;
+}
+
 function FactIcon({ icon }: { icon: string }) {
   return (
     <span className="identity-fact-icon" aria-hidden="true">
@@ -390,7 +395,13 @@ export function PlayerReportSheet({
         className={`player-report-sheet report-page-1${activePage === 2 && !expandAll ? " report-page-screen-hidden" : ""}`}
       >
         <div className="report-page-1-lead">
-          <header className="report-sheet-header">
+          <h2
+            className="report-sheet-title-compact report-print-only"
+            style={{ color: accent }}
+          >
+            {formatReportSheetTitle(m, categoryTitle)}
+          </h2>
+          <header className="report-sheet-header report-screen-only">
             <div className="report-sheet-brand">
               <span className="brand-icon report-brand-icon">
                 <i className="fa-solid fa-futbol" />
@@ -426,7 +437,7 @@ export function PlayerReportSheet({
             </div>
           </header>
 
-          <p className="report-sheet-description">{categoryDescription}</p>
+          <p className="report-sheet-description report-screen-only">{categoryDescription}</p>
         </div>
 
         <div className="report-sheet-body pa-layout report-layout-v2">
@@ -452,7 +463,7 @@ export function PlayerReportSheet({
 
         <footer className="report-sheet-footer">
           <span>
-            <strong>Pass Scout</strong> · {displayName}
+            <strong>{m.brand.name}</strong> · {displayName}
           </span>
           <span className="report-sheet-footer-right">
             <Link
@@ -547,7 +558,7 @@ export function PlayerReportSheet({
 
         <footer className="report-sheet-footer">
           <span>
-            <strong>Pass Scout</strong> · {m.reports.mapsPageLabel} · {displayName}
+            <strong>{m.brand.name}</strong> · {m.reports.mapsPageLabel} · {displayName}
           </span>
           <span className="report-sheet-footer-right report-print-only tabular">
             {displayName}

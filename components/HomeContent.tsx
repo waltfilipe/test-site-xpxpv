@@ -3,12 +3,6 @@
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n/context";
 
-type Meta = {
-  player_count: number;
-  description: string;
-  leagues: string[];
-};
-
 const MODULE_KEYS = ["reports", "profile", "compare", "maps", "players"] as const;
 const MODULE_ICONS = {
   reports: "fa-file-lines",
@@ -32,30 +26,16 @@ const MODULE_HREFS = {
   players: "/players",
 } as const;
 
-export function HomeContent({ meta }: { meta: Meta }) {
+export function HomeContent() {
   const { m } = useI18n();
 
   return (
     <div className="container home-page">
       <section className="home-intro">
-        <p className="home-eyebrow">{m.home.eyebrow}</p>
         <h1 className="home-title">
-          Pass<span>Scout</span>
+          {m.brand.nameMain}<span>{m.brand.nameAccent}</span>
         </h1>
         <p className="home-lead">{m.home.lead}</p>
-        <div className="home-stats">
-          <span className="home-stat">
-            <strong className="tabular">{meta.player_count || "—"}</strong> {m.home.playersStat}
-          </span>
-          <span className="home-stat-sep" aria-hidden="true" />
-          <span className="home-stat">
-            <strong>{meta.leagues.length || 5}</strong> {m.home.leaguesStat}
-          </span>
-          <span className="home-stat-sep" aria-hidden="true" />
-          <span className="home-stat">
-            <strong>xP</strong> {m.home.modelStat}
-          </span>
-        </div>
       </section>
 
       <nav className="home-modules" aria-label={m.home.modulesAria}>
@@ -83,8 +63,6 @@ export function HomeContent({ meta }: { meta: Meta }) {
           );
         })}
       </nav>
-
-      <p className="home-footnote muted">{meta.description || m.home.footnote}</p>
     </div>
   );
 }

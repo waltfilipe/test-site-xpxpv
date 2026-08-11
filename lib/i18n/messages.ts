@@ -12,6 +12,11 @@ export type Messages = {
     switchToPt: string;
     switchToEn: string;
   };
+  brand: {
+    name: string;
+    nameMain: string;
+    nameAccent: string;
+  };
   common: {
     loading: string;
     search: string;
@@ -180,6 +185,7 @@ export type Messages = {
     overview: string;
     passMapsEyebrow: string;
     mapsPageLabel: string;
+    midfielderReportLabel: string;
     midfielderReportEyebrow: string;
     backToProfile: string;
     viewMaps: string;
@@ -289,6 +295,11 @@ const en: Messages = {
     switchToPt: "Português",
     switchToEn: "English",
   },
+  brand: {
+    name: "xP & xPV Analysis",
+    nameMain: "xP & xPV ",
+    nameAccent: "Analysis",
+  },
   common: {
     loading: "Loading…",
     search: "Search",
@@ -332,12 +343,12 @@ const en: Messages = {
   home: {
     eyebrow: "European pass analytics",
     lead:
-      "Pass analysis by position across Europe's top five leagues — xP M4, progression ratings and comparative profiles within each pool.",
+      "Pass Analysis of Top Midfielders from Non-Champions League Teams Across Europe's Top Five Leagues.",
     playersStat: "players",
     leaguesStat: "leagues",
     modelStat: "M4 model",
-    modulesAria: "Pass Scout modules",
-    footnote: "Premier League, Serie A, La Liga, Bundesliga and Ligue 1.",
+    modulesAria: "xP & xPV Analysis modules",
+    footnote: "",
     modules: {
       reports: {
         title: "Reports",
@@ -457,7 +468,8 @@ const en: Messages = {
     overview: "Overview",
     passMapsEyebrow: "Pass Maps",
     mapsPageLabel: "Maps",
-    midfielderReportEyebrow: "Pass Scout · Midfielder Report",
+    midfielderReportLabel: "Midfielder Report",
+    midfielderReportEyebrow: "Midfielder Report",
     backToProfile: "Back to profile",
     viewMaps: "View maps",
     progressivePassesBlock: "Progressive Passes (Origin & Destination)",
@@ -683,6 +695,11 @@ const pt: Messages = {
     switchToPt: "Português",
     switchToEn: "English",
   },
+  brand: {
+    name: "xP & xPV Analysis",
+    nameMain: "xP & xPV ",
+    nameAccent: "Analysis",
+  },
   common: {
     loading: "Carregando…",
     search: "Buscar",
@@ -726,12 +743,12 @@ const pt: Messages = {
   home: {
     eyebrow: "Análise de passes na Europa",
     lead:
-      "Análise de passes por posição nas 5 grandes ligas europeias — xP M4, ratings de progressão e perfis comparativos dentro de cada pool.",
+      "Análise de passes dos principais meio-campistas de times fora da Champions League nas cinco grandes ligas europeias.",
     playersStat: "jogadores",
     leaguesStat: "ligas",
     modelStat: "modelo M4",
-    modulesAria: "Módulos do Pass Scout",
-    footnote: "Premier League, Serie A, La Liga, Bundesliga e Ligue 1.",
+    modulesAria: "Módulos do xP & xPV Analysis",
+    footnote: "",
     modules: {
       reports: {
         title: "Relatórios",
@@ -851,7 +868,8 @@ const pt: Messages = {
     overview: "Overview",
     passMapsEyebrow: "Pass Maps",
     mapsPageLabel: "Mapas",
-    midfielderReportEyebrow: "Pass Scout · Midfielder Report",
+    midfielderReportLabel: "Relatório de Meias",
+    midfielderReportEyebrow: "Relatório de Meias",
     backToProfile: "Voltar ao perfil",
     viewMaps: "Ver mapas",
     progressivePassesBlock: "Progressive Passes (Origin & Destination)",

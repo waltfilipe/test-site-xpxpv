@@ -4595,9 +4595,24 @@ body.report-maps-expanded .reports-container {
     page-break-after: avoid;
   }
 
+  .report-print-root .report-sheet-title-compact {
+    margin: 0 0 0.22rem;
+    font-size: 0.82rem !important;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
   .report-print-root .report-sheet-body.pa-layout {
     break-before: avoid;
     page-break-before: avoid;
+  }
+
+  .report-print-root .report-sheet-footer {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-top: 0.18rem !important;
+    padding-top: 0.18rem !important;
   }
 
   .report-print-root .report-identity-card,

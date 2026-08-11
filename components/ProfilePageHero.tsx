@@ -9,7 +9,7 @@ export function ProfilePageHero() {
     <header className="profile-page-hero">
       <div className="container profile-page-hero-inner">
         <div className="profile-page-hero-copy">
-          <span className="profile-page-eyebrow">Pass Scout</span>
+          <span className="profile-page-eyebrow">{m.brand.name}</span>
           <h1>{m.nav.profile}</h1>
           <p>{m.profile.pageLead}</p>
         </div>
