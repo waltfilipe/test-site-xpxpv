@@ -88,7 +88,6 @@ export function ConsistencyAccordion({
         } as React.CSSProperties}
       >
         <div className="consistency-accordion-trigger">{head}</div>
-        {chart && <div className="consistency-accordion-panel">{chart}</div>}
       </div>
     );
   }
