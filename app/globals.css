@@ -4721,8 +4721,20 @@ body.report-maps-expanded .reports-container {
   .report-print-root .report-layout-v2.pa-layout,
   .report-print-root .report-sheet-body.pa-layout {
     align-items: stretch;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1.14fr) minmax(0, 1fr) minmax(0, 0.92fr);
     gap: 2mm;
+  }
+
+  .report-print-root .pa-col-identity,
+  .report-print-root .pa-col-pillars {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .report-print-root .pa-col-identity .report-identity-card,
+  .report-print-root .pa-col-pillars .report-pillars-card {
+    flex: 1;
+    height: 100%;
   }
 
   .report-print-root .pa-col,
@@ -4736,8 +4748,8 @@ body.report-maps-expanded .reports-container {
   .report-print-root .report-identity-card {
     display: flex;
     flex-direction: column;
-    padding: 0.45rem 0.5rem !important;
-    gap: 0.45rem !important;
+    padding: 0.38rem 0.42rem !important;
+    gap: 0.38rem !important;
     height: 100%;
   }
 
@@ -4872,12 +4884,12 @@ body.report-maps-expanded .reports-container {
   }
 
   .report-print-root .report-heatmap {
-    max-height: 48mm !important;
+    max-height: 56mm !important;
     min-height: 0;
     width: 100%;
     object-fit: contain;
-    margin-top: 0.1rem;
-    flex-shrink: 1;
+    margin-top: 0.12rem;
+    flex: 1 1 auto;
   }
 
   /* Center column — grade + xP profile (keep on page 1) */
@@ -4943,25 +4955,15 @@ body.report-maps-expanded .reports-container {
     font-size: 0.58rem !important;
   }
 
+  .report-print-root .consistency-accordion-panel,
+  .report-print-root .impact-accordion-metrics,
+  .report-print-root .round-grade-chart-embedded {
+    display: none !important;
+  }
+
   .report-print-root .consistency-accordion,
   .report-print-root .impact-accordion {
-    margin-bottom: 0.12rem !important;
-  }
-
-  .report-print-root .consistency-accordion-panel,
-  .report-print-root .impact-accordion-metrics {
-    padding-top: 0.14rem;
-  }
-
-  .report-print-root .round-grade-chart-embedded {
-    display: block !important;
-    margin: 0 !important;
-    padding: 0.08rem 0.08rem 0.12rem !important;
-  }
-
-  .report-print-root .round-grade-chart-svg {
-    max-height: 14mm;
-    width: 100%;
+    margin-bottom: 0.1rem !important;
   }
 
   .report-print-root .pass-length-mix {

@@ -514,8 +514,8 @@ const en: Messages = {
   roundStats: {
     grade: "Grade",
     passes: "Passes",
-    shortEff: "Short pass COE",
-    longEff: "Long pass COE",
+    shortEff: "%Eff - Short Pass",
+    longEff: "%Eff - Long Pass",
     breakline: "Breakline passes",
     impact: "Impact passes",
     keyPasses: "Key passes",
@@ -585,8 +585,8 @@ const en: Messages = {
     componentLabels: {
       passes_total: "Passes / game",
       long_balls: "Long passes / game",
-      xpass_coe_pct: "Short pass COE",
-      xpass_long_coe_pct: "Long pass COE",
+      xpass_coe_pct: "%Eff - Short Pass",
+      xpass_long_coe_pct: "%Eff - Long Pass",
       progressive_passes: "Progressive passes / game",
       final_third_passes: "Final third entries / game",
       key_passes: "Key passes / game",
@@ -914,8 +914,8 @@ const pt: Messages = {
   roundStats: {
     grade: "Nota",
     passes: "Passes",
-    shortEff: "COE passe curto",
-    longEff: "COE passe longo",
+    shortEff: "%Eff - Passe Curto",
+    longEff: "%Eff - Passe Longo",
     breakline: "Line breaks",
     impact: "Impact passes",
     keyPasses: "Key passes",
@@ -985,8 +985,8 @@ const pt: Messages = {
     componentLabels: {
       passes_total: "Passes / jogo",
       long_balls: "Passes longos / jogo",
-      xpass_coe_pct: "COE passe curto",
-      xpass_long_coe_pct: "COE passe longo",
+      xpass_coe_pct: "%Eff - Passe Curto",
+      xpass_long_coe_pct: "%Eff - Passe Longo",
       progressive_passes: "Passes progressivos / jogo",
       final_third_passes: "Entradas terço final / jogo",
       key_passes: "Key passes / jogo",

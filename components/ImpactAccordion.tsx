@@ -124,7 +124,6 @@ export function ImpactAccordion({
         style={tierStyle}
       >
         <div className="consistency-accordion-trigger">{head}</div>
-        <div className="consistency-accordion-panel">{panel}</div>
       </div>
     );
   }
