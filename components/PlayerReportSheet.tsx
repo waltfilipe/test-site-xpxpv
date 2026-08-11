@@ -10,6 +10,7 @@ import { LoadingState } from "@/components/LoadingState";
 import { getPassMap, type PlayerProfile } from "@/lib/api";
 import type { EnrichedReportPlayer } from "@/lib/playerReports";
 import { formatContractUntil } from "@/lib/formatters";
+import { REPORT_MAP_FILTER_KEYS } from "@/lib/reportMapKeys";
 import { useI18n } from "@/lib/i18n/context";
 import type { Messages } from "@/lib/i18n/messages";
 
@@ -27,11 +28,7 @@ export type ReportMapSlot = {
   error?: string | null;
 };
 
-export const REPORT_MAP_FILTER_KEYS = [
-  "report_progressive_origin",
-  "report_progressive_dest",
-  "report_impact_final_third",
-] as const;
+export { REPORT_MAP_FILTER_KEYS } from "@/lib/reportMapKeys";
 
 export function mapFilterLabel(m: Messages, key: string): string {
   return m.mapFilters[key as keyof Messages["mapFilters"]] ?? key;
@@ -69,6 +66,7 @@ type Props = {
   mapSlots?: ReportMapSlot[] | null;
   expandAll?: boolean;
   preloadMaps?: boolean;
+  printMode?: boolean;
   onMapsLoaded?: (maps: PlayerReportMaps, slots: ReportMapSlot[]) => void;
   onExportPdf?: (playerId: string) => void;
   exportDisabled?: boolean;
@@ -81,6 +79,7 @@ export function PlayerReportSheet({
   mapSlots: externalSlots,
   expandAll = false,
   preloadMaps = false,
+  printMode = false,
   onMapsLoaded,
   onExportPdf,
   exportDisabled = false,
@@ -196,15 +195,23 @@ export function PlayerReportSheet({
       <div className={`identity-hero identity-hero-side${compact ? " identity-hero-compact" : ""}`}>
         <div className="identity-photo-side">
           {p.photo_url ? (
-            <Image
-              src={String(p.photo_url)}
-              alt=""
-              fill
-              className="identity-photo"
-              unoptimized
-              priority={categoryIndex <= 3}
-              sizes={compact ? "72px" : "160px"}
-            />
+            printMode ? (
+              <img
+                src={String(p.photo_url)}
+                alt=""
+                className="identity-photo"
+              />
+            ) : (
+              <Image
+                src={String(p.photo_url)}
+                alt=""
+                fill
+                className="identity-photo"
+                unoptimized
+                priority={categoryIndex <= 3}
+                sizes={compact ? "72px" : "160px"}
+              />
+            )
           ) : (
             <div className="identity-photo-placeholder identity-photo-placeholder-side">
               {displayName.charAt(0)}
@@ -345,7 +352,7 @@ export function PlayerReportSheet({
         <strong className="report-maps-strip-name">{displayName}</strong>
         <span className="report-maps-strip-meta">
           {String(p.team ?? "—")} · {String(p.position ?? "—")}
-          {p.age != null ? ` · ${p.age} anos` : ""}
+          {p.age != null ? ` · ${m.reports.ageYears.replace("{age}", String(p.age))}` : ""}
         </span>
         <span className="report-maps-strip-league muted">
           {String(p.league_source ?? p.league ?? "—")}

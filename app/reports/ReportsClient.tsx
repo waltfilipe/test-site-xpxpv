@@ -4,11 +4,12 @@ import { useCallback, useEffect, useState, type CSSProperties } from "react";
 import { LoadingState } from "@/components/LoadingState";
 import {
   PlayerReportSheet,
-  REPORT_MAP_FILTER_KEYS,
   mapFilterLabel,
   type PlayerReportMaps,
   type ReportMapSlot,
 } from "@/components/PlayerReportSheet";
+import { REPORT_MAP_FILTER_KEYS } from "@/lib/reportMapKeys";
+import { waitForReportMapImages } from "@/lib/reportPrint";
 import { getPassMap, getPlayerProfile, type PlayerProfile } from "@/lib/api";
 import {
   enrichedReportPlayers,
@@ -105,19 +106,10 @@ function emptyReports(): ReportEntry[] {
   }));
 }
 
-async function waitForPrintMapImages(playerIds: string[], expectedPerPlayer = 3) {
-  const deadline = Date.now() + 25000;
-  while (Date.now() < deadline) {
-    const ready = playerIds.every((id) => {
-      const imgs = document.querySelectorAll<HTMLImageElement>(
-        `#report-print-root [data-player-id="${id}"] .report-map-img`,
-      );
-      if (imgs.length < expectedPerPlayer) return false;
-      return Array.from(imgs).every((img) => img.complete && img.naturalHeight > 0);
-    });
-    if (ready) return;
-    await new Promise((r) => setTimeout(r, 250));
-  }
+async function waitForPrintMapImages(playerIds: string[], expectedPerPlayer = REPORT_MAP_FILTER_KEYS.length) {
+  const root = document.getElementById("report-print-root");
+  if (!root) return { ready: false, loaded: 0, expected: playerIds.length * expectedPerPlayer };
+  return waitForReportMapImages(root, playerIds, expectedPerPlayer);
 }
 
 export function ReportsClient() {
@@ -180,7 +172,12 @@ export function ReportsClient() {
     (async () => {
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
       if (cancelled) return;
-      await waitForPrintMapImages(printQueue);
+      const mapStatus = await waitForPrintMapImages(printQueue);
+      if (!mapStatus.ready) {
+        console.warn(
+          `Report PDF print: ${mapStatus.loaded}/${mapStatus.expected} map images ready before timeout.`,
+        );
+      }
 
       const restore = () => {
         delete document.body.dataset.printMode;
@@ -225,7 +222,7 @@ export function ReportsClient() {
       setPrintPreparing(true);
 
       const updatedSlots: Record<string, ReportMapSlot[]> = {};
-      for (const item of targets) {
+      await mapPool(targets, PROFILE_CONCURRENCY, async (item) => {
         const family = item.entry.positionFamily ?? "midfielders";
         const slots = await loadMapSlots(item.entry.playerId, family, m, item.mapSlots);
         updatedSlots[item.entry.playerId] = slots;
@@ -235,7 +232,7 @@ export function ReportsClient() {
             ? { pass_map_b64: slots.find((s) => s.pass_map_b64)?.pass_map_b64 }
             : item.maps,
         });
-      }
+      });
 
       const entries: PrintReportEntry[] = targets.map((item) => ({
         entry: item.entry,
@@ -375,6 +372,7 @@ export function ReportsClient() {
             mapSlots={item.mapSlots}
             expandAll
             preloadMaps
+            printMode
           />
         ))}
       </div>
