@@ -1453,6 +1453,10 @@ button, input, select { font: inherit; }
   background: rgba(11, 17, 32, 0.78);
 }
 
+.pass-grade-rest-animated {
+  transition: left 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .pass-grade-marker {
   position: absolute;
   top: 50%;
@@ -1463,6 +1467,10 @@ button, input, select { font: inherit; }
   background: #f8fafc;
   border: 2px solid #f8fafc;
   box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.9), 0 2px 6px rgba(2, 6, 23, 0.5);
+}
+
+.pass-grade-marker-animated {
+  transition: left 0.75s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .pass-grade-axis {
@@ -2058,6 +2066,10 @@ button, input, select { font: inherit; }
   pointer-events: none;
 }
 
+.metric-gradient-bar-fill-animated {
+  transition: width 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .metric-gradient-bar-marker {
   position: absolute;
   top: 50%;
@@ -2071,8 +2083,21 @@ button, input, select { font: inherit; }
   z-index: 2;
 }
 
+.metric-gradient-bar-marker-animated {
+  transition: left 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .metric-gradient-bar-empty .metric-gradient-bar-spectrum {
   opacity: 0.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pass-grade-rest-animated,
+  .pass-grade-marker-animated,
+  .metric-gradient-bar-fill-animated,
+  .metric-gradient-bar-marker-animated {
+    transition: none !important;
+  }
 }
 
 .grade-accordion {

@@ -1,11 +1,16 @@
 "use client";
 
 import { passGradeGradientColor, passGradePct } from "@/lib/gradeColors";
+import { useBarRevealAnimation, useCountUp } from "@/lib/useBarRevealAnimation";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { useI18n } from "@/lib/i18n/context";
 import type { Messages } from "@/lib/i18n/messages";
 
-type Props = { rating: number | null | undefined };
+type Props = {
+  rating: number | null | undefined;
+  animate?: boolean;
+  animationKey?: string;
+};
 
 function tierKey(score: number): keyof Messages["passGrade"]["tiers"] {
   if (score >= 8.2) return "elite";
@@ -23,10 +28,13 @@ const TIER_CSS: Record<keyof Messages["passGrade"]["tiers"], string> = {
   belowAverage: "below-average",
 };
 
-export function PassGradePanel({ rating }: Props) {
+export function PassGradePanel({ rating, animate = false, animationKey }: Props) {
   const { m } = useI18n();
 
   const displayScore = rating != null ? rating * 10 : null;
+  const revealKey = animationKey ?? displayScore ?? 0;
+  const revealed = useBarRevealAnimation(revealKey, animate && displayScore != null);
+  const animatedScore = useCountUp(displayScore ?? 0, revealKey, animate && displayScore != null);
 
   if (rating == null || displayScore == null) {
     return (
@@ -41,6 +49,8 @@ export function PassGradePanel({ rating }: Props) {
 
   const pct = passGradePct(displayScore);
   const markerPct = Math.max(1.5, Math.min(98.5, pct));
+  const shownPct = revealed ? pct : 0;
+  const shownMarkerPct = revealed ? markerPct : 0;
   const color = passGradeGradientColor(pct);
   const tierId = tierKey(displayScore);
   const tier = m.passGrade.tiers[tierId];
@@ -61,7 +71,7 @@ export function PassGradePanel({ rating }: Props) {
       <div className="pass-grade-body pass-grade-body-horizontal">
         <div className="pass-grade-value">
           <span className="pass-grade-score tabular" style={{ color }}>
-            {displayScore.toFixed(1)}
+            {(animate ? animatedScore : displayScore).toFixed(1)}
           </span>
           <span className="pass-grade-scale">/ 10</span>
         </div>
@@ -69,9 +79,15 @@ export function PassGradePanel({ rating }: Props) {
         <div className="pass-grade-meter">
           <div className="pass-grade-track">
             <span className="pass-grade-shade">
-              <span className="pass-grade-rest" style={{ left: `${pct}%` }} />
+              <span
+                className={`pass-grade-rest${animate ? " pass-grade-rest-animated" : ""}`}
+                style={{ left: `${shownPct}%` }}
+              />
             </span>
-            <span className="pass-grade-marker" style={{ left: `${markerPct}%` }} />
+            <span
+              className={`pass-grade-marker${animate ? " pass-grade-marker-animated" : ""}`}
+              style={{ left: `${shownMarkerPct}%` }}
+            />
           </div>
         </div>
       </div>
