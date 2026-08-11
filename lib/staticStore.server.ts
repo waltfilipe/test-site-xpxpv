@@ -128,6 +128,12 @@ function mergePlayerListRow(player: JsonRecord): JsonRecord {
     if (xp[field] != null) merged[field] = xp[field];
   }
 
+  const profile = getProfile(pid);
+  const profilePlayer = profile?.player as JsonRecord | undefined;
+  if (profilePlayer?.age != null) {
+    merged.age = profilePlayer.age;
+  }
+
   return merged;
 }
 

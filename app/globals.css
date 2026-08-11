@@ -125,6 +125,25 @@ button, input, select { font: inherit; }
   background: rgba(255, 255, 255, 0.05);
 }
 
+.nav a.nav-link-featured {
+  color: var(--text);
+  border: 1px solid rgba(167, 139, 250, 0.35);
+  background: linear-gradient(
+    135deg,
+    rgba(167, 139, 250, 0.14) 0%,
+    rgba(15, 23, 42, 0.42) 100%
+  );
+}
+
+.nav a.nav-link-featured:hover {
+  border-color: rgba(167, 139, 250, 0.55);
+  background: linear-gradient(
+    135deg,
+    rgba(167, 139, 250, 0.2) 0%,
+    rgba(15, 23, 42, 0.5) 100%
+  );
+}
+
 .lang-toggle {
   display: inline-flex;
   align-items: center;
@@ -4563,10 +4582,28 @@ body.report-maps-expanded .reports-container {
   }
 
   .player-card {
-    break-inside: avoid;
+    break-inside: auto;
     overflow: visible;
     box-shadow: none;
     border: 1px solid rgba(148, 163, 184, 0.15);
+  }
+
+  .report-print-root .report-page-1-lead {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .report-print-root .report-sheet-body.pa-layout {
+    break-before: avoid;
+    page-break-before: avoid;
+  }
+
+  .report-print-root .report-identity-card,
+  .report-print-root .pa-col-identity .player-card {
+    break-inside: auto;
+    page-break-inside: auto;
   }
 
   .report-pass-accordion-chevron,
@@ -4820,12 +4857,12 @@ body.report-maps-expanded .reports-container {
   }
 
   .report-print-root .report-heatmap {
-    max-height: 56mm !important;
-    min-height: 44mm;
+    max-height: 48mm !important;
+    min-height: 0;
     width: 100%;
     object-fit: contain;
-    margin-top: 0.15rem;
-    flex-shrink: 0;
+    margin-top: 0.1rem;
+    flex-shrink: 1;
   }
 
   /* Center column — grade + xP profile (keep on page 1) */
@@ -4952,22 +4989,47 @@ body.report-maps-expanded .reports-container {
   }
 
   .report-print-root .report-page-1 {
-    zoom: 0.84;
+    zoom: 0.8;
     width: 100%;
     max-width: 100%;
     overflow: visible;
-    page-break-after: always;
   }
 
   .report-print-root .report-sheet-header {
-    margin-bottom: 0.2rem !important;
-    padding-bottom: 0.2rem !important;
+    margin-bottom: 0.12rem !important;
+    padding-bottom: 0 !important;
+    gap: 0.35rem;
+  }
+
+  .report-print-root .report-sheet-brand {
+    gap: 0.35rem;
+  }
+
+  .report-print-root .report-brand-icon {
+    width: 1.35rem !important;
+    height: 1.35rem !important;
+    font-size: 0.62rem !important;
+  }
+
+  .report-print-root .report-sheet-eyebrow {
+    font-size: 0.52rem !important;
+    line-height: 1.2;
+    margin-bottom: 0.04rem;
+  }
+
+  .report-print-root .report-sheet-category {
+    font-size: 0.82rem !important;
+    line-height: 1.15;
+  }
+
+  .report-print-root .report-sheet-group {
+    font-size: 0.58rem !important;
   }
 
   .report-print-root .report-sheet-description {
-    margin-bottom: 0.25rem !important;
-    font-size: 0.65rem !important;
-    line-height: 1.35 !important;
+    margin-bottom: 0.18rem !important;
+    font-size: 0.58rem !important;
+    line-height: 1.3 !important;
   }
 
   .report-print-root .report-pass-flat-item,

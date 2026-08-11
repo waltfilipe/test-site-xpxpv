@@ -17,11 +17,11 @@ export function SiteHeader() {
           Pass<span>Scout</span>
         </Link>
         <nav className="nav">
-          <Link href="/reports">{m.nav.reports}</Link>
           <Link href="/profile">{m.nav.profile}</Link>
           <Link href="/compare">{m.nav.compare}</Link>
           <Link href="/maps">{m.nav.maps}</Link>
           <Link href="/players">{m.nav.players}</Link>
+          <Link href="/reports" className="nav-link-featured">{m.nav.reports}</Link>
           <LanguageToggle />
         </nav>
       </div>

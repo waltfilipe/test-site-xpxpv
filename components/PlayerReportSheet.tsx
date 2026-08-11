@@ -389,43 +389,45 @@ export function PlayerReportSheet({
       <section
         className={`player-report-sheet report-page-1${activePage === 2 && !expandAll ? " report-page-screen-hidden" : ""}`}
       >
-        <header className="report-sheet-header">
-          <div className="report-sheet-brand">
-            <span className="brand-icon report-brand-icon">
-              <i className="fa-solid fa-futbol" />
-            </span>
-            <div>
-              <span className="report-sheet-eyebrow">{m.reports.midfielderReportEyebrow}</span>
-              <h2 className="report-sheet-category" style={{ color: accent }}>
-                {categoryTitle}
-              </h2>
-            </div>
-          </div>
-          <div className="report-sheet-meta">
-            {entry.groupLabel && (
-              <span className="report-sheet-group">{translateGroupLabel(m, entry.groupLabel)}</span>
-            )}
-            <span className="report-sheet-page-label report-print-only">{m.reports.overview}</span>
-            <div className="report-sheet-meta-row">
-              <span className="report-sheet-index tabular">
-                {String(categoryIndex).padStart(2, "0")}
+        <div className="report-page-1-lead">
+          <header className="report-sheet-header">
+            <div className="report-sheet-brand">
+              <span className="brand-icon report-brand-icon">
+                <i className="fa-solid fa-futbol" />
               </span>
-              {onExportPdf && (
-                <button
-                  type="button"
-                  className="report-export-one-btn report-screen-only"
-                  onClick={() => onExportPdf(playerId)}
-                  disabled={exportDisabled}
-                  title={`${m.reports.exportPdfTitle} ${displayName}`}
-                >
-                  <i className="fa-solid fa-file-pdf" />
-                </button>
-              )}
+              <div>
+                <span className="report-sheet-eyebrow">{m.reports.midfielderReportEyebrow}</span>
+                <h2 className="report-sheet-category" style={{ color: accent }}>
+                  {categoryTitle}
+                </h2>
+              </div>
             </div>
-          </div>
-        </header>
+            <div className="report-sheet-meta">
+              {entry.groupLabel && (
+                <span className="report-sheet-group">{translateGroupLabel(m, entry.groupLabel)}</span>
+              )}
+              <span className="report-sheet-page-label report-print-only">{m.reports.overview}</span>
+              <div className="report-sheet-meta-row">
+                <span className="report-sheet-index tabular">
+                  {String(categoryIndex).padStart(2, "0")}
+                </span>
+                {onExportPdf && (
+                  <button
+                    type="button"
+                    className="report-export-one-btn report-screen-only"
+                    onClick={() => onExportPdf(playerId)}
+                    disabled={exportDisabled}
+                    title={`${m.reports.exportPdfTitle} ${displayName}`}
+                  >
+                    <i className="fa-solid fa-file-pdf" />
+                  </button>
+                )}
+              </div>
+            </div>
+          </header>
 
-        <p className="report-sheet-description">{categoryDescription}</p>
+          <p className="report-sheet-description">{categoryDescription}</p>
+        </div>
 
         <div className="report-sheet-body pa-layout report-layout-v2">
           <div className="pa-col pa-col-identity">{renderIdentity(false)}</div>
