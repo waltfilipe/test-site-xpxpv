@@ -453,7 +453,7 @@ const en: Messages = {
     chanceCreation: "Chance creation",
     defense: "Defense",
     reportsPromoTitle: "Reports",
-    reportsPromoDesc: "PDF-ready reports — U23 Breakout, Blue Collar 24–30 and Experience 30+",
+    reportsPromoDesc: "PDF-ready reports — U23 Breakout, Prime Prospects 24–30 and Experience 30+",
     reportsPromoCta: "View reports",
   },
   compare: {
@@ -715,7 +715,7 @@ const en: Messages = {
       description: "Young midfielders with standout pass profiles and room to scale impact.",
     },
     "blue-collar-24-30": {
-      title: "24–30 — Blue Collar Prospects",
+      title: "24–30 — Prime Prospects",
       subtitle: "Prime-age engine room",
       description: "Reliable progression and pass-value profiles in the peak window.",
     },
@@ -890,7 +890,7 @@ const pt: Messages = {
     chanceCreation: "Chance creation",
     defense: "Defense",
     reportsPromoTitle: "Relatórios",
-    reportsPromoDesc: "Relatórios PDF — U23 Breakout, Blue Collar 24–30 e Experience 30+",
+    reportsPromoDesc: "Relatórios PDF — U23 Breakout, Prime Prospects 24–30 e Experience 30+",
     reportsPromoCta: "Ver relatórios",
   },
   compare: {
@@ -1152,7 +1152,7 @@ const pt: Messages = {
       description: "Jovens meias com perfil de passe destacado e espaço para crescer.",
     },
     "blue-collar-24-30": {
-      title: "24–30 — Motor de jogo",
+      title: "24–30 — Prime Prospects",
       subtitle: "Idade de pico",
       description: "Progressão confiável e valor de passe na janela ideal.",
     },

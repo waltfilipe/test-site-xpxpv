@@ -14,9 +14,9 @@ const POOL_IDS = new Set(
 );
 
 describe("playerReports", () => {
-  it("includes Sofyan Amrabat in the blue-collar 24–30 group", () => {
-    const blueCollarIds = playerIdsForProfileGroup("blue-collar-24-30");
-    assert.ok(blueCollarIds.has("359272"), "Sofyan Amrabat (359272) must be in blue-collar reports");
+  it("includes Sofyan Amrabat in the Prime Prospects 24–30 group", () => {
+    const primeProspectIds = playerIdsForProfileGroup("blue-collar-24-30");
+    assert.ok(primeProspectIds.has("359272"), "Sofyan Amrabat (359272) must be in Prime Prospects reports");
 
     const amrabat = enrichedReportPlayers().find((entry) => entry.playerId === "359272");
     assert.ok(amrabat, "Sofyan Amrabat must appear in enriched report players");
