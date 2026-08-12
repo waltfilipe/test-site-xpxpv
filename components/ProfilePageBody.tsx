@@ -7,7 +7,7 @@ import { PlayerSearchRow } from "@/components/PlayerSearchRow";
 import { ProfileGroupCards } from "@/components/ProfileGroupCards";
 import { ProfileView } from "@/components/ProfileView";
 import { getPlayerOptions, getPlayers } from "@/lib/api";
-import { PROFILE_ALL_GROUP, profileGroupCounts } from "@/lib/playerReports";
+import { PROFILE_ALL_GROUP, profileGroupCounts, profileLeagueCounts } from "@/lib/playerReports";
 import { filtersFromRecord, type ProfileFilterState } from "@/lib/profileParams";
 import { useI18n } from "@/lib/i18n/context";
 
@@ -33,6 +33,7 @@ function ProfilePageBodyInner() {
 
   const [options, setOptions] = useState<{ player_id: string; label: string }[]>([]);
   const [groupCounts, setGroupCounts] = useState<Record<string, number>>({});
+  const [leagueCounts, setLeagueCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -52,6 +53,7 @@ function ProfilePageBodyInner() {
       .then(([playersRes, optionsRes]) => {
         if (cancelled) return;
         setGroupCounts(profileGroupCounts(playersRes.players));
+        setLeagueCounts(profileLeagueCounts(playersRes.players, profileGroup));
         setOptions(optionsRes.options);
       })
       .catch((e) => {
@@ -66,7 +68,7 @@ function ProfilePageBodyInner() {
     return () => {
       cancelled = true;
     };
-  }, [family, filterKey, searchParams, m.compare.backendUnavailable]);
+  }, [family, filterKey, searchParams, profileGroup, m.compare.backendUnavailable]);
 
   const playerId = filters.player ?? options[0]?.player_id;
 
@@ -82,7 +84,11 @@ function ProfilePageBodyInner() {
         </p>
       )}
 
-      <ProfileGroupCards current={{ ...filters, profile_group: profileGroup }} counts={groupCounts} />
+      <ProfileGroupCards
+        current={{ ...filters, profile_group: profileGroup }}
+        counts={groupCounts}
+        leagueCounts={leagueCounts}
+      />
 
       {options.length > 0 ? (
         <PlayerSearchRow options={options} currentId={playerId} filters={activeFilters} />
