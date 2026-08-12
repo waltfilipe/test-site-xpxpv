@@ -948,12 +948,12 @@ button, input, select { font: inherit; }
   font-size: 0.82rem;
   font-weight: 800;
   line-height: 1.2;
-  color: var(--text-primary);
+  color: #fff;
 }
 
 .profile-league-card-count {
   font-size: 0.72rem;
-  color: var(--text-muted);
+  color: #fff;
 }
 
 .profile-empty-note {
