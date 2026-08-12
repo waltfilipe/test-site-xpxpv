@@ -12,7 +12,7 @@ type Props = {
   layout?: "tooltip" | "modal";
 };
 
-type RowTone = "grade" | "eff" | "count";
+type RowTone = "grade" | "count";
 
 type StatRow = {
   key: string;
@@ -20,24 +20,25 @@ type StatRow = {
   value: string;
   tone: RowTone;
   grade?: number | null;
-  effPct?: number | null;
   countValue?: number | null;
 };
 
 const COUNT_GRADE_CAPS: Record<string, { min: number; max: number }> = {
   passes: { min: 12, max: 75 },
+  xpv: { min: 0, max: 25 },
+  xpPerPass: { min: 0, max: 0.5 },
   breakline: { min: 0, max: 5 },
   impact: { min: 0, max: 3 },
 };
 
-function formatPct(value?: number | null): string {
+function formatXpv(value?: number | null): string {
   if (value == null || Number.isNaN(value)) return "—";
-  const sign = value > 0 ? "+" : "";
-  return `${sign}${value.toFixed(1)}%`;
+  return value.toFixed(2);
 }
 
-function coeToPseudoGrade(coePct: number): number {
-  return Math.max(4.5, Math.min(9, 6.5 + coePct * 0.35));
+function formatXpPerPass(xp?: number | null, passes?: number | null): string {
+  if (xp == null || passes == null || passes <= 0) return "—";
+  return (xp / passes).toFixed(3);
 }
 
 function countToPseudoGrade(key: string, value: number): number {
@@ -49,7 +50,6 @@ function countToPseudoGrade(key: string, value: number): number {
 
 function rowPseudoGrade(row: StatRow): number | null {
   if (row.tone === "grade" && row.grade != null) return row.grade;
-  if (row.tone === "eff" && row.effPct != null) return coeToPseudoGrade(row.effPct);
   if (row.tone === "count" && row.countValue != null) return countToPseudoGrade(row.key, row.countValue);
   return null;
 }
@@ -80,6 +80,10 @@ function valueStyle(row: StatRow): CSSProperties | undefined {
 }
 
 function buildRows(point: XpRoundGrade, rs: Messages["roundStats"]): StatRow[] {
+  const xpPerPass =
+    point.xp != null && point.passes != null && point.passes > 0
+      ? point.xp / point.passes
+      : null;
   return [
     {
       key: "grade",
@@ -96,18 +100,18 @@ function buildRows(point: XpRoundGrade, rs: Messages["roundStats"]): StatRow[] {
       countValue: point.passes,
     },
     {
-      key: "short",
-      label: rs.shortEff,
-      value: formatPct(point.short_pass_eff_pct),
-      tone: "eff",
-      effPct: point.short_pass_eff_pct,
+      key: "xpv",
+      label: rs.xpv,
+      value: formatXpv(point.xp),
+      tone: "count",
+      countValue: point.xp,
     },
     {
-      key: "long",
-      label: rs.longEff,
-      value: formatPct(point.long_pass_eff_pct),
-      tone: "eff",
-      effPct: point.long_pass_eff_pct,
+      key: "xpPerPass",
+      label: rs.xpPerPass,
+      value: formatXpPerPass(point.xp, point.passes),
+      tone: "count",
+      countValue: xpPerPass,
     },
     {
       key: "breakline",
