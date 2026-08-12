@@ -193,6 +193,25 @@ export function playerIdsForProfileGroup(groupId: string): Set<string> {
   return ids;
 }
 
+export function profileLeagueCounts(
+  players: { player_id?: string | number | null; league_source?: string | null }[],
+  profileGroupId: string = PROFILE_ALL_GROUP.id,
+): Record<string, number> {
+  let list = players;
+  if (profileGroupId !== PROFILE_ALL_GROUP.id) {
+    const allowed = playerIdsForProfileGroup(profileGroupId);
+    list = players.filter((player) => allowed.has(String(player.player_id)));
+  }
+
+  const counts: Record<string, number> = {};
+  for (const player of list) {
+    const league = String(player.league_source ?? "");
+    if (!league) continue;
+    counts[league] = (counts[league] ?? 0) + 1;
+  }
+  return counts;
+}
+
 export function profileGroupCounts(
   players: { player_id?: string | number | null }[],
 ): Record<string, number> {

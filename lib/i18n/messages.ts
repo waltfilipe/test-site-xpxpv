@@ -98,6 +98,10 @@ export type Messages = {
     backendError: string;
     backendRetryNote: string;
     passOriginAlt: string;
+    leagueFilter: {
+      eyebrow: string;
+      ariaLabel: string;
+    };
   };
   players: {
     subtitle: string;
@@ -436,6 +440,10 @@ const en: Messages = {
     backendRetryNote:
       "The backend may take a few minutes on first load — please try again shortly.",
     passOriginAlt: "Pass origin heatmap",
+    leagueFilter: {
+      eyebrow: "League filter",
+      ariaLabel: "Filter players by league",
+    },
   },
   players: {
     subtitle: "Top-five European league players with pass ratings and position-pool pillars.",
@@ -873,6 +881,10 @@ const pt: Messages = {
     backendRetryNote:
       "O backend pode levar alguns minutos no primeiro carregamento — tente novamente em instantes.",
     passOriginAlt: "Heatmap de origem dos passes",
+    leagueFilter: {
+      eyebrow: "Filtro de liga",
+      ariaLabel: "Filtrar jogadores por liga",
+    },
   },
   players: {
     subtitle: "Jogadores das 5 grandes ligas com ratings de passe e pilares por pool.",

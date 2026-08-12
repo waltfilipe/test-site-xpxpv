@@ -5,20 +5,20 @@ import type { CSSProperties } from "react";
 import { PLAYER_REPORT_CATEGORIES, PROFILE_ALL_GROUP } from "@/lib/playerReports";
 import { buildProfileUrl, type ProfileFilterState } from "@/lib/profileParams";
 import { useI18n } from "@/lib/i18n/context";
+import { ProfileLeagueFilter } from "@/components/ProfileLeagueFilter";
 
 type Props = {
   current: ProfileFilterState;
   counts: Record<string, number>;
+  leagueCounts: Record<string, number>;
 };
 
-export function ProfileGroupCards({ current, counts }: Props) {
+export function ProfileGroupCards({ current, counts, leagueCounts }: Props) {
   const router = useRouter();
   const { m } = useI18n();
   const activeKey = current.profile_group ?? PROFILE_ALL_GROUP.id;
-  const activeCategory = PLAYER_REPORT_CATEGORIES.find((card) => card.id === activeKey);
   const isAllActive = activeKey === PROFILE_ALL_GROUP.id;
   const allCategory = m.profileCategories.all;
-  const activeMeta = isAllActive ? allCategory : m.profileCategories[activeKey];
 
   function selectGroup(id: string) {
     if (id === activeKey) return;
@@ -26,15 +26,12 @@ export function ProfileGroupCards({ current, counts }: Props) {
       buildProfileUrl({
         position_family: current.position_family,
         profile_group: id === PROFILE_ALL_GROUP.id ? undefined : id,
+        league: current.league,
         player: undefined,
         search: current.search,
       }),
     );
   }
-
-  const bannerTitle = activeMeta?.title;
-  const bannerDescription = activeMeta?.description;
-  const bannerAccent = isAllActive ? PROFILE_ALL_GROUP.accent : activeCategory?.accent;
 
   return (
     <>
@@ -81,15 +78,7 @@ export function ProfileGroupCards({ current, counts }: Props) {
         </div>
       </section>
 
-      {bannerTitle && (
-        <div className="reports-active-banner profile-group-banner">
-          <div>
-            <span className="reports-active-eyebrow">{m.common.selectedGroup}</span>
-            <h2 style={{ color: bannerAccent }}>{bannerTitle}</h2>
-            <p className="muted">{bannerDescription}</p>
-          </div>
-        </div>
-      )}
+      <ProfileLeagueFilter current={current} counts={leagueCounts} />
     </>
   );
 }
