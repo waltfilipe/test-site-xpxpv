@@ -229,8 +229,8 @@ export type Messages = {
   roundStats: {
     grade: string;
     passes: string;
-    shortEff: string;
-    longEff: string;
+    xpv: string;
+    xpPerPass: string;
     breakline: string;
     impact: string;
     keyPasses: string;
@@ -562,8 +562,8 @@ const en: Messages = {
   roundStats: {
     grade: "Grade",
     passes: "Passes",
-    shortEff: "%Eff - Short Pass",
-    longEff: "%Eff - Long Pass",
+    xpv: "xPV",
+    xpPerPass: "xP",
     breakline: "Breakline passes",
     impact: "Impact passes",
     keyPasses: "Key passes",
@@ -654,9 +654,9 @@ const en: Messages = {
       def_aerial_won_pct: "Aerial won %",
     },
     index: {
-      Consistency: "How steady their per-match composite grades are (production, quality, threat and precision).",
+      Consistency: "How steady their per-match overall pass grades are (xp style: productivity, precision, lethality; low-volume games pulled toward 6.0).",
       Impact: "How much a player impacts the game per pass.",
-      xp_idx_consistency: "How steady their per-match composite grades are (production, quality, threat and precision).",
+      xp_idx_consistency: "How steady their per-match overall pass grades are (xp style: productivity, precision, lethality; low-volume games pulled toward 6.0).",
       xp_idx_impact: "How much a player impacts the game per pass.",
       xp_idx_defense: "Defensive volume and duel quality.",
     },
@@ -999,8 +999,8 @@ const pt: Messages = {
   roundStats: {
     grade: "Nota",
     passes: "Passes",
-    shortEff: "%Eff - Passe Curto",
-    longEff: "%Eff - Passe Longo",
+    xpv: "xPV",
+    xpPerPass: "xP",
     breakline: "Line breaks",
     impact: "Impact passes",
     keyPasses: "Key passes",
@@ -1093,7 +1093,7 @@ const pt: Messages = {
     index: {
       Consistency: "Quão estáveis são as notas compostas por jogo (produção, qualidade, ameaça e precisão).",
       Impact: "Quanto o jogador impacta o jogo por passe.",
-      xp_idx_consistency: "Quão estáveis são as notas compostas por jogo (produção, qualidade, ameaça e precisão).",
+      xp_idx_consistency: "Quão estáveis são as notas gerais de passe por jogo (estilo xp: produtividade, precisão, letalidade; jogos de baixo volume puxados a 6,0).",
       xp_idx_impact: "Quanto o jogador impacta o jogo por passe.",
       xp_idx_defense: "Volume defensivo e qualidade de duelo.",
     },
