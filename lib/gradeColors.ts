@@ -35,7 +35,7 @@ const PASS_GRADE_STOPS: [number, [number, number, number]][] = [
 ];
 
 export function passGradePct(displayScore: number): number {
-  return Math.max(0, Math.min(100, ((displayScore - 4.5) / 4.5) * 100));
+  return Math.max(0, Math.min(100, ((displayScore - 5.0) / 5.0) * 100));
 }
 
 export function passGradeGradientColor(pct: number): string {
@@ -116,7 +116,7 @@ export function gradientBarTier(score: number): "cool" | "warm" | "hot" {
 export function rankToBarScore(rank?: number | null, rankPool?: number | null): number | null {
   if (rank == null || rankPool == null || rankPool <= 1) return null;
   const pct = 1 - (rank - 1) / (rankPool - 1);
-  return 4.5 + pct * 4.5;
+  return 5.0 + pct * 5.0;
 }
 
 export const IMPACT_ELITE_TOP_N = 10;
