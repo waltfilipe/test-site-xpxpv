@@ -34,8 +34,14 @@ const PASS_GRADE_STOPS: [number, [number, number, number]][] = [
   [100, [0x16, 0xa3, 0x4a]],
 ];
 
+const PASS_GRADE_DISPLAY_FLOOR = 4.875;
+const PASS_GRADE_DISPLAY_SPAN = 3.625;
+
 export function passGradePct(displayScore: number): number {
-  return Math.max(0, Math.min(100, ((displayScore - 5.0) / 5.0) * 100));
+  return Math.max(
+    0,
+    Math.min(100, ((displayScore - PASS_GRADE_DISPLAY_FLOOR) / PASS_GRADE_DISPLAY_SPAN) * 100),
+  );
 }
 
 export function passGradeGradientColor(pct: number): string {
@@ -116,7 +122,7 @@ export function gradientBarTier(score: number): "cool" | "warm" | "hot" {
 export function rankToBarScore(rank?: number | null, rankPool?: number | null): number | null {
   if (rank == null || rankPool == null || rankPool <= 1) return null;
   const pct = 1 - (rank - 1) / (rankPool - 1);
-  return 5.0 + pct * 5.0;
+  return PASS_GRADE_DISPLAY_FLOOR + pct * PASS_GRADE_DISPLAY_SPAN;
 }
 
 export const IMPACT_ELITE_TOP_N = 10;
