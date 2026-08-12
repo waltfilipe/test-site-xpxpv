@@ -44,6 +44,22 @@ export function passGradePct(displayScore: number): number {
   );
 }
 
+/** Sofascore-like productivity grades (4.8 → 0%, 9.5 → 100%). */
+export const SOFASCORE_GRADE_FLOOR = 4.8;
+export const SOFASCORE_GRADE_SPAN = 4.2;
+
+export function sofascoreGradePct(displayScore: number): number {
+  return Math.max(
+    0,
+    Math.min(100, ((displayScore - SOFASCORE_GRADE_FLOOR) / SOFASCORE_GRADE_SPAN) * 100),
+  );
+}
+
+export function sofascoreBarPosition(score: number | null | undefined): number {
+  if (score == null) return 0;
+  return Math.max(2, Math.min(98, sofascoreGradePct(score)));
+}
+
 export function passGradeGradientColor(pct: number): string {
   const position = Math.max(0, Math.min(100, pct));
   for (let i = 0; i < PASS_GRADE_STOPS.length - 1; i++) {

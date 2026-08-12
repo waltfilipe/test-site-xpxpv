@@ -15,7 +15,14 @@ export function ReportXpPanel({ profile, accent = "#a78bfa", expandAll = false }
   return (
     <div className="player-card xp-profile-card report-xp-card">
       <h3 className="section-label">xP Profile</h3>
-      <XpProfileBars bars={profile.xp_bars} />
+      <XpProfileBars
+        bars={profile.xp_bars}
+        productivity={{
+          geral: profile.prod_grade_geral,
+          rel: profile.prod_grade_rel,
+          blend: profile.prod_grade_blend,
+        }}
+      />
 
       {(profile.xp_indices?.length ?? 0) > 0 && (
         <XpIndicesPanel

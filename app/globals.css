@@ -1628,6 +1628,55 @@ button, input, select { font: inherit; }
   gap: 0.65rem;
 }
 
+.productivity-accordion {
+  margin: 0;
+}
+
+.productivity-accordion-blend {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.productivity-accordion-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.35rem 0.75rem 0.7rem;
+}
+
+.productivity-grade-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+.productivity-grade-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.productivity-grade-label {
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.productivity-grade-value {
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.productivity-grade-meter .pass-grade-track {
+  height: 0.38rem;
+}
+
+.productivity-accordion[open] .productivity-accordion-chevron {
+  transform: rotate(90deg);
+}
+
 .xp-metric-block {
   display: flex;
   flex-direction: column;

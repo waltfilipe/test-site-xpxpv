@@ -133,6 +133,13 @@ export type Messages = {
       belowAverage: string;
     };
   };
+  productivity: {
+    title: string;
+    general: string;
+    relative: string;
+    generalTip: string;
+    relativeTip: string;
+  };
   passLengthMix: {
     title: string;
     short: string;
@@ -589,6 +596,15 @@ const en: Messages = {
       belowAverage: "Below average",
     },
   },
+  productivity: {
+    title: "Productivity",
+    general: "General (xP / game)",
+    relative: "Relative (team share)",
+    generalTip:
+      "Sofascore-style grade from xP per 90 (volume). Median ≈ 6.9; 8 is very good; 9+ is rare.",
+    relativeTip:
+      "Sofascore-style grade from your xP/90 vs team xP per game (R-D ratio). Median ≈ 6.9; 8 is very good.",
+  },
   passLengthMix: {
     title: "Pass Length Mix",
     short: "Short",
@@ -1029,6 +1045,15 @@ const pt: Messages = {
       average: "Médio",
       belowAverage: "Abaixo da média",
     },
+  },
+  productivity: {
+    title: "Produtividade",
+    general: "Geral (xP / jogo)",
+    relative: "Relativo (share no time)",
+    generalTip:
+      "Nota Sofascore do xP por 90 (volume). Mediana ≈ 6,9; 8 é muito bom; 9+ é raro.",
+    relativeTip:
+      "Nota Sofascore do xP/90 vs xP/jogo do time (ratio R-D). Mediana ≈ 6,9; 8 é muito bom.",
   },
   passLengthMix: {
     title: "Mix de comprimento de passe",

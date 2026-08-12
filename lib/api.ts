@@ -108,6 +108,9 @@ export type PlayerProfile = {
   long_pass_share_ref_avg_pct?: number | null;
   long_pass_share_pctile?: number | null;
   xp_pass_rating?: number | null;
+  prod_grade_geral?: number | null;
+  prod_grade_rel?: number | null;
+  prod_grade_blend?: number | null;
   xp_game_consistency_score?: number | null;
   test_impact_v2_p90?: number | null;
   xp_indices?: XpIndexItem[];

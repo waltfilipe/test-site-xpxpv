@@ -139,7 +139,16 @@ export function ProfileView({
 
             <div className="player-card xp-profile-card">
               <h3 className="section-label">{m.sections.xpProfile}</h3>
-              <XpProfileBars bars={data.xp_bars} animate animationKey={playerId} />
+              <XpProfileBars
+                bars={data.xp_bars}
+                productivity={{
+                  geral: data.prod_grade_geral,
+                  rel: data.prod_grade_rel,
+                  blend: data.prod_grade_blend,
+                }}
+                animate
+                animationKey={playerId}
+              />
               <XpIndicesPanel
                 indices={data.xp_indices ?? []}
                 roundGrades={data.xp_round_grades ?? []}
