@@ -1,6 +1,7 @@
 "use client";
 
 import type { XpBar } from "@/lib/api";
+import { PrecisionAccordion } from "@/components/PrecisionAccordion";
 import { ProductivityAccordion } from "@/components/ProductivityAccordion";
 import { XpHeatBar } from "@/components/ui/XpHeatBar";
 import { Tooltip } from "@/components/ui/Tooltip";
@@ -12,18 +13,22 @@ const ICONS: Record<string, string> = {
   xp_edge_display: "fa-bolt",
 };
 
+type DualGrades = {
+  geral?: number | null;
+  secondary?: number | null;
+  blend?: number | null;
+};
+
 export function XpProfileBars({
   bars,
   productivity,
+  precision,
   animate = false,
   animationKey,
 }: {
   bars: XpBar[];
-  productivity?: {
-    geral?: number | null;
-    rel?: number | null;
-    blend?: number | null;
-  };
+  productivity?: DualGrades;
+  precision?: DualGrades;
   animate?: boolean;
   animationKey?: string;
 }) {
@@ -38,8 +43,21 @@ export function XpProfileBars({
             <ProductivityAccordion
               key={bar.key}
               gradeGeral={productivity.geral}
-              gradeRel={productivity.rel}
+              gradeRel={productivity.secondary}
               gradeBlend={productivity.blend ?? bar.value}
+              animate={animate}
+              animationKey={animationKey}
+            />
+          );
+        }
+
+        if (bar.key === "xp_efficiency_display" && precision) {
+          return (
+            <PrecisionAccordion
+              key={bar.key}
+              gradeGeral={precision.geral}
+              gradeStratum={precision.secondary}
+              gradeBlend={precision.blend ?? bar.value}
               animate={animate}
               animationKey={animationKey}
             />

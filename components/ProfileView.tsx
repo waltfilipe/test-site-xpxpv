@@ -143,8 +143,13 @@ export function ProfileView({
                 bars={data.xp_bars}
                 productivity={{
                   geral: data.prod_grade_geral,
-                  rel: data.prod_grade_rel,
+                  secondary: data.prod_grade_rel,
                   blend: data.prod_grade_blend,
+                }}
+                precision={{
+                  geral: data.prec_grade_geral,
+                  secondary: data.prec_grade_stratum,
+                  blend: data.prec_grade_blend,
                 }}
                 animate
                 animationKey={playerId}

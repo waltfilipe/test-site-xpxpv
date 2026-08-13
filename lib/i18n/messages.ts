@@ -140,6 +140,13 @@ export type Messages = {
     generalTip: string;
     relativeTip: string;
   };
+  precision: {
+    title: string;
+    generalCoe: string;
+    stratumCoe: string;
+    generalCoeTip: string;
+    stratumCoeTip: string;
+  };
   passLengthMix: {
     title: string;
     short: string;
@@ -605,6 +612,15 @@ const en: Messages = {
     relativeTip:
       "Sofascore-style grade from your xP/90 vs team xP per game (R-D ratio). Median ≈ 6.9; 8 is very good.",
   },
+  precision: {
+    title: "Precision",
+    generalCoe: "General COE (all passes)",
+    stratumCoe: "COE in volume stratum",
+    generalCoeTip:
+      "Sofascore-style grade from total completion-over-expected (COE) vs the midfielder pool.",
+    stratumCoeTip:
+      "Sofascore-style grade from COE vs peers in the same pass-volume quartile (short + total blend).",
+  },
   passLengthMix: {
     title: "Pass Length Mix",
     short: "Short",
@@ -1054,6 +1070,15 @@ const pt: Messages = {
       "Nota Sofascore do xP por 90 (volume). Mediana ≈ 6,9; 8 é muito bom; 9+ é raro.",
     relativeTip:
       "Nota Sofascore do xP/90 vs xP/jogo do time (ratio R-D). Mediana ≈ 6,9; 8 é muito bom.",
+  },
+  precision: {
+    title: "Precisão",
+    generalCoe: "COE geral (todos os passes)",
+    stratumCoe: "COE no extrato de volume",
+    generalCoeTip:
+      "Nota Sofascore do COE total (completion-over-expected) vs o pool de médios.",
+    stratumCoeTip:
+      "Nota Sofascore do COE vs pares no mesmo quartil de volume de passes (curto + total).",
   },
   passLengthMix: {
     title: "Mix de comprimento de passe",

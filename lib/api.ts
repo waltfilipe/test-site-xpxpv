@@ -111,6 +111,9 @@ export type PlayerProfile = {
   prod_grade_geral?: number | null;
   prod_grade_rel?: number | null;
   prod_grade_blend?: number | null;
+  prec_grade_geral?: number | null;
+  prec_grade_stratum?: number | null;
+  prec_grade_blend?: number | null;
   xp_game_consistency_score?: number | null;
   test_impact_v2_p90?: number | null;
   xp_indices?: XpIndexItem[];

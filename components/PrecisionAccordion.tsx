@@ -5,15 +5,15 @@ import { useI18n } from "@/lib/i18n/context";
 
 type Props = {
   gradeGeral?: number | null;
-  gradeRel?: number | null;
+  gradeStratum?: number | null;
   gradeBlend?: number | null;
   animate?: boolean;
   animationKey?: string;
 };
 
-export function ProductivityAccordion({
+export function PrecisionAccordion({
   gradeGeral,
-  gradeRel,
+  gradeStratum,
   gradeBlend,
   animate = false,
   animationKey,
@@ -22,15 +22,15 @@ export function ProductivityAccordion({
 
   return (
     <DualSofascoreAccordion
-      title={m.productivity.title}
-      summaryTip={m.tooltips.xpProfileBars.xp_activity_display}
-      icon="fa-chart-simple"
-      primaryLabel={m.productivity.general}
-      secondaryLabel={m.productivity.relative}
-      primaryTip={m.productivity.generalTip}
-      secondaryTip={m.productivity.relativeTip}
+      title={m.precision.title}
+      summaryTip={m.tooltips.xpProfileBars.xp_efficiency_display}
+      icon="fa-gauge-high"
+      primaryLabel={m.precision.generalCoe}
+      secondaryLabel={m.precision.stratumCoe}
+      primaryTip={m.precision.generalCoeTip}
+      secondaryTip={m.precision.stratumCoeTip}
       gradePrimary={gradeGeral}
-      gradeSecondary={gradeRel}
+      gradeSecondary={gradeStratum}
       gradeBlend={gradeBlend}
       blendWeight={0.7}
       animate={animate}
