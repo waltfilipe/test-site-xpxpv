@@ -1,6 +1,7 @@
 "use client";
 
 import type { XpBar } from "@/lib/api";
+import { LethalityAccordion } from "@/components/LethalityAccordion";
 import { PrecisionAccordion } from "@/components/PrecisionAccordion";
 import { ProductivityAccordion } from "@/components/ProductivityAccordion";
 import { XpHeatBar } from "@/components/ui/XpHeatBar";
@@ -23,12 +24,14 @@ export function XpProfileBars({
   bars,
   productivity,
   precision,
+  lethality,
   animate = false,
   animationKey,
 }: {
   bars: XpBar[];
   productivity?: DualGrades;
   precision?: DualGrades;
+  lethality?: DualGrades;
   animate?: boolean;
   animationKey?: string;
 }) {
@@ -58,6 +61,19 @@ export function XpProfileBars({
               gradeGeral={precision.geral}
               gradeStratum={precision.secondary}
               gradeBlend={precision.blend ?? bar.value}
+              animate={animate}
+              animationKey={animationKey}
+            />
+          );
+        }
+
+        if (bar.key === "xp_edge_display" && lethality) {
+          return (
+            <LethalityAccordion
+              key={bar.key}
+              gradeXpv={lethality.geral}
+              gradeThreat={lethality.secondary}
+              gradeBlend={lethality.blend ?? bar.value}
               animate={animate}
               animationKey={animationKey}
             />

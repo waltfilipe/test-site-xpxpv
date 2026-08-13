@@ -147,6 +147,13 @@ export type Messages = {
     generalCoeTip: string;
     stratumCoeTip: string;
   };
+  lethality: {
+    title: string;
+    xpvPerPass: string;
+    impactRate: string;
+    xpvPerPassTip: string;
+    impactRateTip: string;
+  };
   passLengthMix: {
     title: string;
     short: string;
@@ -621,6 +628,15 @@ const en: Messages = {
     stratumCoeTip:
       "Sofascore-style grade from COE vs peers in the same pass-volume quartile (short + total blend).",
   },
+  lethality: {
+    title: "Lethality",
+    xpvPerPass: "xPV / pass",
+    impactRate: "Impact rate",
+    xpvPerPassTip:
+      "Sofascore-style grade from destination value per completed pass (xPV/pass). Median ≈ 6.9; 8 is very good; 9+ is rare.",
+    impactRateTip:
+      "Sofascore-style grade from share of passes classified as impact passes (threat_pass_pct). Median ≈ 6.9; 8 is very good.",
+  },
   passLengthMix: {
     title: "Pass Length Mix",
     short: "Short",
@@ -634,7 +650,8 @@ const en: Messages = {
     xpProfileBars: {
       xp_activity_display: "How much value they generate per game.",
       xp_efficiency_display: "Passing precision vs expectation.",
-      xp_edge_display: "How dangerous a player's passing is (per pass).",
+      xp_edge_display:
+        "Sofascore-style blend of xPV per pass and impact-pass rate (50/50). Median ≈ 6.9; 8 is very good.",
     },
     passScores: {
       Volume: "How much they pass.",
@@ -1080,6 +1097,15 @@ const pt: Messages = {
     stratumCoeTip:
       "Nota Sofascore do COE vs pares no mesmo quartil de volume de passes (curto + total).",
   },
+  lethality: {
+    title: "Letalidade",
+    xpvPerPass: "xPV / passe",
+    impactRate: "Taxa de impacto",
+    xpvPerPassTip:
+      "Nota Sofascore do valor de destino por passe completado (xPV/passe). Mediana ≈ 6,9; 8 é muito bom; 9+ é raro.",
+    impactRateTip:
+      "Nota Sofascore da % de passes classificados como impact passes (threat_pass_pct). Mediana ≈ 6,9; 8 é muito bom.",
+  },
   passLengthMix: {
     title: "Mix de comprimento de passe",
     short: "Curto",
@@ -1093,7 +1119,8 @@ const pt: Messages = {
     xpProfileBars: {
       xp_activity_display: "Quanto valor geram por jogo.",
       xp_efficiency_display: "Precisão de passe vs expectativa.",
-      xp_edge_display: "Quão perigoso é o passe do jogador (por passe).",
+      xp_edge_display:
+        "Blend Sofascore de xPV por passe e taxa de impact passes (50/50). Mediana ≈ 6,9; 8 é muito bom.",
     },
     passScores: {
       Volume: "Quanto o jogador passa.",

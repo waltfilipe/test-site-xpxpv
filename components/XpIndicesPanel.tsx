@@ -66,10 +66,9 @@ export function XpIndicesPanel({
   if (!rows.length) return null;
 
   const consistency = rows.find((i) => i.key === "consistency");
-  const impact = rows.find((i) => i.key === "impact");
   const defense = rows.find((i) => i.key === "defense");
   const other = rows.filter(
-    (i) => i.key !== "consistency" && i.key !== "impact" && i.key !== "defense",
+    (i) => i.key !== "consistency" && i.key !== "defense",
   );
 
   return (
@@ -85,25 +84,6 @@ export function XpIndicesPanel({
             points={roundGrades}
             accent={accent}
             expandAll={expandAll}
-          />
-        )}
-        {impact && impact.components && impact.components.length > 0 && (
-          <ImpactAccordion
-            label={impact.label}
-            tier={impact.tier}
-            tierKey={impact.tier_key ?? impact.label}
-            icon={impact.icon ?? "fa-crosshairs"}
-            components={impact.components}
-            expandAll={expandAll}
-          />
-        )}
-        {impact && (!impact.components || impact.components.length === 0) && (
-          <IndexRow
-            label={impact.label}
-            tier={impact.tier}
-            tierKey={impact.tier_key ?? impact.label}
-            icon={impact.icon ?? "fa-crosshairs"}
-            indexTips={indexTips}
           />
         )}
         {defense && defense.components && defense.components.length > 0 && (

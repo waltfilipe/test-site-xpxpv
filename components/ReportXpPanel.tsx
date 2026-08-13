@@ -1,6 +1,4 @@
 import { PassLengthMix } from "@/components/PassLengthMix";
-import { ConsistencyAccordion } from "@/components/ConsistencyAccordion";
-import { ImpactAccordion } from "@/components/ImpactAccordion";
 import { XpProfileBars } from "@/components/XpProfileBars";
 import type { PlayerProfile } from "@/lib/api";
 import { XpIndicesPanel } from "@/components/XpIndicesPanel";
@@ -26,6 +24,11 @@ export function ReportXpPanel({ profile, accent = "#a78bfa", expandAll = false }
           geral: profile.prec_grade_geral,
           secondary: profile.prec_grade_stratum,
           blend: profile.prec_grade_blend,
+        }}
+        lethality={{
+          geral: profile.leth_grade_xpv,
+          secondary: profile.leth_grade_threat,
+          blend: profile.leth_grade_blend,
         }}
       />
 

@@ -151,6 +151,11 @@ export function ProfileView({
                   secondary: data.prec_grade_stratum,
                   blend: data.prec_grade_blend,
                 }}
+                lethality={{
+                  geral: data.leth_grade_xpv,
+                  secondary: data.leth_grade_threat,
+                  blend: data.leth_grade_blend,
+                }}
                 animate
                 animationKey={playerId}
               />

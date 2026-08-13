@@ -2,7 +2,6 @@ import "server-only";
 
 import fs from "fs";
 import path from "path";
-import { getImpactIndexStats } from "@/lib/xpImpactIndex.server";
 import { hasOrganizerBadge } from "@/lib/organizerBadge.server";
 
 type JsonRecord = Record<string, unknown>;
@@ -79,22 +78,6 @@ function enrichChanceCreationSection(section: JsonRecord, derived: DerivedPlayer
   };
 }
 
-function enrichImpactIndex(indices: JsonRecord[] | undefined, playerId: string): JsonRecord[] | undefined {
-  if (!indices) return indices;
-
-  const impact = getImpactIndexStats(playerId);
-  if (!impact) return indices;
-
-  return indices.map((item) => {
-    if (item.key !== "impact") return item;
-    return {
-      ...item,
-      tier: impact.tier,
-      components: impact.components,
-    };
-  });
-}
-
 export function enrichPlayerProfile(profile: JsonRecord): JsonRecord {
   const playerId = String((profile.player as JsonRecord | undefined)?.player_id ?? "");
   if (!playerId) return profile;
@@ -117,8 +100,6 @@ export function enrichPlayerProfile(profile: JsonRecord): JsonRecord {
       ),
     };
   });
-
-  xpIndices = enrichImpactIndex(xpIndices, playerId);
 
   const passScores = derived
     ? (profile.pass_scores as JsonRecord[] | undefined)?.map((section) =>
