@@ -626,7 +626,7 @@ const en: Messages = {
     generalCoeTip:
       "Sofascore-style grade from total completion-over-expected (COE) vs the midfielder pool.",
     stratumCoeTip:
-      "Sofascore-style grade from COE vs peers in the same pass-volume quartile (short + total blend).",
+      "Sofascore-style grade from total-pass COE vs peers in the same pass-volume quartile (all passes).",
   },
   lethality: {
     title: "Lethality",
@@ -1095,7 +1095,7 @@ const pt: Messages = {
     generalCoeTip:
       "Nota Sofascore do COE total (completion-over-expected) vs o pool de médios.",
     stratumCoeTip:
-      "Nota Sofascore do COE vs pares no mesmo quartil de volume de passes (curto + total).",
+      "Nota Sofascore do COE de todos os passes vs pares no mesmo quartil de volume de passes.",
   },
   lethality: {
     title: "Letalidade",

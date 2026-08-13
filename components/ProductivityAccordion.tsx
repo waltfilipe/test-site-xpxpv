@@ -15,8 +15,6 @@ export function ProductivityAccordion({
   gradeGeral,
   gradeRel,
   gradeBlend,
-  animate = false,
-  animationKey,
 }: Props) {
   const { m } = useI18n();
 
@@ -33,8 +31,6 @@ export function ProductivityAccordion({
       gradeSecondary={gradeRel}
       gradeBlend={gradeBlend}
       blendWeight={0.7}
-      animate={animate}
-      animationKey={animationKey}
     />
   );
 }

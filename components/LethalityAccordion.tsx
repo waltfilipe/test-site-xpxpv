@@ -15,8 +15,6 @@ export function LethalityAccordion({
   gradeXpv,
   gradeThreat,
   gradeBlend,
-  animate = false,
-  animationKey,
 }: Props) {
   const { m } = useI18n();
 
@@ -33,8 +31,6 @@ export function LethalityAccordion({
       gradeSecondary={gradeThreat}
       gradeBlend={gradeBlend}
       blendWeight={0.5}
-      animate={animate}
-      animationKey={animationKey}
     />
   );
 }

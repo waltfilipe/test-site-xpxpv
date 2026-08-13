@@ -15,8 +15,6 @@ export function PrecisionAccordion({
   gradeGeral,
   gradeStratum,
   gradeBlend,
-  animate = false,
-  animationKey,
 }: Props) {
   const { m } = useI18n();
 
@@ -33,8 +31,6 @@ export function PrecisionAccordion({
       gradeSecondary={gradeStratum}
       gradeBlend={gradeBlend}
       blendWeight={0.7}
-      animate={animate}
-      animationKey={animationKey}
     />
   );
 }

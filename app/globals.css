@@ -1657,20 +1657,14 @@ button, input, select { font: inherit; }
   flex-shrink: 0;
 }
 
-.sofascore-pillar-summary {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.28rem;
-  flex-shrink: 0;
-  min-width: 4.5rem;
-}
-
 .sofascore-pillar-score {
   font-size: 1.05rem;
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1;
+  flex-shrink: 0;
+  min-width: 2.25rem;
+  text-align: right;
 }
 
 .sofascore-pillar-panel {
