@@ -1743,6 +1743,25 @@ button, input, select { font: inherit; }
   font-size: 0.48rem;
 }
 
+.prec-stratum-lift-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.95rem;
+  height: 0.95rem;
+  border-radius: 999px;
+  color: #4c1d95;
+  background: linear-gradient(135deg, #ddd6fe 0%, #a78bfa 100%);
+  border: 1px solid rgba(167, 139, 250, 0.55);
+  box-shadow: 0 1px 4px rgba(167, 139, 250, 0.28);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.prec-stratum-lift-badge i {
+  font-size: 0.48rem;
+}
+
 .sofascore-grade-meter {
   width: 100%;
 }

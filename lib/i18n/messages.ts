@@ -252,6 +252,8 @@ export type Messages = {
     organizerTooltip: string;
     prodRelLift: string;
     prodRelLiftTooltip: string;
+    precStratumLift: string;
+    precStratumLiftTooltip: string;
   };
   roundStats: {
     grade: string;
@@ -592,6 +594,9 @@ const en: Messages = {
     prodRelLift: "Team share lift",
     prodRelLiftTooltip:
       "Relative productivity exceeds General by {gap} pts — above P70 in the eligible midfielder pool (threshold {p70}; pool mean gap {mean}).",
+    precStratumLift: "Volume stratum lift",
+    precStratumLiftTooltip:
+      "COE in volume stratum exceeds General COE by {gap} pts — above P70 in the eligible pool (threshold {p70}; pool mean gap {mean}).",
   },
   roundStats: {
     grade: "Grade",
@@ -1064,6 +1069,9 @@ const pt: Messages = {
     prodRelLift: "Share no time",
     prodRelLiftTooltip:
       "Produtividade relativa supera a geral por {gap} pts — acima do P70 no pool de médios elegíveis (corte {p70}; média do pool {mean}).",
+    precStratumLift: "Extrato de volume",
+    precStratumLiftTooltip:
+      "COE no extrato supera o COE geral por {gap} pts — acima do P70 no pool elegível (corte {p70}; média do pool {mean}).",
   },
   roundStats: {
     grade: "Nota",

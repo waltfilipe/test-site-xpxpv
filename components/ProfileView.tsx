@@ -154,6 +154,10 @@ export function ProfileView({
                   geral: data.prec_grade_geral,
                   secondary: data.prec_grade_stratum,
                   blend: data.prec_grade_blend,
+                  stratumLiftBadge: data.prec_stratum_lift_badge,
+                  stratumGap: data.prec_stratum_gap,
+                  stratumGapPoolMean: data.prec_stratum_gap_pool_mean,
+                  stratumGapPoolP70: data.prec_stratum_gap_pool_p70,
                 }}
                 lethality={{
                   geral: data.leth_grade_xpv,

@@ -1,8 +1,11 @@
 "use client";
 
 import { passGradeGradientColor, sofascoreGradePct } from "@/lib/gradeColors";
+import { PrecStratumLiftBadge } from "@/components/ui/PrecStratumLiftBadge";
 import { ProdRelLiftBadge } from "@/components/ui/ProdRelLiftBadge";
 import { Tooltip } from "@/components/ui/Tooltip";
+
+type LiftBadgeKind = "prod-rel" | "prec-stratum";
 
 function GradeRow({
   label,
@@ -10,6 +13,7 @@ function GradeRow({
   grade,
   tip,
   badge,
+  badgeKind = "prod-rel",
   badgeGap,
   badgePoolMean,
   badgePoolP70,
@@ -19,6 +23,7 @@ function GradeRow({
   grade?: number | null;
   tip: string;
   badge?: boolean;
+  badgeKind?: LiftBadgeKind;
   badgeGap?: number | null;
   badgePoolMean?: number | null;
   badgePoolP70?: number | null;
@@ -39,7 +44,14 @@ function GradeRow({
           <span className="sofascore-grade-value tabular" style={{ color }}>
             {grade != null ? grade.toFixed(1) : "—"}
           </span>
-          {badge && (
+          {badge && badgeKind === "prec-stratum" && (
+            <PrecStratumLiftBadge
+              gap={badgeGap}
+              poolMean={badgePoolMean}
+              poolP70={badgePoolP70}
+            />
+          )}
+          {badge && badgeKind === "prod-rel" && (
             <ProdRelLiftBadge
               gap={badgeGap}
               poolMean={badgePoolMean}
@@ -71,6 +83,7 @@ type Props = {
   gradeBlend?: number | null;
   blendWeight?: number;
   secondaryBadge?: boolean;
+  secondaryBadgeKind?: LiftBadgeKind;
   secondaryBadgeGap?: number | null;
   secondaryBadgePoolMean?: number | null;
   secondaryBadgePoolP70?: number | null;
@@ -89,6 +102,7 @@ export function DualSofascoreAccordion({
   gradeBlend,
   blendWeight = 0.7,
   secondaryBadge = false,
+  secondaryBadgeKind = "prod-rel",
   secondaryBadgeGap,
   secondaryBadgePoolMean,
   secondaryBadgePoolP70,
@@ -136,6 +150,7 @@ export function DualSofascoreAccordion({
             grade={gradeSecondary}
             tip={secondaryTip}
             badge={secondaryBadge}
+            badgeKind={secondaryBadgeKind}
             badgeGap={secondaryBadgeGap}
             badgePoolMean={secondaryBadgePoolMean}
             badgePoolP70={secondaryBadgePoolP70}

@@ -40,6 +40,7 @@ export function ProductivityAccordion({
       gradeBlend={gradeBlend}
       blendWeight={0.7}
       secondaryBadge={relLiftBadge}
+      secondaryBadgeKind="prod-rel"
       secondaryBadgeGap={relGap}
       secondaryBadgePoolMean={relGapPoolMean}
       secondaryBadgePoolP70={relGapPoolP70}

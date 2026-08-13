@@ -22,6 +22,10 @@ type DualGrades = {
   relGap?: number | null;
   relGapPoolMean?: number | null;
   relGapPoolP70?: number | null;
+  stratumLiftBadge?: boolean;
+  stratumGap?: number | null;
+  stratumGapPoolMean?: number | null;
+  stratumGapPoolP70?: number | null;
 };
 
 export function XpProfileBars({
@@ -67,8 +71,10 @@ export function XpProfileBars({
               gradeGeral={precision.geral}
               gradeStratum={precision.secondary}
               gradeBlend={precision.blend ?? bar.value}
-              animate={animate}
-              animationKey={animationKey}
+              stratumLiftBadge={precision.stratumLiftBadge}
+              stratumGap={precision.stratumGap}
+              stratumGapPoolMean={precision.stratumGapPoolMean}
+              stratumGapPoolP70={precision.stratumGapPoolP70}
             />
           );
         }

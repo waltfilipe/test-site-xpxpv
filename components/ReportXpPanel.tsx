@@ -28,6 +28,10 @@ export function ReportXpPanel({ profile, accent = "#a78bfa", expandAll = false }
           geral: profile.prec_grade_geral,
           secondary: profile.prec_grade_stratum,
           blend: profile.prec_grade_blend,
+          stratumLiftBadge: profile.prec_stratum_lift_badge,
+          stratumGap: profile.prec_stratum_gap,
+          stratumGapPoolMean: profile.prec_stratum_gap_pool_mean,
+          stratumGapPoolP70: profile.prec_stratum_gap_pool_p70,
         }}
         lethality={{
           geral: profile.leth_grade_xpv,

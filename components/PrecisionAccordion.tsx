@@ -7,6 +7,10 @@ type Props = {
   gradeGeral?: number | null;
   gradeStratum?: number | null;
   gradeBlend?: number | null;
+  stratumLiftBadge?: boolean;
+  stratumGap?: number | null;
+  stratumGapPoolMean?: number | null;
+  stratumGapPoolP70?: number | null;
   animate?: boolean;
   animationKey?: string;
 };
@@ -15,6 +19,10 @@ export function PrecisionAccordion({
   gradeGeral,
   gradeStratum,
   gradeBlend,
+  stratumLiftBadge = false,
+  stratumGap,
+  stratumGapPoolMean,
+  stratumGapPoolP70,
 }: Props) {
   const { m } = useI18n();
 
@@ -31,6 +39,11 @@ export function PrecisionAccordion({
       gradeSecondary={gradeStratum}
       gradeBlend={gradeBlend}
       blendWeight={0.7}
+      secondaryBadge={stratumLiftBadge}
+      secondaryBadgeKind="prec-stratum"
+      secondaryBadgeGap={stratumGap}
+      secondaryBadgePoolMean={stratumGapPoolMean}
+      secondaryBadgePoolP70={stratumGapPoolP70}
     />
   );
 }
