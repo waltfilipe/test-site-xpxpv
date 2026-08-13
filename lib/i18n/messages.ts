@@ -250,6 +250,8 @@ export type Messages = {
   badges: {
     organizer: string;
     organizerTooltip: string;
+    prodRelLift: string;
+    prodRelLiftTooltip: string;
   };
   roundStats: {
     grade: string;
@@ -587,6 +589,9 @@ const en: Messages = {
     organizer: "Organizer",
     organizerTooltip:
       "High xPV/Pass and pass volume with below-median Impact Rate and strong short-pass COE vs the midfielder pool.",
+    prodRelLift: "Team share lift",
+    prodRelLiftTooltip:
+      "Relative productivity exceeds General by {gap} pts — above P70 in the eligible midfielder pool (threshold {p70}; pool mean gap {mean}).",
   },
   roundStats: {
     grade: "Grade",
@@ -1056,6 +1061,9 @@ const pt: Messages = {
     organizer: "Organizador",
     organizerTooltip:
       "Alto xPV/Pass e volume de passes, Impact Rate abaixo da mediana e COE em passes curtos forte vs o pool de médios.",
+    prodRelLift: "Share no time",
+    prodRelLiftTooltip:
+      "Produtividade relativa supera a geral por {gap} pts — acima do P70 no pool de médios elegíveis (corte {p70}; média do pool {mean}).",
   },
   roundStats: {
     grade: "Nota",

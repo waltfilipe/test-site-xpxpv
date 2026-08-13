@@ -145,6 +145,10 @@ export function ProfileView({
                   geral: data.prod_grade_geral,
                   secondary: data.prod_grade_rel,
                   blend: data.prod_grade_blend,
+                  relLiftBadge: data.prod_rel_lift_badge,
+                  relGap: data.prod_rel_gap,
+                  relGapPoolMean: data.prod_rel_gap_pool_mean,
+                  relGapPoolP70: data.prod_rel_gap_pool_p70,
                 }}
                 precision={{
                   geral: data.prec_grade_geral,

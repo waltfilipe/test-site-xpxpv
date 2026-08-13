@@ -18,6 +18,10 @@ type DualGrades = {
   geral?: number | null;
   secondary?: number | null;
   blend?: number | null;
+  relLiftBadge?: boolean;
+  relGap?: number | null;
+  relGapPoolMean?: number | null;
+  relGapPoolP70?: number | null;
 };
 
 export function XpProfileBars({
@@ -48,8 +52,10 @@ export function XpProfileBars({
               gradeGeral={productivity.geral}
               gradeRel={productivity.secondary}
               gradeBlend={productivity.blend ?? bar.value}
-              animate={animate}
-              animationKey={animationKey}
+              relLiftBadge={productivity.relLiftBadge}
+              relGap={productivity.relGap}
+              relGapPoolMean={productivity.relGapPoolMean}
+              relGapPoolP70={productivity.relGapPoolP70}
             />
           );
         }

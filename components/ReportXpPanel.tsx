@@ -19,6 +19,10 @@ export function ReportXpPanel({ profile, accent = "#a78bfa", expandAll = false }
           geral: profile.prod_grade_geral,
           secondary: profile.prod_grade_rel,
           blend: profile.prod_grade_blend,
+          relLiftBadge: profile.prod_rel_lift_badge,
+          relGap: profile.prod_rel_gap,
+          relGapPoolMean: profile.prod_rel_gap_pool_mean,
+          relGapPoolP70: profile.prod_rel_gap_pool_p70,
         }}
         precision={{
           geral: profile.prec_grade_geral,

@@ -7,6 +7,10 @@ type Props = {
   gradeGeral?: number | null;
   gradeRel?: number | null;
   gradeBlend?: number | null;
+  relLiftBadge?: boolean;
+  relGap?: number | null;
+  relGapPoolMean?: number | null;
+  relGapPoolP70?: number | null;
   animate?: boolean;
   animationKey?: string;
 };
@@ -15,6 +19,10 @@ export function ProductivityAccordion({
   gradeGeral,
   gradeRel,
   gradeBlend,
+  relLiftBadge = false,
+  relGap,
+  relGapPoolMean,
+  relGapPoolP70,
 }: Props) {
   const { m } = useI18n();
 
@@ -31,6 +39,10 @@ export function ProductivityAccordion({
       gradeSecondary={gradeRel}
       gradeBlend={gradeBlend}
       blendWeight={0.7}
+      secondaryBadge={relLiftBadge}
+      secondaryBadgeGap={relGap}
+      secondaryBadgePoolMean={relGapPoolMean}
+      secondaryBadgePoolP70={relGapPoolP70}
     />
   );
 }

@@ -111,6 +111,10 @@ export type PlayerProfile = {
   prod_grade_geral?: number | null;
   prod_grade_rel?: number | null;
   prod_grade_blend?: number | null;
+  prod_rel_gap?: number | null;
+  prod_rel_lift_badge?: boolean;
+  prod_rel_gap_pool_mean?: number | null;
+  prod_rel_gap_pool_p70?: number | null;
   prec_grade_geral?: number | null;
   prec_grade_stratum?: number | null;
   prec_grade_blend?: number | null;

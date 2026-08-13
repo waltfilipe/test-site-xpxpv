@@ -1717,6 +1717,32 @@ button, input, select { font: inherit; }
   flex-shrink: 0;
 }
 
+.sofascore-grade-value-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  flex-shrink: 0;
+}
+
+.prod-rel-lift-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.95rem;
+  height: 0.95rem;
+  border-radius: 999px;
+  color: #0c4a6e;
+  background: linear-gradient(135deg, #bae6fd 0%, #38bdf8 100%);
+  border: 1px solid rgba(56, 189, 248, 0.55);
+  box-shadow: 0 1px 4px rgba(56, 189, 248, 0.28);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.prod-rel-lift-badge i {
+  font-size: 0.48rem;
+}
+
 .sofascore-grade-meter {
   width: 100%;
 }

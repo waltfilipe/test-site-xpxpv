@@ -1,6 +1,7 @@
 "use client";
 
 import { passGradeGradientColor, sofascoreGradePct } from "@/lib/gradeColors";
+import { ProdRelLiftBadge } from "@/components/ui/ProdRelLiftBadge";
 import { Tooltip } from "@/components/ui/Tooltip";
 
 function GradeRow({
@@ -8,11 +9,19 @@ function GradeRow({
   weightPct,
   grade,
   tip,
+  badge,
+  badgeGap,
+  badgePoolMean,
+  badgePoolP70,
 }: {
   label: string;
   weightPct?: number;
   grade?: number | null;
   tip: string;
+  badge?: boolean;
+  badgeGap?: number | null;
+  badgePoolMean?: number | null;
+  badgePoolP70?: number | null;
 }) {
   const color =
     grade != null ? passGradeGradientColor(sofascoreGradePct(grade)) : "#64748b";
@@ -26,8 +35,17 @@ function GradeRow({
             <span className="sofascore-grade-weight">{weightPct}%</span>
           )}
         </span>
-        <span className="sofascore-grade-value tabular" style={{ color }}>
-          {grade != null ? grade.toFixed(1) : "—"}
+        <span className="sofascore-grade-value-wrap">
+          <span className="sofascore-grade-value tabular" style={{ color }}>
+            {grade != null ? grade.toFixed(1) : "—"}
+          </span>
+          {badge && (
+            <ProdRelLiftBadge
+              gap={badgeGap}
+              poolMean={badgePoolMean}
+              poolP70={badgePoolP70}
+            />
+          )}
         </span>
       </div>
     </div>
@@ -52,8 +70,10 @@ type Props = {
   gradeSecondary?: number | null;
   gradeBlend?: number | null;
   blendWeight?: number;
-  animate?: boolean;
-  animationKey?: string;
+  secondaryBadge?: boolean;
+  secondaryBadgeGap?: number | null;
+  secondaryBadgePoolMean?: number | null;
+  secondaryBadgePoolP70?: number | null;
 };
 
 export function DualSofascoreAccordion({
@@ -68,6 +88,10 @@ export function DualSofascoreAccordion({
   gradeSecondary,
   gradeBlend,
   blendWeight = 0.7,
+  secondaryBadge = false,
+  secondaryBadgeGap,
+  secondaryBadgePoolMean,
+  secondaryBadgePoolP70,
 }: Props) {
   const w = blendWeight;
   const computedBlend =
@@ -111,6 +135,10 @@ export function DualSofascoreAccordion({
             weightPct={secondaryWeightPct}
             grade={gradeSecondary}
             tip={secondaryTip}
+            badge={secondaryBadge}
+            badgeGap={secondaryBadgeGap}
+            badgePoolMean={secondaryBadgePoolMean}
+            badgePoolP70={secondaryBadgePoolP70}
           />
         </div>
       </div>
