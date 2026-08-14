@@ -687,6 +687,7 @@ const en: Messages = {
     passScores: {
       Volume: "How much they pass.",
       Efficiency: "How cleanly they complete passes.",
+      Lethality: "Threat per pass: destination value and impact-pass rate.",
       "Build-up": "Progression and line-breaking.",
       "Chance creation": "Passes that threaten the goal.",
       Impact: "xPV/Pass and Impact Rate combined.",
@@ -1176,6 +1177,7 @@ const pt: Messages = {
     passScores: {
       Volume: "Quanto o jogador passa.",
       Efficiency: "Quão limpo é o passe.",
+      Lethality: "Ameaça por passe: valor de destino e taxa de impact passes.",
       "Build-up": "Progressão e quebra de linha.",
       "Chance creation": "Passes que ameaçam o gol.",
       Impact: "xPV/Pass e Impact Rate combinados.",

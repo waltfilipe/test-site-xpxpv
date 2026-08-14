@@ -30,10 +30,6 @@ export function ReportXpPanel({ profile, accent = "#a78bfa", expandAll = false }
           gradeGeral: profile.prec_grade_geral,
           gradeExpected: profile.prec_grade_expected ?? profile.prec_grade_stratum,
           coePerPass: profile.prec_coe_per_pass,
-          stratumGap: profile.prec_stratum_gap,
-          stratumLiftBadge: profile.prec_stratum_lift_badge,
-          stratumGapPoolMean: profile.prec_stratum_gap_pool_mean,
-          stratumGapPoolP70: profile.prec_stratum_gap_pool_p70,
           expectedPct:
             typeof profile.player?.xpass_expected_pct === "number"
               ? profile.player.xpass_expected_pct

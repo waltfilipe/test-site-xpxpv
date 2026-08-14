@@ -156,10 +156,6 @@ export function ProfileView({
                   gradeGeral: data.prec_grade_geral,
                   gradeExpected: data.prec_grade_expected ?? data.prec_grade_stratum,
                   coePerPass: data.prec_coe_per_pass,
-                  stratumGap: data.prec_stratum_gap,
-                  stratumLiftBadge: data.prec_stratum_lift_badge,
-                  stratumGapPoolMean: data.prec_stratum_gap_pool_mean,
-                  stratumGapPoolP70: data.prec_stratum_gap_pool_p70,
                   expectedPct:
                     typeof data.player?.xpass_expected_pct === "number"
                       ? data.player.xpass_expected_pct

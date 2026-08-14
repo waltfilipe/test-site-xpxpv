@@ -1,15 +1,11 @@
 "use client";
 
+import type { ReactNode } from "react";
 import type { XpBar } from "@/lib/api";
 import { ProdRelLiftBadge } from "@/components/ui/ProdRelLiftBadge";
 import { SofascoreGradeBar } from "@/components/ui/SofascoreGradeBar";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { useI18n } from "@/lib/i18n/context";
-
-const ICONS: Record<string, string> = {
-  xp_activity_display: "fa-chart-simple",
-  xp_efficiency_display: "fa-gauge-high",
-};
 
 type ProductivityGrades = {
   gradeGeral?: number | null;
@@ -27,13 +23,69 @@ type PrecisionGrades = {
   gradeGeral?: number | null;
   gradeExpected?: number | null;
   coePerPass?: number | null;
-  stratumGap?: number | null;
-  stratumLiftBadge?: boolean;
-  stratumGapPoolMean?: number | null;
-  stratumGapPoolP70?: number | null;
   expectedPct?: number | null;
   completionPct?: number | null;
 };
+
+function XpPillarCard({
+  icon,
+  title,
+  pillarTip,
+  animate,
+  animationKey,
+  rows,
+}: {
+  icon: string;
+  title: string;
+  pillarTip: string;
+  animate?: boolean;
+  animationKey?: string;
+  rows: Array<{
+    key: string;
+    label: string;
+    grade?: number | null;
+    tip: string;
+    trailing?: ReactNode;
+  }>;
+}) {
+  let animIndex = 0;
+  const nextDelay = () => {
+    const delay = animIndex * 90;
+    animIndex += 1;
+    return delay;
+  };
+
+  const block = (
+    <div className="xp-pillar-card">
+      <div className="xp-pillar-head">
+        <span className="pass-metric-label xp-metric-label">
+          <i className={`fa-solid ${icon} xp-metric-icon`} aria-hidden="true" />
+          {title}
+        </span>
+      </div>
+      <div className="xp-pillar-rows">
+        {rows.map((row) => (
+          <SofascoreGradeBar
+            key={row.key}
+            label={row.label}
+            grade={row.grade}
+            tip={row.tip}
+            animate={animate}
+            animationKey={animationKey ? `${animationKey}-${row.key}` : row.key}
+            animationDelayMs={animate ? nextDelay() : 0}
+            trailing={row.trailing}
+          />
+        ))}
+      </div>
+    </div>
+  );
+
+  return (
+    <Tooltip content={pillarTip} block>
+      {block}
+    </Tooltip>
+  );
+}
 
 export function XpProfileBars({
   bars,
@@ -51,130 +103,101 @@ export function XpProfileBars({
   const { m } = useI18n();
   const tips = m.tooltips.xpProfileBars;
 
-  let animIndex = 0;
-  const nextDelay = () => {
-    const delay = animIndex * 90;
-    animIndex += 1;
-    return delay;
-  };
+  const expTip = productivity
+    ? m.productivity.expectedTip
+        .replace(
+          "{gap}",
+          productivity.relGap != null
+            ? (productivity.relGap >= 0
+              ? `+${productivity.relGap.toFixed(2)}`
+              : productivity.relGap.toFixed(2))
+            : "—",
+        )
+        .replace("{actual}", productivity.xpvPerGame != null ? productivity.xpvPerGame.toFixed(2) : "—")
+        .replace("{expected}", productivity.xpvExpected != null ? productivity.xpvExpected.toFixed(2) : "—")
+    : "";
+
+  const coeTip = precision
+    ? m.precision.coeTip
+        .replace(
+          "{coe}",
+          precision.coePerPass != null
+            ? (precision.coePerPass >= 0
+              ? `+${precision.coePerPass.toFixed(2)}`
+              : precision.coePerPass.toFixed(2))
+            : "—",
+        )
+        .replace(
+          "{actual}",
+          precision.completionPct != null ? precision.completionPct.toFixed(1) : "—",
+        )
+        .replace(
+          "{expected}",
+          precision.expectedPct != null ? precision.expectedPct.toFixed(1) : "—",
+        )
+    : "";
 
   return (
     <div className="xp-profile-bars">
       {bars.map((bar) => {
         if (bar.key === "xp_activity_display" && productivity) {
-          const geralDelay = nextDelay();
-          const expDelay = nextDelay();
-          const expTip = m.productivity.expectedTip
-            .replace(
-              "{gap}",
-              productivity.relGap != null
-                ? (productivity.relGap >= 0
-                  ? `+${productivity.relGap.toFixed(2)}`
-                  : productivity.relGap.toFixed(2))
-                : "—",
-            )
-            .replace("{actual}", productivity.xpvPerGame != null ? productivity.xpvPerGame.toFixed(2) : "—")
-            .replace("{expected}", productivity.xpvExpected != null ? productivity.xpvExpected.toFixed(2) : "—");
-          const productivityBlock = (
-            <div className="xp-productivity-block">
-              <div className="xp-pillar-section-head">
-                <span className="pass-metric-label xp-metric-label">
-                  <i className={`fa-solid ${ICONS[bar.key]} xp-metric-icon`} aria-hidden="true" />
-                  {m.productivity.title}
-                </span>
-              </div>
-              <div className="xp-productivity-subrows">
-                <SofascoreGradeBar
-                  label={m.productivity.general}
-                  grade={productivity.gradeGeral}
-                  tip={m.productivity.generalTip}
-                  animate={animate}
-                  animationKey={animationKey ? `${animationKey}-prod-geral` : "prod-geral"}
-                  animationDelayMs={animate ? geralDelay : 0}
-                />
-                <SofascoreGradeBar
-                  label={m.productivity.expected}
-                  grade={productivity.gradeExpected}
-                  tip={expTip}
-                  size="sm"
-                  animate={animate}
-                  animationKey={animationKey ? `${animationKey}-prod-exp` : "prod-exp"}
-                  animationDelayMs={animate ? expDelay : 0}
-                  trailing={
-                    productivity.relLiftBadge ? (
-                      <ProdRelLiftBadge
-                        gap={productivity.gradeGap}
-                        poolMean={productivity.relGapPoolMean}
-                        poolP70={productivity.relGapPoolP70}
-                      />
-                    ) : null
-                  }
-                />
-              </div>
-            </div>
-          );
-
           return (
-            <Tooltip key={bar.key} content={tips.xp_activity_display} block>
-              {productivityBlock}
-            </Tooltip>
+            <XpPillarCard
+              key={bar.key}
+              icon="fa-chart-simple"
+              title={m.productivity.title}
+              pillarTip={tips.xp_activity_display}
+              animate={animate}
+              animationKey={animationKey ? `${animationKey}-prod` : "prod"}
+              rows={[
+                {
+                  key: "geral",
+                  label: m.productivity.general,
+                  grade: productivity.gradeGeral,
+                  tip: m.productivity.generalTip,
+                },
+                {
+                  key: "expected",
+                  label: m.productivity.expected,
+                  grade: productivity.gradeExpected,
+                  tip: expTip,
+                  trailing: productivity.relLiftBadge ? (
+                    <ProdRelLiftBadge
+                      gap={productivity.gradeGap}
+                      poolMean={productivity.relGapPoolMean}
+                      poolP70={productivity.relGapPoolP70}
+                    />
+                  ) : null,
+                },
+              ]}
+            />
           );
         }
 
         if (bar.key === "xp_efficiency_display" && precision) {
-          const geralDelay = nextDelay();
-          const expDelay = nextDelay();
-          const coeTip = m.precision.coeTip
-            .replace(
-              "{coe}",
-              precision.coePerPass != null
-                ? (precision.coePerPass >= 0
-                  ? `+${precision.coePerPass.toFixed(2)}`
-                  : precision.coePerPass.toFixed(2))
-                : "—",
-            )
-            .replace(
-              "{actual}",
-              precision.completionPct != null ? precision.completionPct.toFixed(1) : "—",
-            )
-            .replace(
-              "{expected}",
-              precision.expectedPct != null ? precision.expectedPct.toFixed(1) : "—",
-            );
-          const precisionBlock = (
-            <div className="xp-precision-block">
-              <div className="xp-pillar-section-head">
-                <span className="pass-metric-label xp-metric-label">
-                  <i className={`fa-solid ${ICONS[bar.key]} xp-metric-icon`} aria-hidden="true" />
-                  {m.precision.title}
-                </span>
-              </div>
-              <div className="xp-precision-subrows">
-                <SofascoreGradeBar
-                  label={m.precision.general}
-                  grade={precision.gradeGeral}
-                  tip={coeTip}
-                  animate={animate}
-                  animationKey={animationKey ? `${animationKey}-prec-geral` : "prec-geral"}
-                  animationDelayMs={animate ? geralDelay : 0}
-                />
-                <SofascoreGradeBar
-                  label={m.precision.expected}
-                  grade={precision.gradeExpected}
-                  tip={m.precision.stratumCoeTip}
-                  size="sm"
-                  animate={animate}
-                  animationKey={animationKey ? `${animationKey}-prec-exp` : "prec-exp"}
-                  animationDelayMs={animate ? expDelay : 0}
-                />
-              </div>
-            </div>
-          );
-
           return (
-            <Tooltip key={bar.key} content={tips.xp_efficiency_display} block>
-              {precisionBlock}
-            </Tooltip>
+            <XpPillarCard
+              key={bar.key}
+              icon="fa-gauge-high"
+              title={m.precision.title}
+              pillarTip={tips.xp_efficiency_display}
+              animate={animate}
+              animationKey={animationKey ? `${animationKey}-prec` : "prec"}
+              rows={[
+                {
+                  key: "geral",
+                  label: m.precision.general,
+                  grade: precision.gradeGeral,
+                  tip: coeTip,
+                },
+                {
+                  key: "expected",
+                  label: m.precision.expected,
+                  grade: precision.gradeExpected,
+                  tip: m.precision.stratumCoeTip,
+                },
+              ]}
+            />
           );
         }
 

@@ -18,47 +18,32 @@ function SectionMetrics({ section }: { section: PassScoreSection }) {
   const { m } = useI18n();
   const tips = m.tooltips.components;
   const labels = m.tooltips.componentLabels;
-  let lethalityHeadShown = false;
 
   return (
     <div className="pass-score-metrics">
       {section.components.map((c) => {
-        const isLethality = Boolean(c.lethality);
-        const showLethalityHead = isLethality && !lethalityHeadShown;
-        if (showLethalityHead) lethalityHeadShown = true;
-
         const barScore =
           c.grade != null ? c.grade : rankToBarScore(c.rank, c.rank_pool);
 
         return (
-          <div key={c.key}>
-            {showLethalityHead && (
-              <div className="pass-score-lethality-head">
-                <span className="pass-metric-label xp-metric-label">
-                  <i className="fa-solid fa-bolt xp-metric-icon" aria-hidden="true" />
-                  {m.lethality.title}
+          <Tooltip key={c.key} content={tips[c.key] ?? ""} block>
+            <div className="pass-metric-block">
+              <div className="pass-metric-head">
+                <span className="pass-metric-label">
+                  {labels[c.key] ?? c.key.replace(/_/g, " ")}
+                  <PassMetricStratumStar show={c.stratum_star} />
+                </span>
+                <span className="pass-metric-value tabular">
+                  {formatMetric(c.value, c.key)}
                 </span>
               </div>
-            )}
-            <Tooltip content={tips[c.key] ?? ""} block>
-              <div className="pass-metric-block">
-                <div className="pass-metric-head">
-                  <span className="pass-metric-label">
-                    {labels[c.key] ?? c.key.replace(/_/g, " ")}
-                    <PassMetricStratumStar show={c.stratum_star} />
-                  </span>
-                  <span className="pass-metric-value tabular">
-                    {formatMetric(c.value, c.key)}
-                  </span>
-                </div>
-                <MetricGradientBar
-                  score={barScore}
-                  letter={section.letter}
-                  displayScore={c.grade ?? section.display_score}
-                />
-              </div>
-            </Tooltip>
-          </div>
+              <MetricGradientBar
+                score={barScore}
+                letter={section.letter}
+                displayScore={c.grade ?? section.display_score}
+              />
+            </div>
+          </Tooltip>
         );
       })}
     </div>
