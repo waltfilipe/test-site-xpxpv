@@ -125,6 +125,10 @@ export type Messages = {
   passGrade: {
     title: string;
     unavailable: string;
+    general: string;
+    expected: string;
+    generalTip: string;
+    expectedTip: string;
     tiers: {
       elite: string;
       veryGood: string;
@@ -137,12 +141,16 @@ export type Messages = {
     title: string;
     general: string;
     relative: string;
+    expected: string;
     generalTip: string;
     relativeTip: string;
+    expectedTip: string;
   };
   precision: {
     title: string;
     coeTip: string;
+    general: string;
+    expected: string;
     generalCoe: string;
     stratumCoe: string;
     generalCoeTip: string;
@@ -611,8 +619,14 @@ const en: Messages = {
   },
   stratumStar: "Top quartile vs pass-volume peers",
   passGrade: {
-    title: "Overall Pass Grade",
+    title: "Pass Grade",
     unavailable: "Grade unavailable",
+    general: "General",
+    expected: "Expected",
+    generalTip:
+      "Average of General Productivity and General Precision grades (league-rank Sofascore scale).",
+    expectedTip:
+      "Average of Expected Productivity and Expected Precision (COE stratum) grades.",
     tiers: {
       elite: "Elite",
       veryGood: "Very good",
@@ -625,21 +639,26 @@ const en: Messages = {
     title: "Productivity",
     general: "General",
     relative: "Relative",
+    expected: "Expected",
     generalTip:
-      "xPV per game (0–100) within your league — top midfielder in the league = 100, lowest = 0.",
+      "Sofascore-style grade from xPV per game rank within your league (top midfielder = best grade).",
     relativeTip:
       "xPV/game minus hybrid-model expected ({gap} residual; actual {actual}, expected {expected}). Scaled 0–100 within your league.",
+    expectedTip:
+      "Sofascore-style grade from hybrid residual xPV rank within your league ({gap} residual; actual {actual}, expected {expected}).",
   },
   precision: {
     title: "Precision",
+    general: "General",
+    expected: "Expected",
     coeTip:
-      "COE per pass ({coe} pp; actual {actual}%, expected {expected}%). Scaled 0–100 within your league — top midfielder in the league = 100.",
+      "COE per pass ({coe} pp; actual {actual}%, expected {expected}%). League-rank Sofascore grade.",
     generalCoe: "General COE (all passes)",
     stratumCoe: "COE in volume stratum",
     generalCoeTip:
-      "Sofascore-style grade from total completion-over-expected (COE) vs the midfielder pool.",
+      "Sofascore-style grade from COE per pass rank within your league.",
     stratumCoeTip:
-      "Sofascore-style grade from total-pass COE vs peers in the same pass-volume quartile (all passes).",
+      "Sofascore-style grade from total-pass COE vs peers in the same pass-volume quartile within your league.",
   },
   lethality: {
     title: "Lethality",
@@ -663,9 +682,7 @@ const en: Messages = {
     xpProfileBars: {
       xp_activity_display: "How much value they generate per game.",
       xp_efficiency_display:
-        "Passing precision: completion-over-expected per pass, scaled 0–100 within your league.",
-      xp_edge_display:
-        "Lethality: xPV per pass and impact-pass rate, each scaled 0–100 within your league.",
+        "Passing precision: COE per pass and COE stratum grades within your league.",
     },
     passScores: {
       Volume: "How much they pass.",
@@ -731,7 +748,7 @@ const en: Messages = {
       xp_idx_impact: "How much a player impacts the game per pass.",
       xp_idx_defense: "Defensive volume and duel quality.",
     },
-    passGrade: "Overall pass grade within the position pool.",
+    passGrade: "Pass grade from General and Expected productivity/precision pillars (league rank).",
     passLength: "Share of long passes vs league midpoint.",
     impactExtra: {
       threat_pass_pct: "Impact passes divided by total passes.",
@@ -1089,8 +1106,14 @@ const pt: Messages = {
   },
   stratumStar: "Top quartil vs pares de volume de passe",
   passGrade: {
-    title: "Nota geral de passe",
+    title: "Nota de passe",
     unavailable: "Nota indisponível",
+    general: "Geral",
+    expected: "Esperado",
+    generalTip:
+      "Média das notas de Produtividade Geral e Precisão Geral (escala Sofascore por ranking na liga).",
+    expectedTip:
+      "Média das notas de Produtividade Esperada e Precisão Esperada (COE stratum).",
     tiers: {
       elite: "Elite",
       veryGood: "Muito bom",
@@ -1103,21 +1126,26 @@ const pt: Messages = {
     title: "Produtividade",
     general: "Geral",
     relative: "Relativa",
+    expected: "Esperado",
     generalTip:
-      "xPV por jogo (0–100) na sua liga — o melhor médio da liga = 100, o menor = 0.",
+      "Nota Sofascore pelo ranking de xPV por jogo na sua liga (melhor médio = melhor nota).",
     relativeTip:
       "xPV/jogo menos o esperado do modelo híbrido (residual {gap}; real {actual}, esperado {expected}). Escala 0–100 na liga.",
+    expectedTip:
+      "Nota Sofascore pelo ranking do residual xPV híbrido na liga ({gap} residual; real {actual}, esperado {expected}).",
   },
   precision: {
     title: "Precisão",
+    general: "Geral",
+    expected: "Esperado",
     coeTip:
-      "COE por passe ({coe} pp; real {actual}%, esperado {expected}%). Escala 0–100 na liga — o melhor médio da liga = 100.",
+      "COE por passe ({coe} pp; real {actual}%, esperado {expected}%). Nota Sofascore por ranking na liga.",
     generalCoe: "COE geral (todos os passes)",
     stratumCoe: "COE no extrato de volume",
     generalCoeTip:
-      "Nota Sofascore do COE total (completion-over-expected) vs o pool de médios.",
+      "Nota Sofascore pelo ranking de COE por passe na sua liga.",
     stratumCoeTip:
-      "Nota Sofascore do COE de todos os passes vs pares no mesmo quartil de volume de passes.",
+      "Nota Sofascore do COE total vs pares no mesmo quartil de volume de passes na liga.",
   },
   lethality: {
     title: "Letalidade",
@@ -1209,7 +1237,7 @@ const pt: Messages = {
       xp_idx_impact: "Quanto o jogador impacta o jogo por passe.",
       xp_idx_defense: "Volume defensivo e qualidade de duelo.",
     },
-    passGrade: "Nota geral de passe no pool de posição.",
+    passGrade: "Nota de passe pelos pilares Geral e Esperado (produtividade/precisão, ranking na liga).",
     passLength: "Share de passes longos vs média da liga.",
     impactExtra: {
       threat_pass_pct: "Impact passes dividido pelo total de passes.",

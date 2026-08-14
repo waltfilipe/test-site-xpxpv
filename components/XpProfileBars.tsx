@@ -1,50 +1,50 @@
 "use client";
 
 import type { XpBar } from "@/lib/api";
-import { PercentileBar } from "@/components/ui/PercentileBar";
+import { ProdRelLiftBadge } from "@/components/ui/ProdRelLiftBadge";
+import { SofascoreGradeBar } from "@/components/ui/SofascoreGradeBar";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { useI18n } from "@/lib/i18n/context";
 
 const ICONS: Record<string, string> = {
   xp_activity_display: "fa-chart-simple",
   xp_efficiency_display: "fa-gauge-high",
-  xp_edge_display: "fa-bolt",
 };
 
 type ProductivityGrades = {
-  geralDisplay?: number | null;
-  relDisplay?: number | null;
+  gradeGeral?: number | null;
+  gradeExpected?: number | null;
+  gradeGap?: number | null;
   relGap?: number | null;
+  relLiftBadge?: boolean;
+  relGapPoolMean?: number | null;
+  relGapPoolP70?: number | null;
   xpvPerGame?: number | null;
   xpvExpected?: number | null;
 };
 
 type PrecisionGrades = {
-  display?: number | null;
+  gradeGeral?: number | null;
+  gradeExpected?: number | null;
   coePerPass?: number | null;
+  stratumGap?: number | null;
+  stratumLiftBadge?: boolean;
+  stratumGapPoolMean?: number | null;
+  stratumGapPoolP70?: number | null;
   expectedPct?: number | null;
   completionPct?: number | null;
-};
-
-type LethalityGrades = {
-  xpvDisplay?: number | null;
-  threatDisplay?: number | null;
-  xpvPerPass?: number | null;
-  impactRatePct?: number | null;
 };
 
 export function XpProfileBars({
   bars,
   productivity,
   precision,
-  lethality,
   animate = false,
   animationKey,
 }: {
   bars: XpBar[];
   productivity?: ProductivityGrades;
   precision?: PrecisionGrades;
-  lethality?: LethalityGrades;
   animate?: boolean;
   animationKey?: string;
 }) {
@@ -63,8 +63,8 @@ export function XpProfileBars({
       {bars.map((bar) => {
         if (bar.key === "xp_activity_display" && productivity) {
           const geralDelay = nextDelay();
-          const relDelay = nextDelay();
-          const relTip = m.productivity.relativeTip
+          const expDelay = nextDelay();
+          const expTip = m.productivity.expectedTip
             .replace(
               "{gap}",
               productivity.relGap != null
@@ -84,22 +84,31 @@ export function XpProfileBars({
                 </span>
               </div>
               <div className="xp-productivity-subrows">
-                <PercentileBar
+                <SofascoreGradeBar
                   label={m.productivity.general}
-                  value={productivity.geralDisplay ?? bar.value}
+                  grade={productivity.gradeGeral}
                   tip={m.productivity.generalTip}
                   animate={animate}
                   animationKey={animationKey ? `${animationKey}-prod-geral` : "prod-geral"}
                   animationDelayMs={animate ? geralDelay : 0}
                 />
-                <PercentileBar
-                  label={m.productivity.relative}
-                  value={productivity.relDisplay}
-                  tip={relTip}
+                <SofascoreGradeBar
+                  label={m.productivity.expected}
+                  grade={productivity.gradeExpected}
+                  tip={expTip}
                   size="sm"
                   animate={animate}
-                  animationKey={animationKey ? `${animationKey}-prod-rel` : "prod-rel"}
-                  animationDelayMs={animate ? relDelay : 0}
+                  animationKey={animationKey ? `${animationKey}-prod-exp` : "prod-exp"}
+                  animationDelayMs={animate ? expDelay : 0}
+                  trailing={
+                    productivity.relLiftBadge ? (
+                      <ProdRelLiftBadge
+                        gap={productivity.gradeGap}
+                        poolMean={productivity.relGapPoolMean}
+                        poolP70={productivity.relGapPoolP70}
+                      />
+                    ) : null
+                  }
                 />
               </div>
             </div>
@@ -113,7 +122,8 @@ export function XpProfileBars({
         }
 
         if (bar.key === "xp_efficiency_display" && precision) {
-          const delay = nextDelay();
+          const geralDelay = nextDelay();
+          const expDelay = nextDelay();
           const coeTip = m.precision.coeTip
             .replace(
               "{coe}",
@@ -131,69 +141,39 @@ export function XpProfileBars({
               "{expected}",
               precision.expectedPct != null ? precision.expectedPct.toFixed(1) : "—",
             );
-          return (
-            <Tooltip key={bar.key} content={tips.xp_efficiency_display} block>
-              <PercentileBar
-                label={m.precision.title}
-                value={precision.display ?? bar.value}
-                tip={coeTip}
-                animate={animate}
-                animationKey={animationKey ? `${animationKey}-${bar.key}` : bar.key}
-                animationDelayMs={animate ? delay : 0}
-              />
-            </Tooltip>
-          );
-        }
-
-        if (bar.key === "xp_edge_display" && lethality) {
-          const xpvDelay = nextDelay();
-          const threatDelay = nextDelay();
-          const xpvTip = m.lethality.xpvPerPassTip.replace(
-            "{value}",
-            lethality.xpvPerPass != null ? lethality.xpvPerPass.toFixed(3) : "—",
-          );
-          const threatTip = m.lethality.impactRateTip.replace(
-            "{value}",
-            lethality.impactRatePct != null ? lethality.impactRatePct.toFixed(1) : "—",
-          );
-          const lethalityBlock = (
-            <div className="xp-lethality-block">
+          const precisionBlock = (
+            <div className="xp-precision-block">
               <div className="xp-pillar-section-head">
                 <span className="pass-metric-label xp-metric-label">
                   <i className={`fa-solid ${ICONS[bar.key]} xp-metric-icon`} aria-hidden="true" />
-                  {m.lethality.title}
+                  {m.precision.title}
                 </span>
               </div>
-              <div className="xp-lethality-subrows">
-                <PercentileBar
-                  label={m.lethality.xpvPerPass}
-                  value={lethality.xpvDisplay}
-                  tip={xpvTip}
-                  size="sm"
+              <div className="xp-precision-subrows">
+                <SofascoreGradeBar
+                  label={m.precision.general}
+                  grade={precision.gradeGeral}
+                  tip={coeTip}
                   animate={animate}
-                  animationKey={
-                    animationKey ? `${animationKey}-leth-xpv` : "leth-xpv"
-                  }
-                  animationDelayMs={animate ? xpvDelay : 0}
+                  animationKey={animationKey ? `${animationKey}-prec-geral` : "prec-geral"}
+                  animationDelayMs={animate ? geralDelay : 0}
                 />
-                <PercentileBar
-                  label={m.lethality.impactRate}
-                  value={lethality.threatDisplay}
-                  tip={threatTip}
+                <SofascoreGradeBar
+                  label={m.precision.expected}
+                  grade={precision.gradeExpected}
+                  tip={m.precision.stratumCoeTip}
                   size="sm"
                   animate={animate}
-                  animationKey={
-                    animationKey ? `${animationKey}-leth-threat` : "leth-threat"
-                  }
-                  animationDelayMs={animate ? threatDelay : 0}
+                  animationKey={animationKey ? `${animationKey}-prec-exp` : "prec-exp"}
+                  animationDelayMs={animate ? expDelay : 0}
                 />
               </div>
             </div>
           );
 
           return (
-            <Tooltip key={bar.key} content={tips.xp_edge_display} block>
-              {lethalityBlock}
+            <Tooltip key={bar.key} content={tips.xp_efficiency_display} block>
+              {precisionBlock}
             </Tooltip>
           );
         }

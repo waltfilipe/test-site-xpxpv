@@ -62,7 +62,15 @@ export type PassScoreSection = {
   letter?: string | null;
   rank?: number | null;
   rank_pool?: number | null;
-  components: { key: string; value: unknown; rank?: number | null; rank_pool?: number | null; stratum_star?: boolean }[];
+  components: {
+    key: string;
+    value: unknown;
+    rank?: number | null;
+    rank_pool?: number | null;
+    stratum_star?: boolean;
+    grade?: number | null;
+    lethality?: boolean;
+  }[];
 };
 
 export type XpBar = { key: string; label: string; value?: number | null; rank?: number | null };
@@ -108,8 +116,11 @@ export type PlayerProfile = {
   long_pass_share_ref_avg_pct?: number | null;
   long_pass_share_pctile?: number | null;
   xp_pass_rating?: number | null;
+  pass_grade_general?: number | null;
+  pass_grade_expected?: number | null;
   prod_grade_geral?: number | null;
   prod_grade_rel?: number | null;
+  prod_grade_expected?: number | null;
   prod_grade_blend?: number | null;
   prod_xpv_per_game?: number | null;
   prod_xpv_expected?: number | null;
@@ -122,6 +133,7 @@ export type PlayerProfile = {
   prod_rel_gap_pool_p70?: number | null;
   prec_grade_geral?: number | null;
   prec_grade_stratum?: number | null;
+  prec_grade_expected?: number | null;
   prec_grade_blend?: number | null;
   prec_coe_per_pass?: number | null;
   prec_display?: number | null;

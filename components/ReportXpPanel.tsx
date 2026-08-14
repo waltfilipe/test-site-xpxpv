@@ -16,15 +16,24 @@ export function ReportXpPanel({ profile, accent = "#a78bfa", expandAll = false }
       <XpProfileBars
         bars={profile.xp_bars}
         productivity={{
-          geralDisplay: profile.prod_geral_display,
-          relDisplay: profile.prod_rel_display,
+          gradeGeral: profile.prod_grade_geral,
+          gradeExpected: profile.prod_grade_expected ?? profile.prod_grade_rel,
+          gradeGap: profile.prod_rel_gap,
           relGap: profile.prod_rel_xpv,
+          relLiftBadge: profile.prod_rel_lift_badge,
+          relGapPoolMean: profile.prod_rel_gap_pool_mean,
+          relGapPoolP70: profile.prod_rel_gap_pool_p70,
           xpvPerGame: profile.prod_xpv_per_game,
           xpvExpected: profile.prod_xpv_expected,
         }}
         precision={{
-          display: profile.prec_display,
+          gradeGeral: profile.prec_grade_geral,
+          gradeExpected: profile.prec_grade_expected ?? profile.prec_grade_stratum,
           coePerPass: profile.prec_coe_per_pass,
+          stratumGap: profile.prec_stratum_gap,
+          stratumLiftBadge: profile.prec_stratum_lift_badge,
+          stratumGapPoolMean: profile.prec_stratum_gap_pool_mean,
+          stratumGapPoolP70: profile.prec_stratum_gap_pool_p70,
           expectedPct:
             typeof profile.player?.xpass_expected_pct === "number"
               ? profile.player.xpass_expected_pct
@@ -33,12 +42,6 @@ export function ReportXpPanel({ profile, accent = "#a78bfa", expandAll = false }
             typeof profile.player?.pass_completion_pct === "number"
               ? profile.player.pass_completion_pct
               : null,
-        }}
-        lethality={{
-          xpvDisplay: profile.leth_xpv_display,
-          threatDisplay: profile.leth_threat_display,
-          xpvPerPass: profile.leth_xpv_per_pass,
-          impactRatePct: profile.leth_impact_rate_pct,
         }}
       />
 

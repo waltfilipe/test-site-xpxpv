@@ -1458,6 +1458,29 @@ button, input, select { font: inherit; }
 }
 
 /* Pass grade panel */
+.pass-grade-card-dual {
+  padding: 0.85rem 1rem;
+}
+
+.pass-grade-dual-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.pass-score-lethality-head {
+  margin-top: 0.35rem;
+  margin-bottom: 0.15rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.xp-precision-block .xp-precision-subrows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
 .pass-grade-card { padding: 0.85rem 1rem; }
 
 .pass-grade-head {

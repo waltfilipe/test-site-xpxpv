@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { PassGradePanel } from "@/components/PassGradePanel";
 import { ReportPassScoreAccordion } from "@/components/ReportPassScoreAccordion";
 import { ReportXpPanel } from "@/components/ReportXpPanel";
 import { LoadingState } from "@/components/LoadingState";
@@ -444,6 +445,10 @@ export function PlayerReportSheet({
 
           <div className="pa-col pa-col-score">
             <div className="score-stack">
+              <PassGradePanel
+                generalGrade={profile.pass_grade_general}
+                expectedGrade={profile.pass_grade_expected}
+              />
               <ReportXpPanel profile={profile} accent={accent} expandAll={expandAll} />
             </div>
           </div>

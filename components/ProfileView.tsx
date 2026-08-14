@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { LoadingState } from "@/components/LoadingState";
+import { PassGradePanel } from "@/components/PassGradePanel";
 import { PassLengthMix } from "@/components/PassLengthMix";
 import { PassScoreSections } from "@/components/PassScoreSections";
 import { XpIndicesPanel } from "@/components/XpIndicesPanel";
@@ -130,20 +131,35 @@ export function ProfileView({
 
         <div className="pa-col pa-col-score">
           <div className="score-stack">
+            <PassGradePanel
+              generalGrade={data.pass_grade_general}
+              expectedGrade={data.pass_grade_expected}
+              animate
+              animationKey={playerId}
+            />
             <div className="player-card xp-profile-card">
               <h3 className="section-label">{m.sections.xpProfile}</h3>
               <XpProfileBars
                 bars={data.xp_bars}
                 productivity={{
-                  geralDisplay: data.prod_geral_display,
-                  relDisplay: data.prod_rel_display,
+                  gradeGeral: data.prod_grade_geral,
+                  gradeExpected: data.prod_grade_expected ?? data.prod_grade_rel,
+                  gradeGap: data.prod_rel_gap,
                   relGap: data.prod_rel_xpv,
+                  relLiftBadge: data.prod_rel_lift_badge,
+                  relGapPoolMean: data.prod_rel_gap_pool_mean,
+                  relGapPoolP70: data.prod_rel_gap_pool_p70,
                   xpvPerGame: data.prod_xpv_per_game,
                   xpvExpected: data.prod_xpv_expected,
                 }}
                 precision={{
-                  display: data.prec_display,
+                  gradeGeral: data.prec_grade_geral,
+                  gradeExpected: data.prec_grade_expected ?? data.prec_grade_stratum,
                   coePerPass: data.prec_coe_per_pass,
+                  stratumGap: data.prec_stratum_gap,
+                  stratumLiftBadge: data.prec_stratum_lift_badge,
+                  stratumGapPoolMean: data.prec_stratum_gap_pool_mean,
+                  stratumGapPoolP70: data.prec_stratum_gap_pool_p70,
                   expectedPct:
                     typeof data.player?.xpass_expected_pct === "number"
                       ? data.player.xpass_expected_pct
@@ -152,12 +168,6 @@ export function ProfileView({
                     typeof data.player?.pass_completion_pct === "number"
                       ? data.player.pass_completion_pct
                       : null,
-                }}
-                lethality={{
-                  xpvDisplay: data.leth_xpv_display,
-                  threatDisplay: data.leth_threat_display,
-                  xpvPerPass: data.leth_xpv_per_pass,
-                  impactRatePct: data.leth_impact_rate_pct,
                 }}
                 animate
                 animationKey={playerId}
