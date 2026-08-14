@@ -14,7 +14,10 @@ const ICONS: Record<string, string> = {
 
 type ProductivityGrades = {
   geralDisplay?: number | null;
-  expectedDisplay?: number | null;
+  relDisplay?: number | null;
+  relGap?: number | null;
+  xpvPerGame?: number | null;
+  xpvExpected?: number | null;
 };
 
 type PrecisionGrades = {
@@ -57,7 +60,18 @@ export function XpProfileBars({
       {bars.map((bar) => {
         if (bar.key === "xp_activity_display" && productivity) {
           const geralDelay = nextDelay();
-          const expectedDelay = nextDelay();
+          const relDelay = nextDelay();
+          const relTip = m.productivity.relativeTip
+            .replace(
+              "{gap}",
+              productivity.relGap != null
+                ? (productivity.relGap >= 0
+                  ? `+${productivity.relGap.toFixed(2)}`
+                  : productivity.relGap.toFixed(2))
+                : "—",
+            )
+            .replace("{actual}", productivity.xpvPerGame != null ? productivity.xpvPerGame.toFixed(2) : "—")
+            .replace("{expected}", productivity.xpvExpected != null ? productivity.xpvExpected.toFixed(2) : "—");
           const productivityBlock = (
             <div className="xp-productivity-block">
               <div className="xp-pillar-section-head">
@@ -76,13 +90,13 @@ export function XpProfileBars({
                   animationDelayMs={animate ? geralDelay : 0}
                 />
                 <PercentileBar
-                  label={m.productivity.expected}
-                  value={productivity.expectedDisplay}
-                  tip={m.productivity.expectedTip}
+                  label={m.productivity.relative}
+                  value={productivity.relDisplay}
+                  tip={relTip}
                   size="sm"
                   animate={animate}
-                  animationKey={animationKey ? `${animationKey}-prod-exp` : "prod-exp"}
-                  animationDelayMs={animate ? expectedDelay : 0}
+                  animationKey={animationKey ? `${animationKey}-prod-rel` : "prod-rel"}
+                  animationDelayMs={animate ? relDelay : 0}
                 />
               </div>
             </div>

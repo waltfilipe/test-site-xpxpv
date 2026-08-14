@@ -115,7 +115,7 @@ export type PlayerProfile = {
   prod_xpv_expected?: number | null;
   prod_rel_xpv?: number | null;
   prod_geral_display?: number | null;
-  prod_expected_display?: number | null;
+  prod_rel_display?: number | null;
   prod_rel_gap?: number | null;
   prod_rel_lift_badge?: boolean;
   prod_rel_gap_pool_mean?: number | null;

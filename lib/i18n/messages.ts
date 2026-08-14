@@ -136,10 +136,8 @@ export type Messages = {
   productivity: {
     title: string;
     general: string;
-    expected: string;
     relative: string;
     generalTip: string;
-    expectedTip: string;
     relativeTip: string;
   };
   precision: {
@@ -625,14 +623,11 @@ const en: Messages = {
   productivity: {
     title: "Productivity",
     general: "General",
-    expected: "Expected",
+    relative: "Relative",
     generalTip:
       "xPV per game (0–100) within your league — top midfielder in the league = 100, lowest = 0.",
-    expectedTip:
-      "Expected xPV per game from the hybrid volume model (EU slope + league intercept), scaled 0–100 within your league.",
-    relative: "Relative (team share)",
     relativeTip:
-      "Sofascore-style grade from your xP/90 vs team xP per game (R-D ratio). Median ≈ 6.9; 8 is very good.",
+      "xPV/game minus hybrid-model expected ({gap} residual; actual {actual}, expected {expected}). Scaled 0–100 within your league.",
   },
   precision: {
     title: "Precision",
@@ -1103,14 +1098,11 @@ const pt: Messages = {
   productivity: {
     title: "Produtividade",
     general: "Geral",
-    expected: "Esperado",
+    relative: "Relativa",
     generalTip:
       "xPV por jogo (0–100) na sua liga — o melhor médio da liga = 100, o menor = 0.",
-    expectedTip:
-      "xPV/jogo esperado pelo modelo híbrido (slope europeu + intercepto da liga), em escala 0–100 na liga.",
-    relative: "Relativo (share no time)",
     relativeTip:
-      "Nota Sofascore do xP/90 vs xP/jogo do time (ratio R-D). Mediana ≈ 6,9; 8 é muito bom.",
+      "xPV/jogo menos o esperado do modelo híbrido (residual {gap}; real {actual}, esperado {expected}). Escala 0–100 na liga.",
   },
   precision: {
     title: "Precisão",

@@ -136,7 +136,10 @@ export function ProfileView({
                 bars={data.xp_bars}
                 productivity={{
                   geralDisplay: data.prod_geral_display,
-                  expectedDisplay: data.prod_expected_display,
+                  relDisplay: data.prod_rel_display,
+                  relGap: data.prod_rel_xpv,
+                  xpvPerGame: data.prod_xpv_per_game,
+                  xpvExpected: data.prod_xpv_expected,
                 }}
                 precision={{
                   blend: data.prec_grade_blend,
