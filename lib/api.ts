@@ -123,6 +123,8 @@ export type PlayerProfile = {
   prec_grade_geral?: number | null;
   prec_grade_stratum?: number | null;
   prec_grade_blend?: number | null;
+  prec_coe_per_pass?: number | null;
+  prec_display?: number | null;
   prec_stratum_gap?: number | null;
   prec_stratum_lift_badge?: boolean;
   prec_stratum_gap_pool_mean?: number | null;

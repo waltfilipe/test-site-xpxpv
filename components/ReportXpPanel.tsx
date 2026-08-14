@@ -23,7 +23,16 @@ export function ReportXpPanel({ profile, accent = "#a78bfa", expandAll = false }
           xpvExpected: profile.prod_xpv_expected,
         }}
         precision={{
-          blend: profile.prec_grade_blend,
+          display: profile.prec_display,
+          coePerPass: profile.prec_coe_per_pass,
+          expectedPct:
+            typeof profile.player?.xpass_expected_pct === "number"
+              ? profile.player.xpass_expected_pct
+              : null,
+          completionPct:
+            typeof profile.player?.pass_completion_pct === "number"
+              ? profile.player.pass_completion_pct
+              : null,
         }}
         lethality={{
           blend: profile.leth_grade_blend,

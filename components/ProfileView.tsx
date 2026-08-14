@@ -142,7 +142,16 @@ export function ProfileView({
                   xpvExpected: data.prod_xpv_expected,
                 }}
                 precision={{
-                  blend: data.prec_grade_blend,
+                  display: data.prec_display,
+                  coePerPass: data.prec_coe_per_pass,
+                  expectedPct:
+                    typeof data.player?.xpass_expected_pct === "number"
+                      ? data.player.xpass_expected_pct
+                      : null,
+                  completionPct:
+                    typeof data.player?.pass_completion_pct === "number"
+                      ? data.player.pass_completion_pct
+                      : null,
                 }}
                 lethality={{
                   blend: data.leth_grade_blend,

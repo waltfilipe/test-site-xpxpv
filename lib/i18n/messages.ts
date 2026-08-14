@@ -142,6 +142,7 @@ export type Messages = {
   };
   precision: {
     title: string;
+    coeTip: string;
     generalCoe: string;
     stratumCoe: string;
     generalCoeTip: string;
@@ -631,6 +632,8 @@ const en: Messages = {
   },
   precision: {
     title: "Precision",
+    coeTip:
+      "COE per pass ({coe} pp; actual {actual}%, expected {expected}%). Scaled 0–100 within your league — top midfielder in the league = 100.",
     generalCoe: "General COE (all passes)",
     stratumCoe: "COE in volume stratum",
     generalCoeTip:
@@ -659,7 +662,8 @@ const en: Messages = {
   tooltips: {
     xpProfileBars: {
       xp_activity_display: "How much value they generate per game.",
-      xp_efficiency_display: "Passing precision vs expectation.",
+      xp_efficiency_display:
+        "Passing precision: completion-over-expected per pass, scaled 0–100 within your league.",
       xp_edge_display:
         "Sofascore-style blend of xPV per pass and impact-pass rate (50/50). Median ≈ 6.9; 8 is very good.",
     },
@@ -1106,6 +1110,8 @@ const pt: Messages = {
   },
   precision: {
     title: "Precisão",
+    coeTip:
+      "COE por passe ({coe} pp; real {actual}%, esperado {expected}%). Escala 0–100 na liga — o melhor médio da liga = 100.",
     generalCoe: "COE geral (todos os passes)",
     stratumCoe: "COE no extrato de volume",
     generalCoeTip:
@@ -1134,7 +1140,8 @@ const pt: Messages = {
   tooltips: {
     xpProfileBars: {
       xp_activity_display: "Quanto valor geram por jogo.",
-      xp_efficiency_display: "Precisão de passe vs expectativa.",
+      xp_efficiency_display:
+        "Precisão de passe: COE por passe, escala 0–100 na liga (melhor da liga = 100).",
       xp_edge_display:
         "Blend Sofascore de xPV por passe e taxa de impact passes (50/50). Mediana ≈ 6,9; 8 é muito bom.",
     },

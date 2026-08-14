@@ -21,7 +21,10 @@ type ProductivityGrades = {
 };
 
 type PrecisionGrades = {
-  blend?: number | null;
+  display?: number | null;
+  coePerPass?: number | null;
+  expectedPct?: number | null;
+  completionPct?: number | null;
 };
 
 type LethalityGrades = {
@@ -111,17 +114,34 @@ export function XpProfileBars({
 
         if (bar.key === "xp_efficiency_display" && precision) {
           const delay = nextDelay();
+          const coeTip = m.precision.coeTip
+            .replace(
+              "{coe}",
+              precision.coePerPass != null
+                ? (precision.coePerPass >= 0
+                  ? `+${precision.coePerPass.toFixed(2)}`
+                  : precision.coePerPass.toFixed(2))
+                : "—",
+            )
+            .replace(
+              "{actual}",
+              precision.completionPct != null ? precision.completionPct.toFixed(1) : "—",
+            )
+            .replace(
+              "{expected}",
+              precision.expectedPct != null ? precision.expectedPct.toFixed(1) : "—",
+            );
           return (
-            <SofascoreGradeBar
-              key={bar.key}
-              label={m.precision.title}
-              icon={ICONS[bar.key]}
-              grade={precision.blend ?? bar.value}
-              tip={tips.xp_efficiency_display}
-              animate={animate}
-              animationKey={animationKey ? `${animationKey}-${bar.key}` : bar.key}
-              animationDelayMs={animate ? delay : 0}
-            />
+            <Tooltip key={bar.key} content={tips.xp_efficiency_display} block>
+              <PercentileBar
+                label={m.precision.title}
+                value={precision.display ?? bar.value}
+                tip={coeTip}
+                animate={animate}
+                animationKey={animationKey ? `${animationKey}-${bar.key}` : bar.key}
+                animationDelayMs={animate ? delay : 0}
+              />
+            </Tooltip>
           );
         }
 
