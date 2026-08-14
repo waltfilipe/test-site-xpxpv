@@ -35,9 +35,10 @@ export function ReportXpPanel({ profile, accent = "#a78bfa", expandAll = false }
               : null,
         }}
         lethality={{
-          blend: profile.leth_grade_blend,
-          xpv: profile.leth_grade_xpv,
-          threat: profile.leth_grade_threat,
+          xpvDisplay: profile.leth_xpv_display,
+          threatDisplay: profile.leth_threat_display,
+          xpvPerPass: profile.leth_xpv_per_pass,
+          impactRatePct: profile.leth_impact_rate_pct,
         }}
       />
 

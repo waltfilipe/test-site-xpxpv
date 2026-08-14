@@ -154,9 +154,10 @@ export function ProfileView({
                       : null,
                 }}
                 lethality={{
-                  blend: data.leth_grade_blend,
-                  xpv: data.leth_grade_xpv,
-                  threat: data.leth_grade_threat,
+                  xpvDisplay: data.leth_xpv_display,
+                  threatDisplay: data.leth_threat_display,
+                  xpvPerPass: data.leth_xpv_per_pass,
+                  impactRatePct: data.leth_impact_rate_pct,
                 }}
                 animate
                 animationKey={playerId}

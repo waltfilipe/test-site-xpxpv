@@ -646,9 +646,9 @@ const en: Messages = {
     xpvPerPass: "xPV / pass",
     impactRate: "Impact rate",
     xpvPerPassTip:
-      "Sofascore-style grade from destination value per completed pass (xPV/pass). Median ≈ 6.9; 8 is very good; 9+ is rare.",
+      "Destination value per completed pass ({value}). Scaled 0–100 within your league — top midfielder in the league = 100.",
     impactRateTip:
-      "Sofascore-style grade from share of passes classified as impact passes (threat_pass_pct). Median ≈ 6.9; 8 is very good.",
+      "Share of passes classified as impact passes ({value}%). Scaled 0–100 within your league — top in the league = 100.",
   },
   passLengthMix: {
     title: "Pass Length Mix",
@@ -665,7 +665,7 @@ const en: Messages = {
       xp_efficiency_display:
         "Passing precision: completion-over-expected per pass, scaled 0–100 within your league.",
       xp_edge_display:
-        "Sofascore-style blend of xPV per pass and impact-pass rate (50/50). Median ≈ 6.9; 8 is very good.",
+        "Lethality: xPV per pass and impact-pass rate, each scaled 0–100 within your league.",
     },
     passScores: {
       Volume: "How much they pass.",
@@ -1124,9 +1124,9 @@ const pt: Messages = {
     xpvPerPass: "xPV / passe",
     impactRate: "Taxa de impacto",
     xpvPerPassTip:
-      "Nota Sofascore do valor de destino por passe completado (xPV/passe). Mediana ≈ 6,9; 8 é muito bom; 9+ é raro.",
+      "Valor de destino por passe completado ({value}). Escala 0–100 na liga — o melhor médio da liga = 100.",
     impactRateTip:
-      "Nota Sofascore da % de passes classificados como impact passes (threat_pass_pct). Mediana ≈ 6,9; 8 é muito bom.",
+      "% de passes classificados como impact passes ({value}%). Escala 0–100 na liga — o melhor da liga = 100.",
   },
   passLengthMix: {
     title: "Mix de comprimento de passe",
@@ -1143,7 +1143,7 @@ const pt: Messages = {
       xp_efficiency_display:
         "Precisão de passe: COE por passe, escala 0–100 na liga (melhor da liga = 100).",
       xp_edge_display:
-        "Blend Sofascore de xPV por passe e taxa de impact passes (50/50). Mediana ≈ 6,9; 8 é muito bom.",
+        "Letalidade: xPV por passe e taxa de impact passes, cada um em escala 0–100 na liga.",
     },
     passScores: {
       Volume: "Quanto o jogador passa.",

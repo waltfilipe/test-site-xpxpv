@@ -132,6 +132,11 @@ export type PlayerProfile = {
   leth_grade_xpv?: number | null;
   leth_grade_threat?: number | null;
   leth_grade_blend?: number | null;
+  leth_xpv_per_pass?: number | null;
+  leth_impact_rate_pct?: number | null;
+  leth_xpv_display?: number | null;
+  leth_threat_display?: number | null;
+  leth_display?: number | null;
   xp_game_consistency_score?: number | null;
   test_impact_v2_p90?: number | null;
   xp_indices?: XpIndexItem[];

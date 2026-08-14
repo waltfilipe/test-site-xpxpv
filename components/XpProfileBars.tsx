@@ -2,7 +2,6 @@
 
 import type { XpBar } from "@/lib/api";
 import { PercentileBar } from "@/components/ui/PercentileBar";
-import { SofascoreGradeBar } from "@/components/ui/SofascoreGradeBar";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { useI18n } from "@/lib/i18n/context";
 
@@ -28,9 +27,10 @@ type PrecisionGrades = {
 };
 
 type LethalityGrades = {
-  blend?: number | null;
-  xpv?: number | null;
-  threat?: number | null;
+  xpvDisplay?: number | null;
+  threatDisplay?: number | null;
+  xpvPerPass?: number | null;
+  impactRatePct?: number | null;
 };
 
 export function XpProfileBars({
@@ -146,47 +146,55 @@ export function XpProfileBars({
         }
 
         if (bar.key === "xp_edge_display" && lethality) {
-          const mainDelay = nextDelay();
-          const subDelay1 = nextDelay();
-          const subDelay2 = nextDelay();
-          const blend = lethality.blend ?? bar.value;
-
-          return (
-            <div key={bar.key} className="xp-lethality-block">
-              <SofascoreGradeBar
-                label={m.lethality.title}
-                icon={ICONS[bar.key]}
-                grade={blend}
-                tip={tips.xp_edge_display}
-                animate={animate}
-                animationKey={animationKey ? `${animationKey}-${bar.key}` : bar.key}
-                animationDelayMs={animate ? mainDelay : 0}
-              />
+          const xpvDelay = nextDelay();
+          const threatDelay = nextDelay();
+          const xpvTip = m.lethality.xpvPerPassTip.replace(
+            "{value}",
+            lethality.xpvPerPass != null ? lethality.xpvPerPass.toFixed(3) : "—",
+          );
+          const threatTip = m.lethality.impactRateTip.replace(
+            "{value}",
+            lethality.impactRatePct != null ? lethality.impactRatePct.toFixed(1) : "—",
+          );
+          const lethalityBlock = (
+            <div className="xp-lethality-block">
+              <div className="xp-pillar-section-head">
+                <span className="pass-metric-label xp-metric-label">
+                  <i className={`fa-solid ${ICONS[bar.key]} xp-metric-icon`} aria-hidden="true" />
+                  {m.lethality.title}
+                </span>
+              </div>
               <div className="xp-lethality-subrows">
-                <SofascoreGradeBar
+                <PercentileBar
                   label={m.lethality.xpvPerPass}
-                  grade={lethality.xpv}
-                  tip={m.lethality.xpvPerPassTip}
+                  value={lethality.xpvDisplay}
+                  tip={xpvTip}
                   size="sm"
                   animate={animate}
                   animationKey={
                     animationKey ? `${animationKey}-leth-xpv` : "leth-xpv"
                   }
-                  animationDelayMs={animate ? subDelay1 : 0}
+                  animationDelayMs={animate ? xpvDelay : 0}
                 />
-                <SofascoreGradeBar
+                <PercentileBar
                   label={m.lethality.impactRate}
-                  grade={lethality.threat}
-                  tip={m.lethality.impactRateTip}
+                  value={lethality.threatDisplay}
+                  tip={threatTip}
                   size="sm"
                   animate={animate}
                   animationKey={
                     animationKey ? `${animationKey}-leth-threat` : "leth-threat"
                   }
-                  animationDelayMs={animate ? subDelay2 : 0}
+                  animationDelayMs={animate ? threatDelay : 0}
                 />
               </div>
             </div>
+          );
+
+          return (
+            <Tooltip key={bar.key} content={tips.xp_edge_display} block>
+              {lethalityBlock}
+            </Tooltip>
           );
         }
 
