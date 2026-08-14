@@ -135,11 +135,8 @@ export function ProfileView({
               <XpProfileBars
                 bars={data.xp_bars}
                 productivity={{
-                  blend: data.prod_grade_blend,
-                  relLiftBadge: data.prod_rel_lift_badge,
-                  relGap: data.prod_rel_gap,
-                  relGapPoolMean: data.prod_rel_gap_pool_mean,
-                  relGapPoolP70: data.prod_rel_gap_pool_p70,
+                  geralDisplay: data.prod_geral_display,
+                  expectedDisplay: data.prod_expected_display,
                 }}
                 precision={{
                   blend: data.prec_grade_blend,

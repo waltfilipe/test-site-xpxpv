@@ -16,11 +16,8 @@ export function ReportXpPanel({ profile, accent = "#a78bfa", expandAll = false }
       <XpProfileBars
         bars={profile.xp_bars}
         productivity={{
-          blend: profile.prod_grade_blend,
-          relLiftBadge: profile.prod_rel_lift_badge,
-          relGap: profile.prod_rel_gap,
-          relGapPoolMean: profile.prod_rel_gap_pool_mean,
-          relGapPoolP70: profile.prod_rel_gap_pool_p70,
+          geralDisplay: profile.prod_geral_display,
+          expectedDisplay: profile.prod_expected_display,
         }}
         precision={{
           blend: profile.prec_grade_blend,

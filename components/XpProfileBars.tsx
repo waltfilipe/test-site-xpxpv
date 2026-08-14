@@ -1,8 +1,9 @@
 "use client";
 
 import type { XpBar } from "@/lib/api";
-import { ProdRelLiftBadge } from "@/components/ui/ProdRelLiftBadge";
+import { PercentileBar } from "@/components/ui/PercentileBar";
 import { SofascoreGradeBar } from "@/components/ui/SofascoreGradeBar";
+import { Tooltip } from "@/components/ui/Tooltip";
 import { useI18n } from "@/lib/i18n/context";
 
 const ICONS: Record<string, string> = {
@@ -12,11 +13,8 @@ const ICONS: Record<string, string> = {
 };
 
 type ProductivityGrades = {
-  blend?: number | null;
-  relLiftBadge?: boolean;
-  relGap?: number | null;
-  relGapPoolMean?: number | null;
-  relGapPoolP70?: number | null;
+  geralDisplay?: number | null;
+  expectedDisplay?: number | null;
 };
 
 type PrecisionGrades = {
@@ -58,29 +56,42 @@ export function XpProfileBars({
     <div className="xp-profile-bars">
       {bars.map((bar) => {
         if (bar.key === "xp_activity_display" && productivity) {
-          const delay = nextDelay();
+          const geralDelay = nextDelay();
+          const expectedDelay = nextDelay();
+          const productivityBlock = (
+            <div className="xp-productivity-block">
+              <div className="xp-pillar-section-head">
+                <span className="pass-metric-label xp-metric-label">
+                  <i className={`fa-solid ${ICONS[bar.key]} xp-metric-icon`} aria-hidden="true" />
+                  {m.productivity.title}
+                </span>
+              </div>
+              <div className="xp-productivity-subrows">
+                <PercentileBar
+                  label={m.productivity.general}
+                  value={productivity.geralDisplay ?? bar.value}
+                  tip={m.productivity.generalTip}
+                  animate={animate}
+                  animationKey={animationKey ? `${animationKey}-prod-geral` : "prod-geral"}
+                  animationDelayMs={animate ? geralDelay : 0}
+                />
+                <PercentileBar
+                  label={m.productivity.expected}
+                  value={productivity.expectedDisplay}
+                  tip={m.productivity.expectedTip}
+                  size="sm"
+                  animate={animate}
+                  animationKey={animationKey ? `${animationKey}-prod-exp` : "prod-exp"}
+                  animationDelayMs={animate ? expectedDelay : 0}
+                />
+              </div>
+            </div>
+          );
+
           return (
-            <SofascoreGradeBar
-              key={bar.key}
-              label={m.productivity.title}
-              icon={ICONS[bar.key]}
-              grade={productivity.blend ?? bar.value}
-              tip={tips.xp_activity_display}
-              animate={animate}
-              animationKey={animationKey ? `${animationKey}-${bar.key}` : bar.key}
-              animationDelayMs={animate ? delay : 0}
-              trailing={
-                productivity.relLiftBadge
-                  ? (
-                    <ProdRelLiftBadge
-                      gap={productivity.relGap}
-                      poolMean={productivity.relGapPoolMean}
-                      poolP70={productivity.relGapPoolP70}
-                    />
-                  )
-                  : undefined
-              }
-            />
+            <Tooltip key={bar.key} content={tips.xp_activity_display} block>
+              {productivityBlock}
+            </Tooltip>
           );
         }
 
