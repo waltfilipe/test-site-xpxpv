@@ -372,7 +372,6 @@ export function ReportsClient() {
             mapSlots={item.mapSlots}
             expandAll
             preloadMaps
-            printMode
           />
         ))}
       </div>
