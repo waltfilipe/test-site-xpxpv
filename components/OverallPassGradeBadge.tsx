@@ -28,7 +28,7 @@ export function OverallPassGradeBadge({ score, absolute, relative }: Props) {
 
   const color = passGradeGradientColor(passGradePct(score));
   const tier = m.passGrade.tiers[tierKey(score)];
-  const tipParts = [m.passGrade.overallTip];
+  const tipParts = [m.passGrade.overallTip, tier];
   if (absolute != null && relative != null) {
     tipParts.push(
       `${m.profile.modeAbsolute}: ${absolute.toFixed(1)} · ${m.profile.modeRelative}: ${relative.toFixed(1)}`,
@@ -40,8 +40,8 @@ export function OverallPassGradeBadge({ score, absolute, relative }: Props) {
       <div
         className="overall-pass-grade-badge"
         style={{
-          borderColor: `${color}40`,
-          background: `linear-gradient(145deg, ${color}14 0%, rgba(15, 23, 42, 0.92) 100%)`,
+          borderColor: `${color}33`,
+          boxShadow: `0 6px 18px rgba(0, 0, 0, 0.22), inset 0 1px 0 ${color}18`,
         }}
       >
         <span className="overall-pass-grade-label">{m.passGrade.overallTitle}</span>
@@ -49,11 +49,8 @@ export function OverallPassGradeBadge({ score, absolute, relative }: Props) {
           <span className="overall-pass-grade-score tabular" style={{ color }}>
             {score.toFixed(1)}
           </span>
-          <span className="overall-pass-grade-scale">/ 10</span>
+          <span className="overall-pass-grade-scale">/10</span>
         </div>
-        <span className="overall-pass-grade-tier" style={{ color }}>
-          {tier}
-        </span>
       </div>
     </Tooltip>
   );

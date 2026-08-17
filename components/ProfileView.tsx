@@ -93,38 +93,41 @@ export function ProfileView({
               </div>
 
               <div className="identity-hero-text">
-                <div className="identity-title-row">
-                  <h2 className="identity-title">{String(p.player_name ?? "—")}</h2>
+                <div className="identity-hero-main">
+                  <div className="identity-hero-intro">
+                    <h2 className="identity-title">{String(p.player_name ?? "—")}</h2>
+                    <p className="identity-subline">
+                      {String(p.team ?? "—")} · {String(p.position ?? "—")}
+                    </p>
+                  </div>
+
                   <OverallPassGradeBadge
                     score={overallPassGrade}
                     absolute={passGradeAbsolute}
                     relative={passGradeRelative}
                   />
-                </div>
-                <p className="identity-subline">
-                  {String(p.team ?? "—")} · {String(p.position ?? "—")}
-                </p>
 
-                <div className="identity-facts identity-facts-side">
-                  <div className="identity-fact">
-                    <FactIcon icon="fa-cake-candles" />
-                    <span className="identity-fact-label">{m.common.age}</span>
-                    <span className="identity-fact-value tabular">{p.age != null ? String(p.age) : "—"}</span>
-                  </div>
-                  <div className="identity-fact">
-                    <FactIcon icon="fa-ruler-vertical" />
-                    <span className="identity-fact-label">{m.common.height}</span>
-                    <span className="identity-fact-value">{String(p.height ?? "—")}</span>
-                  </div>
-                  <div className="identity-fact">
-                    <FactIcon icon="fa-earth-americas" />
-                    <span className="identity-fact-label">{m.common.nationality}</span>
-                    <span className="identity-fact-value">{String(p.nationality ?? "—")}</span>
-                  </div>
-                  <div className="identity-fact">
-                    <FactIcon icon="fa-shoe-prints" />
-                    <span className="identity-fact-label">{m.common.foot}</span>
-                    <span className="identity-fact-value">{String(p.dominant_foot ?? "—")}</span>
+                  <div className="identity-facts identity-facts-side">
+                    <div className="identity-fact">
+                      <FactIcon icon="fa-cake-candles" />
+                      <span className="identity-fact-label">{m.common.age}</span>
+                      <span className="identity-fact-value tabular">{p.age != null ? String(p.age) : "—"}</span>
+                    </div>
+                    <div className="identity-fact">
+                      <FactIcon icon="fa-ruler-vertical" />
+                      <span className="identity-fact-label">{m.common.height}</span>
+                      <span className="identity-fact-value">{String(p.height ?? "—")}</span>
+                    </div>
+                    <div className="identity-fact">
+                      <FactIcon icon="fa-earth-americas" />
+                      <span className="identity-fact-label">{m.common.nationality}</span>
+                      <span className="identity-fact-value">{String(p.nationality ?? "—")}</span>
+                    </div>
+                    <div className="identity-fact">
+                      <FactIcon icon="fa-shoe-prints" />
+                      <span className="identity-fact-label">{m.common.foot}</span>
+                      <span className="identity-fact-value">{String(p.dominant_foot ?? "—")}</span>
+                    </div>
                   </div>
                 </div>
               </div>
