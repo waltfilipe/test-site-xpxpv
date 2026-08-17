@@ -128,6 +128,8 @@ export type Messages = {
   passGrade: {
     title: string;
     unavailable: string;
+    overallTitle: string;
+    overallTip: string;
     general: string;
     expected: string;
     generalTip: string;
@@ -627,6 +629,8 @@ const en: Messages = {
   passGrade: {
     title: "Pass Grade",
     unavailable: "Grade unavailable",
+    overallTitle: "Overall",
+    overallTip: "Average of Absolute and Relative pass grades (weighted five-pillar score).",
     general: "General",
     expected: "Expected",
     generalTip:
@@ -1151,6 +1155,8 @@ const pt: Messages = {
   passGrade: {
     title: "Nota de passe",
     unavailable: "Nota indisponível",
+    overallTitle: "Geral",
+    overallTip: "Média entre as notas Absolute e Relative (cinco pilares ponderados).",
     general: "Geral",
     expected: "Esperado",
     generalTip:

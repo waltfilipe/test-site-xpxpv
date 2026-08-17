@@ -1160,6 +1160,69 @@ button, input, select { font: inherit; }
   justify-content: flex-start;
 }
 
+.identity-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.identity-title-row .identity-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.overall-pass-grade-badge {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 4.5rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 12px;
+  border: 1px solid rgba(147, 197, 253, 0.22);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+}
+
+.overall-pass-grade-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.2;
+}
+
+.overall-pass-grade-value {
+  display: flex;
+  align-items: baseline;
+  gap: 0.12rem;
+  margin-top: 0.12rem;
+}
+
+.overall-pass-grade-score {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.overall-pass-grade-scale {
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.overall-pass-grade-tier {
+  margin-top: 0.2rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  text-align: center;
+}
+
 .identity-photo-placeholder-side {
   display: flex;
   align-items: center;

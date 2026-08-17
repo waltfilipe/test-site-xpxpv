@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { LoadingState } from "@/components/LoadingState";
+import { OverallPassGradeBadge } from "@/components/OverallPassGradeBadge";
 import { PassGradePanel } from "@/components/PassGradePanel";
 import { PassLengthMix } from "@/components/PassLengthMix";
 import { PassScoreSections } from "@/components/PassScoreSections";
@@ -12,6 +13,7 @@ import { XpIndicesPanel } from "@/components/XpIndicesPanel";
 import { XpProfileBars } from "@/components/XpProfileBars";
 import { getPlayerProfile, type PlayerProfile, type ProfileViewMode } from "@/lib/api";
 import { formatContractUntil } from "@/lib/formatters";
+import { computeOverallPassGrade, resolvePassGradeRelative } from "@/lib/passGrades";
 import { useI18n } from "@/lib/i18n/context";
 
 function FactIcon({ icon }: { icon: string }) {
@@ -58,6 +60,13 @@ export function ProfileView({
   const passGrade = activeView?.pass_grade ?? data.pass_grade_general;
   const xpBars = activeView?.xp_bars ?? data.xp_bars;
   const passScores = activeView?.pass_scores ?? data.pass_scores;
+  const passGradeAbsolute = data.pass_grade_general ?? null;
+  const passGradeRelative = resolvePassGradeRelative(data);
+  const overallPassGrade = computeOverallPassGrade(
+    passGradeAbsolute,
+    passGradeRelative,
+    data.pass_grade_overall,
+  );
 
   return (
     <>
@@ -84,7 +93,14 @@ export function ProfileView({
               </div>
 
               <div className="identity-hero-text">
-                <h2 className="identity-title">{String(p.player_name ?? "—")}</h2>
+                <div className="identity-title-row">
+                  <h2 className="identity-title">{String(p.player_name ?? "—")}</h2>
+                  <OverallPassGradeBadge
+                    score={overallPassGrade}
+                    absolute={passGradeAbsolute}
+                    relative={passGradeRelative}
+                  />
+                </div>
                 <p className="identity-subline">
                   {String(p.team ?? "—")} · {String(p.position ?? "—")}
                 </p>

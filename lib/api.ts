@@ -141,6 +141,7 @@ export type PlayerProfile = {
   pass_grade_general?: number | null;
   pass_grade_relative?: number | null;
   pass_grade_expected?: number | null;
+  pass_grade_overall?: number | null;
   xp_game_consistency_score?: number | null;
   test_impact_v2_p90?: number | null;
   xp_indices?: XpIndexItem[];
