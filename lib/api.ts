@@ -56,6 +56,15 @@ export type PlayerOption = {
   label: string;
 };
 
+export type ProfileViewMode = "absolute" | "relative";
+
+export type ProfileViewPayload = {
+  mode: ProfileViewMode;
+  pass_grade?: number | null;
+  xp_bars: XpBar[];
+  pass_scores: PassScoreSection[];
+};
+
 export type PassScoreSection = {
   title: string;
   display_score?: number | null;
@@ -67,13 +76,22 @@ export type PassScoreSection = {
     value: unknown;
     rank?: number | null;
     rank_pool?: number | null;
+    rank_in_league?: number | null;
+    rank_pool_in_league?: number | null;
+    bar_display?: number | null;
     stratum_star?: boolean;
-    grade?: number | null;
-    lethality?: boolean;
   }[];
 };
 
-export type XpBar = { key: string; label: string; value?: number | null; rank?: number | null };
+export type XpBar = {
+  key: string;
+  label: string;
+  value?: number | null;
+  raw_value?: number | null;
+  raw_key?: string | null;
+  rank?: number | null;
+  rank_pool?: number | null;
+};
 
 export type XpIndexItem = {
   key: string;
@@ -109,6 +127,10 @@ export type XpRoundGrade = {
 export type PlayerProfile = {
   player: Record<string, unknown>;
   xp: Record<string, unknown>;
+  profile_views?: {
+    absolute?: ProfileViewPayload;
+    relative?: ProfileViewPayload;
+  };
   pass_scores: PassScoreSection[];
   xp_bars: XpBar[];
   origin_heatmap_b64?: string | null;
@@ -117,43 +139,12 @@ export type PlayerProfile = {
   long_pass_share_pctile?: number | null;
   xp_pass_rating?: number | null;
   pass_grade_general?: number | null;
+  pass_grade_relative?: number | null;
   pass_grade_expected?: number | null;
-  prod_grade_geral?: number | null;
-  prod_grade_rel?: number | null;
-  prod_grade_expected?: number | null;
-  prod_grade_blend?: number | null;
-  prod_xpv_per_game?: number | null;
-  prod_xpv_expected?: number | null;
-  prod_rel_xpv?: number | null;
-  prod_geral_display?: number | null;
-  prod_rel_display?: number | null;
-  prod_rel_gap?: number | null;
-  prod_rel_lift_badge?: boolean;
-  prod_rel_gap_pool_mean?: number | null;
-  prod_rel_gap_pool_p70?: number | null;
-  prec_grade_geral?: number | null;
-  prec_grade_stratum?: number | null;
-  prec_grade_expected?: number | null;
-  prec_grade_blend?: number | null;
-  prec_coe_per_pass?: number | null;
-  prec_display?: number | null;
-  prec_stratum_gap?: number | null;
-  prec_stratum_lift_badge?: boolean;
-  prec_stratum_gap_pool_mean?: number | null;
-  prec_stratum_gap_pool_p70?: number | null;
-  leth_grade_xpv?: number | null;
-  leth_grade_threat?: number | null;
-  leth_grade_blend?: number | null;
-  leth_xpv_per_pass?: number | null;
-  leth_impact_rate_pct?: number | null;
-  leth_xpv_display?: number | null;
-  leth_threat_display?: number | null;
-  leth_display?: number | null;
   xp_game_consistency_score?: number | null;
   test_impact_v2_p90?: number | null;
   xp_indices?: XpIndexItem[];
   xp_round_grades?: XpRoundGrade[];
-  organizer_badge?: boolean;
 };
 
 export type CompareMetric = {
@@ -291,7 +282,6 @@ export function getPassMap(
     pass_map_b64?: string | null;
     dest_map_b64?: string | null;
     caption: string;
-    links?: { rank: number; count: number }[] | null;
     pass_filter_options: { key: string; label: string }[];
     scatter_metric_options: { key: string; label: string }[];
   }>(`/api/maps/players/${playerId}/pass-map?${qs}`);

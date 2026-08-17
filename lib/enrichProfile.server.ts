@@ -2,7 +2,6 @@ import "server-only";
 
 import fs from "fs";
 import path from "path";
-import { hasOrganizerBadge } from "@/lib/organizerBadge.server";
 
 type JsonRecord = Record<string, unknown>;
 
@@ -11,6 +10,7 @@ type DerivedPlayerMetrics = {
   defensive_actions_p90_rank_in_league?: number | null;
   defensive_actions_p90_rank_pool_in_league?: number | null;
   chance_creation_xpv?: number | null;
+  chance_creation_xpv_per_game?: number | null;
   chance_creation_xpv_rank_in_group?: number | null;
   chance_creation_xpv_rank_pool_in_group?: number | null;
 };
@@ -60,22 +60,7 @@ function enrichDefenseComponents(
 
 function enrichChanceCreationSection(section: JsonRecord, derived: DerivedPlayerMetrics): JsonRecord {
   if (section.title !== "Chance creation") return section;
-  const components = (section.components as JsonRecord[] | undefined) ?? [];
-  if (derived.chance_creation_xpv == null) return section;
-
-  return {
-    ...section,
-    components: [
-      ...components,
-      {
-        key: "chance_creation_xpv",
-        value: derived.chance_creation_xpv,
-        rank: derived.chance_creation_xpv_rank_in_group ?? null,
-        rank_pool: derived.chance_creation_xpv_rank_pool_in_group ?? null,
-        stratum_star: false,
-      },
-    ],
-  };
+  return section;
 }
 
 export function enrichPlayerProfile(profile: JsonRecord): JsonRecord {
@@ -83,9 +68,10 @@ export function enrichPlayerProfile(profile: JsonRecord): JsonRecord {
   if (!playerId) return profile;
 
   const derived = getDerivedForPlayer(playerId);
+  if (!derived) return profile;
 
-  let xpIndices = (profile.xp_indices as JsonRecord[] | undefined)?.map((item) => {
-    if (!derived || item.key !== "defense" || !Array.isArray(item.components)) return item;
+  const xpIndices = (profile.xp_indices as JsonRecord[] | undefined)?.map((item) => {
+    if (item.key !== "defense" || !Array.isArray(item.components)) return item;
     return {
       ...item,
       components: enrichDefenseComponents(
@@ -101,16 +87,20 @@ export function enrichPlayerProfile(profile: JsonRecord): JsonRecord {
     };
   });
 
-  const passScores = derived
-    ? (profile.pass_scores as JsonRecord[] | undefined)?.map((section) =>
-        enrichChanceCreationSection(section, derived),
-      )
-    : profile.pass_scores;
+  const passScores = (profile.pass_scores as JsonRecord[] | undefined)?.map((section) =>
+    enrichChanceCreationSection(section, derived),
+  );
 
   return {
     ...profile,
     ...(xpIndices ? { xp_indices: xpIndices } : {}),
     ...(passScores ? { pass_scores: passScores } : {}),
-    organizer_badge: hasOrganizerBadge(playerId),
+    xp: {
+      ...(profile.xp as JsonRecord | undefined),
+      ...(derived.chance_creation_xpv_per_game != null
+        ? { chance_creation_xpv_per_game: derived.chance_creation_xpv_per_game }
+        : {}),
+      ...(derived.chance_creation_xpv != null ? { chance_creation_xpv: derived.chance_creation_xpv } : {}),
+    },
   };
 }

@@ -1,10 +1,8 @@
 "use client";
 
-import { PassMetricStratumStar } from "@/components/PassMetricStratumStar";
 import type { PassScoreSection } from "@/lib/api";
 import { GradeBadge } from "@/components/ui/GradeBadge";
 import { MetricGradientBar } from "@/components/ui/MetricGradientBar";
-import { PassScoreBadges } from "@/components/PassScoreBadges";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { formatMetric } from "@/lib/formatters";
 import { rankToBarScore } from "@/lib/gradeColors";
@@ -19,15 +17,18 @@ function SectionMetrics({ section }: { section: PassScoreSection }) {
     <div className="pass-score-metrics">
       {section.components.map((c) => {
         const barScore =
-          c.grade != null ? c.grade : rankToBarScore(c.rank, c.rank_pool);
-
+          c.bar_display != null
+            ? Number(c.bar_display)
+            : rankToBarScore(
+                c.rank_in_league ?? c.rank,
+                c.rank_pool_in_league ?? c.rank_pool,
+              );
         return (
           <Tooltip key={c.key} content={tips[c.key] ?? ""} block>
             <div className="pass-metric-block">
               <div className="pass-metric-head">
                 <span className="pass-metric-label">
                   {labels[c.key] ?? c.key.replace(/_/g, " ")}
-                  <PassMetricStratumStar show={c.stratum_star} />
                 </span>
                 <span className="pass-metric-value tabular">
                   {formatMetric(c.value, c.key)}
@@ -36,7 +37,7 @@ function SectionMetrics({ section }: { section: PassScoreSection }) {
               <MetricGradientBar
                 score={barScore}
                 letter={section.letter}
-                displayScore={c.grade ?? section.display_score}
+                displayScore={section.display_score}
               />
             </div>
           </Tooltip>
@@ -46,13 +47,7 @@ function SectionMetrics({ section }: { section: PassScoreSection }) {
   );
 }
 
-export function PassScoreSections({
-  sections,
-  organizerBadge = false,
-}: {
-  sections: PassScoreSection[];
-  organizerBadge?: boolean;
-}) {
+export function PassScoreSections({ sections }: { sections: PassScoreSection[] }) {
   const { m } = useI18n();
   const passTips = m.tooltips.passScores;
 
@@ -61,10 +56,7 @@ export function PassScoreSections({
       <div className="report-pass-accordion">
         {sections.map((section) => (
           <details key={section.title} className="report-pass-accordion-item">
-            <summary
-              className="report-pass-accordion-trigger"
-              title={passTips[section.title] ?? undefined}
-            >
+            <summary className="report-pass-accordion-trigger">
               <span className="report-pass-accordion-left">
                 <i className="fa-solid fa-chevron-right report-pass-accordion-chevron" aria-hidden="true" />
                 <Tooltip content={passTips[section.title] ?? ""}>
@@ -81,7 +73,6 @@ export function PassScoreSections({
           </details>
         ))}
       </div>
-      <PassScoreBadges organizerBadge={organizerBadge} />
     </div>
   );
 }

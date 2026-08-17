@@ -10,7 +10,6 @@ import { LoadingState } from "@/components/LoadingState";
 import { getPassMap, type PlayerProfile } from "@/lib/api";
 import type { EnrichedReportPlayer } from "@/lib/playerReports";
 import { formatContractUntil } from "@/lib/formatters";
-import { REPORT_MAP_FILTER_KEYS } from "@/lib/reportMapKeys";
 import { useI18n } from "@/lib/i18n/context";
 import type { Messages } from "@/lib/i18n/messages";
 
@@ -28,7 +27,12 @@ export type ReportMapSlot = {
   error?: string | null;
 };
 
-export { REPORT_MAP_FILTER_KEYS } from "@/lib/reportMapKeys";
+export const REPORT_MAP_FILTER_KEYS = [
+  "progressive",
+  "test_impact_v2",
+  "key_passes",
+  "line_break",
+] as const;
 
 export function mapFilterLabel(m: Messages, key: string): string {
   return m.mapFilters[key as keyof Messages["mapFilters"]] ?? key;
@@ -39,11 +43,6 @@ function translateGroupLabel(m: Messages, label?: string): string | undefined {
   if (label === "Top 10") return m.groupLabels.top10;
   if (label === "Extended watchlist") return m.groupLabels.extendedWatchlist;
   return label;
-}
-
-function formatReportSheetTitle(m: Messages, categoryTitle: string): string {
-  const compact = categoryTitle.replace(/\s*—\s*/g, " ").trim();
-  return `${m.reports.midfielderReportLabel} - ${compact}`;
 }
 
 function FactIcon({ icon }: { icon: string }) {
@@ -71,7 +70,6 @@ type Props = {
   mapSlots?: ReportMapSlot[] | null;
   expandAll?: boolean;
   preloadMaps?: boolean;
-  printMode?: boolean;
   onMapsLoaded?: (maps: PlayerReportMaps, slots: ReportMapSlot[]) => void;
   onExportPdf?: (playerId: string) => void;
   exportDisabled?: boolean;
@@ -84,7 +82,6 @@ export function PlayerReportSheet({
   mapSlots: externalSlots,
   expandAll = false,
   preloadMaps = false,
-  printMode = false,
   onMapsLoaded,
   onExportPdf,
   exportDisabled = false,
@@ -200,23 +197,15 @@ export function PlayerReportSheet({
       <div className={`identity-hero identity-hero-side${compact ? " identity-hero-compact" : ""}`}>
         <div className="identity-photo-side">
           {p.photo_url ? (
-            printMode ? (
-              <img
-                src={String(p.photo_url)}
-                alt=""
-                className="identity-photo"
-              />
-            ) : (
-              <Image
-                src={String(p.photo_url)}
-                alt=""
-                fill
-                className="identity-photo"
-                unoptimized
-                priority={categoryIndex <= 3}
-                sizes={compact ? "72px" : "160px"}
-              />
-            )
+            <Image
+              src={String(p.photo_url)}
+              alt=""
+              fill
+              className="identity-photo"
+              unoptimized
+              priority={categoryIndex <= 3}
+              sizes={compact ? "72px" : "160px"}
+            />
           ) : (
             <div className="identity-photo-placeholder identity-photo-placeholder-side">
               {displayName.charAt(0)}
@@ -374,19 +363,10 @@ export function PlayerReportSheet({
   );
   const loadedMaps = mapSlots.filter((s) => s.pass_map_b64);
   const anyLoading = mapSlots.some((s) => s.loading);
-  const mapsOpenOnScreen = activePage === 2 && !expandAll;
-
-  useEffect(() => {
-    if (!mapsOpenOnScreen) return;
-    document.body.classList.add("report-maps-expanded");
-    return () => {
-      document.body.classList.remove("report-maps-expanded");
-    };
-  }, [mapsOpenOnScreen]);
 
   return (
     <div
-      className={`player-report-bundle${mapsOpenOnScreen ? " player-report-bundle-maps-open" : ""}`}
+      className="player-report-bundle"
       data-category={category.id}
       data-player-id={playerId}
       id={`report-${playerId}`}
@@ -394,14 +374,8 @@ export function PlayerReportSheet({
       <section
         className={`player-report-sheet report-page-1${activePage === 2 && !expandAll ? " report-page-screen-hidden" : ""}`}
       >
-        <div className="report-page-1-lead">
-          <h2
-            className="report-sheet-title-compact report-print-only"
-            style={{ color: accent }}
-          >
-            {formatReportSheetTitle(m, categoryTitle)}
-          </h2>
-          <header className="report-sheet-header report-screen-only">
+        <div className="report-page-1-inner">
+          <header className="report-sheet-header">
             <div className="report-sheet-brand">
               <span className="brand-icon report-brand-icon">
                 <i className="fa-solid fa-futbol" />
@@ -437,36 +411,30 @@ export function PlayerReportSheet({
             </div>
           </header>
 
-          <p className="report-sheet-description report-screen-only">{categoryDescription}</p>
-        </div>
+          <p className="report-sheet-description">{categoryDescription}</p>
 
-        <div className="report-sheet-body pa-layout report-layout-v2">
-          <div className="pa-col pa-col-identity">{renderIdentity(false)}</div>
+          <div className="report-sheet-body pa-layout report-layout-v2">
+            <div className="pa-col pa-col-identity">{renderIdentity(false)}</div>
 
-          <div className="pa-col pa-col-score">
-            <div className="score-stack">
-              <PassGradePanel
-                generalGrade={profile.pass_grade_general}
-                expectedGrade={profile.pass_grade_expected}
-              />
-              <ReportXpPanel profile={profile} accent={accent} expandAll={expandAll} />
+            <div className="pa-col pa-col-score">
+              <div className="score-stack">
+                <PassGradePanel rating={profile.xp_pass_rating} />
+                <ReportXpPanel profile={profile} accent={accent} expandAll={expandAll} />
+              </div>
             </div>
-          </div>
 
-          <div className="pa-col pa-col-pillars">
-            <div className="player-card pillars-card report-pillars-card">
-              <h3 className="section-label">{m.sections.passScores}</h3>
-              <ReportPassScoreAccordion
-                sections={profile.pass_scores}
-                expandAll={expandAll}
-              />
+            <div className="pa-col pa-col-pillars">
+              <div className="player-card pillars-card report-pillars-card">
+                <h3 className="section-label">{m.sections.passScores}</h3>
+                <ReportPassScoreAccordion sections={profile.pass_scores} expandAll={expandAll} />
+              </div>
             </div>
           </div>
         </div>
 
         <footer className="report-sheet-footer">
           <span>
-            <strong>{m.brand.name}</strong> · {displayName}
+            <strong>Pass Scout</strong> · {displayName}
           </span>
           <span className="report-sheet-footer-right">
             <Link
@@ -522,15 +490,12 @@ export function PlayerReportSheet({
             )}
             {mapsError && <p className="error-box">{mapsError}</p>}
 
-            <div className="report-maps-trio">
+            <div className="report-maps-grid report-maps-grid-4">
               {mapSlots.map((slot) => (
-                <div
-                  key={slot.key}
-                  className="report-map-card report-map-card-tall"
-                >
+                <div key={slot.key} className="report-map-card">
                   <h4 className="section-label-sm">{slot.label}</h4>
                   {slot.loading && !slot.pass_map_b64 && (
-                    <div className="report-map-skeleton report-map-skeleton-tall" aria-busy="true">
+                    <div className="report-map-skeleton" aria-busy="true">
                       <span className="report-map-skeleton-pulse" />
                     </div>
                   )}
@@ -541,7 +506,7 @@ export function PlayerReportSheet({
                     <img
                       src={`data:image/png;base64,${slot.pass_map_b64}`}
                       alt={slot.label}
-                      className="report-map-img report-map-img-tall"
+                      className="report-map-img"
                     />
                   )}
                   {!slot.loading && !slot.error && !slot.pass_map_b64 && shouldLoadMaps && (
@@ -561,7 +526,7 @@ export function PlayerReportSheet({
 
         <footer className="report-sheet-footer">
           <span>
-            <strong>{m.brand.name}</strong> · {m.reports.mapsPageLabel} · {displayName}
+            <strong>Pass Scout</strong> · {m.reports.mapsPageLabel} · {displayName}
           </span>
           <span className="report-sheet-footer-right report-print-only tabular">
             {displayName}

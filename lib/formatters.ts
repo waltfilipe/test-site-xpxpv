@@ -32,17 +32,33 @@ const CHANCE_CREATION_METRIC_KEYS = new Set([
   "passes_to_box",
   "test_impact_v2_start_final_third_p90",
   "chance_creation_xpv",
+  "chance_creation_xpv_per_game",
 ]);
 
-function formatImpactRate(value: unknown): string {
-  if (value == null || Number.isNaN(Number(value))) return "—";
-  return `${Number(value).toFixed(1)}%`;
-}
+const SHARE_PCT_KEYS = new Set([
+  "vol_passes_team_share_pct",
+  "vol_long_team_share_pct",
+  "build_prog_share_pct",
+  "build_final_third_share_pct",
+  "build_line_break_share_pct",
+  "chance_key_share_pct",
+  "chance_box_share_pct",
+  "chance_impact_ft_share_pct",
+  "chance_xpv_share_pct",
+]);
 
 export function formatMetric(value: unknown, key?: string): string {
   if (value == null) return "—";
   if (typeof value === "number") {
-    if (key === "threat_pass_pct") return formatImpactRate(value);
+    if (key && SHARE_PCT_KEYS.has(key)) {
+      return `${value.toFixed(1)}%`;
+    }
+    if (key?.endsWith("_share_pct")) {
+      return `${value.toFixed(1)}%`;
+    }
+    if (key?.endsWith("_delta_pp")) {
+      return `${value >= 0 ? "+" : ""}${value.toFixed(1)} pp`;
+    }
     if (key?.startsWith("def_") && key.endsWith("_pct")) {
       return `${value.toFixed(1)}%`;
     }

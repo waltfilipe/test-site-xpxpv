@@ -7,9 +7,10 @@ import { LoadingState } from "@/components/LoadingState";
 import { PassGradePanel } from "@/components/PassGradePanel";
 import { PassLengthMix } from "@/components/PassLengthMix";
 import { PassScoreSections } from "@/components/PassScoreSections";
+import { ProfileModeToggle } from "@/components/ProfileModeToggle";
 import { XpIndicesPanel } from "@/components/XpIndicesPanel";
 import { XpProfileBars } from "@/components/XpProfileBars";
-import { getPlayerProfile, type PlayerProfile } from "@/lib/api";
+import { getPlayerProfile, type PlayerProfile, type ProfileViewMode } from "@/lib/api";
 import { formatContractUntil } from "@/lib/formatters";
 import { useI18n } from "@/lib/i18n/context";
 
@@ -30,6 +31,7 @@ export function ProfileView({
 }) {
   const { m } = useI18n();
   const [data, setData] = useState<PlayerProfile | null>(null);
+  const [mode, setMode] = useState<ProfileViewMode>("absolute");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -52,6 +54,10 @@ export function ProfileView({
   if (!data) return null;
 
   const p = data.player;
+  const activeView = data.profile_views?.[mode];
+  const passGrade = activeView?.pass_grade ?? data.pass_grade_general;
+  const xpBars = activeView?.xp_bars ?? data.xp_bars;
+  const passScores = activeView?.pass_scores ?? data.pass_scores;
 
   return (
     <>
@@ -131,43 +137,12 @@ export function ProfileView({
 
         <div className="pa-col pa-col-score">
           <div className="score-stack">
-            <PassGradePanel
-              generalGrade={data.pass_grade_general}
-              expectedGrade={data.pass_grade_expected}
-              animate
-              animationKey={playerId}
-            />
+            <ProfileModeToggle mode={mode} onChange={setMode} />
+            <PassGradePanel score={passGrade} />
+
             <div className="player-card xp-profile-card">
               <h3 className="section-label">{m.sections.xpProfile}</h3>
-              <XpProfileBars
-                bars={data.xp_bars}
-                productivity={{
-                  gradeGeral: data.prod_grade_geral,
-                  gradeExpected: data.prod_grade_expected ?? data.prod_grade_rel,
-                  gradeGap: data.prod_rel_gap,
-                  relGap: data.prod_rel_xpv,
-                  relLiftBadge: data.prod_rel_lift_badge,
-                  relGapPoolMean: data.prod_rel_gap_pool_mean,
-                  relGapPoolP70: data.prod_rel_gap_pool_p70,
-                  xpvPerGame: data.prod_xpv_per_game,
-                  xpvExpected: data.prod_xpv_expected,
-                }}
-                precision={{
-                  gradeGeral: data.prec_grade_geral,
-                  gradeExpected: data.prec_grade_expected ?? data.prec_grade_stratum,
-                  coePerPass: data.prec_coe_per_pass,
-                  expectedPct:
-                    typeof data.player?.xpass_expected_pct === "number"
-                      ? data.player.xpass_expected_pct
-                      : null,
-                  completionPct:
-                    typeof data.player?.pass_completion_pct === "number"
-                      ? data.player.pass_completion_pct
-                      : null,
-                }}
-                animate
-                animationKey={playerId}
-              />
+              <XpProfileBars bars={xpBars} />
               <XpIndicesPanel
                 indices={data.xp_indices ?? []}
                 roundGrades={data.xp_round_grades ?? []}
@@ -180,7 +155,7 @@ export function ProfileView({
         <div className="pa-col pa-col-pillars">
           <div className="player-card pillars-card">
             <h3 className="section-label">{m.sections.passScores}</h3>
-            <PassScoreSections sections={data.pass_scores} organizerBadge={data.organizer_badge} />
+            <PassScoreSections sections={passScores} />
           </div>
         </div>
       </div>

@@ -44,6 +44,36 @@ def defensive_actions_p90(xp: dict[str, Any]) -> float | None:
     return round(float(parts[0]) + float(parts[1]) + float(parts[2]), 3)
 
 
+def chance_creation_xpv_sum(grp: pd.DataFrame) -> float | None:
+    if grp is None or grp.empty:
+        return None
+    completed = grp.loc[grp["is_won"] & grp["has_end"]].copy()
+    if completed.empty or "xp_m4" not in completed.columns:
+        return None
+
+    key_mask = (
+        completed["is_key_pass"].astype(bool)
+        if "is_key_pass" in completed.columns
+        else pd.Series(False, index=completed.index)
+    )
+    box_mask = pe._ended_in_penalty_box(completed)
+
+    ti_v2 = xe.filter_test_impact_v2_passes(grp)
+    if ti_v2 is not None and not ti_v2.empty:
+        ti_completed = ti_v2.loc[ti_v2["is_won"] & ti_v2["has_end"]].copy()
+        ft_mask = ti_completed["x_start"].astype(float) >= xstats.FINAL_X_MIN
+        impact_ft = ti_completed.loc[ft_mask]
+    else:
+        impact_ft = completed.iloc[0:0]
+
+    xpv_col = completed["xp_m4"].astype(float)
+    return (
+        float(xpv_col.loc[key_mask].sum())
+        + float(xpv_col.loc[box_mask].sum())
+        + float(impact_ft["xp_m4"].astype(float).sum())
+    )
+
+
 def chance_creation_xpv(grp: pd.DataFrame) -> float | None:
     if grp is None or grp.empty:
         return None
@@ -78,6 +108,14 @@ def chance_creation_xpv(grp: pd.DataFrame) -> float | None:
     return round(xpv_sum / count, 4)
 
 
+def chance_creation_xpv_per_game(grp: pd.DataFrame, minutes: float | None) -> float | None:
+    xpv_sum = chance_creation_xpv_sum(grp)
+    if xpv_sum is None or minutes is None or float(minutes) <= 0:
+        return None
+    per_game = float(xpv_sum) / (float(minutes) / 90.0)
+    return round(per_game, 3)
+
+
 def rank_desc(values: list[tuple[str, float]]) -> dict[str, tuple[int, int]]:
     pool_size = len(values)
     ordered = sorted(values, key=lambda item: item[1], reverse=True)
@@ -101,9 +139,12 @@ def main() -> None:
         pid = str(player["player_id"])
         da = defensive_actions_p90(player)
         cc_xpv = chance_creation_xpv(xp_passes_by_player.get(pid))
+        minutes = float(player.get("minutes") or 0)
+        cc_pg = chance_creation_xpv_per_game(xp_passes_by_player.get(pid), minutes)
         records[pid] = {
             "defensive_actions_p90": da,
             "chance_creation_xpv": cc_xpv,
+            "chance_creation_xpv_per_game": cc_pg,
             "league_source": player.get("league_source"),
             "position_group": player.get("position_group"),
             "midfield_origin_profile": player.get("midfield_origin_profile"),
@@ -138,6 +179,20 @@ def main() -> None:
         for pid, (rank, pool) in ranks.items():
             records[pid]["chance_creation_xpv_rank_in_group"] = rank
             records[pid]["chance_creation_xpv_rank_pool_in_group"] = pool
+
+    league_cc_pg: dict[str, list[tuple[str, float]]] = {}
+    for pid, row in records.items():
+        val = row.get("chance_creation_xpv_per_game")
+        if val is None:
+            continue
+        league = str(row.get("league_source") or "unknown")
+        league_cc_pg.setdefault(league, []).append((pid, float(val)))
+
+    for league, values in league_cc_pg.items():
+        ranks = rank_desc(values)
+        for pid, (rank, pool) in ranks.items():
+            records[pid]["chance_creation_xpv_per_game_rank_in_league"] = rank
+            records[pid]["chance_creation_xpv_per_game_rank_pool_in_league"] = pool
 
     payload = {
         "position_family": POSITION_FAMILY,
