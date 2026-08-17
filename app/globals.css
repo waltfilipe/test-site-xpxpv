@@ -1147,6 +1147,86 @@ button, input, select { font: inherit; }
   align-items: stretch;
 }
 
+/* Profile identity: photo left, headband + facts right — no overlap */
+.identity-hero-profile {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 1rem;
+  row-gap: 0.55rem;
+  align-items: start;
+}
+
+.identity-hero-profile .identity-photo-side {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: stretch;
+  width: 168px;
+  min-height: 168px;
+}
+
+.identity-hero-profile .identity-hero-headband {
+  grid-column: 2;
+  grid-row: 1;
+  width: 100%;
+  min-width: 0;
+}
+
+.identity-hero-profile .identity-hero-facts {
+  grid-column: 2;
+  grid-row: 2;
+  width: 100%;
+  min-width: 0;
+  margin-top: 0;
+  padding-left: 0.12rem;
+}
+
+.identity-hero-headband {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 0.75rem;
+  align-items: center;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid rgba(147, 197, 253, 0.2);
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.72) 0%,
+    rgba(15, 23, 42, 0.42) 100%
+  );
+}
+
+.identity-hero-intro {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+}
+
+.identity-headband-grade-wrap {
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.identity-headband-grade-wrap .tip-wrap {
+  display: inline-flex;
+  width: auto;
+  max-width: none;
+}
+
+.identity-hero-profile .identity-title {
+  overflow-wrap: anywhere;
+}
+
+.identity-hero-intro .identity-subline {
+  margin-top: 0;
+}
+
+.identity-hero-stack .identity-facts-side {
+  margin-top: 0;
+  padding-left: 0.12rem;
+}
+
 .identity-photo-side {
   position: relative;
   flex-shrink: 0;
@@ -1177,51 +1257,37 @@ button, input, select { font: inherit; }
   gap: 0.55rem;
 }
 
-.identity-hero-headband {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 1rem 1.15rem;
-  padding: 0.7rem 0.85rem 0.7rem 0.75rem;
-  border: 1px solid rgba(147, 197, 253, 0.2);
-  border-radius: 12px;
-  background: linear-gradient(
-    135deg,
-    rgba(15, 23, 42, 0.72) 0%,
-    rgba(15, 23, 42, 0.42) 100%
-  );
-}
-
-.identity-hero-intro {
-  min-width: 0;
-  flex: 1 1 auto;
-  max-width: 58%;
-}
-
-.identity-hero-intro .identity-subline {
-  margin-top: 0.22rem;
-}
-
-.identity-hero-stack .identity-facts-side {
-  margin-top: 0;
-  padding-left: 0.12rem;
-}
-
 @media (max-width: 400px) {
+  .identity-hero-profile {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  .identity-hero-profile .identity-photo-side {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    max-width: 168px;
+    align-self: auto;
+  }
+
+  .identity-hero-profile .identity-hero-headband {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .identity-hero-profile .identity-hero-facts {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
   .identity-hero-headband {
-    flex-direction: column;
-    align-items: stretch;
+    grid-template-columns: 1fr;
     gap: 0.65rem;
   }
 
-  .identity-hero-intro {
-    max-width: none;
-  }
-
-  .overall-pass-grade-badge {
-    width: 100%;
-    min-width: 0;
-    flex: 1 1 auto;
+  .identity-headband-grade-wrap {
+    justify-self: start;
   }
 }
 

@@ -36,7 +36,7 @@ export function OverallPassGradeBadge({ score, absolute, relative }: Props) {
   }
 
   return (
-    <Tooltip content={tipParts.join(" — ")} block>
+    <Tooltip content={tipParts.join(" — ")}>
       <div
         className="overall-pass-grade-badge"
         style={{
