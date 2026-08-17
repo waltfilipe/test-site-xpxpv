@@ -735,6 +735,8 @@ const en: Messages = {
       chance_box_share_pct: "Into-box passes as a share of all passes.",
       chance_impact_ft_share_pct: "Final-third impact passes as a share of passes.",
       chance_xpv_share_pct: "Chance-creation xPV as a share of total xP per game.",
+      chance_creation_xpv_per_pass:
+        "Creation xPV per creation pass (key + into box + final-third impact).",
       chance_creation_xpv_per_game: "Chance-creation xPV per game.",
       prod_rel_xpv: "xPV residual vs expected for pass volume.",
       prec_z_coe_stratum: "COE stratum z-score within volume band.",
@@ -765,6 +767,7 @@ const en: Messages = {
       chance_box_share_pct: "Into box %",
       chance_impact_ft_share_pct: "Final-third impact %",
       chance_xpv_share_pct: "Creation xPV % of xP",
+      chance_creation_xpv_per_pass: "Creation xPV / pass",
       prod_xpv_per_game: "xPV / game",
       prod_rel_xpv: "xPV residual",
       prec_coe_per_pass: "COE / pass",
@@ -1258,6 +1261,8 @@ const pt: Messages = {
       chance_box_share_pct: "Passes na área como % dos passes.",
       chance_impact_ft_share_pct: "Impacto terço final como % dos passes.",
       chance_xpv_share_pct: "xPV de criação como % do xP/jogo.",
+      chance_creation_xpv_per_pass:
+        "xPV de criação por passe de criação (key + na área + impact terço final).",
       chance_creation_xpv_per_game: "xPV de criação por jogo.",
       prod_rel_xpv: "Residual de xPV vs volume esperado.",
       prec_z_coe_stratum: "Z-score de COE no estrato de volume.",
@@ -1288,6 +1293,7 @@ const pt: Messages = {
       chance_box_share_pct: "Na área %",
       chance_impact_ft_share_pct: "Impacto terço final %",
       chance_xpv_share_pct: "xPV criação % do xP",
+      chance_creation_xpv_per_pass: "xPV criação / passe",
       prod_xpv_per_game: "xPV / jogo",
       prod_rel_xpv: "Residual xPV",
       prec_coe_per_pass: "COE / passe",

@@ -33,6 +33,7 @@ const CHANCE_CREATION_METRIC_KEYS = new Set([
   "test_impact_v2_start_final_third_p90",
   "chance_creation_xpv",
   "chance_creation_xpv_per_game",
+  "chance_creation_xpv_per_pass",
 ]);
 
 const SHARE_PCT_KEYS = new Set([
@@ -44,7 +45,6 @@ const SHARE_PCT_KEYS = new Set([
   "chance_key_share_pct",
   "chance_box_share_pct",
   "chance_impact_ft_share_pct",
-  "chance_xpv_share_pct",
 ]);
 
 export function formatMetric(value: unknown, key?: string): string {
