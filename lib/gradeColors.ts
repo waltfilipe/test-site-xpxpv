@@ -96,6 +96,12 @@ export function barPosition(score: number | null | undefined): number {
   return Math.max(2, Math.min(98, passGradePct(score)));
 }
 
+/** Map a 0–100 pool/league bar value to marker position. */
+export function percentBarPosition(pct: number | null | undefined): number {
+  if (pct == null) return 0;
+  return Math.max(2, Math.min(98, pct));
+}
+
 export function letterGradePillColor(
   letter: string | null | undefined,
   displayScore?: number | null,

@@ -16,10 +16,10 @@ function SectionMetrics({ section }: { section: PassScoreSection }) {
   return (
     <div className="pass-score-metrics">
       {section.components.map((c) => {
-        const barScore =
-          c.bar_display != null
-            ? Number(c.bar_display)
-            : rankToBarScore(c.rank, c.rank_pool);
+        const usesPercentBar = c.bar_display != null;
+        const barScore = usesPercentBar
+          ? Number(c.bar_display)
+          : rankToBarScore(c.rank, c.rank_pool);
         return (
           <Tooltip key={c.key} content={tips[c.key] ?? ""} block>
             <div className="pass-metric-block">
@@ -35,6 +35,7 @@ function SectionMetrics({ section }: { section: PassScoreSection }) {
                 score={barScore}
                 letter={section.letter}
                 displayScore={section.display_score}
+                scale={usesPercentBar ? "percent" : "grade"}
               />
             </div>
           </Tooltip>

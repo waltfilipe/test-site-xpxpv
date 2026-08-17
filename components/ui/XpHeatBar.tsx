@@ -1,6 +1,6 @@
 "use client";
 
-import { barPosition, heatBarColor } from "@/lib/gradeColors";
+import { heatBarColor, percentBarPosition } from "@/lib/gradeColors";
 import { useBarRevealAnimation } from "@/lib/useBarRevealAnimation";
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 };
 
 export function XpHeatBar({ value, animate = false, animationKey, animationDelayMs = 0 }: Props) {
-  const pos = barPosition(value);
+  const pos = percentBarPosition(value);
   const endColor = value != null ? heatBarColor(pos) : "#64748b";
   const revealKey = animationKey ?? value ?? 0;
   const revealed = useBarRevealAnimation(revealKey, animate && value != null);

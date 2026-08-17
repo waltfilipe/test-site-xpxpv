@@ -786,6 +786,7 @@ button, input, select { font: inherit; }
 .profile-page-body .filter-card,
 .profile-page-body .profile-group-panel,
 .profile-page-body .profile-group-banner,
+.profile-page-body .profile-league-filter,
 .profile-page-body .player-search-row,
 .profile-page-body .player-card {
   backdrop-filter: blur(12px);
@@ -837,6 +838,108 @@ button, input, select { font: inherit; }
 
 .profile-group-banner {
   margin-bottom: 1rem;
+}
+
+.profile-league-filter {
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-subtle);
+  background: rgba(12, 18, 30, 0.72);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(12px);
+}
+
+.profile-league-filter-eyebrow {
+  display: block;
+  margin-bottom: 0.65rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.profile-league-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+@media (max-width: 1100px) {
+  .profile-league-filter-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .profile-league-filter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.profile-league-card {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 4.5rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  background: rgba(15, 23, 42, 0.55);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+
+.profile-league-card:hover {
+  border-color: color-mix(in srgb, var(--league-accent, #a78bfa) 45%, transparent);
+  transform: translateY(-1px);
+}
+
+.profile-league-card.active {
+  border-color: color-mix(in srgb, var(--league-accent, #a78bfa) 70%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--league-accent, #a78bfa) 25%, transparent);
+  background:
+    radial-gradient(ellipse 80% 80% at 0% 0%, color-mix(in srgb, var(--league-accent, #a78bfa) 14%, transparent), transparent 60%),
+    rgba(15, 23, 42, 0.72);
+}
+
+.profile-league-card-logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.65rem;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 0.3rem;
+}
+
+.profile-league-card-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.profile-league-card-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.profile-league-card-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.profile-league-card-count {
+  font-size: 0.72rem;
+  color: rgba(248, 250, 252, 0.72);
 }
 
 .profile-empty-note {
