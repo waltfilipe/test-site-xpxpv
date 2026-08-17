@@ -26,3 +26,18 @@ export function computeOverallPassGrade(
   }
   return null;
 }
+
+export function overallPassGradeFromProfile(
+  profile: {
+    pass_grade_general?: number | null;
+    pass_grade_expected?: number | null;
+    pass_grade_relative?: number | null;
+    pass_grade_overall?: number | null;
+  },
+): number | null {
+  return computeOverallPassGrade(
+    profile.pass_grade_general,
+    resolvePassGradeRelative(profile),
+    profile.pass_grade_overall,
+  );
+}

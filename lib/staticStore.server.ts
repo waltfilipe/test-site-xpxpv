@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import { playerIdsForProfileGroup } from "@/lib/playerReports";
 import { enrichPlayerProfile } from "@/lib/enrichProfile.server";
+import { overallPassGradeFromProfile } from "@/lib/passGrades";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 
@@ -302,23 +303,29 @@ export function getStaticPlayerOptions(params: URLSearchParams) {
     .map((player) => {
       const pid = String(player.player_id);
       const xp = xpById[pid] ?? {};
-      const rating = xp.xp_pass_rating != null ? Number(xp.xp_pass_rating) : -Infinity;
-      return { player, pid, rating };
+      const profile = getProfile(pid);
+      const grade = overallPassGradeFromProfile({
+        ...xp,
+        ...(profile ?? {}),
+      });
+      const sortKey = grade ?? -Infinity;
+      return { player, pid, grade, sortKey };
     })
-    .sort((a, b) => b.rating - a.rating || String(a.player.player_name).localeCompare(String(b.player.player_name)));
+    .sort(
+      (a, b) =>
+        b.sortKey - a.sortKey
+        || String(a.player.player_name).localeCompare(String(b.player.player_name)),
+    );
 
-  const options = ranked.map(({ player, pid, rating }) => {
+  const options = ranked.map(({ player, pid, grade }, idx) => {
     const name = String(player.player_name ?? "—");
     const team = String(player.team ?? "—");
-    const score =
-      Number.isFinite(rating) && rating > -Infinity
-        ? (rating * 10).toFixed(1)
-        : "—";
+    const score = grade != null ? grade.toFixed(1) : "—";
     return {
       player_id: pid,
       player_name: name,
       team,
-      label: `${name} (${team}) - ${score}`,
+      label: `#${idx + 1} ${name} (${team}) · ${score}`,
     };
   });
 
