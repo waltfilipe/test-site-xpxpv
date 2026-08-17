@@ -1053,7 +1053,7 @@ button, input, select { font: inherit; }
 /* ── Profile 3-column layout ── */
 .pa-layout {
   display: grid;
-  grid-template-columns: minmax(360px, 1.52fr) minmax(260px, 0.98fr) minmax(210px, 0.78fr);
+  grid-template-columns: minmax(360px, 1.32fr) minmax(0, 1.18fr) minmax(210px, 0.78fr);
   gap: 0.75rem;
   align-items: stretch;
 }
@@ -1799,6 +1799,50 @@ button, input, select { font: inherit; }
   color: var(--muted);
   text-align: center;
   margin-top: 0.15rem;
+}
+
+/* Profile center column cards */
+.profile-grade-xp-card,
+.profile-indices-mix-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem 0.9rem;
+}
+
+.profile-grade-xp-card {
+  flex: 0 0 auto;
+}
+
+.profile-indices-mix-card {
+  flex: 1;
+}
+
+.profile-grade-xp-card .pass-grade-section {
+  padding: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+}
+
+.profile-xp-profile-section {
+  padding-top: 0.55rem;
+  border-top: 1px solid rgba(51, 65, 85, 0.55);
+}
+
+.profile-indices-mix-card .xp-indices-panel {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.profile-indices-mix-card .pass-mix-card {
+  margin-top: 0;
+  padding: 0.65rem 0 0;
+  border: none;
+  border-top: 1px solid rgba(51, 65, 85, 0.55);
+  border-radius: 0;
+  background: transparent;
 }
 
 /* xP Profile */

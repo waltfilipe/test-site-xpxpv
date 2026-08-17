@@ -156,11 +156,16 @@ export function ProfileView({
         <div className="pa-col pa-col-score">
           <div className="score-stack">
             <ProfileModeToggle mode={mode} onChange={setMode} />
-            <PassGradePanel score={passGrade} />
 
-            <div className="player-card xp-profile-card">
-              <h3 className="section-label">{m.sections.xpProfile}</h3>
-              <XpProfileBars bars={xpBars} />
+            <div className="player-card profile-grade-xp-card">
+              <PassGradePanel score={passGrade} embedded />
+              <div className="profile-xp-profile-section">
+                <h3 className="section-label">{m.sections.xpProfile}</h3>
+                <XpProfileBars bars={xpBars} />
+              </div>
+            </div>
+
+            <div className="player-card profile-indices-mix-card">
               <XpIndicesPanel
                 indices={data.xp_indices ?? []}
                 roundGrades={data.xp_round_grades ?? []}

@@ -9,6 +9,7 @@ type Props = {
   score?: number | null | undefined;
   rating?: number | null | undefined;
   showMeter?: boolean;
+  embedded?: boolean;
 };
 
 function tierKey(score: number): keyof Messages["passGrade"]["tiers"] {
@@ -27,13 +28,14 @@ const TIER_CSS: Record<keyof Messages["passGrade"]["tiers"], string> = {
   belowAverage: "below-average",
 };
 
-export function PassGradePanel({ score, rating, showMeter = false }: Props) {
+export function PassGradePanel({ score, rating, showMeter = false, embedded = false }: Props) {
   const { m } = useI18n();
   const resolvedScore = score ?? (rating != null ? rating * 10 : null);
+  const shellClass = embedded ? "pass-grade-section" : "player-card pass-grade-card";
 
   if (resolvedScore == null) {
     return (
-      <div className="player-card pass-grade-card">
+      <div className={shellClass}>
         <div className="pass-grade-head">
           <span className="pass-grade-title">{m.passGrade.title}</span>
         </div>
@@ -49,7 +51,7 @@ export function PassGradePanel({ score, rating, showMeter = false }: Props) {
   const tierKeyClass = TIER_CSS[tierId];
 
   const panel = (
-    <div className={`player-card pass-grade-card pass-grade-tier-${tierKeyClass}`}>
+    <div className={`${shellClass} pass-grade-tier-${tierKeyClass}`}>
       <div className="pass-grade-head">
         <span className="pass-grade-title">{m.passGrade.title}</span>
         <span
