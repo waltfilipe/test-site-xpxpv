@@ -1343,6 +1343,37 @@ button, input, select { font: inherit; }
 /* Pass grade panel */
 .pass-grade-card { padding: 0.85rem 1rem; }
 
+.profile-mode-toggle {
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 0.65rem;
+}
+
+.profile-mode-btn {
+  flex: 1;
+  padding: 0.45rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: rgba(15, 23, 42, 0.35);
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.profile-mode-btn.is-active {
+  background: rgba(250, 204, 21, 0.12);
+  border-color: rgba(250, 204, 21, 0.45);
+  color: var(--accent);
+}
+
+.pass-grade-body-score-only {
+  padding-top: 0.15rem;
+}
+
 .pass-grade-head {
   display: flex;
   align-items: center;

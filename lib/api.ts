@@ -56,16 +56,42 @@ export type PlayerOption = {
   label: string;
 };
 
+export type ProfileViewMode = "absolute" | "relative";
+
+export type ProfileViewPayload = {
+  mode: ProfileViewMode;
+  pass_grade?: number | null;
+  xp_bars: XpBar[];
+  pass_scores: PassScoreSection[];
+};
+
 export type PassScoreSection = {
   title: string;
   display_score?: number | null;
   letter?: string | null;
   rank?: number | null;
   rank_pool?: number | null;
-  components: { key: string; value: unknown; rank?: number | null; rank_pool?: number | null; stratum_star?: boolean }[];
+  components: {
+    key: string;
+    value: unknown;
+    rank?: number | null;
+    rank_pool?: number | null;
+    rank_in_league?: number | null;
+    rank_pool_in_league?: number | null;
+    bar_display?: number | null;
+    stratum_star?: boolean;
+  }[];
 };
 
-export type XpBar = { key: string; label: string; value?: number | null; rank?: number | null };
+export type XpBar = {
+  key: string;
+  label: string;
+  value?: number | null;
+  raw_value?: number | null;
+  raw_key?: string | null;
+  rank?: number | null;
+  rank_pool?: number | null;
+};
 
 export type XpIndexItem = {
   key: string;
@@ -101,6 +127,10 @@ export type XpRoundGrade = {
 export type PlayerProfile = {
   player: Record<string, unknown>;
   xp: Record<string, unknown>;
+  profile_views?: {
+    absolute?: ProfileViewPayload;
+    relative?: ProfileViewPayload;
+  };
   pass_scores: PassScoreSection[];
   xp_bars: XpBar[];
   origin_heatmap_b64?: string | null;
@@ -108,6 +138,9 @@ export type PlayerProfile = {
   long_pass_share_ref_avg_pct?: number | null;
   long_pass_share_pctile?: number | null;
   xp_pass_rating?: number | null;
+  pass_grade_general?: number | null;
+  pass_grade_relative?: number | null;
+  pass_grade_expected?: number | null;
   xp_game_consistency_score?: number | null;
   test_impact_v2_p90?: number | null;
   xp_indices?: XpIndexItem[];

@@ -5,7 +5,11 @@ import { Tooltip } from "@/components/ui/Tooltip";
 import { useI18n } from "@/lib/i18n/context";
 import type { Messages } from "@/lib/i18n/messages";
 
-type Props = { rating: number | null | undefined };
+type Props = {
+  score?: number | null | undefined;
+  rating?: number | null | undefined;
+  showMeter?: boolean;
+};
 
 function tierKey(score: number): keyof Messages["passGrade"]["tiers"] {
   if (score >= 8.2) return "elite";
@@ -23,12 +27,11 @@ const TIER_CSS: Record<keyof Messages["passGrade"]["tiers"], string> = {
   belowAverage: "below-average",
 };
 
-export function PassGradePanel({ rating }: Props) {
+export function PassGradePanel({ score, rating, showMeter = false }: Props) {
   const { m } = useI18n();
+  const resolvedScore = score ?? (rating != null ? rating * 10 : null);
 
-  const displayScore = rating != null ? rating * 10 : null;
-
-  if (rating == null || displayScore == null) {
+  if (resolvedScore == null) {
     return (
       <div className="player-card pass-grade-card">
         <div className="pass-grade-head">
@@ -39,9 +42,8 @@ export function PassGradePanel({ rating }: Props) {
     );
   }
 
-  const pct = passGradePct(displayScore);
-  const markerPct = Math.max(1.5, Math.min(98.5, pct));
-  const color = passGradeGradientColor(pct);
+  const displayScore = resolvedScore;
+  const color = passGradeGradientColor(passGradePct(displayScore));
   const tierId = tierKey(displayScore);
   const tier = m.passGrade.tiers[tierId];
   const tierKeyClass = TIER_CSS[tierId];
@@ -58,21 +60,12 @@ export function PassGradePanel({ rating }: Props) {
         </span>
       </div>
 
-      <div className="pass-grade-body pass-grade-body-horizontal">
+      <div className={`pass-grade-body${showMeter ? " pass-grade-body-horizontal" : " pass-grade-body-score-only"}`}>
         <div className="pass-grade-value">
           <span className="pass-grade-score tabular" style={{ color }}>
             {displayScore.toFixed(1)}
           </span>
           <span className="pass-grade-scale">/ 10</span>
-        </div>
-
-        <div className="pass-grade-meter">
-          <div className="pass-grade-track">
-            <span className="pass-grade-shade">
-              <span className="pass-grade-rest" style={{ left: `${pct}%` }} />
-            </span>
-            <span className="pass-grade-marker" style={{ left: `${markerPct}%` }} />
-          </div>
         </div>
       </div>
     </div>

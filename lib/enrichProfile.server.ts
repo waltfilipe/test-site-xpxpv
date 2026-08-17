@@ -10,6 +10,7 @@ type DerivedPlayerMetrics = {
   defensive_actions_p90_rank_in_league?: number | null;
   defensive_actions_p90_rank_pool_in_league?: number | null;
   chance_creation_xpv?: number | null;
+  chance_creation_xpv_per_game?: number | null;
   chance_creation_xpv_rank_in_group?: number | null;
   chance_creation_xpv_rank_pool_in_group?: number | null;
 };
@@ -59,22 +60,7 @@ function enrichDefenseComponents(
 
 function enrichChanceCreationSection(section: JsonRecord, derived: DerivedPlayerMetrics): JsonRecord {
   if (section.title !== "Chance creation") return section;
-  const components = (section.components as JsonRecord[] | undefined) ?? [];
-  if (derived.chance_creation_xpv == null) return section;
-
-  return {
-    ...section,
-    components: [
-      ...components,
-      {
-        key: "chance_creation_xpv",
-        value: derived.chance_creation_xpv,
-        rank: derived.chance_creation_xpv_rank_in_group ?? null,
-        rank_pool: derived.chance_creation_xpv_rank_pool_in_group ?? null,
-        stratum_star: false,
-      },
-    ],
-  };
+  return section;
 }
 
 export function enrichPlayerProfile(profile: JsonRecord): JsonRecord {
@@ -109,5 +95,12 @@ export function enrichPlayerProfile(profile: JsonRecord): JsonRecord {
     ...profile,
     ...(xpIndices ? { xp_indices: xpIndices } : {}),
     ...(passScores ? { pass_scores: passScores } : {}),
+    xp: {
+      ...(profile.xp as JsonRecord | undefined),
+      ...(derived.chance_creation_xpv_per_game != null
+        ? { chance_creation_xpv_per_game: derived.chance_creation_xpv_per_game }
+        : {}),
+      ...(derived.chance_creation_xpv != null ? { chance_creation_xpv: derived.chance_creation_xpv } : {}),
+    },
   };
 }

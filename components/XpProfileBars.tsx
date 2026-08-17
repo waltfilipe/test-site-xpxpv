@@ -3,12 +3,12 @@
 import type { XpBar } from "@/lib/api";
 import { XpHeatBar } from "@/components/ui/XpHeatBar";
 import { Tooltip } from "@/components/ui/Tooltip";
+import { formatMetric } from "@/lib/formatters";
 import { useI18n } from "@/lib/i18n/context";
 
 const ICONS: Record<string, string> = {
-  xp_activity_display: "fa-chart-simple",
-  xp_efficiency_display: "fa-gauge-high",
-  xp_edge_display: "fa-bolt",
+  productivity: "fa-chart-simple",
+  precision: "fa-gauge-high",
 };
 
 export function XpProfileBars({ bars }: { bars: XpBar[] }) {
@@ -17,21 +17,29 @@ export function XpProfileBars({ bars }: { bars: XpBar[] }) {
 
   return (
     <div className="xp-profile-bars">
-      {bars.map((bar) => (
-        <Tooltip key={bar.key} content={tips[bar.key] ?? ""} block>
-          <div className="xp-metric-block">
-            <div className="pass-metric-head">
-              <span className="pass-metric-label xp-metric-label">
-                {ICONS[bar.key] && (
-                  <i className={`fa-solid ${ICONS[bar.key]} xp-metric-icon`} aria-hidden="true" />
+      {bars.map((bar) => {
+        const tipKey = bar.key === "productivity" ? "xp_activity_display" : "xp_efficiency_display";
+        return (
+          <Tooltip key={bar.key} content={tips[tipKey] ?? ""} block>
+            <div className="xp-metric-block">
+              <div className="pass-metric-head">
+                <span className="pass-metric-label xp-metric-label">
+                  {ICONS[bar.key] && (
+                    <i className={`fa-solid ${ICONS[bar.key]} xp-metric-icon`} aria-hidden="true" />
+                  )}
+                  {bar.label}
+                </span>
+                {bar.raw_value != null && (
+                  <span className="pass-metric-value tabular">
+                    {formatMetric(bar.raw_value, bar.raw_key ?? bar.key)}
+                  </span>
                 )}
-                {bar.label}
-              </span>
+              </div>
+              <XpHeatBar value={bar.value} />
             </div>
-            <XpHeatBar value={bar.value} />
-          </div>
-        </Tooltip>
-      ))}
+          </Tooltip>
+        );
+      })}
     </div>
   );
 }
