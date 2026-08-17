@@ -40,15 +40,13 @@ export function OverallPassGradeBadge({ score, absolute, relative }: Props) {
       <div
         className="overall-pass-grade-badge"
         style={{
-          borderColor: `${color}33`,
-          boxShadow: `0 6px 18px rgba(0, 0, 0, 0.22), inset 0 1px 0 ${color}18`,
+          borderColor: `${color}40`,
+          boxShadow: `inset 0 1px 0 ${color}12`,
         }}
       >
         <span className="overall-pass-grade-label">{m.passGrade.overallTitle}</span>
-        <div className="overall-pass-grade-value">
-          <span className="overall-pass-grade-score tabular" style={{ color }}>
-            {score.toFixed(1)}
-          </span>
+        <div className="overall-pass-grade-scoreline tabular" style={{ color }}>
+          {score.toFixed(1)}
           <span className="overall-pass-grade-scale">/10</span>
         </div>
       </div>

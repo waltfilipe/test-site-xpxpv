@@ -629,7 +629,7 @@ const en: Messages = {
   passGrade: {
     title: "Pass Grade",
     unavailable: "Grade unavailable",
-    overallTitle: "Overall",
+    overallTitle: "Overall Grade",
     overallTip: "Average of Absolute and Relative pass grades (weighted five-pillar score).",
     general: "General",
     expected: "Expected",
@@ -1155,7 +1155,7 @@ const pt: Messages = {
   passGrade: {
     title: "Nota de passe",
     unavailable: "Nota indisponível",
-    overallTitle: "Geral",
+    overallTitle: "Nota geral",
     overallTip: "Média entre as notas Absolute e Relative (cinco pilares ponderados).",
     general: "Geral",
     expected: "Esperado",

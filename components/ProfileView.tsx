@@ -92,8 +92,8 @@ export function ProfileView({
                 )}
               </div>
 
-              <div className="identity-hero-text">
-                <div className="identity-hero-main">
+              <div className="identity-hero-stack">
+                <div className="identity-hero-headband">
                   <div className="identity-hero-intro">
                     <h2 className="identity-title">{String(p.player_name ?? "—")}</h2>
                     <p className="identity-subline">
@@ -106,8 +106,9 @@ export function ProfileView({
                     absolute={passGradeAbsolute}
                     relative={passGradeRelative}
                   />
+                </div>
 
-                  <div className="identity-facts identity-facts-side">
+                <div className="identity-facts identity-facts-side">
                     <div className="identity-fact">
                       <FactIcon icon="fa-cake-candles" />
                       <span className="identity-fact-label">{m.common.age}</span>
@@ -130,7 +131,6 @@ export function ProfileView({
                     </div>
                   </div>
                 </div>
-              </div>
             </div>
 
             <div className="identity-meta-row">
