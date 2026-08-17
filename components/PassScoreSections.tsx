@@ -19,10 +19,7 @@ function SectionMetrics({ section }: { section: PassScoreSection }) {
         const barScore =
           c.bar_display != null
             ? Number(c.bar_display)
-            : rankToBarScore(
-                c.rank_in_league ?? c.rank,
-                c.rank_pool_in_league ?? c.rank_pool,
-              );
+            : rankToBarScore(c.rank, c.rank_pool);
         return (
           <Tooltip key={c.key} content={tips[c.key] ?? ""} block>
             <div className="pass-metric-block">
