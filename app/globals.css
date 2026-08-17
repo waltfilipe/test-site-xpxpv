@@ -1209,15 +1209,15 @@ button, input, select { font: inherit; }
 }
 
 .overall-pass-grade-badge {
-  flex: 0 0 8.75rem;
-  width: 8.75rem;
+  flex: 0 0 11rem;
+  width: 11rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
-  padding: 0.62rem 0.95rem;
-  border-radius: 11px;
+  gap: 0.22rem;
+  padding: 0.45rem 1.2rem;
+  border-radius: 10px;
   border: 1px solid rgba(148, 163, 184, 0.28);
   border-top: 1px solid rgba(148, 163, 184, 0.38);
   border-bottom: 1px solid rgba(148, 163, 184, 0.38);
@@ -1230,8 +1230,8 @@ button, input, select { font: inherit; }
 .overall-pass-grade-badge::after {
   content: "";
   position: absolute;
-  left: 0.55rem;
-  right: 0.55rem;
+  left: 0.65rem;
+  right: 0.65rem;
   height: 1px;
   background: linear-gradient(
     90deg,
@@ -1243,33 +1243,33 @@ button, input, select { font: inherit; }
 }
 
 .overall-pass-grade-badge::before {
-  top: 0.42rem;
+  top: 0.35rem;
 }
 
 .overall-pass-grade-badge::after {
-  bottom: 0.42rem;
+  bottom: 0.35rem;
 }
 
 .overall-pass-grade-label {
-  font-size: 0.64rem;
+  font-size: 0.58rem;
   font-weight: 700;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--muted);
-  line-height: 1.15;
+  line-height: 1.1;
   text-align: center;
-  padding: 0 0.2rem;
+  padding: 0 0.15rem;
 }
 
 .overall-pass-grade-scoreline {
-  font-size: 1.58rem;
+  font-size: 1.28rem;
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1;
 }
 
 .overall-pass-grade-scale {
-  font-size: 0.82rem;
+  font-size: 0.72rem;
   font-weight: 700;
   color: var(--muted);
   opacity: 0.9;
