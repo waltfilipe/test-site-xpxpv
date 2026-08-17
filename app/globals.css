@@ -1053,7 +1053,7 @@ button, input, select { font: inherit; }
 /* ── Profile 3-column layout ── */
 .pa-layout {
   display: grid;
-  grid-template-columns: minmax(300px, 1.05fr) minmax(320px, 1.35fr) minmax(210px, 0.78fr);
+  grid-template-columns: minmax(360px, 1.52fr) minmax(260px, 0.98fr) minmax(210px, 0.78fr);
   gap: 0.75rem;
   align-items: stretch;
 }
@@ -1077,8 +1077,25 @@ button, input, select { font: inherit; }
   flex-direction: column;
   gap: 0.75rem;
   height: 100%;
-  padding: 0.85rem 0.95rem;
+  padding: 0.95rem 1.05rem;
   overflow: hidden;
+}
+
+.pa-col-identity .identity-photo-side {
+  width: 168px;
+  min-height: 192px;
+}
+
+.pa-col-identity .identity-meta-pill strong {
+  font-size: 0.9rem;
+}
+
+.pa-col-identity .identity-facts-side .identity-fact-label {
+  font-size: 0.76rem;
+}
+
+.pa-col-identity .identity-facts-side .identity-fact-value {
+  font-size: 0.9rem;
 }
 
 .identity-photo-hero {
@@ -1209,29 +1226,28 @@ button, input, select { font: inherit; }
 }
 
 .overall-pass-grade-badge {
-  flex: 0 0 11rem;
-  width: 11rem;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.22rem;
-  padding: 0.45rem 1.2rem;
+  gap: 0.28rem;
+  min-width: 5.25rem;
+  padding: 0.45rem 0.7rem;
   border-radius: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.28);
-  border-top: 1px solid rgba(148, 163, 184, 0.38);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.38);
-  background: rgba(7, 11, 18, 0.62);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-top: 1px solid rgba(148, 163, 184, 0.32);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.32);
+  background: rgba(7, 11, 18, 0.55);
   position: relative;
-  margin-left: 0.15rem;
 }
 
 .overall-pass-grade-badge::before,
 .overall-pass-grade-badge::after {
   content: "";
   position: absolute;
-  left: 0.65rem;
-  right: 0.65rem;
+  left: 0.45rem;
+  right: 0.45rem;
   height: 1px;
   background: linear-gradient(
     90deg,
@@ -1256,7 +1272,7 @@ button, input, select { font: inherit; }
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--muted);
-  line-height: 1.1;
+  line-height: 1.15;
   text-align: center;
   padding: 0 0.15rem;
 }

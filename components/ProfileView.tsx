@@ -83,7 +83,7 @@ export function ProfileView({
                     className="identity-photo"
                     unoptimized
                     priority
-                    sizes="160px"
+                    sizes="180px"
                   />
                 ) : (
                   <div className="identity-photo-placeholder identity-photo-placeholder-side">
