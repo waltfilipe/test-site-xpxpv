@@ -105,6 +105,13 @@ export type Messages = {
     modeToggleLabel: string;
     modeAbsolute: string;
     modeRelative: string;
+    rankOf: string;
+    rankTopPct: string;
+    xpvPerGame: string;
+    prodRelVolume: string;
+    coePerPass: string;
+    coeShortPass: string;
+    coeLongPass: string;
   };
   players: {
     subtitle: string;
@@ -486,6 +493,13 @@ const en: Messages = {
     modeToggleLabel: "Profile number mode",
     modeAbsolute: "Absolute",
     modeRelative: "Relative",
+    rankOf: "of",
+    rankTopPct: "Top {pct}%",
+    xpvPerGame: "xPV/Game",
+    prodRelVolume: "Volume rate (relative)",
+    coePerPass: "COE/Pass",
+    coeShortPass: "COE/Short Pass",
+    coeLongPass: "COE/Long Pass",
   },
   players: {
     subtitle: "Top-five European league players with pass ratings and position-pool pillars.",
@@ -1012,6 +1026,13 @@ const pt: Messages = {
     modeToggleLabel: "Modo de números do perfil",
     modeAbsolute: "Absoluto",
     modeRelative: "Relativo",
+    rankOf: "de",
+    rankTopPct: "Top {pct}%",
+    xpvPerGame: "xPV/Jogo",
+    prodRelVolume: "Taxa de volume (relativo)",
+    coePerPass: "COE/Pass",
+    coeShortPass: "COE/Short Pass",
+    coeLongPass: "COE/Long Pass",
   },
   players: {
     subtitle: "Jogadores das 5 grandes ligas com ratings de passe e pilares por pool.",
