@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
 import {
   enrichedReportPlayers,
+  PLAYER_REPORT_CATEGORIES,
   playerIdsForProfileGroup,
 } from "./playerReports.ts";
 
@@ -14,14 +15,21 @@ const POOL_IDS = new Set(
 );
 
 describe("playerReports", () => {
-  it("includes Sofyan Amrabat in the Prime Prospects 24–30 group", () => {
-    const primeProspectIds = playerIdsForProfileGroup("blue-collar-24-30");
-    assert.ok(primeProspectIds.has("359272"), "Sofyan Amrabat (359272) must be in Prime Prospects reports");
+  it("defines three overall-grade cohort blocks", () => {
+    assert.equal(PLAYER_REPORT_CATEGORIES.length, 3);
+    assert.deepEqual(
+      PLAYER_REPORT_CATEGORIES.map((cat) => cat.id),
+      ["top-overall-league", "top-overall-no-giants", "top-u23-league"],
+    );
+  });
 
-    const amrabat = enrichedReportPlayers().find((entry) => entry.playerId === "359272");
-    assert.ok(amrabat, "Sofyan Amrabat must appear in enriched report players");
-    assert.equal(amrabat.category.id, "blue-collar-24-30");
-    assert.equal(amrabat.groupLabel, "Extended watchlist");
+  it("lists five players per league in block 1", () => {
+    const block1 = PLAYER_REPORT_CATEGORIES.find((cat) => cat.id === "top-overall-league");
+    assert.ok(block1);
+    assert.equal(block1.groups.length, 5);
+    for (const group of block1.groups) {
+      assert.equal(group.players.length, 5);
+    }
   });
 
   it("only lists report players that exist in the curated pool data", () => {

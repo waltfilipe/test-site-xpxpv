@@ -116,7 +116,7 @@ export function ReportsClient() {
   const { m } = useI18n();
   const [reports, setReports] = useState<ReportEntry[]>(emptyReports);
   const [bootLoading, setBootLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState<string>(PLAYER_REPORT_CATEGORIES[0]?.id ?? "u23-breakout");
+  const [activeCategory, setActiveCategory] = useState<string>(PLAYER_REPORT_CATEGORIES[0]?.id ?? "top-overall-league");
   const [printing, setPrinting] = useState(false);
   const [printPreparing, setPrintPreparing] = useState(false);
   const [preloadPlayerIds, setPreloadPlayerIds] = useState<Set<string>>(new Set());

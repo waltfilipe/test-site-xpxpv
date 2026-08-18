@@ -839,22 +839,22 @@ const en: Messages = {
     all: {
       title: "All Players",
       subtitle: "Full curated pool",
-      description: "All 45 midfielders ranked against the full European midfielder pool.",
+      description: "Curated midfielders ranked by overall pass grade against the European pool.",
     },
-    "u23-breakout": {
-      title: "U23 — Breakout Promises",
-      subtitle: "Emerging profiles under 23",
-      description: "Young midfielders with standout pass profiles and room to scale impact.",
+    "top-overall-league": {
+      title: "Top 5 Overall — Each League",
+      subtitle: "Block 1 · League leaders",
+      description: "Top five overall pass grades in each of the top-five European leagues.",
     },
-    "blue-collar-24-30": {
-      title: "24–30 — Prime Prospects",
-      subtitle: "Prime-age engine room",
-      description: "Reliable progression and pass-value profiles in the peak window.",
+    "top-overall-no-giants": {
+      title: "Top 10 Outside Giants",
+      subtitle: "Block 2 · Without elite clubs",
+      description: "Top ten overall grades per league after removing the listed Champions League giants.",
     },
-    "experience-30-plus": {
-      title: "30+ — Standout Experience",
-      subtitle: "Veteran control & leadership",
-      description: "Experienced profiles with elite game management and passing authority.",
+    "top-u23-league": {
+      title: "Top 5 U23 — Each League",
+      subtitle: "Block 3 · Young profiles",
+      description: "Best under-23 overall pass grades in each top-five league.",
     },
   },
   groupLabels: {
@@ -1367,22 +1367,22 @@ const pt: Messages = {
     all: {
       title: "Todos os jogadores",
       subtitle: "Pool completo",
-      description: "Os 45 meias com ranking contra o pool europeu completo.",
+      description: "Meias curados ranqueados pela nota geral de passe no pool europeu.",
     },
-    "u23-breakout": {
-      title: "U23 — Promessas",
-      subtitle: "Perfis emergentes sub-23",
-      description: "Jovens meias com perfil de passe destacado e espaço para crescer.",
+    "top-overall-league": {
+      title: "Top 5 geral — cada liga",
+      subtitle: "Bloco 1 · Líderes por liga",
+      description: "Cinco melhores notas gerais de passe em cada uma das cinco grandes ligas.",
     },
-    "blue-collar-24-30": {
-      title: "24–30 — Prime Prospects",
-      subtitle: "Idade de pico",
-      description: "Progressão confiável e valor de passe na janela ideal.",
+    "top-overall-no-giants": {
+      title: "Top 10 fora dos gigantes",
+      subtitle: "Bloco 2 · Sem clubes elite",
+      description: "Dez melhores notas gerais por liga após remover os gigantes listados.",
     },
-    "experience-30-plus": {
-      title: "30+ — Experiência",
-      subtitle: "Controle e liderança",
-      description: "Perfis experientes com gestão de jogo e autoridade no passe.",
+    "top-u23-league": {
+      title: "Top 5 U23 — cada liga",
+      subtitle: "Bloco 3 · Perfis jovens",
+      description: "Melhores notas gerais sub-23 em cada uma das cinco grandes ligas.",
     },
   },
   groupLabels: {
