@@ -648,7 +648,7 @@ const en: Messages = {
     title: "Pass Grade",
     unavailable: "Grade unavailable",
     overallTitle: "Overall Grade",
-    overallTip: "Equal-weight average of absolute productivity, relative productivity, COE/pass, absolute lethality, chance creation and absolute build-up.",
+    overallTip: "Weighted pass grade: 40% productivity, 40% precision, 20% lethality (pool-scoped Sofascore-style grades).",
     general: "General",
     expected: "Expected",
     generalTip:
@@ -1183,7 +1183,7 @@ const pt: Messages = {
     title: "Nota de passe",
     unavailable: "Nota indisponível",
     overallTitle: "Nota geral",
-    overallTip: "Média ponderada igual de produtividade absoluta, produtividade relativa, COE/pass, lethality absoluta, chance creation e build-up absoluto.",
+    overallTip: "Nota de passe ponderada: 40% produtividade, 40% precisão, 20% lethality (notas estilo Sofascore no pool).",
     general: "Geral",
     expected: "Esperado",
     generalTip:

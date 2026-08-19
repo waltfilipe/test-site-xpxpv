@@ -44,9 +44,7 @@ function relativeTip(
 }
 
 function gradeLabel(grade: number | null | undefined) {
-  return grade != null && Number.isFinite(grade)
-    ? grade.toFixed(1).replace(".", ",")
-    : "—";
+  return grade != null && Number.isFinite(grade) ? grade.toFixed(1) : "—";
 }
 
 function MetricRow({
