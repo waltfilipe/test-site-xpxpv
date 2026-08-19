@@ -475,7 +475,7 @@ const en: Messages = {
   profile: {
     pageSubtitle: "Full analysis with pass scores, xP indices and rankings against the full European pool.",
     pageLead:
-      "Full position analysis — xP, pass scores, indices and origin maps. Rankings within the selected pool.",
+      "xP, pass scores, indices and origin maps — rankings within the selected pool.",
     loadingPool: "Loading player pool…",
     loadingProfile: "Loading profile…",
     loadingPlayer: "Loading player profile…",
@@ -1010,7 +1010,7 @@ const pt: Messages = {
   profile: {
     pageSubtitle: "Análise completa com pass scores, índices xP e rankings contra o pool europeu.",
     pageLead:
-      "Análise completa por posição — xP, pass scores, índices e mapas de origem. Rankings dentro do pool selecionado.",
+      "xP, pass scores, índices e mapas de origem — rankings no pool selecionado.",
     loadingPool: "Carregando pool de jogadores…",
     loadingProfile: "Carregando perfil…",
     loadingPlayer: "Carregando perfil do jogador…",
