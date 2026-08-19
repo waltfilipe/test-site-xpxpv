@@ -1097,6 +1097,54 @@ button, input, select { font: inherit; }
   box-shadow: none;
 }
 
+.profile-cluster-card {
+  margin-top: 0.55rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  background: linear-gradient(160deg, rgba(21, 27, 43, 0.72) 0%, rgba(15, 21, 34, 0.92) 100%);
+}
+
+.profile-cluster-head .section-label {
+  margin-bottom: 0.35rem;
+}
+
+.profile-cluster-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+}
+
+.profile-cluster-icon {
+  font-size: 1rem;
+  line-height: 1;
+  margin-top: 0.12rem;
+  flex-shrink: 0;
+}
+
+.profile-cluster-copy {
+  min-width: 0;
+}
+
+.profile-cluster-title {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: #f8fafc;
+  line-height: 1.25;
+}
+
+.profile-cluster-summary {
+  margin: 0.22rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.identity-hero-intro .profile-cluster-card {
+  max-width: 100%;
+}
+
 .profile-grade-card {
   padding: 0.75rem 0.9rem;
   flex: 0 0 auto;

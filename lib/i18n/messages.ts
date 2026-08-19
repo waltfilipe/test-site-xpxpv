@@ -112,6 +112,7 @@ export type Messages = {
     coePerPass: string;
     coeShortPass: string;
     coeLongPass: string;
+    clusterTip: string;
   };
   players: {
     subtitle: string;
@@ -267,6 +268,7 @@ export type Messages = {
     xpIndices: string;
     xpPillars: string;
     passProfile: string;
+    passProfileCluster: string;
   };
   badges: {
     organizer: string;
@@ -500,6 +502,7 @@ const en: Messages = {
     coePerPass: "COE/Pass",
     coeShortPass: "COE/Short Pass",
     coeLongPass: "COE/Long Pass",
+    clusterTip: "K=4 pass-profile cluster on raw absolute metrics. About {pct}% of the eligible pool shares this archetype.",
   },
   players: {
     subtitle: "Top-five European league players with pass ratings and position-pool pillars.",
@@ -617,6 +620,7 @@ const en: Messages = {
     xpIndices: "xP Indices",
     xpPillars: "xP Pillars",
     passProfile: "Pass Profile",
+    passProfileCluster: "Pass profile type",
   },
   badges: {
     organizer: "Organizer",
@@ -1033,6 +1037,7 @@ const pt: Messages = {
     coePerPass: "COE/Pass",
     coeShortPass: "COE/Short Pass",
     coeLongPass: "COE/Long Pass",
+    clusterTip: "Cluster k=4 de perfil de passe em métricas absolutas cruas. Cerca de {pct}% do pool elegível compartilha este arquétipo.",
   },
   players: {
     subtitle: "Jogadores das 5 grandes ligas com ratings de passe e pilares por pool.",
@@ -1150,6 +1155,7 @@ const pt: Messages = {
     xpIndices: "Índices xP",
     xpPillars: "Pilares xP",
     passProfile: "Perfil de passes",
+    passProfileCluster: "Tipo de perfil",
   },
   badges: {
     organizer: "Organizador",

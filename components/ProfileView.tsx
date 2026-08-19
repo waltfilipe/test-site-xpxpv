@@ -7,6 +7,7 @@ import { LoadingState } from "@/components/LoadingState";
 import { PassGradePanel } from "@/components/PassGradePanel";
 import { PassLengthMix } from "@/components/PassLengthMix";
 import { PassScoreSections } from "@/components/PassScoreSections";
+import { ProfileClusterCard } from "@/components/ProfileClusterCard";
 import { XpIndicesPanel } from "@/components/XpIndicesPanel";
 import { XpProfilePanel } from "@/components/XpProfilePanel";
 import { getPlayerProfile, type PlayerProfile } from "@/lib/api";
@@ -87,6 +88,7 @@ export function ProfileView({
                   <p className="identity-subline">
                     {String(p.team ?? "—")} · {String(p.position ?? "—")}
                   </p>
+                  <ProfileClusterCard cluster={data.profile_cluster} />
                 </div>
               </div>
 
