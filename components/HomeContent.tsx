@@ -56,10 +56,13 @@ function useScrollReveal<T extends HTMLElement>() {
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          entry.target.classList.toggle("is-visible", entry.isIntersecting);
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -6% 0px" },
+      { threshold: 0.18, rootMargin: "0px 0px -8% 0px" },
     );
 
     for (const target of targets) observer.observe(target);
@@ -75,7 +78,11 @@ export function HomeContent() {
 
   return (
     <div className="home-shell">
-      <div className="home-shell-bg" aria-hidden="true" />
+      <div className="home-shell-bg" aria-hidden="true">
+        <span className="home-shell-orb home-shell-orb-a" />
+        <span className="home-shell-orb home-shell-orb-b" />
+        <span className="home-shell-grid" />
+      </div>
 
       <div className="container home-page">
         <section className="home-intro">
