@@ -10,10 +10,8 @@ export function ProfilePageHero() {
       <div className="container profile-page-hero-inner">
         <div className="profile-page-hero-copy">
           <span className="profile-page-eyebrow">{m.brand.name}</span>
-          <div className="profile-page-hero-headline">
-            <h1>{m.nav.profile}</h1>
-            <p className="profile-page-hero-lead">{m.profile.pageLead}</p>
-          </div>
+          <h1>{m.nav.profile}</h1>
+          <p className="profile-page-hero-lead">{m.profile.pageLead}</p>
         </div>
       </div>
     </header>

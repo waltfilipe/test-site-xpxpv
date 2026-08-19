@@ -41,9 +41,12 @@ export function ProfileGroupCards({ current, counts, leagueCounts }: Props) {
         style={{ "--category-accent": PROFILE_ALL_GROUP.accent } as CSSProperties}
         onClick={() => selectGroup(PROFILE_ALL_GROUP.id)}
       >
-        <strong className="reports-category-card-title profile-group-all-title">
-          {allCategory.title}
-        </strong>
+        <div className="profile-group-all-main">
+          <span className="reports-category-card-eyebrow">{allCategory.subtitle}</span>
+          <strong className="reports-category-card-title profile-group-all-title">
+            {allCategory.title}
+          </strong>
+        </div>
         <span className="reports-category-card-count tabular profile-group-all-count">
           {counts[PROFILE_ALL_GROUP.id] ?? 0} {m.common.athletes}
         </span>
@@ -63,8 +66,13 @@ export function ProfileGroupCards({ current, counts, leagueCounts }: Props) {
               title={meta.description}
               onClick={() => selectGroup(card.id)}
             >
+              <span className="reports-category-card-eyebrow">{meta.subtitle}</span>
               <strong className="reports-category-card-title">{meta.title}</strong>
-              <span className="reports-category-card-count tabular">{count}</span>
+              <div className="reports-category-card-foot">
+                <span className="reports-category-card-count tabular">
+                  {count} {m.common.athletes}
+                </span>
+              </div>
             </button>
           );
         })}

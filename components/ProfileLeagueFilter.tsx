@@ -49,14 +49,16 @@ export function ProfileLeagueFilter({ current, counts }: Props) {
                 <Image
                   src={league.logoUrl}
                   alt=""
-                  width={28}
-                  height={28}
+                  width={36}
+                  height={36}
                   className="profile-league-card-logo"
                 />
               </span>
               <span className="profile-league-card-copy">
                 <strong className="profile-league-card-title">{league.label}</strong>
-                <span className="profile-league-card-count tabular">{count}</span>
+                <span className="profile-league-card-count tabular">
+                  {count} {m.common.athletes}
+                </span>
               </span>
             </button>
           );
