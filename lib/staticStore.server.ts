@@ -303,11 +303,7 @@ export function getStaticPlayerOptions(params: URLSearchParams) {
     .map((player) => {
       const pid = String(player.player_id);
       const xp = xpById[pid] ?? {};
-      const profile = getProfile(pid);
-      const grade = overallPassGradeFromProfile({
-        ...xp,
-        ...(profile ?? {}),
-      });
+      const grade = overallPassGradeFromProfile(xp);
       const sortKey = grade ?? -Infinity;
       return { player, pid, grade, sortKey };
     })

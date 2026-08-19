@@ -43,7 +43,13 @@ function relativeTip(
     .replaceAll("{expected}", exp);
 }
 
-function SubMetricBar({
+function gradeLabel(grade: number | null | undefined) {
+  return grade != null && Number.isFinite(grade)
+    ? grade.toFixed(1).replace(".", ",")
+    : "—";
+}
+
+function MetricRow({
   label,
   value,
   barValue,
@@ -53,68 +59,61 @@ function SubMetricBar({
 }: {
   label: string;
   value: unknown;
-  barValue: number | null | undefined;
+  barValue?: number | null;
   rawKey?: string;
   tip?: string;
   formatValue?: (value: unknown) => string;
 }) {
   const formatted = formatValue ? formatValue(value) : formatMetric(value, rawKey);
-  const content = (
-    <div className="xp-profile-sub-metric">
+  const body = (
+    <div className="xp-profile-metric-row">
       <div className="pass-metric-head">
         <span className="pass-metric-label">{label}</span>
         <span className="pass-metric-value tabular">{formatted}</span>
       </div>
-      <XpHeatBar value={barValue} />
+      {barValue != null && <XpHeatBar value={barValue} />}
     </div>
   );
-  if (!tip) return content;
+  if (!tip) return body;
   return (
     <Tooltip content={tip} block>
-      {content}
+      {body}
     </Tooltip>
   );
 }
 
-function ProductivityAccordion({ xp }: { xp: XpRecord }) {
+function ProductivityCard({ xp }: { xp: XpRecord }) {
   const { m } = useI18n();
   const display = xp.prod_geral_display as number | null | undefined;
   const grade = xp.prod_grade_pass_pool as number | null | undefined;
-  const gradeLabel =
-    grade != null && Number.isFinite(grade) ? grade.toFixed(1).replace(".", ",") : "—";
   const residual = xp.prod_rel_xpv as number | null | undefined;
   const actual = xp.prod_xpv_per_game as number | null | undefined;
   const expected = xp.prod_xpv_expected as number | null | undefined;
 
   return (
-    <details className="xp-profile-accordion-item">
-      <summary className="xp-profile-accordion-trigger">
-        <span className="xp-profile-accordion-left">
-          <i className="fa-solid fa-chevron-right xp-profile-accordion-chevron" aria-hidden="true" />
-          <span className="xp-profile-accordion-title">
-            <i className="fa-solid fa-chart-simple xp-metric-icon" aria-hidden="true" />
-            {m.productivity.title}
-          </span>
+    <article className="xp-profile-pillar-card xp-profile-pillar-productivity">
+      <header className="xp-profile-pillar-head">
+        <span className="xp-profile-pillar-icon" aria-hidden="true">
+          <i className="fa-solid fa-chart-simple" />
         </span>
+        <div className="xp-profile-pillar-title-wrap">
+          <h4 className="xp-profile-pillar-title">{m.productivity.title}</h4>
+        </div>
         <GradeBadge
-          letter={gradeLabel}
+          letter={gradeLabel(grade)}
           displayScore={grade ?? undefined}
           size="sm"
         />
-      </summary>
-      <div className="xp-profile-accordion-panel">
-        <Tooltip content={m.productivity.generalTip} block>
-          <div className="xp-metric-block">
-            <div className="pass-metric-head">
-              <span className="pass-metric-label">{m.profile.xpvPerGame}</span>
-              <span className="pass-metric-value tabular">
-                {formatMetric(xp.prod_xpv_per_game, "prod_xpv_per_game")}
-              </span>
-            </div>
-            <XpHeatBar value={display} />
-          </div>
-        </Tooltip>
-        <SubMetricBar
+      </header>
+      <div className="xp-profile-pillar-body">
+        <MetricRow
+          label={m.profile.xpvPerGame}
+          value={xp.prod_xpv_per_game}
+          barValue={display}
+          rawKey="prod_xpv_per_game"
+          tip={m.productivity.generalTip}
+        />
+        <MetricRow
           label={m.productivity.relative}
           value={residual}
           barValue={xp.prod_rel_display as number | null | undefined}
@@ -122,18 +121,16 @@ function ProductivityAccordion({ xp }: { xp: XpRecord }) {
           formatValue={formatRelativeDelta}
         />
       </div>
-    </details>
+    </article>
   );
 }
 
-function PrecisionAccordion({ xp }: { xp: XpRecord }) {
+function PrecisionCard({ xp }: { xp: XpRecord }) {
   const { m } = useI18n();
   const display =
     (xp.prec_coe_league_bar as number | null | undefined) ??
     (xp.prec_display as number | null | undefined);
   const grade = xp.prec_grade_pass_pool as number | null | undefined;
-  const gradeLabel =
-    grade != null && Number.isFinite(grade) ? grade.toFixed(1).replace(".", ",") : "—";
   const shortBar =
     (xp.xpass_coe_pct_pool_bar as number | null | undefined) ??
     (xp.xpass_coe_pct_league_bar as number | null | undefined);
@@ -142,47 +139,42 @@ function PrecisionAccordion({ xp }: { xp: XpRecord }) {
     (xp.xpass_long_coe_pct_league_bar as number | null | undefined);
 
   return (
-    <details className="xp-profile-accordion-item">
-      <summary className="xp-profile-accordion-trigger">
-        <span className="xp-profile-accordion-left">
-          <i className="fa-solid fa-chevron-right xp-profile-accordion-chevron" aria-hidden="true" />
-          <span className="xp-profile-accordion-title">
-            <i className="fa-solid fa-gauge-high xp-metric-icon" aria-hidden="true" />
-            {m.precision.title}
-          </span>
+    <article className="xp-profile-pillar-card xp-profile-pillar-precision">
+      <header className="xp-profile-pillar-head">
+        <span className="xp-profile-pillar-icon" aria-hidden="true">
+          <i className="fa-solid fa-gauge-high" />
         </span>
+        <div className="xp-profile-pillar-title-wrap">
+          <h4 className="xp-profile-pillar-title">{m.precision.title}</h4>
+        </div>
         <GradeBadge
-          letter={gradeLabel}
+          letter={gradeLabel(grade)}
           displayScore={grade ?? undefined}
           size="sm"
         />
-      </summary>
-      <div className="xp-profile-accordion-panel">
-        <Tooltip content={m.precision.generalCoeTip} block>
-          <div className="xp-metric-block">
-            <div className="pass-metric-head">
-              <span className="pass-metric-label">{m.profile.coePerPass}</span>
-              <span className="pass-metric-value tabular">
-                {formatMetric(xp.prec_coe_per_pass, "prec_coe_per_pass")}
-              </span>
-            </div>
-            <XpHeatBar value={display} />
-          </div>
-        </Tooltip>
-        <SubMetricBar
+      </header>
+      <div className="xp-profile-pillar-body">
+        <MetricRow
+          label={m.profile.coePerPass}
+          value={xp.prec_coe_per_pass}
+          barValue={display}
+          rawKey="prec_coe_per_pass"
+          tip={m.precision.generalCoeTip}
+        />
+        <MetricRow
           label={m.profile.coeShortPass}
           value={xp.xpass_coe_pct}
           barValue={shortBar}
           rawKey="xpass_coe_pct"
         />
-        <SubMetricBar
+        <MetricRow
           label={m.profile.coeLongPass}
           value={xp.xpass_long_coe_pct}
           barValue={longBar}
           rawKey="xpass_long_coe_pct"
         />
       </div>
-    </details>
+    </article>
   );
 }
 
@@ -192,9 +184,9 @@ export function XpProfilePanel({ xp }: Props) {
   return (
     <div className="player-card xp-profile-panel-card">
       <h3 className="section-label">{m.sections.xpProfile}</h3>
-      <div className="xp-profile-accordion">
-        <ProductivityAccordion xp={xp} />
-        <PrecisionAccordion xp={xp} />
+      <div className="xp-profile-pillar-grid">
+        <ProductivityCard xp={xp} />
+        <PrecisionCard xp={xp} />
       </div>
     </div>
   );

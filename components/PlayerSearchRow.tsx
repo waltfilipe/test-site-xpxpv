@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { buildProfileUrl, type ProfileFilterState } from "@/lib/profileParams";
+import { prefetchPlayerProfile } from "@/lib/profileClientCache";
 import { useI18n } from "@/lib/i18n/context";
 
 type Option = { player_id: string; label: string };
@@ -59,7 +60,14 @@ export function PlayerSearchRow({
           className="player-select"
           value={currentId ?? options[0].player_id}
           onChange={(e) => {
-            router.push(buildProfileUrl({ ...filters, player: e.target.value }));
+            const nextId = e.target.value;
+            prefetchPlayerProfile(nextId, filters.position_family ?? "midfielders");
+            router.push(buildProfileUrl({ ...filters, player: nextId }));
+          }}
+          onFocus={() => {
+            if (currentId) {
+              prefetchPlayerProfile(currentId, filters.position_family ?? "midfielders");
+            }
           }}
         >
           {options.map((o) => (
