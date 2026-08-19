@@ -38,7 +38,7 @@ const TIER_ACCENT: Record<string, string> = {
 };
 
 
-function formatImpactValue(key: string, value: number | null | undefined): string {
+export function formatImpactValue(key: string, value: number | null | undefined): string {
   if (value == null || Number.isNaN(value)) return "—";
   if (key === "threat_pass_pct") return `${value.toFixed(1)}%`;
   if (key.startsWith("def_") || key === "defensive_actions_p90") return formatMetric(value, key);

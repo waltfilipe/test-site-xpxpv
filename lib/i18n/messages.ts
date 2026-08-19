@@ -648,7 +648,7 @@ const en: Messages = {
     title: "Pass Grade",
     unavailable: "Grade unavailable",
     overallTitle: "Overall Grade",
-    overallTip: "Weighted pass grade: 40% productivity, 40% precision, 20% lethality (pool-scoped Sofascore-style grades).",
+    overallTip: "Weighted pass grade: 40% productivity, 40% precision, 20% lethality (Sofascore-style grades within your league).",
     general: "General",
     expected: "Expected",
     generalTip:
@@ -810,7 +810,7 @@ const en: Messages = {
       xp_idx_impact: "How much a player impacts the game per pass.",
       xp_idx_defense: "Defensive volume and duel quality.",
     },
-    passGrade: "Pass grade from General and Expected productivity/precision pillars (league rank).",
+    passGrade: "Pass grade: 40% productivity, 40% precision, 20% lethality (league rank).",
     passLength: "Share of long passes vs league midpoint.",
     impactExtra: {
       threat_pass_pct: "Impact passes divided by total passes.",
@@ -1183,7 +1183,7 @@ const pt: Messages = {
     title: "Nota de passe",
     unavailable: "Nota indisponível",
     overallTitle: "Nota geral",
-    overallTip: "Nota de passe ponderada: 40% produtividade, 40% precisão, 20% lethality (notas estilo Sofascore no pool).",
+    overallTip: "Nota de passe ponderada: 40% produtividade, 40% precisão, 20% lethality (notas estilo Sofascore na liga).",
     general: "Geral",
     expected: "Esperado",
     generalTip:
@@ -1347,7 +1347,7 @@ const pt: Messages = {
       xp_idx_impact: "Quanto o jogador impacta o jogo por passe.",
       xp_idx_defense: "Volume defensivo e qualidade de duelo.",
     },
-    passGrade: "Nota de passe pelos pilares Geral e Esperado (produtividade/precisão, ranking na liga).",
+    passGrade: "Nota de passe: 40% produtividade, 40% precisão, 20% lethality (ranking na liga).",
     passLength: "Share de passes longos vs média da liga.",
     impactExtra: {
       threat_pass_pct: "Impact passes dividido pelo total de passes.",

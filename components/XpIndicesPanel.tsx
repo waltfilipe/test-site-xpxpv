@@ -1,7 +1,10 @@
 "use client";
 
 import { ConsistencyAccordion } from "@/components/ConsistencyAccordion";
-import { ImpactAccordion, type ImpactIndexComponent } from "@/components/ImpactAccordion";
+import {
+  formatImpactValue,
+  type ImpactIndexComponent,
+} from "@/components/ImpactAccordion";
 import type { XpRoundGrade } from "@/lib/api";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { XP_INDEX_TIER_LABELS, xpIndexTierClass } from "@/lib/gradeColors";
@@ -54,6 +57,57 @@ function IndexRow({
   );
 }
 
+function DefenseTooltipRow({
+  label,
+  tier,
+  tierKey,
+  icon,
+  components,
+  indexTips,
+}: {
+  label: string;
+  tier?: string | null;
+  tierKey: string;
+  icon: string;
+  components: ImpactIndexComponent[];
+  indexTips: Record<string, string>;
+}) {
+  const tierLabel = XP_INDEX_TIER_LABELS[tier ?? "mid"] ?? tier ?? "—";
+  const summary = indexTips[tierKey] ?? indexTips[label] ?? "";
+
+  const tooltip = (
+    <div className="defense-index-tooltip">
+      {summary ? <p className="defense-index-tooltip-lead">{summary}</p> : null}
+      <ul className="defense-index-tooltip-metrics">
+        {components.map((item) => (
+          <li key={item.key} className="defense-index-tooltip-metric">
+            <span className="defense-index-tooltip-label">{item.label}</span>
+            <span className="defense-index-tooltip-value tabular">
+              {formatImpactValue(item.key, item.value)}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  return (
+    <Tooltip content={tooltip} block>
+      <div
+        className={`xp-index-row ${xpIndexTierClass(tier)}`}
+        title={summary || undefined}
+      >
+        <span className="xp-index-row-icon">
+          <i className={`fa-solid ${icon}`} />
+        </span>
+        <span className="xp-index-row-name">{label}</span>
+        <span className="xp-index-row-sep" aria-hidden="true" />
+        <span className="xp-index-row-val">{tierLabel}</span>
+      </div>
+    </Tooltip>
+  );
+}
+
 export function XpIndicesPanel({
   indices,
   roundGrades = [],
@@ -87,13 +141,13 @@ export function XpIndicesPanel({
           />
         )}
         {defense && defense.components && defense.components.length > 0 && (
-          <ImpactAccordion
+          <DefenseTooltipRow
             label={defense.label}
             tier={defense.tier}
             tierKey={defense.tier_key ?? defense.label}
             icon={defense.icon ?? "fa-shield-halved"}
             components={defense.components}
-            expandAll={expandAll}
+            indexTips={indexTips}
           />
         )}
         {defense && (!defense.components || defense.components.length === 0) && (

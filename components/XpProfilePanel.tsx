@@ -83,7 +83,7 @@ function MetricRow({
 function ProductivityCard({ xp }: { xp: XpRecord }) {
   const { m } = useI18n();
   const display = xp.prod_geral_display as number | null | undefined;
-  const grade = xp.prod_grade_pass_pool as number | null | undefined;
+  const grade = xp.prod_grade_geral as number | null | undefined;
   const residual = xp.prod_rel_xpv as number | null | undefined;
   const actual = xp.prod_xpv_per_game as number | null | undefined;
   const expected = xp.prod_xpv_expected as number | null | undefined;
@@ -128,7 +128,7 @@ function PrecisionCard({ xp }: { xp: XpRecord }) {
   const display =
     (xp.prec_coe_league_bar as number | null | undefined) ??
     (xp.prec_display as number | null | undefined);
-  const grade = xp.prec_grade_pass_pool as number | null | undefined;
+  const grade = xp.prec_grade_geral as number | null | undefined;
   const shortBar =
     (xp.xpass_coe_pct_pool_bar as number | null | undefined) ??
     (xp.xpass_coe_pct_league_bar as number | null | undefined);
