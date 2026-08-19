@@ -1053,7 +1053,7 @@ button, input, select { font: inherit; }
 /* ── Profile 3-column layout ── */
 .pa-layout {
   display: grid;
-  grid-template-columns: minmax(360px, 1.32fr) minmax(0, 1.18fr) minmax(210px, 0.78fr);
+  grid-template-columns: minmax(306px, 1.12fr) minmax(0, 1.38fr) minmax(210px, 0.78fr);
   gap: 0.75rem;
   align-items: start;
 }
