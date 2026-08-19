@@ -1,7 +1,7 @@
 {
   "cache_version": 1,
   "position_family": "midfielders",
-  "player_count": 76,
+  "player_count": 73,
   "all_player_ids": [
     "100389",
     "1086286",
@@ -43,7 +43,6 @@
     "352802",
     "363860",
     "368120",
-    "37151",
     "581314",
     "784655",
     "791079",
@@ -57,7 +56,6 @@
     "826010",
     "826171",
     "832427",
-    "837080",
     "845693",
     "859027",
     "861981",
@@ -76,7 +74,6 @@
     "96365",
     "973556",
     "973887",
-    "992026",
     "992587",
     "994546"
   ],
@@ -89,24 +86,24 @@
           "label": "Premier League",
           "players": [
             {
+              "player_id": "927353",
+              "note": "8.2"
+            },
+            {
               "player_id": "866469",
-              "note": "8.1"
+              "note": "7.6"
             },
             {
               "player_id": "288205",
-              "note": "8.0"
+              "note": "7.6"
             },
             {
-              "player_id": "927353",
-              "note": "7.9"
+              "player_id": "994546",
+              "note": "7.6"
             },
             {
-              "player_id": "1109771",
-              "note": "7.8"
-            },
-            {
-              "player_id": "799251",
-              "note": "7.8"
+              "player_id": "117777",
+              "note": "7.4"
             }
           ]
         },
@@ -115,14 +112,10 @@
           "players": [
             {
               "player_id": "992587",
-              "note": "8.3"
-            },
-            {
-              "player_id": "795222",
               "note": "8.2"
             },
             {
-              "player_id": "149370",
+              "player_id": "795222",
               "note": "8.2"
             },
             {
@@ -130,8 +123,12 @@
               "note": "7.9"
             },
             {
-              "player_id": "798835",
+              "player_id": "149370",
               "note": "7.9"
+            },
+            {
+              "player_id": "973887",
+              "note": "7.7"
             }
           ]
         },
@@ -140,23 +137,23 @@
           "players": [
             {
               "player_id": "259117",
-              "note": "8.3"
-            },
-            {
-              "player_id": "327755",
-              "note": "8.1"
+              "note": "8.4"
             },
             {
               "player_id": "822600",
-              "note": "8.0"
+              "note": "7.9"
             },
             {
               "player_id": "1142251",
               "note": "7.9"
             },
             {
-              "player_id": "901882",
+              "player_id": "1493305",
               "note": "7.8"
+            },
+            {
+              "player_id": "901882",
+              "note": "7.7"
             }
           ]
         },
@@ -165,23 +162,23 @@
           "players": [
             {
               "player_id": "363860",
-              "note": "8.5"
+              "note": "8.6"
             },
             {
               "player_id": "15466",
-              "note": "8.3"
+              "note": "8.2"
             },
             {
               "player_id": "138605",
-              "note": "8.0"
-            },
-            {
-              "player_id": "37151",
-              "note": "8.0"
-            },
-            {
-              "player_id": "859027",
               "note": "7.9"
+            },
+            {
+              "player_id": "190437",
+              "note": "7.6"
+            },
+            {
+              "player_id": "1086286",
+              "note": "7.6"
             }
           ]
         },
@@ -189,23 +186,23 @@
           "label": "Ligue 1",
           "players": [
             {
+              "player_id": "902029",
+              "note": "8.3"
+            },
+            {
               "player_id": "784655",
               "note": "8.3"
             },
             {
-              "player_id": "902029",
-              "note": "8.0"
-            },
-            {
-              "player_id": "1410217",
-              "note": "7.9"
-            },
-            {
-              "player_id": "190883",
+              "player_id": "352802",
               "note": "7.8"
             },
             {
               "player_id": "149593",
+              "note": "7.8"
+            },
+            {
+              "player_id": "1142672",
               "note": "7.7"
             }
           ]
@@ -221,43 +218,43 @@
           "players": [
             {
               "player_id": "866469",
-              "note": "8.1"
-            },
-            {
-              "player_id": "1109771",
-              "note": "7.8"
-            },
-            {
-              "player_id": "799251",
-              "note": "7.8"
-            },
-            {
-              "player_id": "907072",
-              "note": "7.8"
-            },
-            {
-              "player_id": "117777",
-              "note": "7.7"
-            },
-            {
-              "player_id": "1142562",
               "note": "7.6"
             },
             {
-              "player_id": "193554",
-              "note": "7.5"
+              "player_id": "994546",
+              "note": "7.6"
             },
             {
-              "player_id": "994546",
-              "note": "7.5"
+              "player_id": "117777",
+              "note": "7.4"
+            },
+            {
+              "player_id": "1142562",
+              "note": "7.3"
+            },
+            {
+              "player_id": "799251",
+              "note": "7.2"
             },
             {
               "player_id": "352770",
-              "note": "7.5"
+              "note": "7.1"
             },
             {
               "player_id": "331737",
-              "note": "7.5"
+              "note": "7.1"
+            },
+            {
+              "player_id": "1109771",
+              "note": "7.0"
+            },
+            {
+              "player_id": "193554",
+              "note": "6.9"
+            },
+            {
+              "player_id": "907072",
+              "note": "6.8"
             }
           ]
         },
@@ -265,44 +262,44 @@
           "label": "La Liga",
           "players": [
             {
-              "player_id": "149370",
-              "note": "8.2"
-            },
-            {
               "player_id": "1120669",
               "note": "7.9"
             },
             {
-              "player_id": "798835",
+              "player_id": "149370",
               "note": "7.9"
             },
             {
-              "player_id": "816763",
-              "note": "7.8"
+              "player_id": "798835",
+              "note": "7.7"
             },
             {
-              "player_id": "832427",
-              "note": "7.8"
+              "player_id": "816763",
+              "note": "7.6"
             },
             {
               "player_id": "845693",
-              "note": "7.7"
+              "note": "7.3"
             },
             {
-              "player_id": "1100646",
-              "note": "7.7"
-            },
-            {
-              "player_id": "96365",
-              "note": "7.7"
+              "player_id": "832427",
+              "note": "7.2"
             },
             {
               "player_id": "826010",
-              "note": "7.6"
+              "note": "7.1"
+            },
+            {
+              "player_id": "96365",
+              "note": "7.0"
+            },
+            {
+              "player_id": "1100646",
+              "note": "7.0"
             },
             {
               "player_id": "877262",
-              "note": "7.6"
+              "note": "6.7"
             }
           ]
         },
@@ -310,44 +307,44 @@
           "label": "Bundesliga",
           "players": [
             {
-              "player_id": "327755",
-              "note": "8.1"
-            },
-            {
-              "player_id": "901882",
-              "note": "7.8"
-            },
-            {
               "player_id": "1493305",
               "note": "7.8"
             },
             {
-              "player_id": "1112327",
+              "player_id": "901882",
               "note": "7.7"
             },
             {
-              "player_id": "1464641",
-              "note": "7.5"
-            },
-            {
-              "player_id": "791079",
-              "note": "7.5"
-            },
-            {
-              "player_id": "794995",
-              "note": "7.5"
-            },
-            {
-              "player_id": "861981",
-              "note": "7.4"
-            },
-            {
-              "player_id": "901892",
-              "note": "7.4"
+              "player_id": "327755",
+              "note": "7.6"
             },
             {
               "player_id": "826171",
               "note": "7.4"
+            },
+            {
+              "player_id": "791079",
+              "note": "7.4"
+            },
+            {
+              "player_id": "1112327",
+              "note": "7.3"
+            },
+            {
+              "player_id": "1464641",
+              "note": "7.3"
+            },
+            {
+              "player_id": "794995",
+              "note": "7.1"
+            },
+            {
+              "player_id": "901892",
+              "note": "7.0"
+            },
+            {
+              "player_id": "861981",
+              "note": "6.6"
             }
           ]
         },
@@ -355,44 +352,44 @@
           "label": "Serie A",
           "players": [
             {
-              "player_id": "859027",
-              "note": "7.9"
-            },
-            {
               "player_id": "190437",
-              "note": "7.8"
+              "note": "7.6"
             },
             {
-              "player_id": "901850",
-              "note": "7.7"
-            },
-            {
-              "player_id": "814882",
-              "note": "7.5"
+              "player_id": "1086286",
+              "note": "7.6"
             },
             {
               "player_id": "100389",
               "note": "7.5"
             },
             {
-              "player_id": "934384",
+              "player_id": "901850",
+              "note": "7.5"
+            },
+            {
+              "player_id": "814882",
+              "note": "7.5"
+            },
+            {
+              "player_id": "859027",
               "note": "7.5"
             },
             {
               "player_id": "946888",
-              "note": "7.5"
-            },
-            {
-              "player_id": "1171451",
-              "note": "7.5"
+              "note": "7.3"
             },
             {
               "player_id": "1134351",
-              "note": "7.4"
+              "note": "7.2"
             },
             {
-              "player_id": "837080",
-              "note": "7.3"
+              "player_id": "934384",
+              "note": "7.0"
+            },
+            {
+              "player_id": "1171451",
+              "note": "6.8"
             }
           ]
         },
@@ -400,44 +397,44 @@
           "label": "Ligue 1",
           "players": [
             {
-              "player_id": "1410217",
-              "note": "7.9"
-            },
-            {
-              "player_id": "190883",
+              "player_id": "352802",
               "note": "7.8"
             },
             {
               "player_id": "149593",
-              "note": "7.7"
-            },
-            {
-              "player_id": "368120",
-              "note": "7.6"
+              "note": "7.8"
             },
             {
               "player_id": "581314",
               "note": "7.6"
             },
             {
-              "player_id": "352802",
+              "player_id": "190883",
               "note": "7.6"
             },
             {
-              "player_id": "959805",
+              "player_id": "368120",
               "note": "7.6"
+            },
+            {
+              "player_id": "1410217",
+              "note": "7.3"
             },
             {
               "player_id": "878938",
-              "note": "7.5"
+              "note": "7.2"
             },
             {
-              "player_id": "973556",
-              "note": "7.5"
+              "player_id": "1151803",
+              "note": "7.1"
             },
             {
-              "player_id": "992026",
-              "note": "7.5"
+              "player_id": "959805",
+              "note": "7.1"
+            },
+            {
+              "player_id": "1138804",
+              "note": "6.8"
             }
           ]
         }
@@ -451,24 +448,24 @@
           "label": "Premier League",
           "players": [
             {
-              "player_id": "1109771",
-              "note": "7.8"
-            },
-            {
-              "player_id": "1142562",
+              "player_id": "994546",
               "note": "7.6"
             },
             {
-              "player_id": "994546",
-              "note": "7.5"
+              "player_id": "1105779",
+              "note": "7.3"
             },
             {
-              "player_id": "1105779",
-              "note": "7.2"
+              "player_id": "1142562",
+              "note": "7.3"
             },
             {
               "player_id": "1142175",
-              "note": "7.1"
+              "note": "7.3"
+            },
+            {
+              "player_id": "1109771",
+              "note": "7.0"
             }
           ]
         },
@@ -477,23 +474,23 @@
           "players": [
             {
               "player_id": "992587",
-              "note": "8.3"
+              "note": "8.2"
             },
             {
               "player_id": "1120669",
               "note": "7.9"
             },
             {
-              "player_id": "1100646",
+              "player_id": "973887",
               "note": "7.7"
             },
             {
-              "player_id": "973887",
-              "note": "7.5"
+              "player_id": "1142588",
+              "note": "7.4"
             },
             {
-              "player_id": "1142588",
-              "note": "7.5"
+              "player_id": "1100646",
+              "note": "7.0"
             }
           ]
         },
@@ -510,15 +507,15 @@
             },
             {
               "player_id": "1112327",
-              "note": "7.7"
+              "note": "7.3"
             },
             {
               "player_id": "1464641",
-              "note": "7.5"
+              "note": "7.3"
             },
             {
               "player_id": "1134083",
-              "note": "7.3"
+              "note": "7.1"
             }
           ]
         },
@@ -526,24 +523,24 @@
           "label": "Serie A",
           "players": [
             {
-              "player_id": "1091303",
-              "note": "7.7"
-            },
-            {
-              "player_id": "1171451",
-              "note": "7.5"
-            },
-            {
               "player_id": "1086286",
-              "note": "7.3"
+              "note": "7.6"
             },
             {
-              "player_id": "1444690",
-              "note": "7.2"
+              "player_id": "1091303",
+              "note": "7.4"
             },
             {
               "player_id": "1175821",
-              "note": "7.2"
+              "note": "7.0"
+            },
+            {
+              "player_id": "1171451",
+              "note": "6.8"
+            },
+            {
+              "player_id": "1444690",
+              "note": "6.7"
             }
           ]
         },
@@ -551,24 +548,24 @@
           "label": "Ligue 1",
           "players": [
             {
-              "player_id": "973556",
-              "note": "7.5"
-            },
-            {
               "player_id": "1142672",
-              "note": "7.5"
-            },
-            {
-              "player_id": "1138804",
-              "note": "7.4"
+              "note": "7.7"
             },
             {
               "player_id": "1151803",
-              "note": "7.4"
+              "note": "7.1"
+            },
+            {
+              "player_id": "1138804",
+              "note": "6.8"
             },
             {
               "player_id": "1156353",
-              "note": "7.4"
+              "note": "6.5"
+            },
+            {
+              "player_id": "973556",
+              "note": "6.3"
             }
           ]
         }
