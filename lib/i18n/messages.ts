@@ -644,7 +644,7 @@ const en: Messages = {
     title: "Pass Grade",
     unavailable: "Grade unavailable",
     overallTitle: "Overall Grade",
-    overallTip: "Average of Absolute and Relative pass grades (weighted five-pillar score).",
+    overallTip: "Equal-weight average of absolute productivity, relative productivity, COE/pass, absolute lethality, chance creation and absolute build-up.",
     general: "General",
     expected: "Expected",
     generalTip:
@@ -667,7 +667,7 @@ const en: Messages = {
     generalTip:
       "Sofascore-style grade from xPV per game rank within your league (top midfielder = best grade).",
     relativeTip:
-      "xPV/game minus hybrid-model expected ({gap} residual; actual {actual}, expected {expected}). Scaled 0–100 within your league.",
+      "xPV/game vs hybrid expected ({gap} vs expected; actual {actual}, expected {expected}). Scaled 0–100 within your league.",
     expectedTip:
       "Sofascore-style grade from hybrid residual xPV rank within your league ({gap} residual; actual {actual}, expected {expected}).",
   },
@@ -1177,7 +1177,7 @@ const pt: Messages = {
     title: "Nota de passe",
     unavailable: "Nota indisponível",
     overallTitle: "Nota geral",
-    overallTip: "Média entre as notas Absolute e Relative (cinco pilares ponderados).",
+    overallTip: "Média ponderada igual de produtividade absoluta, produtividade relativa, COE/pass, lethality absoluta, chance creation e build-up absoluto.",
     general: "Geral",
     expected: "Esperado",
     generalTip:
@@ -1200,7 +1200,7 @@ const pt: Messages = {
     generalTip:
       "Nota Sofascore pelo ranking de xPV por jogo na sua liga (melhor médio = melhor nota).",
     relativeTip:
-      "xPV/jogo menos o esperado do modelo híbrido (residual {gap}; real {actual}, esperado {expected}). Escala 0–100 na liga.",
+      "xPV/jogo vs esperado do modelo híbrido ({gap} vs esperado; real {actual}, esperado {expected}). Escala 0–100 na liga.",
     expectedTip:
       "Nota Sofascore pelo ranking do residual xPV híbrido na liga ({gap} residual; real {actual}, esperado {expected}).",
   },

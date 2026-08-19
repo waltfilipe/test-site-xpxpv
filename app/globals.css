@@ -1088,6 +1088,27 @@ button, input, select { font: inherit; }
   overflow: hidden;
 }
 
+.identity-card-bare {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  box-shadow: none;
+}
+
+.profile-grade-card {
+  padding: 0.75rem 0.9rem;
+  flex: 0 0 auto;
+}
+
+.profile-grade-card .pass-grade-section {
+  padding: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+}
+
 .pa-col-identity .identity-photo-side {
   width: 168px;
   min-height: 192px;

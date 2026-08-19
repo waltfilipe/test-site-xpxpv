@@ -4,15 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { LoadingState } from "@/components/LoadingState";
-import { PassGradeGauge } from "@/components/PassGradeGauge";
+import { PassGradePanel } from "@/components/PassGradePanel";
 import { PassLengthMix } from "@/components/PassLengthMix";
 import { PassScoreSections } from "@/components/PassScoreSections";
-import { ProfileModeToggle } from "@/components/ProfileModeToggle";
 import { XpIndicesPanel } from "@/components/XpIndicesPanel";
 import { XpProfilePanel } from "@/components/XpProfilePanel";
-import { getPlayerProfile, type PlayerProfile, type ProfileViewMode } from "@/lib/api";
+import { getPlayerProfile, type PlayerProfile } from "@/lib/api";
 import { formatContractUntil } from "@/lib/formatters";
-import { computeOverallPassGrade, resolvePassGradeRelative } from "@/lib/passGrades";
+import { overallPassGradeFromProfile } from "@/lib/passGrades";
 import { useI18n } from "@/lib/i18n/context";
 
 function FactIcon({ icon }: { icon: string }) {
@@ -32,7 +31,6 @@ export function ProfileView({
 }) {
   const { m } = useI18n();
   const [data, setData] = useState<PlayerProfile | null>(null);
-  const [mode, setMode] = useState<ProfileViewMode>("absolute");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -55,21 +53,15 @@ export function ProfileView({
   if (!data) return null;
 
   const p = data.player;
-  const activeView = data.profile_views?.[mode];
-  const passScores = activeView?.pass_scores ?? data.pass_scores;
-  const passGradeAbsolute = data.pass_grade_general ?? null;
-  const passGradeRelative = resolvePassGradeRelative(data);
-  const overallPassGrade = computeOverallPassGrade(
-    passGradeAbsolute,
-    passGradeRelative,
-    data.pass_grade_overall,
-  );
+  const absoluteView = data.profile_views?.absolute;
+  const passScores = absoluteView?.pass_scores ?? data.pass_scores;
+  const overallPassGrade = overallPassGradeFromProfile(data);
 
   return (
     <>
       <div className="pa-layout">
         <div className="pa-col pa-col-identity">
-          <div className="player-card identity-card">
+          <div className="identity-card identity-card-bare">
             <div className="identity-hero identity-hero-profile">
               <div className="identity-photo-side">
                 {p.photo_url ? (
@@ -145,11 +137,9 @@ export function ProfileView({
 
         <div className="pa-col pa-col-score">
           <div className="score-stack">
-            <PassGradeGauge
-              score={overallPassGrade}
-              rankInPool={data.pass_grade_overall_rank_in_pool}
-              rankPoolSize={data.pass_grade_overall_rank_pool_size}
-            />
+            <div className="player-card profile-grade-card">
+              <PassGradePanel score={overallPassGrade} embedded />
+            </div>
             <XpProfilePanel xp={data.xp ?? {}} />
             <div className="player-card profile-indices-mix-card">
               <XpIndicesPanel
@@ -162,12 +152,9 @@ export function ProfileView({
         </div>
 
         <div className="pa-col pa-col-pillars">
-          <div className="pillars-stack">
-            <ProfileModeToggle mode={mode} onChange={setMode} />
-            <div className="player-card pillars-card">
-              <h3 className="section-label">{m.sections.passScores}</h3>
-              <PassScoreSections sections={passScores} />
-            </div>
+          <div className="player-card pillars-card">
+            <h3 className="section-label">{m.sections.passScores}</h3>
+            <PassScoreSections sections={passScores} />
           </div>
         </div>
       </div>
