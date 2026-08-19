@@ -34,51 +34,43 @@ export function ProfileGroupCards({ current, counts, leagueCounts }: Props) {
   }
 
   return (
-    <>
-      <section className="reports-category-panel profile-group-panel">
-        <button
-          type="button"
-          className={`reports-category-card profile-group-all-card${isAllActive ? " active" : ""}`}
-          style={{ "--category-accent": PROFILE_ALL_GROUP.accent } as CSSProperties}
-          onClick={() => selectGroup(PROFILE_ALL_GROUP.id)}
-        >
-          <div className="profile-group-all-main">
-            <span className="reports-category-card-eyebrow">{allCategory.subtitle}</span>
-            <strong className="reports-category-card-title profile-group-all-title">
-              {allCategory.title}
-            </strong>
-          </div>
-          <span className="reports-category-card-count tabular profile-group-all-count">
-            {counts[PROFILE_ALL_GROUP.id] ?? 0} {m.common.athletes}
-          </span>
-        </button>
+    <section className="reports-category-panel profile-group-panel profile-filters-compact">
+      <button
+        type="button"
+        className={`reports-category-card profile-group-all-card${isAllActive ? " active" : ""}`}
+        style={{ "--category-accent": PROFILE_ALL_GROUP.accent } as CSSProperties}
+        onClick={() => selectGroup(PROFILE_ALL_GROUP.id)}
+      >
+        <strong className="reports-category-card-title profile-group-all-title">
+          {allCategory.title}
+        </strong>
+        <span className="reports-category-card-count tabular profile-group-all-count">
+          {counts[PROFILE_ALL_GROUP.id] ?? 0} {m.common.athletes}
+        </span>
+      </button>
 
-        <div className="reports-category-grid profile-group-age-grid">
-          {PLAYER_REPORT_CATEGORIES.map((card) => {
-            const isActive = activeKey === card.id;
-            const count = counts[card.id] ?? 0;
-            const meta = m.profileCategories[card.id];
-            return (
-              <button
-                key={card.id}
-                type="button"
-                className={`reports-category-card${isActive ? " active" : ""}`}
-                style={{ "--category-accent": card.accent } as CSSProperties}
-                onClick={() => selectGroup(card.id)}
-              >
-                <span className="reports-category-card-eyebrow">{meta.subtitle}</span>
-                <strong className="reports-category-card-title">{meta.title}</strong>
-                <p className="reports-category-card-desc">{meta.description}</p>
-                <div className="reports-category-card-foot">
-                  <span className="reports-category-card-count tabular">{count} {m.common.athletes}</span>
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </section>
+      <div className="reports-category-grid profile-group-age-grid">
+        {PLAYER_REPORT_CATEGORIES.map((card) => {
+          const isActive = activeKey === card.id;
+          const count = counts[card.id] ?? 0;
+          const meta = m.profileCategories[card.id];
+          return (
+            <button
+              key={card.id}
+              type="button"
+              className={`reports-category-card profile-group-block-card${isActive ? " active" : ""}`}
+              style={{ "--category-accent": card.accent } as CSSProperties}
+              title={meta.description}
+              onClick={() => selectGroup(card.id)}
+            >
+              <strong className="reports-category-card-title">{meta.title}</strong>
+              <span className="reports-category-card-count tabular">{count}</span>
+            </button>
+          );
+        })}
+      </div>
 
       <ProfileLeagueFilter current={current} counts={leagueCounts} />
-    </>
+    </section>
   );
 }

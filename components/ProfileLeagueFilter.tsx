@@ -29,7 +29,7 @@ export function ProfileLeagueFilter({ current, counts }: Props) {
   }
 
   return (
-    <section className="profile-league-filter" aria-label={m.profile.leagueFilter.ariaLabel}>
+    <div className="profile-league-filter" aria-label={m.profile.leagueFilter.ariaLabel}>
       <span className="profile-league-filter-eyebrow">{m.profile.leagueFilter.eyebrow}</span>
       <div className="profile-league-filter-grid">
         {EUROPEAN_LEAGUES.map((league) => {
@@ -42,27 +42,26 @@ export function ProfileLeagueFilter({ current, counts }: Props) {
               className={`profile-league-card${isActive ? " active" : ""}`}
               style={{ "--league-accent": league.accent } as CSSProperties}
               aria-pressed={isActive}
+              title={`${league.label} · ${count} ${m.common.athletes}`}
               onClick={() => selectLeague(league.key)}
             >
               <span className="profile-league-card-logo-wrap">
                 <Image
                   src={league.logoUrl}
                   alt=""
-                  width={44}
-                  height={44}
+                  width={28}
+                  height={28}
                   className="profile-league-card-logo"
                 />
               </span>
               <span className="profile-league-card-copy">
                 <strong className="profile-league-card-title">{league.label}</strong>
-                <span className="profile-league-card-count tabular">
-                  {count} {m.common.athletes}
-                </span>
+                <span className="profile-league-card-count tabular">{count}</span>
               </span>
             </button>
           );
         })}
       </div>
-    </section>
+    </div>
   );
 }

@@ -794,6 +794,140 @@ button, input, select { font: inherit; }
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
 }
 
+.profile-page-hero-compact {
+  padding: 1rem 0 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.profile-page-hero-compact h1 {
+  font-size: clamp(1.35rem, 2.2vw, 1.65rem);
+  margin-bottom: 0;
+}
+
+.profile-page-hero-compact .profile-page-eyebrow {
+  font-size: 0.62rem;
+  margin-bottom: 0.15rem;
+  letter-spacing: 0.1em;
+}
+
+.profile-filters-compact {
+  margin-bottom: 0.55rem;
+  padding: 0.5rem;
+  gap: 0.45rem;
+}
+
+.profile-filters-compact .profile-group-all-card {
+  padding: 0.38rem 0.65rem;
+  gap: 0.65rem;
+}
+
+.profile-filters-compact .profile-group-all-title {
+  font-size: 0.88rem;
+}
+
+.profile-filters-compact .profile-group-all-count {
+  font-size: 0.72rem;
+}
+
+.profile-filters-compact .profile-group-age-grid {
+  gap: 0.4rem;
+}
+
+.profile-filters-compact .profile-group-block-card {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  padding: 0.42rem 0.55rem;
+  min-height: 0;
+}
+
+.profile-filters-compact .profile-group-block-card .reports-category-card-title {
+  font-size: 0.78rem;
+  line-height: 1.2;
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-filters-compact .profile-group-block-card .reports-category-card-count {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.profile-filters-compact .profile-league-filter {
+  margin-bottom: 0;
+  padding: 0.35rem 0 0;
+  border: 0;
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.profile-filters-compact .profile-league-filter-eyebrow {
+  margin-bottom: 0.3rem;
+  font-size: 0.58rem;
+}
+
+.profile-filters-compact .profile-league-filter-grid {
+  gap: 0.35rem;
+}
+
+.profile-filters-compact .profile-league-card {
+  min-height: 0;
+  padding: 0.32rem 0.45rem;
+  gap: 0.35rem;
+}
+
+.profile-filters-compact .profile-league-card-logo-wrap {
+  width: 1.65rem;
+  height: 1.65rem;
+  padding: 0.15rem;
+  border-radius: 0.4rem;
+}
+
+.profile-filters-compact .profile-league-card-title {
+  font-size: 0.68rem;
+  line-height: 1.15;
+}
+
+.profile-filters-compact .profile-league-card-count {
+  font-size: 0.6rem;
+}
+
+.profile-page-body .player-search-row {
+  margin-bottom: 0.65rem;
+  padding: 0.5rem 0.65rem;
+  gap: 0.5rem;
+}
+
+.profile-page-body .player-search-row .filter-label {
+  font-size: 0.68rem;
+  margin-bottom: 0.1rem;
+}
+
+.profile-page-body .player-search-input,
+.profile-page-body .player-select {
+  padding-top: 0.38rem;
+  padding-bottom: 0.38rem;
+  font-size: 0.82rem;
+}
+
+@media (max-width: 980px) {
+  .profile-filters-compact .profile-group-age-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .profile-filters-compact .profile-league-filter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .profile-group-panel {
   margin-bottom: 1rem;
   padding: 0.85rem;
