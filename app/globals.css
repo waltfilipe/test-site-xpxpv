@@ -2600,14 +2600,14 @@ button, input, select { font: inherit; }
   gap: 0.45rem;
   padding: 0.42rem 0.5rem;
   border-radius: 9px;
-  border: 1px solid rgba(51, 65, 85, 0.5);
-  background: rgba(15, 23, 42, 0.45);
+  border: 1px solid rgba(51, 65, 85, 0.45);
+  background: rgba(15, 23, 42, 0.42);
   cursor: help;
   transition: border-color 0.15s, background 0.15s;
 }
 
 .xp-index-row:hover {
-  background: rgba(15, 23, 42, 0.65);
+  background: rgba(15, 23, 42, 0.58);
 }
 
 .xp-index-row-icon {
@@ -2618,8 +2618,6 @@ button, input, select { font: inherit; }
   height: 1.35rem;
   border-radius: 7px;
   font-size: 0.62rem;
-  color: #94a3b8;
-  background: rgba(51, 65, 85, 0.35);
   flex-shrink: 0;
 }
 
@@ -2634,7 +2632,7 @@ button, input, select { font: inherit; }
 .xp-index-row-sep {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, rgba(100, 116, 139, 0.45), rgba(100, 116, 139, 0.12));
+  background: linear-gradient(90deg, rgba(100, 116, 139, 0.35), rgba(100, 116, 139, 0.08));
   min-width: 0.6rem;
 }
 
@@ -2648,22 +2646,28 @@ button, input, select { font: inherit; }
 }
 
 .xp-index-elite {
-  border-color: rgba(56, 189, 248, 0.45);
-  background: linear-gradient(90deg, rgba(56, 189, 248, 0.12) 0%, rgba(15, 23, 42, 0.45) 100%);
+  border-color: rgba(56, 189, 248, 0.32);
 }
 .xp-index-elite .xp-index-row-val { color: #38bdf8; }
-.xp-index-elite .xp-index-row-icon { color: #38bdf8; background: rgba(56, 189, 248, 0.18); }
+.xp-index-elite .xp-index-row-icon { color: #38bdf8; background: rgba(56, 189, 248, 0.12); }
 
 .xp-index-above {
-  border-color: rgba(74, 222, 128, 0.45);
-  background: linear-gradient(90deg, rgba(74, 222, 128, 0.12) 0%, rgba(15, 23, 42, 0.45) 100%);
+  border-color: rgba(74, 222, 128, 0.32);
 }
 .xp-index-above .xp-index-row-val { color: #4ade80; }
-.xp-index-above .xp-index-row-icon { color: #4ade80; background: rgba(74, 222, 128, 0.18); }
+.xp-index-above .xp-index-row-icon { color: #4ade80; background: rgba(74, 222, 128, 0.12); }
 
+.xp-index-mid {
+  border-color: rgba(250, 204, 21, 0.28);
+}
 .xp-index-mid .xp-index-row-val { color: #facc15; }
+.xp-index-mid .xp-index-row-icon { color: #facc15; background: rgba(250, 204, 21, 0.1); }
+
+.xp-index-below {
+  border-color: rgba(251, 146, 60, 0.32);
+}
 .xp-index-below .xp-index-row-val { color: #fb923c; }
-.xp-index-below .xp-index-row-icon { color: #fb923c; background: rgba(251, 146, 60, 0.15); }
+.xp-index-below .xp-index-row-icon { color: #fb923c; background: rgba(251, 146, 60, 0.12); }
 
 /* Top rank medals */
 .stat-val-wrap {
@@ -4044,7 +4048,8 @@ tr:last-child td { border-bottom: none; }
   max-width: 100%;
 }
 
-.tip-wrap.tip-wrap-block {
+.tip-wrap.tip-wrap-block,
+.tip-wrap-trigger.tip-wrap-block {
   display: block;
   width: 100%;
 }
@@ -4055,13 +4060,13 @@ tr:last-child td { border-bottom: none; }
   width: 100%;
 }
 
-.tip-box {
-  position: absolute;
-  z-index: 100;
-  left: 50%;
-  transform: translateX(-50%);
+.tip-portal {
+  position: fixed;
+  z-index: 1200;
+  left: 0;
+  top: 0;
   width: max-content;
-  max-width: 260px;
+  max-width: min(24rem, calc(100vw - 20px));
   padding: 0.55rem 0.7rem;
   border-radius: 9px;
   background: #1a2238;
@@ -4073,38 +4078,17 @@ tr:last-child td { border-bottom: none; }
   white-space: pre-line;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
   pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.15s, visibility 0.15s, transform 0.15s;
 }
 
-.tip-top .tip-box {
-  bottom: calc(100% + 8px);
-  transform: translateX(-50%) translateY(4px);
+.tip-portal-top {
+  transform: translate(-50%, calc(-100% - 2px));
 }
 
-.tip-bottom .tip-box {
-  top: calc(100% + 8px);
-  transform: translateX(-50%) translateY(-4px);
+.tip-portal-bottom {
+  transform: translate(-50%, 2px);
 }
 
-.tip-wrap:hover .tip-box,
-.tip-wrap:focus-within .tip-box {
-  opacity: 1;
-  visibility: visible;
-}
-
-.tip-top:hover .tip-box,
-.tip-top:focus-within .tip-box {
-  transform: translateX(-50%) translateY(0);
-}
-
-.tip-bottom:hover .tip-box,
-.tip-bottom:focus-within .tip-box {
-  transform: translateX(-50%) translateY(0);
-}
-
-.tip-box::after {
+.tip-portal::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -4112,14 +4096,19 @@ tr:last-child td { border-bottom: none; }
   border: 5px solid transparent;
 }
 
-.tip-top .tip-box::after {
+.tip-portal-top::after {
   top: 100%;
   border-top-color: #1a2238;
 }
 
-.tip-bottom .tip-box::after {
+.tip-portal-bottom::after {
   bottom: 100%;
   border-bottom-color: #1a2238;
+}
+
+/* Legacy in-flow tooltip (unused by portal component; kept for print compat) */
+.tip-box {
+  display: none;
 }
 
 /* ── Legacy compat ── */
@@ -4706,28 +4695,28 @@ tr:last-child td { border-bottom: none; }
 .impact-accordion.xp-index-elite .xp-index-row-icon,
 .compare-xp-index-row.xp-index-elite .xp-index-row-icon {
   color: #38bdf8;
-  background: rgba(56, 189, 248, 0.18);
+  background: rgba(56, 189, 248, 0.12);
 }
 
 .consistency-accordion.xp-index-above .xp-index-row-icon,
 .impact-accordion.xp-index-above .xp-index-row-icon,
 .compare-xp-index-row.xp-index-above .xp-index-row-icon {
   color: #4ade80;
-  background: rgba(74, 222, 128, 0.18);
+  background: rgba(74, 222, 128, 0.12);
 }
 
 .consistency-accordion.xp-index-mid .xp-index-row-icon,
 .impact-accordion.xp-index-mid .xp-index-row-icon,
 .compare-xp-index-row.xp-index-mid .xp-index-row-icon {
   color: #facc15;
-  background: rgba(250, 204, 21, 0.15);
+  background: rgba(250, 204, 21, 0.1);
 }
 
 .consistency-accordion.xp-index-below .xp-index-row-icon,
 .impact-accordion.xp-index-below .xp-index-row-icon,
 .compare-xp-index-row.xp-index-below .xp-index-row-icon {
   color: #fb923c;
-  background: rgba(251, 146, 60, 0.15);
+  background: rgba(251, 146, 60, 0.12);
 }
 
 .impact-accordion[open] .consistency-accordion-chevron {
@@ -5282,6 +5271,7 @@ tr:last-child td { border-bottom: none; }
   .reports-footnote,
   .reports-hint,
   .report-screen-only,
+  .tip-portal,
   .tip-box {
     display: none !important;
   }
@@ -6417,6 +6407,22 @@ tr:last-child td { border-bottom: none; }
   border-radius: var(--radius-sm);
   border: 1px solid rgba(148, 163, 184, 0.12);
   background: rgba(15, 23, 42, 0.35);
+}
+
+.compare-xp-index-row.xp-index-elite {
+  border-color: rgba(56, 189, 248, 0.32);
+}
+
+.compare-xp-index-row.xp-index-above {
+  border-color: rgba(74, 222, 128, 0.32);
+}
+
+.compare-xp-index-row.xp-index-mid {
+  border-color: rgba(250, 204, 21, 0.28);
+}
+
+.compare-xp-index-row.xp-index-below {
+  border-color: rgba(251, 146, 60, 0.32);
 }
 
 .compare-xp-index-name {
