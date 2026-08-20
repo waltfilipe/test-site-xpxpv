@@ -620,7 +620,7 @@ const en: Messages = {
   },
   sections: {
     xpProfile: "xP Profile",
-    passScores: "Pass Scores",
+    passScores: "Stats & Scores",
     badges: "Badges",
     xpIndices: "xP Indices",
     xpPillars: "xP Pillars",
@@ -1158,7 +1158,7 @@ const pt: Messages = {
   },
   sections: {
     xpProfile: "Perfil xP",
-    passScores: "Pass Scores",
+    passScores: "Stats & Scores",
     badges: "Badges",
     xpIndices: "Índices xP",
     xpPillars: "Pilares xP",
