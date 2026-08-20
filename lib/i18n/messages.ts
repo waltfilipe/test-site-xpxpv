@@ -112,6 +112,8 @@ export type Messages = {
     coePerPass: string;
     coeShortPass: string;
     coeLongPass: string;
+    consistencyMadLabel: string;
+    consistencyMadTip: string;
     clusterTip: string;
   };
   players: {
@@ -499,9 +501,12 @@ const en: Messages = {
     rankTopPct: "Top {pct}%",
     xpvPerGame: "Pass Value per Game",
     prodRelVolume: "Volume rate (relative)",
-    coePerPass: "COE/Pass",
-    coeShortPass: "COE/Short Pass",
-    coeLongPass: "COE/Long Pass",
+    coePerPass: "xAccuracy+",
+    coeShortPass: "Short xAcc+",
+    coeLongPass: "Long xAcc+",
+    consistencyMadLabel: "MAD",
+    consistencyMadTip:
+      "Mean absolute deviation of per-match pass grades — average spread from game to game. Lower = more consistent.",
     clusterTip: "K=4 pass-profile cluster on raw absolute metrics. About {pct}% of the eligible pool shares this archetype.",
   },
   players: {
@@ -684,7 +689,7 @@ const en: Messages = {
     generalCoe: "General COE (all passes)",
     stratumCoe: "COE in volume stratum",
     generalCoeTip:
-      "Sofascore-style grade from COE per pass rank within your league.",
+      "xAccuracy+ — completion above/below expected for this pass mix. Bar ranked within your league.",
     stratumCoeTip:
       "Sofascore-style grade from total-pass COE vs peers in the same pass-volume quartile within your league.",
   },
@@ -1034,9 +1039,12 @@ const pt: Messages = {
     rankTopPct: "Top {pct}%",
     xpvPerGame: "Pass Value por jogo",
     prodRelVolume: "Taxa de volume (relativo)",
-    coePerPass: "COE/Pass",
-    coeShortPass: "COE/Short Pass",
-    coeLongPass: "COE/Long Pass",
+    coePerPass: "xAccuracy+",
+    coeShortPass: "Short xAcc+",
+    coeLongPass: "Long xAcc+",
+    consistencyMadLabel: "MAD",
+    consistencyMadTip:
+      "Desvio absoluto médio das notas de passe por jogo — spread médio entre partidas. Menor = mais consistente.",
     clusterTip: "Cluster k=4 de perfil de passe em métricas absolutas cruas. Cerca de {pct}% do pool elegível compartilha este arquétipo.",
   },
   players: {
@@ -1219,7 +1227,7 @@ const pt: Messages = {
     generalCoe: "COE geral (todos os passes)",
     stratumCoe: "COE no extrato de volume",
     generalCoeTip:
-      "Nota Sofascore pelo ranking de COE por passe na sua liga.",
+      "xAccuracy+ — acerto acima/abaixo do esperado para o mix de passes. Barra ranqueada na liga.",
     stratumCoeTip:
       "Nota Sofascore do COE total vs pares no mesmo quartil de volume de passes na liga.",
   },

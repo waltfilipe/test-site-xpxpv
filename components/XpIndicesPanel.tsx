@@ -23,39 +23,10 @@ export type XpIndexItem = {
 type Props = {
   indices: XpIndexItem[];
   roundGrades?: XpRoundGrade[];
+  gameGradeMad?: number | null;
   accent?: string;
   expandAll?: boolean;
 };
-
-function IndexRow({
-  label,
-  tier,
-  tierKey,
-  icon,
-  indexTips,
-}: {
-  label: string;
-  tier?: string | null;
-  tierKey: string;
-  icon: string;
-  indexTips: Record<string, string>;
-}) {
-  const tierLabel = XP_INDEX_TIER_LABELS[tier ?? "mid"] ?? tier ?? "—";
-  const tip = indexTips[tierKey] ?? indexTips[label] ?? "";
-
-  return (
-    <Tooltip content={tip} block>
-      <div className={`xp-index-row ${xpIndexTierClass(tier)}`} title={tip}>
-        <span className="xp-index-row-icon">
-          <i className={`fa-solid ${icon}`} />
-        </span>
-        <span className="xp-index-row-name">{label}</span>
-        <span className="xp-index-row-sep" aria-hidden="true" />
-        <span className="xp-index-row-val">{tierLabel}</span>
-      </div>
-    </Tooltip>
-  );
-}
 
 function DefenseTooltipRow({
   label,
@@ -108,9 +79,94 @@ function DefenseTooltipRow({
   );
 }
 
+function IndexRow({
+  label,
+  tier,
+  tierKey,
+  icon,
+  indexTips,
+}: {
+  label: string;
+  tier?: string | null;
+  tierKey: string;
+  icon: string;
+  indexTips: Record<string, string>;
+}) {
+  const tierLabel = XP_INDEX_TIER_LABELS[tier ?? "mid"] ?? tier ?? "—";
+  const tip = indexTips[tierKey] ?? indexTips[label] ?? "";
+
+  return (
+    <Tooltip content={tip} block>
+      <div className={`xp-index-row ${xpIndexTierClass(tier)}`} title={tip}>
+        <span className="xp-index-row-icon">
+          <i className={`fa-solid ${icon}`} />
+        </span>
+        <span className="xp-index-row-name">{label}</span>
+        <span className="xp-index-row-sep" aria-hidden="true" />
+        <span className="xp-index-row-val">{tierLabel}</span>
+      </div>
+    </Tooltip>
+  );
+}
+
+function ConsistencyTooltipRow({
+  label,
+  tier,
+  tierKey,
+  icon,
+  gameGradeMad,
+  indexTips,
+  madLabel,
+  madTip,
+}: {
+  label: string;
+  tier?: string | null;
+  tierKey: string;
+  icon: string;
+  gameGradeMad?: number | null;
+  indexTips: Record<string, string>;
+  madLabel: string;
+  madTip: string;
+}) {
+  const tierLabel = XP_INDEX_TIER_LABELS[tier ?? "mid"] ?? tier ?? "—";
+  const summary = indexTips[tierKey] ?? indexTips[label] ?? "";
+  const madFormatted =
+    gameGradeMad != null && Number.isFinite(gameGradeMad)
+      ? gameGradeMad.toFixed(2)
+      : "—";
+
+  const tooltip = (
+    <div className="index-detail-tooltip">
+      {summary ? <p className="index-detail-tooltip-lead">{summary}</p> : null}
+      <div className="index-detail-tooltip-metric">
+        <span className="index-detail-tooltip-label">{madLabel}</span>
+        <span className="index-detail-tooltip-value tabular">{madFormatted}</span>
+      </div>
+      {madTip ? <p className="index-detail-tooltip-note">{madTip}</p> : null}
+    </div>
+  );
+
+  return (
+    <Tooltip content={tooltip} block>
+      <div
+        className={`xp-index-row ${xpIndexTierClass(tier)}`}
+        title={summary || undefined}
+      >
+        <span className="xp-index-row-icon">
+          <i className={`fa-solid ${icon}`} />
+        </span>
+        <span className="xp-index-row-name">{label}</span>
+        <span className="xp-index-row-sep" aria-hidden="true" />
+        <span className="xp-index-row-val">{tierLabel}</span>
+      </div>
+    </Tooltip>
+  );
+}
+
 export function XpIndicesPanel({
   indices,
   roundGrades = [],
+  gameGradeMad,
   accent,
   expandAll = false,
 }: Props) {
@@ -129,7 +185,19 @@ export function XpIndicesPanel({
     <div className="xp-indices-panel">
       <h4 className="section-label-sm">{m.sections.xpIndices}</h4>
       <div className="xp-indices-list">
-        {consistency && (
+        {consistency && !expandAll && (
+          <ConsistencyTooltipRow
+            label={consistency.label}
+            tier={consistency.tier}
+            tierKey={consistency.tier_key ?? consistency.label}
+            icon={consistency.icon ?? "fa-wave-square"}
+            gameGradeMad={gameGradeMad}
+            indexTips={indexTips}
+            madLabel={m.profile.consistencyMadLabel}
+            madTip={m.profile.consistencyMadTip}
+          />
+        )}
+        {consistency && expandAll && (
           <ConsistencyAccordion
             label={consistency.label}
             tier={consistency.tier}

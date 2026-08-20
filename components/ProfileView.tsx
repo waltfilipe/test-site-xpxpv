@@ -178,6 +178,11 @@ export function ProfileView({
                 <XpIndicesPanel
                   indices={data.xp_indices ?? []}
                   roundGrades={data.xp_round_grades ?? []}
+                  gameGradeMad={
+                    typeof data.xp?.xp_game_grade_mad === "number"
+                      ? data.xp.xp_game_grade_mad
+                      : null
+                  }
                 />
                 <PassLengthMix data={data} />
               </div>

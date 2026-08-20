@@ -12,6 +12,17 @@ type Props = {
   xp: XpRecord;
 };
 
+function formatXAccPlus(value: unknown): string {
+  if (value == null || typeof value !== "number" || !Number.isFinite(value)) {
+    return "—";
+  }
+  const abs = Math.abs(value);
+  const rounded = abs.toFixed(1);
+  if (value > 0) return `+${rounded}`;
+  if (value < 0) return `−${rounded}`;
+  return "0.0";
+}
+
 function formatRelativeDelta(value: unknown): string {
   if (value == null || typeof value !== "number" || !Number.isFinite(value)) {
     return "—";
@@ -156,20 +167,22 @@ function PrecisionCard({ xp }: { xp: XpRecord }) {
           label={m.profile.coePerPass}
           value={xp.prec_coe_per_pass}
           barValue={display}
-          rawKey="prec_coe_per_pass"
           tip={m.precision.generalCoeTip}
+          formatValue={formatXAccPlus}
         />
         <MetricRow
           label={m.profile.coeShortPass}
           value={xp.xpass_coe_pct}
           barValue={shortBar}
-          rawKey="xpass_coe_pct"
+          tip={m.precision.generalCoeTip}
+          formatValue={formatXAccPlus}
         />
         <MetricRow
           label={m.profile.coeLongPass}
           value={xp.xpass_long_coe_pct}
           barValue={longBar}
-          rawKey="xpass_long_coe_pct"
+          tip={m.precision.generalCoeTip}
+          formatValue={formatXAccPlus}
         />
       </div>
     </article>
