@@ -497,7 +497,7 @@ const en: Messages = {
     modeRelative: "Relative",
     rankOf: "of",
     rankTopPct: "Top {pct}%",
-    xpvPerGame: "xPV/Game",
+    xpvPerGame: "Pass Value per Game",
     prodRelVolume: "Volume rate (relative)",
     coePerPass: "COE/Pass",
     coeShortPass: "COE/Short Pass",
@@ -666,12 +666,12 @@ const en: Messages = {
   productivity: {
     title: "Productivity",
     general: "General",
-    relative: "Relative",
+    relative: "Gap vs expected",
     expected: "Expected",
     generalTip:
-      "Sofascore-style grade from xPV per game rank within your league (top midfielder = best grade).",
+      "Sofascore-style grade from Pass Value per game rank within your league (top midfielder = best grade).",
     relativeTip:
-      "xPV/game vs hybrid expected ({gap} vs expected; actual {actual}, expected {expected}). Scaled 0–100 within your league.",
+      "Pass Value per game minus volume-adjusted expectation ({gap}; actual {actual}, expected {expected}). Bar scaled 0–100 within your league.",
     expectedTip:
       "Sofascore-style grade from hybrid residual xPV rank within your league ({gap} residual; actual {actual}, expected {expected}).",
   },
@@ -1032,7 +1032,7 @@ const pt: Messages = {
     modeRelative: "Relativo",
     rankOf: "de",
     rankTopPct: "Top {pct}%",
-    xpvPerGame: "xPV/Jogo",
+    xpvPerGame: "Pass Value por jogo",
     prodRelVolume: "Taxa de volume (relativo)",
     coePerPass: "COE/Pass",
     coeShortPass: "COE/Short Pass",
@@ -1201,12 +1201,12 @@ const pt: Messages = {
   productivity: {
     title: "Produtividade",
     general: "Geral",
-    relative: "Relativa",
+    relative: "Diferença vs esperado",
     expected: "Esperado",
     generalTip:
-      "Nota Sofascore pelo ranking de xPV por jogo na sua liga (melhor médio = melhor nota).",
+      "Nota Sofascore pelo ranking de Pass Value por jogo na sua liga (melhor médio = melhor nota).",
     relativeTip:
-      "xPV/jogo vs esperado do modelo híbrido ({gap} vs esperado; real {actual}, esperado {expected}). Escala 0–100 na liga.",
+      "Pass Value por jogo menos o esperado para o volume de passes ({gap}; real {actual}, esperado {expected}). Barra 0–100 na liga.",
     expectedTip:
       "Nota Sofascore pelo ranking do residual xPV híbrido na liga ({gap} residual; real {actual}, esperado {expected}).",
   },
