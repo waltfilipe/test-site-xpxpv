@@ -414,7 +414,7 @@ const en: Messages = {
   home: {
     eyebrow: "European pass analytics",
     lead:
-      "Pass Analysis of Top Midfielders from Non-Champions League Teams Across Europe's Top Five Leagues.",
+      "Pass intelligence for midfielders across Europe's top five leagues — xP difficulty, xPV destination value, pass grades and tactical maps in one place.",
     playersStat: "players",
     leaguesStat: "leagues",
     modelStat: "M4 model",
@@ -441,7 +441,7 @@ const en: Messages = {
         tag: "Grades",
         title: "Easy to read at a glance",
         body:
-          "Pass Grades turn the model into a single score from 1 to 10, compared to peers in the same position pool. An 8+ signals elite passing among European midfielders — not just within one league.",
+          "Pass Grades turn the model into letter tiers and a 1–10 score, compared to peers in the same position pool. Elite letters signal top-end passing among European midfielders — not just within one league.",
       },
       analyzed: {
         tag: "Scope",
@@ -463,26 +463,26 @@ const en: Messages = {
       },
       profile: {
         title: "Profile",
-        description: "Full player profile — pass radar, xP indices and origin heatmaps.",
+        description: "Full player view — pass scores, xP pillars with letter grades, indices and origin heatmaps.",
       },
       compare: {
         title: "Compare",
-        description: "Side-by-side comparison of two players in the same position pool.",
+        description: "Head-to-head comparison on the full European pool — always cross-league.",
       },
       maps: {
         title: "Maps",
-        description: "Pass maps and metric scatter — progressive, impact, line break and more.",
+        description: "Pass maps and scatter — progressive, impact, line break and final-third xPV.",
       },
       players: {
         title: "Players",
-        description: "Full pool list with ratings, filters and metric sorting.",
+        description: "Curated pool list with pass ratings and sortable metrics.",
       },
     },
   },
   profile: {
-    pageSubtitle: "Full analysis with pass scores, xP indices and rankings against the full European pool.",
+    pageSubtitle: "Pass scores, xP pillars and rankings — switch between league and European pool.",
     pageLead:
-      "xP, pass scores, indices and origin maps — rankings within the selected pool.",
+      "Pick a player, choose league-only or European-pool rankings, and explore pass scores, xP indices and origin maps.",
     loadingPool: "Loading player pool…",
     loadingProfile: "Loading profile…",
     loadingPlayer: "Loading player profile…",
@@ -502,7 +502,7 @@ const en: Messages = {
     modeToggleLabel: "Profile number mode",
     modeAbsolute: "Absolute",
     modeRelative: "Relative",
-    peerScopeToggleLabel: "Comparison pool",
+    peerScopeToggleLabel: "Rankings",
     peerScopePool: "European pool",
     peerScopeLeague: "League only",
     peerScopePoolTip: "Rank bars and pass scores vs all eligible midfielders in the top-five European leagues.",
@@ -517,7 +517,7 @@ const en: Messages = {
     consistencyMadLabel: "MAD",
     consistencyMadTip:
       "Mean absolute deviation of per-match pass grades — average spread from game to game. Lower = more consistent.",
-    clusterTip: "K=4 pass-profile cluster on raw absolute metrics. About {pct}% of the eligible pool shares this archetype.",
+    clusterTip: "Pass-profile cluster on raw absolute metrics. About {pct}% of the eligible pool shares this archetype.",
   },
   players: {
     subtitle: "Top-five European league players with pass ratings and position-pool pillars.",
@@ -539,9 +539,9 @@ const en: Messages = {
     reportsPromoCta: "View reports",
   },
     compare: {
-    subtitle: "Compare two midfielders on xP profile, Stats & Scores and origin heatmaps.",
+    subtitle: "Compare two midfielders on xP pillars, pass scores and origin heatmaps.",
     pageLead:
-      "Compare two midfielders from the European pool. Rankings always use the full European pool (cross-league).",
+      "Cross-league head-to-head on the full European pool — productivity, precision and pass-score pillars always use pool rankings.",
     loading: "Loading comparison…",
     backendUnavailable: "API unavailable — try again shortly.",
     pickerPlaceholder: "Type player name…",
@@ -551,7 +551,7 @@ const en: Messages = {
     passOriginAlt: "Pass origin heatmap",
   },
   maps: {
-    subtitle: "Pass maps for the curated midfielder pool.",
+    subtitle: "Pass maps for the curated midfielder pool — darker arrows mean higher xPV on impact passes.",
     generating: "Generating maps…",
     backendUnavailable: "API unavailable — try again shortly.",
     aggregateNote: "Aggregate view · top 250 by volume",
@@ -961,7 +961,7 @@ const pt: Messages = {
   home: {
     eyebrow: "Análise de passes na Europa",
     lead:
-      "Análise de passes dos principais meio-campistas de times fora da Champions League nas cinco grandes ligas europeias.",
+      "Inteligência de passe para meias das cinco grandes ligas europeias — dificuldade xP, valor xPV do destino, pass grades e mapas táticos num só lugar.",
     playersStat: "jogadores",
     leaguesStat: "ligas",
     modelStat: "modelo M4",
@@ -988,7 +988,7 @@ const pt: Messages = {
         tag: "Grades",
         title: "Fácil de ler de relance",
         body:
-          "As Pass Grades transformam o modelo em uma nota de 1 a 10, comparada aos pares da mesma posição. Um 8+ indica passe de elite entre meias europeus — não só dentro de uma liga.",
+          "As Pass Grades transformam o modelo em letras e nota 1–10, comparadas aos pares da mesma posição. Letras elite indicam passe de ponta entre meias europeus — não só dentro de uma liga.",
       },
       analyzed: {
         tag: "Escopo",
@@ -1010,26 +1010,26 @@ const pt: Messages = {
       },
       profile: {
         title: "Perfil",
-        description: "Perfil completo — radar de passes, índices xP e heatmaps de origem.",
+        description: "Visão completa — pass scores, pilares xP com letras, índices e heatmaps de origem.",
       },
       compare: {
         title: "Comparar",
-        description: "Compare dois jogadores lado a lado no mesmo pool de posição.",
+        description: "Confronto direto no pool europeu completo — sempre cross-liga.",
       },
       maps: {
         title: "Mapas",
-        description: "Mapas de passes e scatter — progressive, impact, line break e mais.",
+        description: "Mapas de passe e scatter — progressive, impact, line break e xPV no terço final.",
       },
       players: {
         title: "Jogadores",
-        description: "Lista completa do pool com ratings, filtros e ordenação por métrica.",
+        description: "Lista do pool com pass ratings e métricas ordenáveis.",
       },
     },
   },
   profile: {
-    pageSubtitle: "Análise completa com pass scores, índices xP e rankings contra o pool europeu.",
+    pageSubtitle: "Pass scores, pilares xP e rankings — alterne entre liga e pool europeu.",
     pageLead:
-      "xP, pass scores, índices e mapas de origem — rankings no pool selecionado.",
+      "Escolha o jogador, defina rankings só do campeonato ou do pool europeu, e explore pass scores, índices xP e mapas de origem.",
     loadingPool: "Carregando pool de jogadores…",
     loadingProfile: "Carregando perfil…",
     loadingPlayer: "Carregando perfil do jogador…",
@@ -1049,7 +1049,7 @@ const pt: Messages = {
     modeToggleLabel: "Modo de números do perfil",
     modeAbsolute: "Absoluto",
     modeRelative: "Relativo",
-    peerScopeToggleLabel: "Pool de comparação",
+    peerScopeToggleLabel: "Rankings",
     peerScopePool: "Pool europeu",
     peerScopeLeague: "Só campeonato",
     peerScopePoolTip: "Barras e pass scores vs todos os meias elegíveis das cinco grandes ligas europeias.",
@@ -1064,7 +1064,7 @@ const pt: Messages = {
     consistencyMadLabel: "MAD",
     consistencyMadTip:
       "Desvio absoluto médio das notas de passe por jogo — spread médio entre partidas. Menor = mais consistente.",
-    clusterTip: "Cluster k=4 de perfil de passe em métricas absolutas cruas. Cerca de {pct}% do pool elegível compartilha este arquétipo.",
+    clusterTip: "Cluster de perfil de passe em métricas absolutas cruas. Cerca de {pct}% do pool elegível compartilha este arquétipo.",
   },
   players: {
     subtitle: "Jogadores das 5 grandes ligas com ratings de passe e pilares por pool.",
@@ -1086,9 +1086,9 @@ const pt: Messages = {
     reportsPromoCta: "Ver relatórios",
   },
   compare: {
-    subtitle: "Compare dois meias em perfil xP, Stats & Scores e heatmaps de origem.",
+    subtitle: "Compare dois meias em pilares xP, pass scores e heatmaps de origem.",
     pageLead:
-      "Compare dois meio-campistas do pool europeu. Rankings sempre usam o pool europeu completo (cross-liga).",
+      "Confronto cross-liga no pool europeu completo — produtividade, precisão e pass scores sempre usam rankings do pool.",
     loading: "Carregando comparação…",
     backendUnavailable: "API indisponível — tente novamente em instantes.",
     pickerPlaceholder: "Digite o nome do jogador…",
@@ -1098,7 +1098,7 @@ const pt: Messages = {
     passOriginAlt: "Heatmap de origem dos passes",
   },
   maps: {
-    subtitle: "Mapas de passes do pool de meias.",
+    subtitle: "Mapas de passe do pool de meias — setas mais escuras indicam maior xPV nos impact passes.",
     generating: "Gerando mapas…",
     backendUnavailable: "API indisponível — tente novamente em instantes.",
     aggregateNote: "Visão agregada · top 250 por volume",

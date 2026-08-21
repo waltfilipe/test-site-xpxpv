@@ -121,15 +121,12 @@ export function ProfileView({
                   <p className="identity-subline">
                     {String(p.team ?? "—")} · {String(p.position ?? "—")}
                   </p>
+                  {data.profile_cluster ? (
+                    <ProfileClusterCard cluster={data.profile_cluster} compact />
+                  ) : null}
                 </div>
               </div>
             </div>
-
-            {data.profile_cluster ? (
-              <div className="player-card profile-cluster-card-wrap">
-                <ProfileClusterCard cluster={data.profile_cluster} />
-              </div>
-            ) : null}
 
             <div className="identity-card identity-card-bare">
               <div className="identity-facts identity-facts-side">

@@ -134,6 +134,28 @@ export function letterGradeBg(letter: string | null | undefined, displayScore?: 
   return letterGradePillColor(letter, displayScore);
 }
 
+/** Map a 3.0–9.0 display score to a letter grade (A+ … D). */
+export function displayScoreLetterGrade(displayScore: number | null | undefined): string {
+  if (displayScore == null || !Number.isFinite(displayScore)) return "—";
+  const score = Number(displayScore);
+  const scoreTiers: [number, string][] = [
+    [8.6, "A+"],
+    [8.2, "A"],
+    [7.8, "A-"],
+    [7.4, "B+"],
+    [7.0, "B"],
+    [6.6, "B-"],
+    [6.3, "C+"],
+    [6.0, "C"],
+    [5.6, "C-"],
+    [0.0, "D"],
+  ];
+  for (const [floor, letter] of scoreTiers) {
+    if (score >= floor) return letter;
+  }
+  return "D";
+}
+
 export function gradientBarTier(score: number): "cool" | "warm" | "hot" {
   if (score >= 7.5) return "hot";
   if (score >= 5.5) return "warm";

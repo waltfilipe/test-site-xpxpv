@@ -10,18 +10,11 @@ import { useI18n } from "@/lib/i18n/context";
 
 type Option = { player_id: string; label: string };
 
-type FiltersToggle = {
-  open: boolean;
-  onToggle: () => void;
-  label: string;
-};
-
 export function PlayerSearchRow({
   options,
   currentId,
   filters,
   peerScope,
-  filtersToggle,
 }: {
   options: Option[];
   currentId?: string;
@@ -30,7 +23,6 @@ export function PlayerSearchRow({
     scope: PeerScope;
     onChange: (scope: PeerScope) => void;
   };
-  filtersToggle?: FiltersToggle;
 }) {
   const router = useRouter();
   const { m } = useI18n();
@@ -93,27 +85,8 @@ export function PlayerSearchRow({
 
       {peerScope ? (
         <div className="player-search-actions player-search-peer-scope">
-          <span className="filter-label">{m.profile.peerScopeToggleLabel}</span>
+          <span className="filter-label filter-label-compact">{m.profile.peerScopeToggleLabel}</span>
           <PeerScopeToggle scope={peerScope.scope} onChange={peerScope.onChange} />
-        </div>
-      ) : null}
-
-      {filtersToggle ? (
-        <div className="player-search-actions">
-          <span className="filter-label player-search-actions-label" aria-hidden="true">
-            &nbsp;
-          </span>
-          <button
-            type="button"
-            className={`btn btn-ghost btn-sm player-filters-toggle${filtersToggle.open ? " active" : ""}`}
-            onClick={filtersToggle.onToggle}
-            aria-expanded={filtersToggle.open}
-            aria-controls="profile-filters-panel"
-          >
-            <i className="fa-solid fa-sliders" aria-hidden="true" />
-            {filtersToggle.label}
-            <i className={`fa-solid fa-chevron-${filtersToggle.open ? "up" : "down"}`} aria-hidden="true" />
-          </button>
         </div>
       ) : null}
     </div>

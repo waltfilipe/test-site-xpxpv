@@ -4,6 +4,7 @@ import { CompareDualMetricTip } from "@/components/CompareDualMetricTip";
 import { GradeBadge } from "@/components/ui/GradeBadge";
 import { XpHeatBar } from "@/components/ui/XpHeatBar";
 import { Tooltip } from "@/components/ui/Tooltip";
+import { displayScoreLetterGrade } from "@/lib/gradeColors";
 import { formatMetric } from "@/lib/formatters";
 import { useI18n } from "@/lib/i18n/context";
 
@@ -47,7 +48,8 @@ function formatRelativeDelta(value: unknown): string {
 }
 
 function gradeLabel(grade: unknown) {
-  return typeof grade === "number" && Number.isFinite(grade) ? grade.toFixed(1) : "—";
+  if (typeof grade !== "number" || !Number.isFinite(grade)) return "—";
+  return displayScoreLetterGrade(grade);
 }
 
 function metricValue(xp: XpRecord, key: string): number | null {
@@ -121,8 +123,8 @@ function ComparePillarCard({
         </span>
         <h4 className="compare-xp-pillar-title">{title}</h4>
         <div className="compare-xp-pillar-grades">
-          <GradeBadge letter={gradeLabel(gradeA)} displayScore={Number(gradeA) || undefined} size="sm" />
-          <GradeBadge letter={gradeLabel(gradeB)} displayScore={Number(gradeB) || undefined} size="sm" />
+          <GradeBadge letter={gradeLabel(gradeA)} size="sm" />
+          <GradeBadge letter={gradeLabel(gradeB)} size="sm" />
         </div>
       </header>
       <div className="compare-xp-pillar-body">

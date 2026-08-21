@@ -4,6 +4,7 @@ import { GradeBadge } from "@/components/ui/GradeBadge";
 import { XpHeatBar } from "@/components/ui/XpHeatBar";
 import { Tooltip } from "@/components/ui/Tooltip";
 import type { PeerScope } from "@/lib/api";
+import { displayScoreLetterGrade } from "@/lib/gradeColors";
 import { formatMetric } from "@/lib/formatters";
 import { useI18n } from "@/lib/i18n/context";
 
@@ -56,8 +57,8 @@ function relativeTip(
     .replaceAll("{expected}", exp);
 }
 
-function gradeLabel(grade: number | null | undefined) {
-  return grade != null && Number.isFinite(grade) ? grade.toFixed(1) : "—";
+function pillarLetter(grade: number | null | undefined) {
+  return displayScoreLetterGrade(grade);
 }
 
 function MetricRow({
@@ -142,11 +143,7 @@ function ProductivityCard({ xp, peerScope }: { xp: XpRecord; peerScope: PeerScop
         <div className="xp-profile-pillar-title-wrap">
           <h4 className="xp-profile-pillar-title">{m.productivity.title}</h4>
         </div>
-        <GradeBadge
-          letter={gradeLabel(grade)}
-          displayScore={grade ?? undefined}
-          size="sm"
-        />
+        <GradeBadge letter={pillarLetter(grade)} size="sm" />
       </header>
       <div className="xp-profile-pillar-body">
         <MetricRow
@@ -184,11 +181,7 @@ function PrecisionCard({ xp, peerScope }: { xp: XpRecord; peerScope: PeerScope }
         <div className="xp-profile-pillar-title-wrap">
           <h4 className="xp-profile-pillar-title">{m.precision.title}</h4>
         </div>
-        <GradeBadge
-          letter={gradeLabel(grade)}
-          displayScore={grade ?? undefined}
-          size="sm"
-        />
+        <GradeBadge letter={pillarLetter(grade)} size="sm" />
       </header>
       <div className="xp-profile-pillar-body">
         <MetricRow

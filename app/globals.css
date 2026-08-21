@@ -1129,8 +1129,8 @@ button, input, select { font: inherit; }
 
 .player-search-row {
   display: grid;
-  grid-template-columns: minmax(180px, 0.85fr) minmax(220px, 1.15fr) minmax(210px, auto) auto;
-  gap: 0.85rem;
+  grid-template-columns: minmax(180px, 0.85fr) minmax(220px, 1.15fr) minmax(180px, auto);
+  gap: 0.75rem;
   align-items: end;
   margin-bottom: 0.65rem;
   padding: 0.85rem 1rem;
@@ -1142,46 +1142,37 @@ button, input, select { font: inherit; }
 .player-search-actions {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.28rem;
   min-width: 0;
 }
 
-.player-search-actions-label {
-  visibility: hidden;
+.filter-label-compact {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
 }
 
 .player-search-peer-scope .profile-mode-toggle {
   margin-bottom: 0;
+  gap: 0.25rem;
 }
 
-.player-filters-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  white-space: nowrap;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0.55rem 0.75rem;
+.player-search-peer-scope .profile-mode-btn {
+  padding: 0.38rem 0.45rem;
+  border-radius: 6px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: none;
   min-height: 2.35rem;
 }
 
-.player-filters-toggle.active {
-  border-color: rgba(147, 197, 253, 0.45);
-  background: rgba(147, 197, 253, 0.08);
-  color: var(--text);
+.player-search-peer-scope .profile-mode-btn.is-active {
+  background: rgba(250, 204, 21, 0.1);
+  border-color: rgba(250, 204, 21, 0.35);
 }
 
 @media (max-width: 768px) {
   .player-search-row { grid-template-columns: 1fr; }
-
-  .player-search-actions-label {
-    display: none;
-  }
-
-  .player-filters-toggle {
-    width: 100%;
-    justify-content: center;
-  }
 }
 
 .player-search-form,
@@ -1406,6 +1397,21 @@ button, input, select { font: inherit; }
 
 .profile-identity-head-copy .identity-subline {
   margin: 0 0 0.15rem;
+}
+
+.profile-identity-head-copy .profile-cluster-inline {
+  margin-top: 0.45rem;
+  padding-top: 0;
+  border-top: none;
+}
+
+.profile-identity-head-copy .profile-cluster-inline .profile-cluster-summary {
+  font-size: 0.68rem;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .profile-identity-photo.identity-photo-side {
