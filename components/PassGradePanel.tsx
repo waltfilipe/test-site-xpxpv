@@ -51,25 +51,44 @@ export function PassGradePanel({ score, rating, showMeter = false, embedded = fa
   const tierKeyClass = TIER_CSS[tierId];
 
   const panel = (
-    <div className={`${shellClass} pass-grade-tier-${tierKeyClass}`}>
-      <div className="pass-grade-head">
+    <div className={`${shellClass} pass-grade-tier-${tierKeyClass}${embedded ? " pass-grade-embedded-inline" : ""}`}>
+      <div className={`pass-grade-head${embedded ? " pass-grade-head-inline" : ""}`}>
         <span className="pass-grade-title">{m.passGrade.title}</span>
-        <span
-          className="pass-grade-tier"
-          style={{ color, borderColor: `${color}55`, background: `${color}1a` }}
-        >
-          {tier}
-        </span>
+        {embedded ? (
+          <>
+            <div className="pass-grade-value pass-grade-value-inline">
+              <span className="pass-grade-score tabular" style={{ color }}>
+                {displayScore.toFixed(1)}
+              </span>
+              <span className="pass-grade-scale">/ 10</span>
+            </div>
+            <span
+              className="pass-grade-tier"
+              style={{ color, borderColor: `${color}55`, background: `${color}1a` }}
+            >
+              {tier}
+            </span>
+          </>
+        ) : (
+          <span
+            className="pass-grade-tier"
+            style={{ color, borderColor: `${color}55`, background: `${color}1a` }}
+          >
+            {tier}
+          </span>
+        )}
       </div>
 
-      <div className={`pass-grade-body${showMeter ? " pass-grade-body-horizontal" : " pass-grade-body-score-only"}`}>
-        <div className="pass-grade-value">
-          <span className="pass-grade-score tabular" style={{ color }}>
-            {displayScore.toFixed(1)}
-          </span>
-          <span className="pass-grade-scale">/ 10</span>
+      {!embedded && (
+        <div className={`pass-grade-body${showMeter ? " pass-grade-body-horizontal" : " pass-grade-body-score-only"}`}>
+          <div className="pass-grade-value">
+            <span className="pass-grade-score tabular" style={{ color }}>
+              {displayScore.toFixed(1)}
+            </span>
+            <span className="pass-grade-scale">/ 10</span>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 

@@ -6,7 +6,7 @@ import { LoadingState } from "@/components/LoadingState";
 import { PlayerSearchRow } from "@/components/PlayerSearchRow";
 import { ProfileGroupCards } from "@/components/ProfileGroupCards";
 import { ProfileView } from "@/components/ProfileView";
-import { getPlayerOptions, getPlayers } from "@/lib/api";
+import { getPlayerOptions, getPlayers, type PeerScope } from "@/lib/api";
 import { PROFILE_ALL_GROUP, profileGroupCounts, profileLeagueCounts } from "@/lib/playerReports";
 import { filtersFromRecord, type ProfileFilterState } from "@/lib/profileParams";
 import { useI18n } from "@/lib/i18n/context";
@@ -36,6 +36,7 @@ function ProfilePageBodyInner() {
   const [leagueCounts, setLeagueCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [peerScope, setPeerScope] = useState<PeerScope>("league");
 
   const filterKey = searchParams.toString();
 
@@ -91,14 +92,26 @@ function ProfilePageBodyInner() {
       />
 
       {options.length > 0 ? (
-        <PlayerSearchRow options={options} currentId={playerId} filters={activeFilters} />
+        <PlayerSearchRow
+          options={options}
+          currentId={playerId}
+          filters={activeFilters}
+          peerScope={peerScope}
+          onPeerScopeChange={setPeerScope}
+        />
       ) : !error ? (
         <p className="muted profile-empty-note">
           {m.profile.noPlayersInGroup}
         </p>
       ) : null}
 
-      {playerId ? <ProfileView playerId={playerId} positionFamily={family} /> : null}
+      {playerId ? (
+        <ProfileView
+          playerId={playerId}
+          positionFamily={family}
+          peerScope={peerScope}
+        />
+      ) : null}
     </>
   );
 }

@@ -2,8 +2,10 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { PeerScopeToggle } from "@/components/PeerScopeToggle";
 import { buildProfileUrl, type ProfileFilterState } from "@/lib/profileParams";
 import { prefetchPlayerProfile } from "@/lib/profileClientCache";
+import type { PeerScope } from "@/lib/api";
 import { useI18n } from "@/lib/i18n/context";
 
 type Option = { player_id: string; label: string };
@@ -12,10 +14,14 @@ export function PlayerSearchRow({
   options,
   currentId,
   filters,
+  peerScope,
+  onPeerScopeChange,
 }: {
   options: Option[];
   currentId?: string;
   filters: ProfileFilterState;
+  peerScope?: PeerScope;
+  onPeerScopeChange?: (scope: PeerScope) => void;
 }) {
   const router = useRouter();
   const { m } = useI18n();
@@ -75,6 +81,13 @@ export function PlayerSearchRow({
           ))}
         </select>
       </div>
+
+      {onPeerScopeChange ? (
+        <div className="player-search-scope">
+          <span className="filter-label">{m.profile.peerScopeToggleLabel}</span>
+          <PeerScopeToggle scope={peerScope ?? "league"} onChange={onPeerScopeChange} />
+        </div>
+      ) : null}
     </div>
   );
 }

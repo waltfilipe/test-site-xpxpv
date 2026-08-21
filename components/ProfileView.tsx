@@ -7,7 +7,6 @@ import { LoadingState } from "@/components/LoadingState";
 import { PassGradePanel } from "@/components/PassGradePanel";
 import { PassLengthMix } from "@/components/PassLengthMix";
 import { PassScoreSections } from "@/components/PassScoreSections";
-import { PeerScopeToggle } from "@/components/PeerScopeToggle";
 import { ProfileClusterCard } from "@/components/ProfileClusterCard";
 import { XpIndicesPanel } from "@/components/XpIndicesPanel";
 import { XpProfilePanel } from "@/components/XpProfilePanel";
@@ -32,9 +31,11 @@ function FactIcon({ icon }: { icon: string }) {
 export function ProfileView({
   playerId,
   positionFamily = "midfielders",
+  peerScope = "league",
 }: {
   playerId: string;
   positionFamily?: string;
+  peerScope?: PeerScope;
 }) {
   const { m } = useI18n();
   const [data, setData] = useState<PlayerProfile | null>(
@@ -43,7 +44,6 @@ export function ProfileView({
   const [error, setError] = useState<string | null>(null);
   const [initialLoading, setInitialLoading] = useState(() => !data);
   const [refreshing, setRefreshing] = useState(false);
-  const [peerScope, setPeerScope] = useState<PeerScope>("league");
 
   useEffect(() => {
     let cancelled = false;
@@ -93,9 +93,6 @@ export function ProfileView({
 
   return (
     <>
-      <div className="profile-peer-scope-row">
-        <PeerScopeToggle scope={peerScope} onChange={setPeerScope} />
-      </div>
       <div className={`profile-view-shell${refreshing ? " is-refreshing" : ""}`}>
         <div className="pa-layout">
           <div className="pa-col pa-col-identity">
@@ -124,10 +121,11 @@ export function ProfileView({
                   <p className="identity-subline">
                     {String(p.team ?? "—")} · {String(p.position ?? "—")}
                   </p>
-                  <ProfileClusterCard cluster={data.profile_cluster} compact />
                 </div>
               </div>
             </div>
+
+            <ProfileClusterCard cluster={data.profile_cluster} />
 
             <div className="identity-card identity-card-bare">
               <div className="identity-facts identity-facts-side">
