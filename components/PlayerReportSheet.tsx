@@ -7,9 +7,10 @@ import { PassGradePanel } from "@/components/PassGradePanel";
 import { ReportPassScoreAccordion } from "@/components/ReportPassScoreAccordion";
 import { ReportXpPanel } from "@/components/ReportXpPanel";
 import { LoadingState } from "@/components/LoadingState";
-import { getPassMap, type PlayerProfile } from "@/lib/api";
+import { getPassMap, type PeerScope, type PlayerProfile } from "@/lib/api";
 import type { EnrichedReportPlayer } from "@/lib/playerReports";
 import { formatContractUntil } from "@/lib/formatters";
+import { selectProfileView } from "@/lib/profileView";
 import { useI18n } from "@/lib/i18n/context";
 import type { Messages } from "@/lib/i18n/messages";
 
@@ -70,6 +71,7 @@ type Props = {
   mapSlots?: ReportMapSlot[] | null;
   expandAll?: boolean;
   preloadMaps?: boolean;
+  peerScope?: PeerScope;
   onMapsLoaded?: (maps: PlayerReportMaps, slots: ReportMapSlot[]) => void;
   onExportPdf?: (playerId: string) => void;
   exportDisabled?: boolean;
@@ -82,6 +84,7 @@ export function PlayerReportSheet({
   mapSlots: externalSlots,
   expandAll = false,
   preloadMaps = false,
+  peerScope = "league",
   onMapsLoaded,
   onExportPdf,
   exportDisabled = false,
@@ -98,6 +101,8 @@ export function PlayerReportSheet({
   const setMapSlots = externalSlots ? () => {} : setLocalSlots;
 
   const p = profile.player;
+  const activeView = selectProfileView(profile, "absolute", peerScope);
+  const passScores = activeView.pass_scores;
   const category = entry.category;
   const categoryMeta = m.profileCategories[category.id];
   const categoryTitle = categoryMeta?.title ?? category.title;
@@ -419,14 +424,14 @@ export function PlayerReportSheet({
             <div className="pa-col pa-col-score">
               <div className="score-stack">
                 <PassGradePanel rating={profile.xp_pass_rating} />
-                <ReportXpPanel profile={profile} accent={accent} expandAll={expandAll} />
+                <ReportXpPanel profile={profile} accent={accent} expandAll={expandAll} peerScope={peerScope} />
               </div>
             </div>
 
             <div className="pa-col pa-col-pillars">
               <div className="player-card pillars-card report-pillars-card">
                 <h3 className="section-label">{m.sections.passScores}</h3>
-                <ReportPassScoreAccordion sections={profile.pass_scores} expandAll={expandAll} />
+                <ReportPassScoreAccordion sections={passScores} expandAll={expandAll} />
               </div>
             </div>
           </div>

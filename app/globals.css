@@ -1959,6 +1959,20 @@ button, input, select { font: inherit; }
   margin-bottom: 0.65rem;
 }
 
+.profile-peer-scope-row {
+  margin-bottom: 0.75rem;
+}
+
+.profile-peer-scope-row .profile-mode-toggle {
+  margin-bottom: 0;
+  max-width: 420px;
+}
+
+.reports-peer-scope-row {
+  margin: 0.75rem 0 0.25rem;
+  max-width: 420px;
+}
+
 .profile-mode-btn {
   flex: 1;
   padding: 0.45rem 0.65rem;

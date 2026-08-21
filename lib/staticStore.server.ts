@@ -386,7 +386,19 @@ export function getStaticCompare(playerA: string, playerB: string) {
   };
 
   const sectionForLabel = (profile: JsonRecord, label: string) => {
-    const sections = (profile.pass_scores as { title: string; display_score?: unknown; letter?: unknown; index?: unknown; components?: JsonRecord[] }[]) ?? [];
+    const profileViews = profile.profile_views as JsonRecord | undefined;
+    const poolView = profileViews?.absolute as JsonRecord | undefined;
+    type PassSection = {
+      title: string;
+      display_score?: unknown;
+      letter?: unknown;
+      index?: unknown;
+      components?: JsonRecord[];
+    };
+    const sections =
+      (poolView?.pass_scores as PassSection[] | undefined)
+      ?? (profile.pass_scores as PassSection[] | undefined)
+      ?? [];
     return sections.find((s) => s.title === label);
   };
 

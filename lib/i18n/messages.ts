@@ -105,6 +105,11 @@ export type Messages = {
     modeToggleLabel: string;
     modeAbsolute: string;
     modeRelative: string;
+    peerScopeToggleLabel: string;
+    peerScopePool: string;
+    peerScopeLeague: string;
+    peerScopePoolTip: string;
+    peerScopeLeagueTip: string;
     rankOf: string;
     rankTopPct: string;
     xpvPerGame: string;
@@ -497,6 +502,11 @@ const en: Messages = {
     modeToggleLabel: "Profile number mode",
     modeAbsolute: "Absolute",
     modeRelative: "Relative",
+    peerScopeToggleLabel: "Comparison pool",
+    peerScopePool: "European pool",
+    peerScopeLeague: "League only",
+    peerScopePoolTip: "Rank bars and pass scores vs all eligible midfielders in the top-five European leagues.",
+    peerScopeLeagueTip: "Rank bars and pass scores vs peers in the same league only.",
     rankOf: "of",
     rankTopPct: "Top {pct}%",
     xpvPerGame: "Pass Value per Game",
@@ -528,10 +538,10 @@ const en: Messages = {
     reportsPromoDesc: "PDF-ready reports — U23 Breakout, Prime Prospects 24–30 and Experience 30+",
     reportsPromoCta: "View reports",
   },
-  compare: {
+    compare: {
     subtitle: "Compare two midfielders on xP profile, Stats & Scores and origin heatmaps.",
     pageLead:
-      "Compare two midfielders from the European pool. Productivity, precision and pass scores match the profile view.",
+      "Compare two midfielders from the European pool. Rankings always use the full European pool (cross-league).",
     loading: "Loading comparison…",
     backendUnavailable: "API unavailable — try again shortly.",
     pickerPlaceholder: "Type player name…",
@@ -1039,6 +1049,11 @@ const pt: Messages = {
     modeToggleLabel: "Modo de números do perfil",
     modeAbsolute: "Absoluto",
     modeRelative: "Relativo",
+    peerScopeToggleLabel: "Pool de comparação",
+    peerScopePool: "Pool europeu",
+    peerScopeLeague: "Só campeonato",
+    peerScopePoolTip: "Barras e pass scores vs todos os meias elegíveis das cinco grandes ligas europeias.",
+    peerScopeLeagueTip: "Barras e pass scores vs pares da mesma liga.",
     rankOf: "de",
     rankTopPct: "Top {pct}%",
     xpvPerGame: "Pass Value por jogo",
@@ -1073,7 +1088,7 @@ const pt: Messages = {
   compare: {
     subtitle: "Compare dois meias em perfil xP, Stats & Scores e heatmaps de origem.",
     pageLead:
-      "Compare dois meio-campistas do pool europeu. Produtividade, precisão e pass scores iguais ao perfil.",
+      "Compare dois meio-campistas do pool europeu. Rankings sempre usam o pool europeu completo (cross-liga).",
     loading: "Carregando comparação…",
     backendUnavailable: "API indisponível — tente novamente em instantes.",
     pickerPlaceholder: "Digite o nome do jogador…",

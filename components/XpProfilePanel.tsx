@@ -3,6 +3,7 @@
 import { GradeBadge } from "@/components/ui/GradeBadge";
 import { XpHeatBar } from "@/components/ui/XpHeatBar";
 import { Tooltip } from "@/components/ui/Tooltip";
+import type { PeerScope } from "@/lib/api";
 import { formatMetric } from "@/lib/formatters";
 import { useI18n } from "@/lib/i18n/context";
 
@@ -10,6 +11,7 @@ type XpRecord = Record<string, unknown>;
 
 type Props = {
   xp: XpRecord;
+  peerScope?: PeerScope;
 };
 
 function formatXAccPlus(value: unknown): string {
@@ -91,13 +93,45 @@ function MetricRow({
   );
 }
 
-function ProductivityCard({ xp }: { xp: XpRecord }) {
+function productivityBars(xp: XpRecord, peerScope: PeerScope) {
+  if (peerScope === "pool") {
+    return {
+      general: xp.prod_xpv_per_game_pool_bar as number | null | undefined,
+      relative: xp.prod_rel_xpv_pool_bar as number | null | undefined,
+    };
+  }
+  return {
+    general: xp.prod_geral_display as number | null | undefined,
+    relative: xp.prod_rel_display as number | null | undefined,
+  };
+}
+
+function precisionBars(xp: XpRecord, peerScope: PeerScope) {
+  if (peerScope === "pool") {
+    return {
+      coe: xp.prec_coe_per_pass_pool_bar as number | null | undefined,
+      short: xp.xpass_coe_pct_pool_bar as number | null | undefined,
+      long: xp.xpass_long_coe_pct_pool_bar as number | null | undefined,
+    };
+  }
+  return {
+    coe:
+      (xp.prec_coe_league_bar as number | null | undefined) ??
+      (xp.prec_display as number | null | undefined),
+    short: xp.xpass_coe_pct_league_bar as number | null | undefined,
+    long: xp.xpass_long_coe_pct_league_bar as number | null | undefined,
+  };
+}
+
+function ProductivityCard({ xp, peerScope }: { xp: XpRecord; peerScope: PeerScope }) {
   const { m } = useI18n();
-  const display = xp.prod_geral_display as number | null | undefined;
+  const bars = productivityBars(xp, peerScope);
   const grade = xp.prod_grade_geral as number | null | undefined;
   const residual = xp.prod_rel_xpv as number | null | undefined;
   const actual = xp.prod_xpv_per_game as number | null | undefined;
   const expected = xp.prod_xpv_expected as number | null | undefined;
+  const scopeTip =
+    peerScope === "pool" ? m.profile.peerScopePoolTip : m.profile.peerScopeLeagueTip;
 
   return (
     <article className="xp-profile-pillar-card xp-profile-pillar-productivity">
@@ -118,14 +152,14 @@ function ProductivityCard({ xp }: { xp: XpRecord }) {
         <MetricRow
           label={m.profile.xpvPerGame}
           value={xp.prod_xpv_per_game}
-          barValue={display}
+          barValue={bars.general}
           rawKey="prod_xpv_per_game"
-          tip={m.productivity.generalTip}
+          tip={`${m.productivity.generalTip} ${scopeTip}`}
         />
         <MetricRow
           label={m.productivity.relative}
           value={residual}
-          barValue={xp.prod_rel_display as number | null | undefined}
+          barValue={bars.relative}
           tip={relativeTip(m.productivity.relativeTip, residual, actual, expected)}
           formatValue={formatRelativeDelta}
         />
@@ -134,18 +168,12 @@ function ProductivityCard({ xp }: { xp: XpRecord }) {
   );
 }
 
-function PrecisionCard({ xp }: { xp: XpRecord }) {
+function PrecisionCard({ xp, peerScope }: { xp: XpRecord; peerScope: PeerScope }) {
   const { m } = useI18n();
-  const display =
-    (xp.prec_coe_league_bar as number | null | undefined) ??
-    (xp.prec_display as number | null | undefined);
+  const bars = precisionBars(xp, peerScope);
   const grade = xp.prec_grade_geral as number | null | undefined;
-  const shortBar =
-    (xp.xpass_coe_pct_pool_bar as number | null | undefined) ??
-    (xp.xpass_coe_pct_league_bar as number | null | undefined);
-  const longBar =
-    (xp.xpass_long_coe_pct_pool_bar as number | null | undefined) ??
-    (xp.xpass_long_coe_pct_league_bar as number | null | undefined);
+  const scopeTip =
+    peerScope === "pool" ? m.profile.peerScopePoolTip : m.profile.peerScopeLeagueTip;
 
   return (
     <article className="xp-profile-pillar-card xp-profile-pillar-precision">
@@ -166,22 +194,22 @@ function PrecisionCard({ xp }: { xp: XpRecord }) {
         <MetricRow
           label={m.profile.coePerPass}
           value={xp.prec_coe_per_pass}
-          barValue={display}
-          tip={m.precision.generalCoeTip}
+          barValue={bars.coe}
+          tip={`${m.precision.generalCoeTip} ${scopeTip}`}
           formatValue={formatXAccPlus}
         />
         <MetricRow
           label={m.profile.coeShortPass}
           value={xp.xpass_coe_pct}
-          barValue={shortBar}
-          tip={m.precision.generalCoeTip}
+          barValue={bars.short}
+          tip={`${m.precision.generalCoeTip} ${scopeTip}`}
           formatValue={formatXAccPlus}
         />
         <MetricRow
           label={m.profile.coeLongPass}
           value={xp.xpass_long_coe_pct}
-          barValue={longBar}
-          tip={m.precision.generalCoeTip}
+          barValue={bars.long}
+          tip={`${m.precision.generalCoeTip} ${scopeTip}`}
           formatValue={formatXAccPlus}
         />
       </div>
@@ -189,15 +217,15 @@ function PrecisionCard({ xp }: { xp: XpRecord }) {
   );
 }
 
-export function XpProfilePanel({ xp }: Props) {
+export function XpProfilePanel({ xp, peerScope = "league" }: Props) {
   const { m } = useI18n();
 
   return (
     <div className="player-card xp-profile-panel-card">
       <h3 className="section-label">{m.sections.xpProfile}</h3>
       <div className="xp-profile-pillar-grid">
-        <ProductivityCard xp={xp} />
-        <PrecisionCard xp={xp} />
+        <ProductivityCard xp={xp} peerScope={peerScope} />
+        <PrecisionCard xp={xp} peerScope={peerScope} />
       </div>
     </div>
   );

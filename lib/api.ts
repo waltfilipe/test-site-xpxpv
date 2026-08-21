@@ -58,8 +58,11 @@ export type PlayerOption = {
 
 export type ProfileViewMode = "absolute" | "relative";
 
+export type PeerScope = "pool" | "league";
+
 export type ProfileViewPayload = {
   mode: ProfileViewMode;
+  peer_scope?: PeerScope;
   pass_grade?: number | null;
   xp_bars: XpBar[];
   pass_scores: PassScoreSection[];
@@ -141,7 +144,9 @@ export type PlayerProfile = {
   xp: Record<string, unknown>;
   profile_views?: {
     absolute?: ProfileViewPayload;
+    absolute_league?: ProfileViewPayload;
     relative?: ProfileViewPayload;
+    relative_league?: ProfileViewPayload;
   };
   pass_scores: PassScoreSection[];
   xp_bars: XpBar[];

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState, type CSSProperties } from "react";
 import { LoadingState } from "@/components/LoadingState";
+import { PeerScopeToggle } from "@/components/PeerScopeToggle";
 import {
   PlayerReportSheet,
   mapFilterLabel,
@@ -10,7 +11,7 @@ import {
 } from "@/components/PlayerReportSheet";
 import { REPORT_MAP_FILTER_KEYS } from "@/lib/reportMapKeys";
 import { waitForReportMapImages } from "@/lib/reportPrint";
-import { getPassMap, getPlayerProfile, type PlayerProfile } from "@/lib/api";
+import { getPassMap, getPlayerProfile, type PeerScope, type PlayerProfile } from "@/lib/api";
 import {
   enrichedReportPlayers,
   PLAYER_REPORT_CATEGORIES,
@@ -122,6 +123,7 @@ export function ReportsClient() {
   const [preloadPlayerIds, setPreloadPlayerIds] = useState<Set<string>>(new Set());
   const [printEntries, setPrintEntries] = useState<PrintReportEntry[]>([]);
   const [printQueue, setPrintQueue] = useState<string[] | null>(null);
+  const [peerScope, setPeerScope] = useState<PeerScope>("league");
 
   useEffect(() => {
     let cancelled = false;
@@ -348,6 +350,10 @@ export function ReportsClient() {
         );
       })()}
 
+      <div className="reports-peer-scope-row report-screen-only">
+        <PeerScopeToggle scope={peerScope} onChange={setPeerScope} />
+      </div>
+
       <p className="reports-hint muted report-screen-only">
         {bootLoading
           ? m.reports.loadingBatches
@@ -372,6 +378,7 @@ export function ReportsClient() {
             mapSlots={item.mapSlots}
             expandAll
             preloadMaps
+            peerScope={peerScope}
           />
         ))}
       </div>
@@ -410,6 +417,7 @@ export function ReportsClient() {
               mapSlots={item.mapSlots}
               expandAll={printing}
               preloadMaps={preloadPlayerIds.has(item.entry.playerId)}
+              peerScope={peerScope}
               exportDisabled={busy}
               onExportPdf={(id) => handlePrint("all", id)}
               onMapsLoaded={(maps, slots) =>

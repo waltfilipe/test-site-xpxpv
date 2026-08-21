@@ -7,16 +7,18 @@ import { LoadingState } from "@/components/LoadingState";
 import { PassGradePanel } from "@/components/PassGradePanel";
 import { PassLengthMix } from "@/components/PassLengthMix";
 import { PassScoreSections } from "@/components/PassScoreSections";
+import { PeerScopeToggle } from "@/components/PeerScopeToggle";
 import { ProfileClusterCard } from "@/components/ProfileClusterCard";
 import { XpIndicesPanel } from "@/components/XpIndicesPanel";
 import { XpProfilePanel } from "@/components/XpProfilePanel";
-import type { PlayerProfile } from "@/lib/api";
+import type { PeerScope, PlayerProfile } from "@/lib/api";
 import { formatContractUntil } from "@/lib/formatters";
 import {
   getCachedPlayerProfile,
   loadPlayerProfile,
 } from "@/lib/profileClientCache";
 import { overallPassGradeFromProfile } from "@/lib/passGrades";
+import { selectProfileView } from "@/lib/profileView";
 import { useI18n } from "@/lib/i18n/context";
 
 function FactIcon({ icon }: { icon: string }) {
@@ -41,6 +43,7 @@ export function ProfileView({
   const [error, setError] = useState<string | null>(null);
   const [initialLoading, setInitialLoading] = useState(() => !data);
   const [refreshing, setRefreshing] = useState(false);
+  const [peerScope, setPeerScope] = useState<PeerScope>("league");
 
   useEffect(() => {
     let cancelled = false;
@@ -84,12 +87,15 @@ export function ProfileView({
   if (!data) return null;
 
   const p = data.player;
-  const absoluteView = data.profile_views?.absolute;
-  const passScores = absoluteView?.pass_scores ?? data.pass_scores;
+  const activeView = selectProfileView(data, "absolute", peerScope);
+  const passScores = activeView.pass_scores;
   const overallPassGrade = overallPassGradeFromProfile(data);
 
   return (
     <>
+      <div className="profile-peer-scope-row">
+        <PeerScopeToggle scope={peerScope} onChange={setPeerScope} />
+      </div>
       <div className={`profile-view-shell${refreshing ? " is-refreshing" : ""}`}>
         <div className="pa-layout">
           <div className="pa-col pa-col-identity">
@@ -173,7 +179,7 @@ export function ProfileView({
               <div className="player-card profile-grade-card">
                 <PassGradePanel score={overallPassGrade} embedded />
               </div>
-              <XpProfilePanel xp={data.xp ?? {}} />
+              <XpProfilePanel xp={data.xp ?? {}} peerScope={peerScope} />
               <div className="player-card profile-indices-mix-card">
                 <XpIndicesPanel
                   indices={data.xp_indices ?? []}
