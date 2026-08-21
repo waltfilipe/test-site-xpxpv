@@ -186,7 +186,6 @@ export type ComparePayload = {
   player_b: Record<string, unknown>;
   heatmap_a_b64?: string | null;
   heatmap_b_b64?: string | null;
-  pillars: CompareMetric[];
   pass_grid: CompareMetric[];
 };
 

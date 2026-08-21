@@ -71,7 +71,8 @@ export default function ComparePageContent() {
             />
             <div className="player-card compare-charts-card">
               <CompareCenter
-                pillars={data.pillars}
+                xpA={(data.player_a.xp as Record<string, unknown>) ?? {}}
+                xpB={(data.player_b.xp as Record<string, unknown>) ?? {}}
                 passGrid={data.pass_grid}
                 nameA={nameA}
                 nameB={nameB}

@@ -334,6 +334,8 @@ export function getStaticPlayerProfile(playerId: string) {
   return enrichPlayerProfile(profile);
 }
 
+const PASS_SCORE_ORDER = ["Volume", "Build-up", "Chance creation", "Lethality"] as const;
+
 export function getStaticCompare(playerA: string, playerB: string) {
   const profileA = enrichPlayerProfile(getProfile(playerA) ?? {});
   const profileB = enrichPlayerProfile(getProfile(playerB) ?? {});
@@ -341,19 +343,6 @@ export function getStaticCompare(playerA: string, playerB: string) {
 
   const sourceA = { ...(profileA.player as JsonRecord), ...(profileA.xp as JsonRecord) };
   const sourceB = { ...(profileB.player as JsonRecord), ...(profileB.xp as JsonRecord) };
-
-  const pillarKeys = [
-    ["xp_activity_display", "Productivity"],
-    ["xp_efficiency_display", "Precision"],
-    ["xp_edge_display", "Lethality"],
-  ] as const;
-
-  const passKeys = [
-    ["pass_volume_display", "Volume"],
-    ["pass_efficiency_display", "Efficiency"],
-    ["pass_buildup_display", "Build-up"],
-    ["pass_chance_creation_display", "Chance creation"],
-  ] as const;
 
   const metric = (source: JsonRecord, key: string) => {
     const val = source[key];
@@ -388,6 +377,7 @@ export function getStaticCompare(playerA: string, playerB: string) {
       long_pass_share_pct: xp.long_pass_share_pct,
       long_pass_share_ref_avg_pct: xp.long_pass_share_ref_avg_pct,
       long_pass_share_pctile: xp.long_pass_share_pctile,
+      xp,
       xp_bars: profile.xp_bars,
       xp_indices: profile.xp_indices,
       xp_game_consistency_score: xp.xp_game_consistency_score,
@@ -400,44 +390,48 @@ export function getStaticCompare(playerA: string, playerB: string) {
     return sections.find((s) => s.title === label);
   };
 
+  const componentValue = (
+    section: { components?: JsonRecord[] } | undefined,
+    source: JsonRecord,
+    compKey: string,
+  ) => {
+    const fromSection = section?.components?.find((c) => String(c.key) === compKey)?.value;
+    if (fromSection != null && fromSection !== "") return Number(fromSection);
+    return metric(source, compKey);
+  };
+
   return {
     player_a: playerCard(playerA, sourceA, profileA.xp as JsonRecord, profileA),
     player_b: playerCard(playerB, sourceB, profileB.xp as JsonRecord, profileB),
     heatmap_a_b64: profileA.origin_heatmap_b64 ?? null,
     heatmap_b_b64: profileB.origin_heatmap_b64 ?? null,
-    pillars: pillarKeys.map(([key, label]) => {
-      const a = metric(sourceA, key);
-      const b = metric(sourceB, key);
-      return { key, label, value_a: a, value_b: b, winner: winner(a, b) };
-    }),
-    pass_grid: passKeys.map(([key, label]) => {
-      const a = metric(sourceA, key);
-      const b = metric(sourceB, key);
-      const letterKey = key.replace("_display", "_letter");
-      const indexKey = key.replace("_display", "_index");
+    pass_grid: PASS_SCORE_ORDER.map((label) => {
       const sectionA = sectionForLabel(profileA, label);
       const sectionB = sectionForLabel(profileB, label);
-      const componentValue = (section: typeof sectionA, source: JsonRecord, compKey: string) => {
-        const fromSection = section?.components?.find((c) => String(c.key) === compKey)?.value;
-        if (fromSection != null && fromSection !== "") return Number(fromSection);
-        return metric(source, compKey);
-      };
-      const components = (sectionA?.components ?? []).map((comp) => {
-        const compKey = String(comp.key);
+      const scoreA = sectionA?.display_score != null ? Number(sectionA.display_score) : null;
+      const scoreB = sectionB?.display_score != null ? Number(sectionB.display_score) : null;
+      const compKeys = [
+        ...new Set([
+          ...(sectionA?.components ?? []).map((c) => String(c.key)),
+          ...(sectionB?.components ?? []).map((c) => String(c.key)),
+        ]),
+      ];
+      const components = compKeys.map((compKey) => {
         const fa = componentValue(sectionA, sourceA, compKey);
         const fb = componentValue(sectionB, sourceB, compKey);
         return { key: compKey, value_a: fa, value_b: fb, winner: winner(fa, fb) };
       });
+      const key = label.toLowerCase().replace(/\s+/g, "_");
       return {
         key,
         label,
-        value_a: a,
-        value_b: b,
-        letter_a: sourceA[letterKey],
-        letter_b: sourceB[letterKey],
-        score_a: metric(sourceA, indexKey),
-        score_b: metric(sourceB, indexKey),
-        winner: winner(a, b),
+        value_a: scoreA,
+        value_b: scoreB,
+        letter_a: sectionA?.letter,
+        letter_b: sectionB?.letter,
+        score_a: scoreA,
+        score_b: scoreB,
+        winner: winner(scoreA, scoreB),
         components,
       };
     }),

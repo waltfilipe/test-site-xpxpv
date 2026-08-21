@@ -2,28 +2,29 @@
 
 import type { CompareMetric } from "@/lib/api";
 import { ComparePassGridTable } from "@/components/ComparePassGridTable";
-import { ComparePillarBars } from "@/components/ComparePillarBars";
+import { CompareXpProfileSection } from "@/components/CompareXpProfileSection";
 import { useI18n } from "@/lib/i18n/context";
 
 type Props = {
-  pillars: CompareMetric[];
+  xpA: Record<string, unknown>;
+  xpB: Record<string, unknown>;
   passGrid: CompareMetric[];
   nameA: string;
   nameB: string;
 };
 
-export function CompareCenter({ pillars, passGrid, nameA, nameB }: Props) {
+export function CompareCenter({ xpA, xpB, passGrid, nameA, nameB }: Props) {
   const { m } = useI18n();
 
   return (
     <div className="compare-center">
       <section className="compare-chart-section">
-        <h3 className="section-label">{m.sections.xpPillars}</h3>
-        <ComparePillarBars metrics={pillars} nameA={nameA} nameB={nameB} />
+        <h3 className="section-label">{m.sections.xpProfile}</h3>
+        <CompareXpProfileSection xpA={xpA} xpB={xpB} nameA={nameA} nameB={nameB} />
       </section>
 
       <section className="compare-chart-section">
-        <h3 className="section-label">{m.sections.passProfile}</h3>
+        <h3 className="section-label">{m.sections.passScores}</h3>
         <ComparePassGridTable metrics={passGrid} nameA={nameA} nameB={nameB} />
       </section>
     </div>

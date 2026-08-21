@@ -3849,6 +3849,91 @@ tr:last-child td { border-bottom: none; }
   box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.22);
 }
 
+/* Compare xP profile (productivity + precision) */
+.compare-xp-profile-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.compare-xp-pillar-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.65rem 0.7rem;
+  border-radius: 11px;
+  border: 1px solid rgba(51, 65, 85, 0.42);
+  background: rgba(15, 23, 42, 0.38);
+}
+
+.compare-xp-pillar-productivity {
+  border-color: rgba(56, 189, 248, 0.22);
+}
+
+.compare-xp-pillar-precision {
+  border-color: rgba(244, 114, 182, 0.22);
+}
+
+.compare-xp-pillar-head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.compare-xp-pillar-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  border-radius: 8px;
+  font-size: 0.68rem;
+  flex-shrink: 0;
+}
+
+.compare-xp-pillar-productivity .compare-xp-pillar-icon {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+}
+
+.compare-xp-pillar-precision .compare-xp-pillar-icon {
+  color: #f472b6;
+  background: rgba(244, 114, 182, 0.12);
+}
+
+.compare-xp-pillar-title {
+  flex: 1;
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #e2e8f0;
+}
+
+.compare-xp-pillar-grades {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.compare-xp-pillar-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.compare-xp-metric-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+.compare-xp-metric-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #94a3b8;
+  cursor: help;
+}
+
 /* xP pillar bars (profile style) */
 .compare-pillar-bars {
   display: flex;

@@ -529,9 +529,9 @@ const en: Messages = {
     reportsPromoCta: "View reports",
   },
   compare: {
-    subtitle: "Compare two midfielders on xP pillars, pass scores and origin heatmaps.",
+    subtitle: "Compare two midfielders on xP profile, Stats & Scores and origin heatmaps.",
     pageLead:
-      "Compare two midfielders from the European pool. Metrics and grades are relative to position peers.",
+      "Compare two midfielders from the European pool. Productivity, precision and pass scores match the profile view.",
     loading: "Loading comparison…",
     backendUnavailable: "API unavailable — try again shortly.",
     pickerPlaceholder: "Type player name…",
@@ -765,6 +765,8 @@ const en: Messages = {
       chance_creation_xpv_per_pass:
         "Creation xPV per creation pass (key + into box + final-third impact).",
       chance_creation_xpv_per_game: "Chance-creation xPV per game.",
+      leth_xpv_per_pass: "Destination value per completed pass.",
+      leth_impact_rate_pct: "Share of passes classified as impact passes.",
       prod_rel_xpv: "xPV residual vs expected for pass volume.",
       prec_z_coe_stratum: "COE stratum z-score within volume band.",
     },
@@ -795,6 +797,8 @@ const en: Messages = {
       chance_impact_ft_share_pct: "Final-third impact %",
       chance_xpv_share_pct: "Creation xPV % of xP",
       chance_creation_xpv_per_pass: "Creation xPV / pass",
+      leth_xpv_per_pass: "xPV / pass",
+      leth_impact_rate_pct: "Impact rate",
       prod_xpv_per_game: "xPV / game",
       prod_rel_xpv: "xPV residual",
       prec_coe_per_pass: "COE / pass",
@@ -1067,9 +1071,9 @@ const pt: Messages = {
     reportsPromoCta: "Ver relatórios",
   },
   compare: {
-    subtitle: "Compare dois meias em pilares xP, pass scores e heatmaps de origem.",
+    subtitle: "Compare dois meias em perfil xP, Stats & Scores e heatmaps de origem.",
     pageLead:
-      "Compare dois meio-campistas do pool europeu. Métricas e notas são relativas aos pares da posição.",
+      "Compare dois meio-campistas do pool europeu. Produtividade, precisão e pass scores iguais ao perfil.",
     loading: "Carregando comparação…",
     backendUnavailable: "API indisponível — tente novamente em instantes.",
     pickerPlaceholder: "Digite o nome do jogador…",
@@ -1305,6 +1309,8 @@ const pt: Messages = {
       chance_creation_xpv_per_pass:
         "xPV de criação por passe de criação (key + na área + impact terço final).",
       chance_creation_xpv_per_game: "xPV de criação por jogo.",
+      leth_xpv_per_pass: "Valor de destino por passe completado.",
+      leth_impact_rate_pct: "Percentual de passes classificados como impact passes.",
       prod_rel_xpv: "Residual de xPV vs volume esperado.",
       prec_z_coe_stratum: "Z-score de COE no estrato de volume.",
     },
@@ -1335,6 +1341,8 @@ const pt: Messages = {
       chance_impact_ft_share_pct: "Impacto terço final %",
       chance_xpv_share_pct: "xPV criação % do xP",
       chance_creation_xpv_per_pass: "xPV criação / passe",
+      leth_xpv_per_pass: "xPV / passe",
+      leth_impact_rate_pct: "Taxa de impacto",
       prod_xpv_per_game: "xPV / jogo",
       prod_rel_xpv: "Residual xPV",
       prec_coe_per_pass: "COE / passe",
