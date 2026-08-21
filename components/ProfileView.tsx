@@ -125,7 +125,11 @@ export function ProfileView({
               </div>
             </div>
 
-            <ProfileClusterCard cluster={data.profile_cluster} />
+            {data.profile_cluster ? (
+              <div className="player-card profile-cluster-card-wrap">
+                <ProfileClusterCard cluster={data.profile_cluster} />
+              </div>
+            ) : null}
 
             <div className="identity-card identity-card-bare">
               <div className="identity-facts identity-facts-side">

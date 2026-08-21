@@ -19,6 +19,10 @@ type DerivedPoolFile = {
   players: Record<string, DerivedPlayerMetrics>;
 };
 
+type ProfileClusterFile = {
+  by_player_id?: Record<string, JsonRecord>;
+};
+
 const DEFENSE_REPLACE_KEYS = new Set([
   "def_won_tackle_p90",
   "def_interception_p90",
@@ -26,6 +30,7 @@ const DEFENSE_REPLACE_KEYS = new Set([
 ]);
 
 let derivedCache: DerivedPoolFile | null = null;
+let profileClustersCache: ProfileClusterFile | null = null;
 
 function getDerivedPool(): DerivedPoolFile {
   if (!derivedCache) {
@@ -35,8 +40,21 @@ function getDerivedPool(): DerivedPoolFile {
   return derivedCache;
 }
 
+function getProfileClusters(): ProfileClusterFile {
+  if (!profileClustersCache) {
+    const filePath = path.join(process.cwd(), "data", "profile-clusters.json");
+    profileClustersCache = JSON.parse(fs.readFileSync(filePath, "utf-8")) as ProfileClusterFile;
+  }
+  return profileClustersCache;
+}
+
 function getDerivedForPlayer(playerId: string): DerivedPlayerMetrics | null {
   return getDerivedPool().players[playerId] ?? null;
+}
+
+function getProfileCluster(playerId: string): JsonRecord | null {
+  const cluster = getProfileClusters().by_player_id?.[playerId];
+  return cluster ?? null;
 }
 
 function enrichDefenseComponents(
@@ -68,9 +86,13 @@ export function enrichPlayerProfile(profile: JsonRecord): JsonRecord {
   if (!playerId) return profile;
 
   const derived = getDerivedForPlayer(playerId);
-  if (!derived) return profile;
+  const cluster = profile.profile_cluster ?? getProfileCluster(playerId);
 
-  const xpIndices = (profile.xp_indices as JsonRecord[] | undefined)?.map((item) => {
+  let next: JsonRecord = cluster ? { ...profile, profile_cluster: cluster } : { ...profile };
+
+  if (!derived) return next;
+
+  const xpIndices = (next.xp_indices as JsonRecord[] | undefined)?.map((item) => {
     if (item.key !== "defense" || !Array.isArray(item.components)) return item;
     return {
       ...item,
@@ -87,16 +109,16 @@ export function enrichPlayerProfile(profile: JsonRecord): JsonRecord {
     };
   });
 
-  const passScores = (profile.pass_scores as JsonRecord[] | undefined)?.map((section) =>
+  const passScores = (next.pass_scores as JsonRecord[] | undefined)?.map((section) =>
     enrichChanceCreationSection(section, derived),
   );
 
   return {
-    ...profile,
+    ...next,
     ...(xpIndices ? { xp_indices: xpIndices } : {}),
     ...(passScores ? { pass_scores: passScores } : {}),
     xp: {
-      ...(profile.xp as JsonRecord | undefined),
+      ...(next.xp as JsonRecord | undefined),
       ...(derived.chance_creation_xpv_per_game != null
         ? { chance_creation_xpv_per_game: derived.chance_creation_xpv_per_game }
         : {}),

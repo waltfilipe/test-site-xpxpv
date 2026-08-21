@@ -49,46 +49,69 @@ export function PassGradePanel({ score, rating, showMeter = false, embedded = fa
   const tierId = tierKey(displayScore);
   const tier = m.passGrade.tiers[tierId];
   const tierKeyClass = TIER_CSS[tierId];
+  const markerPct = Math.max(2, Math.min(98, passGradePct(displayScore)));
+  const shadeLeft = Math.max(0, Math.min(100, passGradePct(displayScore)));
 
-  const panel = (
-    <div className={`${shellClass} pass-grade-tier-${tierKeyClass}${embedded ? " pass-grade-embedded-inline" : ""}`}>
-      <div className={`pass-grade-head${embedded ? " pass-grade-head-inline" : ""}`}>
+  const panel = embedded ? (
+    <div className={`${shellClass} pass-grade-inline pass-grade-tier-${tierKeyClass}`}>
+      <div className="pass-grade-inline-row">
         <span className="pass-grade-title">{m.passGrade.title}</span>
-        {embedded ? (
-          <>
-            <div className="pass-grade-value pass-grade-value-inline">
-              <span className="pass-grade-score tabular" style={{ color }}>
-                {displayScore.toFixed(1)}
-              </span>
-              <span className="pass-grade-scale">/ 10</span>
-            </div>
-            <span
-              className="pass-grade-tier"
-              style={{ color, borderColor: `${color}55`, background: `${color}1a` }}
-            >
-              {tier}
-            </span>
-          </>
-        ) : (
-          <span
-            className="pass-grade-tier"
-            style={{ color, borderColor: `${color}55`, background: `${color}1a` }}
-          >
-            {tier}
+        <span
+          className="pass-grade-tier"
+          style={{ color, borderColor: `${color}55`, background: `${color}1a` }}
+        >
+          {tier}
+        </span>
+        <div className="pass-grade-value">
+          <span className="pass-grade-score tabular" style={{ color }}>
+            {displayScore.toFixed(1)}
           </span>
-        )}
+          <span className="pass-grade-scale">/ 10</span>
+        </div>
       </div>
 
-      {!embedded && (
-        <div className={`pass-grade-body${showMeter ? " pass-grade-body-horizontal" : " pass-grade-body-score-only"}`}>
-          <div className="pass-grade-value">
-            <span className="pass-grade-score tabular" style={{ color }}>
-              {displayScore.toFixed(1)}
+      {showMeter ? (
+        <div className="pass-grade-meter">
+          <div className="pass-grade-track">
+            <span className="pass-grade-shade">
+              <span className="pass-grade-rest" style={{ left: `${shadeLeft}%` }} />
             </span>
-            <span className="pass-grade-scale">/ 10</span>
+            <span className="pass-grade-marker" style={{ left: `${markerPct}%` }} />
           </div>
         </div>
-      )}
+      ) : null}
+    </div>
+  ) : (
+    <div className={`${shellClass} pass-grade-tier-${tierKeyClass}`}>
+      <div className="pass-grade-head">
+        <span className="pass-grade-title">{m.passGrade.title}</span>
+        <span
+          className="pass-grade-tier"
+          style={{ color, borderColor: `${color}55`, background: `${color}1a` }}
+        >
+          {tier}
+        </span>
+      </div>
+
+      <div className={`pass-grade-body${showMeter ? " pass-grade-body-horizontal" : " pass-grade-body-score-only"}`}>
+        <div className="pass-grade-value">
+          <span className="pass-grade-score tabular" style={{ color }}>
+            {displayScore.toFixed(1)}
+          </span>
+          <span className="pass-grade-scale">/ 10</span>
+        </div>
+
+        {showMeter ? (
+          <div className="pass-grade-meter">
+            <div className="pass-grade-track">
+              <span className="pass-grade-shade">
+                <span className="pass-grade-rest" style={{ left: `${shadeLeft}%` }} />
+              </span>
+              <span className="pass-grade-marker" style={{ left: `${markerPct}%` }} />
+            </div>
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 
