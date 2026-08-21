@@ -147,6 +147,13 @@ export function rankToBarScore(rank?: number | null, rankPool?: number | null): 
   return PASS_GRADE_DISPLAY_FLOOR + pct * PASS_GRADE_DISPLAY_SPAN;
 }
 
+/** Map peer rank (1 = best) to a 0–100 heat-bar value. */
+export function rankToPercentileBar(rank?: number | null, rankPool?: number | null): number | null {
+  if (rank == null || rankPool == null || rankPool <= 1) return null;
+  const pct = (1 - (rank - 1) / (rankPool - 1)) * 100;
+  return Math.round(pct * 10) / 10;
+}
+
 export const IMPACT_ELITE_TOP_N = 10;
 export const IMPACT_ELITE_COLOR = "#38bdf8";
 
