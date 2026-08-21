@@ -14,6 +14,9 @@ type Props = {
   options: FilterOptionsMeta;
   nationalities: string[];
   current: ProfileFilterState;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  showHeader?: boolean;
 };
 
 function formatHeightFromCm(cm: number): string {
@@ -24,13 +27,22 @@ function metersToCm(m: number): number {
   return Math.round(m * 100);
 }
 
-export function ProfileFilters({ options: initialOptions, nationalities: initialNats, current }: Props) {
+export function ProfileFilters({
+  options: initialOptions,
+  nationalities: initialNats,
+  current,
+  open: controlledOpen,
+  onOpenChange,
+  showHeader = true,
+}: Props) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [options, setOptions] = useState(initialOptions);
   const [nationalities, setNationalities] = useState(initialNats);
   const [countriesOpen, setCountriesOpen] = useState(false);
-  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+  const filtersOpen = controlledOpen ?? internalOpen;
+  const setFiltersOpen = onOpenChange ?? setInternalOpen;
 
   useEffect(() => {
     if (options.leagues.length > 1 && nationalities.length > 0) return;
@@ -169,29 +181,54 @@ export function ProfileFilters({ options: initialOptions, nationalities: initial
   }
 
   return (
-    <div className={`filter-card profile-filters${filtersOpen ? " profile-filters-open" : " profile-filters-collapsed"}`}>
-      <div className="filter-panel-header">
-        <button
-          type="button"
-          className="filter-panel-toggle"
-          onClick={() => setFiltersOpen((o) => !o)}
-          aria-expanded={filtersOpen}
-        >
+    <div
+      id={!showHeader ? "profile-filters-panel" : undefined}
+      className={[
+        "filter-card profile-filters",
+        filtersOpen ? "profile-filters-open" : "profile-filters-collapsed",
+        !showHeader ? "profile-filters-embedded" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
+      {showHeader ? (
+        <div className="filter-panel-header">
+          <button
+            type="button"
+            className="filter-panel-toggle"
+            onClick={() => setFiltersOpen(!filtersOpen)}
+            aria-expanded={filtersOpen}
+          >
+            <div className="filter-head">
+              <span className="filter-title">
+                <i className="fa-solid fa-sliders" /> Filtros do grupo
+              </span>
+              <span className="filter-sub">
+                Refine posição, liga, idade, valor, contrato, minutos, altura, pass scores e nacionalidade.
+                Métricas e notas são sempre comparadas dentro do pool da posição selecionada.
+              </span>
+            </div>
+            <i className={`fa-solid fa-chevron-${filtersOpen ? "up" : "down"} filter-panel-chevron`} />
+          </button>
+          <button type="button" className="btn btn-ghost btn-sm" onClick={clearFilters}>
+            Limpar filtros
+          </button>
+        </div>
+      ) : filtersOpen ? (
+        <div className="filter-panel-header filter-panel-header-compact">
           <div className="filter-head">
             <span className="filter-title">
-              <i className="fa-solid fa-sliders" /> Filtros do grupo
+              <i className="fa-solid fa-sliders" /> Filtros do perfil
             </span>
             <span className="filter-sub">
-              Refine posição, liga, idade, valor, contrato, minutos, altura, pass scores e nacionalidade.
-              Métricas e notas são sempre comparadas dentro do pool da posição selecionada.
+              Refine subgrupo, liga, mercado, pass scores e nacionalidade dentro do pool selecionado.
             </span>
           </div>
-          <i className={`fa-solid fa-chevron-${filtersOpen ? "up" : "down"} filter-panel-chevron`} />
-        </button>
-        <button type="button" className="btn btn-ghost btn-sm" onClick={clearFilters}>
-          Limpar filtros
-        </button>
-      </div>
+          <button type="button" className="btn btn-ghost btn-sm" onClick={clearFilters}>
+            Limpar filtros
+          </button>
+        </div>
+      ) : null}
 
       {filtersOpen && (
       <form className="profile-filters-form" onSubmit={onSubmit}>
