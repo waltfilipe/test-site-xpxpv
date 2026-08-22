@@ -5754,6 +5754,7 @@ tr:last-child td { border-bottom: none; }
     min-width: 0;
     display: flex;
     flex-direction: column;
+    overflow: visible;
   }
 
   .report-print-root .identity-photo-side {
@@ -5769,8 +5770,10 @@ tr:last-child td { border-bottom: none; }
 
   .report-print-root .identity-title,
   .report-print-root .report-player-name {
-    font-size: 0.88rem !important;
-    line-height: 1.15;
+    font-size: 0.92rem !important;
+    line-height: 1.28 !important;
+    overflow: visible;
+    word-break: break-word;
   }
 
   .report-print-root .identity-subline {
@@ -5855,12 +5858,46 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-heatmap {
-    max-height: 24mm !important;
-    min-height: 0 !important;
+    max-height: 46mm !important;
+    min-height: 34mm !important;
     width: 100%;
     object-fit: contain;
-    margin-top: 0.1rem;
+    object-position: center bottom;
+    margin-top: 0.25rem;
     flex-shrink: 0;
+  }
+
+  .report-print-root .profile-cluster-inline {
+    margin-top: 0.12rem;
+    padding-top: 0.18rem;
+    overflow: visible;
+  }
+
+  .report-print-root .profile-cluster-inline .profile-cluster-title {
+    font-size: 0.62rem;
+    line-height: 1.25;
+    overflow: visible;
+  }
+
+  .report-print-root .profile-cluster-inline .profile-cluster-summary {
+    font-size: 0.56rem;
+    line-height: 1.25;
+    -webkit-line-clamp: 1;
+  }
+
+  .report-print-root .pass-mix-head {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.2rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .report-print-root .pass-mix-title {
+    font-size: 0.58rem !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0.02em !important;
+    white-space: normal;
+    overflow: visible;
   }
 
   /* Center column — match profile stack (grade + xP profile + indices + length mix) */
@@ -5982,7 +6019,7 @@ tr:last-child td { border-bottom: none; }
     page-break-inside: avoid;
     page-break-after: always;
     break-after: page;
-    padding-top: 0;
+    padding-top: 1.5mm;
     padding-bottom: 0;
   }
 
@@ -5990,9 +6027,11 @@ tr:last-child td { border-bottom: none; }
     display: block;
     flex: 1 1 auto;
     min-height: 0;
-    zoom: 0.73;
+    zoom: 0.74;
     break-inside: avoid;
     page-break-inside: avoid;
+    padding-top: 0.5mm;
+    overflow: visible;
   }
 
   .report-print-root .report-page-1 .player-card,
@@ -6018,8 +6057,21 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-page-1 .report-sheet-header {
-    margin-bottom: 0.12rem !important;
-    padding-bottom: 0.12rem !important;
+    margin-bottom: 0.18rem !important;
+    padding-top: 0.5mm !important;
+    padding-bottom: 0.15rem !important;
+    overflow: visible;
+  }
+
+  .report-print-root .report-sheet-category {
+    line-height: 1.28 !important;
+    overflow: visible;
+    padding-top: 0.15rem;
+  }
+
+  .report-print-root .report-sheet-brand {
+    overflow: visible;
+    min-width: 0;
   }
 
   .report-print-root .report-page-1 .report-sheet-description {
@@ -6158,8 +6210,10 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-heatmap {
-    max-height: 42mm;
+    max-height: 46mm;
+    min-height: 34mm;
     object-fit: contain;
+    object-position: center bottom;
   }
 
   .report-sheet-header {
