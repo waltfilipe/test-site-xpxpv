@@ -5858,8 +5858,8 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-heatmap {
-    max-height: 46mm !important;
-    min-height: 34mm !important;
+    max-height: 55mm !important;
+    min-height: 41mm !important;
     width: 100%;
     object-fit: contain;
     object-position: center bottom;
@@ -6210,8 +6210,8 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-heatmap {
-    max-height: 46mm;
-    min-height: 34mm;
+    max-height: 55mm;
+    min-height: 41mm;
     object-fit: contain;
     object-position: center bottom;
   }
