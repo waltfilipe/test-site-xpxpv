@@ -4,13 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PassGradePanel } from "@/components/PassGradePanel";
+import { PassLengthMix } from "@/components/PassLengthMix";
+import { ProfileClusterCard } from "@/components/ProfileClusterCard";
 import { ReportPassScoreAccordion } from "@/components/ReportPassScoreAccordion";
-import { ReportXpPanel } from "@/components/ReportXpPanel";
+import { XpIndicesPanel } from "@/components/XpIndicesPanel";
+import { XpProfilePanel } from "@/components/XpProfilePanel";
 import { LoadingState } from "@/components/LoadingState";
 import { getPassMap, type PeerScope, type PlayerProfile } from "@/lib/api";
 import type { EnrichedReportPlayer } from "@/lib/playerReports";
 import { formatContractUntil } from "@/lib/formatters";
+import { overallPassGradeFromProfile } from "@/lib/passGrades";
 import { selectProfileView } from "@/lib/profileView";
+import { REPORT_MAP_FILTER_KEYS } from "@/lib/reportMapKeys";
 import { useI18n } from "@/lib/i18n/context";
 import type { Messages } from "@/lib/i18n/messages";
 
@@ -27,13 +32,6 @@ export type ReportMapSlot = {
   loading?: boolean;
   error?: string | null;
 };
-
-export const REPORT_MAP_FILTER_KEYS = [
-  "progressive",
-  "test_impact_v2",
-  "key_passes",
-  "line_break",
-] as const;
 
 export function mapFilterLabel(m: Messages, key: string): string {
   return m.mapFilters[key as keyof Messages["mapFilters"]] ?? key;
@@ -103,6 +101,7 @@ export function PlayerReportSheet({
   const p = profile.player;
   const activeView = selectProfileView(profile, "absolute", peerScope);
   const passScores = activeView.pass_scores;
+  const overallPassGrade = overallPassGradeFromProfile(profile);
   const category = entry.category;
   const categoryMeta = m.profileCategories[category.id];
   const categoryTitle = categoryMeta?.title ?? category.title;
@@ -226,6 +225,9 @@ export function PlayerReportSheet({
           <p className="identity-subline">
             {String(p.team ?? "—")} · {String(p.position ?? "—")}
           </p>
+          {profile.profile_cluster ? (
+            <ProfileClusterCard cluster={profile.profile_cluster} compact />
+          ) : null}
           {!compact && (
             <p className="report-league-line muted">
               {String(p.league_source ?? p.league ?? "—")}
@@ -423,8 +425,24 @@ export function PlayerReportSheet({
 
             <div className="pa-col pa-col-score">
               <div className="score-stack">
-                <PassGradePanel rating={profile.xp_pass_rating} />
-                <ReportXpPanel profile={profile} accent={accent} expandAll={expandAll} peerScope={peerScope} />
+                <div className="player-card profile-grade-card">
+                  <PassGradePanel score={overallPassGrade} embedded />
+                </div>
+                <XpProfilePanel xp={profile.xp ?? {}} peerScope={peerScope} />
+                <div className="player-card profile-indices-mix-card">
+                  <XpIndicesPanel
+                    indices={profile.xp_indices ?? []}
+                    roundGrades={profile.xp_round_grades ?? []}
+                    gameGradeMad={
+                      typeof profile.xp?.xp_game_grade_mad === "number"
+                        ? profile.xp.xp_game_grade_mad
+                        : null
+                    }
+                    accent={accent}
+                    expandAll={expandAll}
+                  />
+                  <PassLengthMix data={profile} />
+                </div>
               </div>
             </div>
 

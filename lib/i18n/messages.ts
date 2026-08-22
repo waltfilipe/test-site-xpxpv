@@ -185,12 +185,20 @@ export type Messages = {
   };
   passLengthMix: {
     title: string;
+    locationSection: string;
+    lengthSection: string;
+    defensive: string;
+    offensive: string;
     short: string;
     long: string;
     leagueRefTitle: string;
+    halfLineRefTitle: string;
     playerLongTitle: string;
+    playerDefensiveTitle: string;
     shortLegend: string;
     longLegend: string;
+    defensiveLegend: string;
+    offensiveLegend: string;
   };
   compare: {
     subtitle: string;
@@ -242,6 +250,9 @@ export type Messages = {
     loadPlayerFailedPrefix: string;
     pageFootnote: string;
     exportPdfTitle: string;
+    selectPlayerLabel: string;
+    selectPlayerPlaceholder: string;
+    selectPlayerHint: string;
     generatingMaps: string;
     loadingMaps: string;
     readyStat: string;
@@ -303,6 +314,7 @@ export type Messages = {
     componentLabels: Record<string, string>;
     index: Record<string, string>;
     passGrade: string;
+    passLocation: string;
     passLength: string;
     impactExtra: Record<string, string>;
   };
@@ -579,7 +591,7 @@ const en: Messages = {
     heroTitle: "Midfielder reports",
     heroSubtitle: "Curated pool with full-pool rankings — export PDF by age group.",
     heroLead:
-      "{count} curated profiles across 3 age bands — xP overview, pass scores, consistency and pass maps. PDF export by group.",
+      "{count} curated profiles — pick a player for a full report with profile metrics and pass maps.",
     scoutingEyebrow: "Scouting intelligence",
     preparingMaps: "Preparing maps…",
     loadingBatches: "Loading reports in batches…",
@@ -590,6 +602,9 @@ const en: Messages = {
     loadPlayerFailedPrefix: "Failed to load player",
     pageFootnote: "players · midfielder pool · 5 European leagues",
     exportPdfTitle: "Export PDF for",
+    selectPlayerLabel: "Select player",
+    selectPlayerPlaceholder: "Choose a midfielder…",
+    selectPlayerHint: "Pick a player to load the full profile report with pass maps.",
     generatingMaps: "Generating player maps…",
     loadingMaps: "Loading maps…",
     readyStat: "ready",
@@ -713,13 +728,21 @@ const en: Messages = {
       "Share of passes classified as impact passes ({value}%). Scaled 0–100 within your league — top in the league = 100.",
   },
   passLengthMix: {
-    title: "Pass Length Mix",
+    title: "Pass Location and Length",
+    locationSection: "Pass location",
+    lengthSection: "Pass length",
+    defensive: "Defensive half",
+    offensive: "Attacking half",
     short: "Short",
     long: "Long",
     leagueRefTitle: "League reference: {pct}% long",
+    halfLineRefTitle: "Halfway line: {pct}% defensive",
     playerLongTitle: "Player: {pct}% long",
+    playerDefensiveTitle: "Player: {pct}% from defensive half",
     shortLegend: "{pct}% short",
     longLegend: "{pct}% long",
+    defensiveLegend: "{pct}% defensive",
+    offensiveLegend: "{pct}% attacking",
   },
   tooltips: {
     xpProfileBars: {
@@ -830,6 +853,8 @@ const en: Messages = {
       xp_idx_defense: "Defensive volume and duel quality.",
     },
     passGrade: "Pass grade: 40% productivity, 40% precision, 20% lethality (league rank).",
+    passLocation:
+      "Share of completed live-ball passes that start in the defensive half (x < 60 m on the pitch).",
     passLength: "Share of long passes vs league midpoint.",
     impactExtra: {
       threat_pass_pct: "Impact passes divided by total passes.",
@@ -1126,7 +1151,7 @@ const pt: Messages = {
     heroTitle: "Relatórios de meias",
     heroSubtitle: "Pool curado com rankings no pool completo — exporte PDF por faixa etária.",
     heroLead:
-      "{count} perfis curados em 3 faixas etárias — overview xP, pass scores, consistency e mapas de passe. Exportação PDF por grupo.",
+      "{count} perfis curados — escolha um jogador para o relatório completo com métricas e mapas.",
     scoutingEyebrow: "Scouting intelligence",
     preparingMaps: "Preparando mapas…",
     loadingBatches: "Carregando relatórios em lotes…",
@@ -1137,6 +1162,9 @@ const pt: Messages = {
     loadPlayerFailedPrefix: "Falha ao carregar jogador",
     pageFootnote: "atletas · pool meio-campistas · 5 ligas europeias",
     exportPdfTitle: "Exportar PDF de",
+    selectPlayerLabel: "Selecionar jogador",
+    selectPlayerPlaceholder: "Escolha um meio-campista…",
+    selectPlayerHint: "Escolha um jogador para carregar o relatório completo com mapas de passe.",
     generatingMaps: "Gerando mapas do jogador…",
     loadingMaps: "Carregando mapas…",
     readyStat: "prontos",
@@ -1260,13 +1288,21 @@ const pt: Messages = {
       "% de passes classificados como impact passes ({value}%). Escala 0–100 na liga — o melhor da liga = 100.",
   },
   passLengthMix: {
-    title: "Mix de comprimento de passe",
+    title: "Local e Comprimento do Passe",
+    locationSection: "Local do passe",
+    lengthSection: "Comprimento",
+    defensive: "Metade defensiva",
+    offensive: "Metade ofensiva",
     short: "Curto",
     long: "Longo",
-    leagueRefTitle: "Referência da liga: {pct}% longo",
-    playerLongTitle: "Jogador: {pct}% longo",
-    shortLegend: "{pct}% curto",
-    longLegend: "{pct}% longo",
+    leagueRefTitle: "Referência da liga: {pct}% longos",
+    halfLineRefTitle: "Linha de meio: {pct}% defensivo",
+    playerLongTitle: "Jogador: {pct}% longos",
+    playerDefensiveTitle: "Jogador: {pct}% na metade defensiva",
+    shortLegend: "{pct}% curtos",
+    longLegend: "{pct}% longos",
+    defensiveLegend: "{pct}% defensivo",
+    offensiveLegend: "{pct}% ofensivo",
   },
   tooltips: {
     xpProfileBars: {
@@ -1379,6 +1415,8 @@ const pt: Messages = {
       xp_idx_defense: "Volume defensivo e qualidade de duelo.",
     },
     passGrade: "Nota de passe: 40% produtividade, 40% precisão, 20% lethality (ranking na liga).",
+    passLocation:
+      "Share de passes completos com origem na metade defensiva (x < 60 m no campo).",
     passLength: "Share de passes longos vs média da liga.",
     impactExtra: {
       threat_pass_pct: "Impact passes dividido pelo total de passes.",

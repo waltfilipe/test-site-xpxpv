@@ -2258,7 +2258,8 @@ button, input, select { font: inherit; }
   border-top: none;
 }
 
-.profile-indices-mix-card .pass-mix-card {
+.profile-indices-mix-card .pass-mix-card,
+.profile-indices-mix-card .pass-location-length-card {
   margin-top: 0;
   padding: 0.65rem 0 0;
   border: none;
@@ -2955,6 +2956,59 @@ button, input, select { font: inherit; }
   font-family: var(--font-mono);
   color: var(--text);
   font-weight: 700;
+}
+
+.pass-location-length-card {
+  margin-top: 0.65rem;
+  padding: 0.65rem 0.7rem;
+  border-radius: 11px;
+  background: linear-gradient(160deg, rgba(21, 27, 43, 0.6) 0%, rgba(15, 23, 42, 0.4) 100%);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.pass-mix-section + .pass-mix-section {
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(51, 65, 85, 0.45);
+}
+
+.pass-mix-section-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pass-mix-marker-location {
+  border-color: #0ea5e9;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(14, 165, 233, 0.45);
+}
+
+.reports-player-select-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  padding: 1rem 1.1rem;
+  border-radius: 14px;
+  background: linear-gradient(160deg, rgba(21, 27, 43, 0.72) 0%, rgba(15, 23, 42, 0.52) 100%);
+  border: 1px solid rgba(51, 65, 85, 0.55);
+}
+
+.reports-player-select-field {
+  flex: 1 1 280px;
+  min-width: 220px;
+}
+
+.reports-player-select-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
 }
 
 /* Pass scores accordions */

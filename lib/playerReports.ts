@@ -87,6 +87,10 @@ export function enrichedReportPlayers(): EnrichedReportPlayer[] {
   return out;
 }
 
+export function reportEntryForPlayer(playerId: string): EnrichedReportPlayer | null {
+  return enrichedReportPlayers().find((entry) => entry.playerId === playerId) ?? null;
+}
+
 export function playerIdsForProfileGroup(groupId: string): Set<string> {
   const category = PLAYER_REPORT_CATEGORIES.find((cat) => cat.id === groupId);
   if (!category) return new Set();
