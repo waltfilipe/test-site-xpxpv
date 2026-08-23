@@ -117,8 +117,7 @@ export type Messages = {
     coePerPass: string;
     coeShortPass: string;
     coeLongPass: string;
-    consistencyMadLabel: string;
-    consistencyMadTip: string;
+    consistencyTip: string;
     clusterTip: string;
   };
   players: {
@@ -441,13 +440,13 @@ const en: Messages = {
         tag: "xPV",
         title: "How valuable is the destination?",
         body:
-          "xPV measures how much it’s worth arriving at a point on the pitch. It doesn’t ask whether the pass will arrive — it asks whether the destination is good: does it advance play, is it a rare or strategic spot, and is it reachable in that situation. Only completed passes count.",
+          "xPV is the productivity side of passing: how much value you create through where the ball goes. It scores completed passes by destination quality — advance, rarity and reach — not whether the pass was easy.",
       },
       xp: {
         tag: "xP",
         title: "How hard was the pass?",
         body:
-          "xP measures how difficult it was to complete a pass — the “xG of passing”. Given where the player is, where they’re aiming, the distance and angle, how likely was the ball to arrive? Both completed and missed passes count.",
+          "xP is the precision side: how cleanly you complete passes for the situation — distance, angle and pressure. It is the difficulty model; both completed and missed passes count.",
       },
       grades: {
         tag: "Grades",
@@ -526,9 +525,8 @@ const en: Messages = {
     coePerPass: "xAccuracy+",
     coeShortPass: "Short xAcc+",
     coeLongPass: "Long xAcc+",
-    consistencyMadLabel: "MAD",
-    consistencyMadTip:
-      "Mean absolute deviation of per-match pass grades — average spread from game to game. Lower = more consistent.",
+    consistencyTip:
+      "How steady match-to-match pass grades are. Less swing from game to game means higher consistency.",
     clusterTip: "Pass-profile cluster on raw absolute metrics. About {pct}% of the eligible pool shares this archetype.",
   },
   players: {
@@ -728,14 +726,14 @@ const en: Messages = {
       "Share of passes classified as impact passes ({value}%). Scaled 0–100 within your league — top in the league = 100.",
   },
   passLengthMix: {
-    title: "Pass Location and Length",
+    title: "Pass Location Origin",
     locationSection: "Pass location",
     lengthSection: "Pass length",
     defensive: "Defensive half",
     offensive: "Attacking half",
     short: "Short",
     long: "Long",
-    leagueRefTitle: "League reference: {pct}% long",
+    leagueRefTitle: "League average: {pct}% long (centre line)",
     halfLineRefTitle: "Halfway line: {pct}% defensive",
     playerLongTitle: "Player: {pct}% long",
     playerDefensiveTitle: "Player: {pct}% from defensive half",
@@ -846,9 +844,9 @@ const en: Messages = {
       def_aerial_won_pct: "Aerial won %",
     },
     index: {
-      Consistency: "How steady their per-match overall pass grades are (xp style: productivity, precision, lethality; low-volume games pulled toward 6.0).",
+      Consistency: "How steady match-to-match pass grades are — less game-to-game swing means higher consistency.",
       Impact: "How much a player impacts the game per pass.",
-      xp_idx_consistency: "How steady their per-match overall pass grades are (xp style: productivity, precision, lethality; low-volume games pulled toward 6.0).",
+      xp_idx_consistency: "How steady match-to-match pass grades are — less game-to-game swing means higher consistency.",
       xp_idx_impact: "How much a player impacts the game per pass.",
       xp_idx_defense: "Defensive volume and duel quality.",
     },
@@ -1001,13 +999,13 @@ const pt: Messages = {
         tag: "xPV",
         title: "Quanto vale chegar lá?",
         body:
-          "O xPV mede quanto vale chegar num ponto do campo. Não pergunta se o passe vai chegar — pergunta se o destino é bom: avança o jogo, é um lugar raro ou estratégico, e é acessível na situação. Só entra quando o passe foi completado.",
+          "O xPV é o lado produtividade do passe: quanto valor você cria pelo destino da bola. Mede passes completados pela qualidade do ponto de chegada — avanço, raridade e alcance — não se o passe era fácil.",
       },
       xp: {
         tag: "xP",
         title: "Quão difícil era o passe?",
         body:
-          "O xP mede quão difícil era completar esse passe — o “xG do passe”. Dado onde o jogador está, onde quer ir, a distância e o ângulo, quão provável era que a bola chegasse? Conta passes certos e errados.",
+          "O xP é o lado precisão: quão limpo você completa passes para a situação — distância, ângulo e pressão. É o modelo de dificuldade; entram passes certos e errados.",
       },
       grades: {
         tag: "Grades",
@@ -1086,9 +1084,8 @@ const pt: Messages = {
     coePerPass: "xAccuracy+",
     coeShortPass: "Short xAcc+",
     coeLongPass: "Long xAcc+",
-    consistencyMadLabel: "MAD",
-    consistencyMadTip:
-      "Desvio absoluto médio das notas de passe por jogo — spread médio entre partidas. Menor = mais consistente.",
+    consistencyTip:
+      "Quão estáveis são as notas de passe de jogo em jogo. Menos oscilação entre partidas = mais consistência.",
     clusterTip: "Cluster de perfil de passe em métricas absolutas cruas. Cerca de {pct}% do pool elegível compartilha este arquétipo.",
   },
   players: {
@@ -1288,14 +1285,14 @@ const pt: Messages = {
       "% de passes classificados como impact passes ({value}%). Escala 0–100 na liga — o melhor da liga = 100.",
   },
   passLengthMix: {
-    title: "Local e Comprimento do Passe",
+    title: "Pass Location Origin",
     locationSection: "Local do passe",
     lengthSection: "Comprimento",
     defensive: "Metade defensiva",
     offensive: "Metade ofensiva",
     short: "Curto",
     long: "Longo",
-    leagueRefTitle: "Referência da liga: {pct}% longos",
+    leagueRefTitle: "Média da liga: {pct}% longos (linha central)",
     halfLineRefTitle: "Linha de meio: {pct}% defensivo",
     playerLongTitle: "Jogador: {pct}% longos",
     playerDefensiveTitle: "Jogador: {pct}% na metade defensiva",
@@ -1408,9 +1405,9 @@ const pt: Messages = {
       def_aerial_won_pct: "Aéreo %",
     },
     index: {
-      Consistency: "Quão estáveis são as notas compostas por jogo (produção, qualidade, ameaça e precisão).",
+      Consistency: "Quão estáveis são as notas de passe entre jogos — menos oscilação = mais consistência.",
       Impact: "Quanto o jogador impacta o jogo por passe.",
-      xp_idx_consistency: "Quão estáveis são as notas gerais de passe por jogo (estilo xp: produtividade, precisão, letalidade; jogos de baixo volume puxados a 6,0).",
+      xp_idx_consistency: "Quão estáveis são as notas de passe entre jogos — menos oscilação = mais consistência.",
       xp_idx_impact: "Quanto o jogador impacta o jogo por passe.",
       xp_idx_defense: "Volume defensivo e qualidade de duelo.",
     },

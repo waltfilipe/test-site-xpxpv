@@ -5602,7 +5602,7 @@ tr:last-child td { border-bottom: none; }
 
   .report-sheet-body.pa-layout,
   .report-layout-v2.pa-layout {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: 1.38fr 1fr 0.78fr;
     gap: 2mm;
     overflow: visible;
     align-items: start;
@@ -5722,7 +5722,7 @@ tr:last-child td { border-bottom: none; }
   .report-print-root .report-layout-v2.pa-layout,
   .report-print-root .report-sheet-body.pa-layout {
     align-items: stretch;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: 1.38fr 1fr 0.78fr;
     gap: 2mm;
   }
 
@@ -6165,6 +6165,20 @@ tr:last-child td { border-bottom: none; }
     break-inside: avoid;
     padding: 0.35rem 0.5rem;
     margin-bottom: 0.25rem;
+  }
+
+  .report-maps-player-strip {
+    display: none !important;
+  }
+
+  .report-print-root .report-maps-grid,
+  .report-print-root .report-maps-grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .report-print-root .report-map-img {
+    max-height: 78mm !important;
   }
 
   .report-maps-grid,

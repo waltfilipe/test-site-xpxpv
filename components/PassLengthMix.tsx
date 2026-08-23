@@ -3,8 +3,14 @@
 import { Tooltip } from "@/components/ui/Tooltip";
 import { useI18n } from "@/lib/i18n/context";
 
-const REF_LONG_CENTER_PCT = 11.4;
+const REF_LONG_LEAGUE_AVG_PCT = 11.4;
 const REF_DEFENSIVE_CENTER_PCT = 50;
+
+function longShareBarPosition(playerLong: number, leagueAvg: number): number {
+  const avg = leagueAvg > 0 ? leagueAvg : REF_LONG_LEAGUE_AVG_PCT;
+  const pos = 50 + ((playerLong - avg) / avg) * 50;
+  return Math.max(4, Math.min(96, pos));
+}
 
 export type PassLengthData = {
   long_pass_share_pct?: number | null;
@@ -131,10 +137,16 @@ export function PassLengthMix({ data }: { data: PassLengthData }) {
           <MixBar
             leftLabel={m.passLengthMix.short}
             rightLabel={m.passLengthMix.long}
-            markerPct={longShare}
-            refCenterPct={REF_LONG_CENTER_PCT}
+            markerPct={longShareBarPosition(
+              longShare,
+              data.long_pass_share_ref_avg_pct ?? REF_LONG_LEAGUE_AVG_PCT,
+            )}
+            refCenterPct={50}
             markerTitle={m.passLengthMix.playerLongTitle.replace("{pct}", longShare.toFixed(1))}
-            refTitle={m.passLengthMix.leagueRefTitle.replace("{pct}", String(REF_LONG_CENTER_PCT))}
+            refTitle={m.passLengthMix.leagueRefTitle.replace(
+              "{pct}",
+              String(data.long_pass_share_ref_avg_pct ?? REF_LONG_LEAGUE_AVG_PCT),
+            )}
             leftLegend={m.passLengthMix.shortLegend.replace("{pct}", shortShare.toFixed(1))}
             rightLegend={m.passLengthMix.longLegend.replace("{pct}", longShare.toFixed(1))}
           />

@@ -23,7 +23,6 @@ export type XpIndexItem = {
 type Props = {
   indices: XpIndexItem[];
   roundGrades?: XpRoundGrade[];
-  gameGradeMad?: number | null;
   accent?: string;
   expandAll?: boolean;
 };
@@ -114,40 +113,21 @@ function ConsistencyTooltipRow({
   tier,
   tierKey,
   icon,
-  gameGradeMad,
   indexTips,
-  madLabel,
-  madTip,
+  consistencyTip,
 }: {
   label: string;
   tier?: string | null;
   tierKey: string;
   icon: string;
-  gameGradeMad?: number | null;
   indexTips: Record<string, string>;
-  madLabel: string;
-  madTip: string;
+  consistencyTip: string;
 }) {
   const tierLabel = XP_INDEX_TIER_LABELS[tier ?? "mid"] ?? tier ?? "—";
-  const summary = indexTips[tierKey] ?? indexTips[label] ?? "";
-  const madFormatted =
-    gameGradeMad != null && Number.isFinite(gameGradeMad)
-      ? gameGradeMad.toFixed(2)
-      : "—";
-
-  const tooltip = (
-    <div className="index-detail-tooltip">
-      {summary ? <p className="index-detail-tooltip-lead">{summary}</p> : null}
-      <div className="index-detail-tooltip-metric">
-        <span className="index-detail-tooltip-label">{madLabel}</span>
-        <span className="index-detail-tooltip-value tabular">{madFormatted}</span>
-      </div>
-      {madTip ? <p className="index-detail-tooltip-note">{madTip}</p> : null}
-    </div>
-  );
+  const summary = consistencyTip || indexTips[tierKey] || indexTips[label] || "";
 
   return (
-    <Tooltip content={tooltip} block>
+    <Tooltip content={summary} block>
       <div
         className={`xp-index-row ${xpIndexTierClass(tier)}`}
         title={summary || undefined}
@@ -166,7 +146,6 @@ function ConsistencyTooltipRow({
 export function XpIndicesPanel({
   indices,
   roundGrades = [],
-  gameGradeMad,
   accent,
   expandAll = false,
 }: Props) {
@@ -191,10 +170,8 @@ export function XpIndicesPanel({
             tier={consistency.tier}
             tierKey={consistency.tier_key ?? consistency.label}
             icon={consistency.icon ?? "fa-wave-square"}
-            gameGradeMad={gameGradeMad}
             indexTips={indexTips}
-            madLabel={m.profile.consistencyMadLabel}
-            madTip={m.profile.consistencyMadTip}
+            consistencyTip={m.profile.consistencyTip}
           />
         )}
         {consistency && expandAll && (

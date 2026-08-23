@@ -267,15 +267,6 @@ export function ReportsClient() {
 
         <div className="reports-player-select-actions">
           <PeerScopeToggle scope={peerScope} onChange={setPeerScope} />
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={handlePrint}
-            disabled={busy || !profile || !entry}
-          >
-            <i className="fa-solid fa-file-pdf" />
-            {printPreparing ? m.reports.preparingMaps : m.common.exportGroup}
-          </button>
         </div>
       </section>
 

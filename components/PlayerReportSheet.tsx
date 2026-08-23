@@ -334,7 +334,7 @@ export function PlayerReportSheet({
   );
 
   const renderMapsStrip = () => (
-    <div className="report-maps-player-strip">
+    <div className="report-maps-player-strip report-screen-only">
       <div className="report-maps-strip-photo">
         {p.photo_url ? (
           <Image
@@ -433,11 +433,6 @@ export function PlayerReportSheet({
                   <XpIndicesPanel
                     indices={profile.xp_indices ?? []}
                     roundGrades={profile.xp_round_grades ?? []}
-                    gameGradeMad={
-                      typeof profile.xp?.xp_game_grade_mad === "number"
-                        ? profile.xp.xp_game_grade_mad
-                        : null
-                    }
                     accent={accent}
                     expandAll={expandAll}
                   />
