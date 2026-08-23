@@ -5582,7 +5582,10 @@ tr:last-child td { border-bottom: none; }
     break-after: page;
   }
 
-  .player-report-sheet.report-page-2 {
+  .player-report-sheet.report-page-2,
+  .report-print-root .report-page-2 {
+    page-break-before: auto !important;
+    break-before: auto !important;
     page-break-after: avoid !important;
     break-after: avoid !important;
   }
@@ -6050,7 +6053,7 @@ tr:last-child td { border-bottom: none; }
     display: block;
     flex: 1 1 auto;
     min-height: 0;
-    zoom: 0.72;
+    zoom: 0.74;
     break-inside: avoid;
     page-break-inside: avoid;
     padding-top: 0.5mm;
@@ -6073,10 +6076,31 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-page-2 {
-    page-break-before: always;
-    break-before: page;
-    page-break-after: auto;
-    break-after: auto;
+    page-break-before: auto !important;
+    break-before: auto !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    max-height: calc(210mm - 16mm);
+    overflow: hidden;
+    box-sizing: border-box;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .report-print-root .report-page-2 .report-sheet-header-compact {
+    margin-bottom: 0.12rem !important;
+    padding-bottom: 0.1rem !important;
+  }
+
+  .report-print-root .report-page-2 .report-maps-page {
+    gap: 0.2rem !important;
+  }
+
+  .report-print-root .report-page-2 .report-sheet-footer {
+    margin-top: 0.1rem !important;
+    padding-top: 0.12rem !important;
   }
 
   .report-print-root .report-page-1 .report-sheet-header {
@@ -6201,7 +6225,7 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-map-img {
-    max-height: 78mm !important;
+    max-height: 70mm !important;
   }
 
   .report-maps-grid,
