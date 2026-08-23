@@ -262,7 +262,6 @@ export function ReportsClient() {
               </option>
             ))}
           </select>
-          <p className="reports-hint muted">{m.reports.selectPlayerHint}</p>
         </div>
 
         <div className="reports-player-select-actions">

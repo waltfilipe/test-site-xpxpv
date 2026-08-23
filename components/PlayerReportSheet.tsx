@@ -12,7 +12,7 @@ import { XpProfilePanel } from "@/components/XpProfilePanel";
 import { LoadingState } from "@/components/LoadingState";
 import { getPassMap, type PeerScope, type PlayerProfile } from "@/lib/api";
 import type { EnrichedReportPlayer } from "@/lib/playerReports";
-import { formatContractUntil } from "@/lib/formatters";
+import { formatContractUntil, formatLeagueName } from "@/lib/formatters";
 import { overallPassGradeFromProfile } from "@/lib/passGrades";
 import { selectProfileView } from "@/lib/profileView";
 import { REPORT_MAP_FILTER_KEYS } from "@/lib/reportMapKeys";
@@ -108,6 +108,10 @@ export function PlayerReportSheet({
   const categorySubtitle = categoryMeta?.subtitle ?? category.subtitle;
   const categoryDescription = categoryMeta?.description ?? category.description;
   const displayName = String(p.player_name ?? "—");
+  const leagueLabel = formatLeagueName(
+    p.league != null ? String(p.league) : null,
+    p.league_source != null ? String(p.league_source) : null,
+  );
   const playerId = entry.playerId;
   const accent = category.accent;
   const minutesPct = p.minutes_pct != null ? Number(p.minutes_pct) : null;
@@ -230,7 +234,7 @@ export function PlayerReportSheet({
           ) : null}
           {!compact && (
             <p className="report-league-line muted">
-              {String(p.league_source ?? p.league ?? "—")}
+              {leagueLabel}
             </p>
           )}
 
@@ -266,7 +270,7 @@ export function PlayerReportSheet({
               <span className="identity-fact-inline tabular">
                 {p.age != null ? m.reports.ageYears.replace("{age}", String(p.age)) : "—"}
               </span>
-              <span className="identity-fact-inline">{String(p.league_source ?? p.league ?? "—")}</span>
+              <span className="identity-fact-inline">{leagueLabel}</span>
             </div>
           )}
         </div>
@@ -356,7 +360,7 @@ export function PlayerReportSheet({
           {p.age != null ? ` · ${m.reports.ageYears.replace("{age}", String(p.age))}` : ""}
         </span>
         <span className="report-maps-strip-league muted">
-          {String(p.league_source ?? p.league ?? "—")}
+          {leagueLabel}
         </span>
       </div>
       <div

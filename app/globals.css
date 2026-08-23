@@ -838,9 +838,6 @@ button, input, select { font: inherit; }
   font-size: 0.84rem;
   line-height: 1.35;
   max-width: 62ch;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .profile-page .profile-page-body.container {
@@ -849,11 +846,7 @@ button, input, select { font: inherit; }
 
 @media (max-width: 720px) {
   .profile-page-hero-compact .profile-page-hero-lead {
-    white-space: normal;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    max-width: none;
   }
 }
 
@@ -3084,6 +3077,22 @@ button, input, select { font: inherit; }
   color: var(--text-secondary);
 }
 
+.pass-metric-help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.95rem;
+  height: 0.95rem;
+  border-radius: 999px;
+  font-size: 0.58rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--muted);
+  background: rgba(148, 163, 184, 0.14);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  flex-shrink: 0;
+}
+
 .pass-metric-stratum-star {
   font-size: 0.52rem;
   color: #facc15;
@@ -3576,6 +3585,12 @@ button, input, select { font: inherit; }
   flex-direction: column;
   gap: 0.45rem;
   min-width: 0;
+}
+
+.home-insight-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
 }
 
 .home-insight-tag {
@@ -5562,9 +5577,17 @@ tr:last-child td { border-bottom: none; }
     display: block !important;
   }
 
-  .player-report-sheet {
+  .player-report-sheet.report-page-1 {
     page-break-after: always;
     break-after: page;
+  }
+
+  .player-report-sheet.report-page-2 {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .player-report-sheet {
     break-inside: auto;
     border: none;
     border-radius: 0;
@@ -6027,7 +6050,7 @@ tr:last-child td { border-bottom: none; }
     display: block;
     flex: 1 1 auto;
     min-height: 0;
-    zoom: 0.74;
+    zoom: 0.72;
     break-inside: avoid;
     page-break-inside: avoid;
     padding-top: 0.5mm;

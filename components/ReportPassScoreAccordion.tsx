@@ -1,5 +1,6 @@
 "use client";
 
+import { PassMetricLabel } from "@/components/PassMetricLabel";
 import { PassMetricStratumStar } from "@/components/PassMetricStratumStar";
 import type { PassScoreSection } from "@/lib/api";
 import { GradeBadge } from "@/components/ui/GradeBadge";
@@ -31,10 +32,12 @@ function SectionMetrics({ section }: { section: PassScoreSection }) {
           <Tooltip key={c.key} content={tips[c.key] ?? ""} block>
             <div className="pass-metric-block">
               <div className="pass-metric-head">
-                <span className="pass-metric-label">
-                  {labels[c.key] ?? c.key.replace(/_/g, " ")}
+                <PassMetricLabel
+                  metricKey={c.key}
+                  label={labels[c.key] ?? c.key.replace(/_/g, " ")}
+                >
                   <PassMetricStratumStar show={c.stratum_star} />
-                </span>
+                </PassMetricLabel>
                 <span className="pass-metric-value tabular">
                   {formatMetric(c.value, c.key)}
                 </span>

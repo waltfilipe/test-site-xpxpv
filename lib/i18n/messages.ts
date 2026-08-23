@@ -70,8 +70,8 @@ export type Messages = {
     insightsTitle: string;
     insightsLead: string;
     insights: {
-      xp: { tag: string; title: string; body: string };
-      xpv: { tag: string; title: string; body: string };
+      xp: { tag: string; pillarTag?: string; title: string; body: string };
+      xpv: { tag: string; pillarTag?: string; title: string; body: string };
       grades: { tag: string; title: string; body: string };
       analyzed: { tag: string; title: string; body: string };
       mission: { tag: string; title: string; body: string };
@@ -438,12 +438,14 @@ const en: Messages = {
     insights: {
       xpv: {
         tag: "xPV",
+        pillarTag: "Productivity",
         title: "How valuable is the destination?",
         body:
           "xPV is the productivity side of passing: how much value you create through where the ball goes. It scores completed passes by destination quality — advance, rarity and reach — not whether the pass was easy.",
       },
       xp: {
         tag: "xP",
+        pillarTag: "Precision",
         title: "How hard was the pass?",
         body:
           "xP is the precision side: how cleanly you complete passes for the situation — distance, angle and pressure. It is the difficulty model; both completed and missed passes count.",
@@ -726,8 +728,8 @@ const en: Messages = {
       "Share of passes classified as impact passes ({value}%). Scaled 0–100 within your league — top in the league = 100.",
   },
   passLengthMix: {
-    title: "Pass Location Origin",
-    locationSection: "Pass location",
+    title: "Pass Location & Pass Length",
+    locationSection: "Pass Location Origin",
     lengthSection: "Pass length",
     defensive: "Defensive half",
     offensive: "Attacking half",
@@ -768,7 +770,8 @@ const en: Messages = {
       key_passes: "Shot-assisting passes.",
       passes_to_box: "Passes into the box.",
       special_line_break_p90: "Line-breaking threat.",
-      test_impact_v2_start_final_third_p90: "Danger from the final third.",
+      test_impact_v2_start_final_third_p90:
+        "Impact passes that start in the final third, per 90. Captures how often the player generates high-value actions from advanced areas — not just entries, but passes that already carry threat before the ball moves forward.",
       defensive_actions_p90: "Tackles, interceptions and clearances.",
       chance_creation_xpv: "Quality of chance-creating passes.",
       threat_pass_pct: "Impact passes as a share of all passes.",
@@ -795,7 +798,8 @@ const en: Messages = {
       chance_xpv_share_pct: "Chance-creation xPV as a share of total xP per game.",
       chance_creation_xpv_per_pass:
         "Creation xPV per creation pass (key + into box + final-third impact).",
-      chance_creation_xpv_per_game: "Chance-creation xPV per game.",
+      chance_creation_xpv_per_game:
+        "Total expected pass value (xPV) from chance-creating actions per game — key passes, into-box deliveries and final-third impact passes combined. Higher values mean the player consistently produces dangerous distribution that leads to scoring chances.",
       leth_xpv_per_pass: "Destination value per completed pass.",
       leth_impact_rate_pct: "Share of passes classified as impact passes.",
       prod_rel_xpv: "xPV residual vs expected for pass volume.",
@@ -811,7 +815,7 @@ const en: Messages = {
       key_passes: "Key passes / game",
       passes_to_box: "Into box / game",
       special_line_break_p90: "Line breaks / game",
-      test_impact_v2_start_final_third_p90: "I.P. on Final Third / game",
+      test_impact_v2_start_final_third_p90: "IP FT/game",
       defensive_actions_p90: "Defensive actions / 90",
       chance_creation_xpv: "Creation value",
       chance_creation_xpv_per_game: "Creation value / game",
@@ -997,12 +1001,14 @@ const pt: Messages = {
     insights: {
       xpv: {
         tag: "xPV",
+        pillarTag: "Produtividade",
         title: "Quanto vale chegar lá?",
         body:
           "O xPV é o lado produtividade do passe: quanto valor você cria pelo destino da bola. Mede passes completados pela qualidade do ponto de chegada — avanço, raridade e alcance — não se o passe era fácil.",
       },
       xp: {
         tag: "xP",
+        pillarTag: "Precisão",
         title: "Quão difícil era o passe?",
         body:
           "O xP é o lado precisão: quão limpo você completa passes para a situação — distância, ângulo e pressão. É o modelo de dificuldade; entram passes certos e errados.",
@@ -1285,8 +1291,8 @@ const pt: Messages = {
       "% de passes classificados como impact passes ({value}%). Escala 0–100 na liga — o melhor da liga = 100.",
   },
   passLengthMix: {
-    title: "Pass Location Origin",
-    locationSection: "Local do passe",
+    title: "Pass Location & Pass Length",
+    locationSection: "Pass Location Origin",
     lengthSection: "Comprimento",
     defensive: "Metade defensiva",
     offensive: "Metade ofensiva",
@@ -1329,7 +1335,8 @@ const pt: Messages = {
       key_passes: "Passes que geram chute.",
       passes_to_box: "Passes na área.",
       special_line_break_p90: "Ameaça de quebra de linha.",
-      test_impact_v2_start_final_third_p90: "Perigo no terço final.",
+      test_impact_v2_start_final_third_p90:
+        "Impact passes que começam no terço final, por 90. Mede com que frequência o jogador gera ações de alto valor em zonas avançadas — não só entradas, mas passes que já carregam ameaça antes de progredir.",
       defensive_actions_p90: "Desarmes, interceptações e cortes.",
       chance_creation_xpv: "Qualidade na criação de chances.",
       threat_pass_pct: "Impact passes sobre o total de passes.",
@@ -1356,7 +1363,8 @@ const pt: Messages = {
       chance_xpv_share_pct: "xPV de criação como % do xP/jogo.",
       chance_creation_xpv_per_pass:
         "xPV de criação por passe de criação (key + na área + impact terço final).",
-      chance_creation_xpv_per_game: "xPV de criação por jogo.",
+      chance_creation_xpv_per_game:
+        "xPV total de ações de criação por jogo — key passes, passes na área e impact passes no terço final somados. Valores altos indicam distribuição perigosamente consistente que gera chances de gol.",
       leth_xpv_per_pass: "Valor de destino por passe completado.",
       leth_impact_rate_pct: "Percentual de passes classificados como impact passes.",
       prod_rel_xpv: "Residual de xPV vs volume esperado.",
@@ -1372,7 +1380,7 @@ const pt: Messages = {
       key_passes: "Key passes / jogo",
       passes_to_box: "Na área / jogo",
       special_line_break_p90: "Line breaks / jogo",
-      test_impact_v2_start_final_third_p90: "I.P. no Terço Final / jogo",
+      test_impact_v2_start_final_third_p90: "IP FT/jogo",
       defensive_actions_p90: "Ações defensivas / 90",
       chance_creation_xpv: "Creation value",
       chance_creation_xpv_per_game: "Creation value / jogo",

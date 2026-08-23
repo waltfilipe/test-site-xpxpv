@@ -41,14 +41,12 @@ export default function ComparePageContent() {
 
   return (
     <div className="profile-page compare-page">
-      <header className="profile-page-hero compare-page-hero">
-        <div className="container">
-          <div className="profile-page-hero-inner">
-            <div>
-              <span className="profile-page-eyebrow">{m.brand.name}</span>
-              <h1>{m.nav.compare}</h1>
-              <p>{m.compare.pageLead}</p>
-            </div>
+      <header className="profile-page-hero profile-page-hero-compact compare-page-hero">
+        <div className="container profile-page-hero-inner">
+          <div className="profile-page-hero-copy">
+            <span className="profile-page-eyebrow">{m.brand.name}</span>
+            <h1>{m.nav.compare}</h1>
+            <p className="profile-page-hero-lead">{m.compare.pageLead}</p>
           </div>
         </div>
       </header>

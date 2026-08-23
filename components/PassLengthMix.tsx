@@ -126,7 +126,6 @@ export function PassLengthMix({ data }: { data: PassLengthData }) {
               "{pct}",
               offensiveShare.toFixed(1),
             )}
-            markerClassName="pass-mix-marker pass-mix-marker-location"
           />
         </div>
       )}

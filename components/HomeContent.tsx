@@ -145,7 +145,12 @@ export function HomeContent() {
                     <i className={`fa-solid ${INSIGHT_ICONS[key]}`} />
                   </div>
                   <div className="home-insight-body">
-                    <span className="home-insight-tag">{card.tag}</span>
+                    <div className="home-insight-tags">
+                      <span className="home-insight-tag">{card.tag}</span>
+                      {"pillarTag" in card && card.pillarTag ? (
+                        <span className="home-insight-tag">{card.pillarTag}</span>
+                      ) : null}
+                    </div>
                     <h3 className="home-insight-title">{card.title}</h3>
                     <p className="home-insight-text">{card.body}</p>
                   </div>
