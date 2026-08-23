@@ -6,20 +6,21 @@ import { PeerScopeToggle } from "@/components/PeerScopeToggle";
 import {
   PlayerReportSheet,
   mapFilterLabel,
-  type PlayerReportMaps,
   type ReportMapSlot,
 } from "@/components/PlayerReportSheet";
+import { ReportsPlayerList, type ReportListRow } from "@/components/ReportsPlayerList";
 import { REPORT_MAP_FILTER_KEYS } from "@/lib/reportMapKeys";
 import { waitForReportMapImages } from "@/lib/reportPrint";
 import {
   getPassMap,
-  getPlayerOptions,
   getPlayerProfile,
+  getPlayers,
   type PeerScope,
-  type PlayerOption,
   type PlayerProfile,
+  type PlayerSummary,
 } from "@/lib/api";
 import {
+  enrichedReportPlayers,
   reportEntryForPlayer,
   totalReportCount,
 } from "@/lib/playerReports";
@@ -71,82 +72,46 @@ async function loadMapSlots(
 
 export function ReportsClient() {
   const { m } = useI18n();
-  const [options, setOptions] = useState<PlayerOption[]>([]);
-  const [optionsLoading, setOptionsLoading] = useState(true);
-  const [selectedId, setSelectedId] = useState("");
-  const [profile, setProfile] = useState<PlayerProfile | null>(null);
-  const [maps, setMaps] = useState<PlayerReportMaps | null>(null);
-  const [mapSlots, setMapSlots] = useState<ReportMapSlot[] | null>(null);
-  const [loadError, setLoadError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [summaries, setSummaries] = useState<PlayerSummary[]>([]);
+  const [listLoading, setListLoading] = useState(true);
+  const [listError, setListError] = useState<string | null>(null);
   const [peerScope, setPeerScope] = useState<PeerScope>("league");
   const [printing, setPrinting] = useState(false);
-  const [printPreparing, setPrintPreparing] = useState(false);
+  const [exportingId, setExportingId] = useState<string | null>(null);
   const [printEntries, setPrintEntries] = useState<PrintReportEntry[]>([]);
   const [printQueue, setPrintQueue] = useState<string[] | null>(null);
 
   useEffect(() => {
     let cancelled = false;
-    setOptionsLoading(true);
-    getPlayerOptions({ position_family: "midfielders" })
+    setListLoading(true);
+    setListError(null);
+
+    getPlayers({ position_family: "midfielders", limit: 200 })
       .then((res) => {
-        if (cancelled) return;
-        setOptions(res.options);
-        if (res.options[0]?.player_id) {
-          setSelectedId(res.options[0].player_id);
-        }
+        if (!cancelled) setSummaries(res.players);
       })
-      .catch(() => {
-        if (!cancelled) setOptions([]);
+      .catch((e) => {
+        if (!cancelled) {
+          setSummaries([]);
+          setListError(e instanceof Error ? e.message : m.common.loadFailed);
+        }
       })
       .finally(() => {
-        if (!cancelled) setOptionsLoading(false);
+        if (!cancelled) setListLoading(false);
       });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!selectedId) return;
-
-    let cancelled = false;
-    const entry = reportEntryForPlayer(selectedId);
-    const family = entry?.positionFamily ?? "midfielders";
-
-    setLoading(true);
-    setLoadError(null);
-    setProfile(null);
-    setMaps(null);
-    setMapSlots(null);
-
-    (async () => {
-      try {
-        const loadedProfile = await getPlayerProfile(selectedId, family);
-        if (cancelled) return;
-
-        const slots = await loadMapSlots(selectedId, family, m);
-        if (cancelled) return;
-
-        const primary = slots.find((s) => s.pass_map_b64);
-        setProfile(loadedProfile);
-        setMapSlots(slots);
-        setMaps(
-          primary?.pass_map_b64 ? { pass_map_b64: primary.pass_map_b64 } : null,
-        );
-      } catch (e) {
-        if (!cancelled) {
-          setLoadError(e instanceof Error ? e.message : m.common.loadFailed);
-        }
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
 
     return () => {
       cancelled = true;
     };
-  }, [selectedId, m]);
+  }, [m.common.loadFailed]);
+
+  const rows = useMemo<ReportListRow[]>(() => {
+    const byId = new Map(summaries.map((player) => [player.player_id, player]));
+    return enrichedReportPlayers().map((entry) => ({
+      entry,
+      summary: byId.get(entry.playerId) ?? null,
+    }));
+  }, [summaries]);
 
   useEffect(() => {
     if (!printQueue?.length || !printEntries.length) return;
@@ -173,6 +138,7 @@ export function ReportsClient() {
         setPrinting(false);
         setPrintEntries([]);
         setPrintQueue(null);
+        setExportingId(null);
         window.removeEventListener("afterprint", restore);
       };
 
@@ -185,34 +151,28 @@ export function ReportsClient() {
     };
   }, [printQueue, printEntries]);
 
-  const entry = useMemo(
-    () => (selectedId ? reportEntryForPlayer(selectedId) : null),
-    [selectedId],
+  const handleExport = useCallback(
+    async (playerId: string) => {
+      const entry = reportEntryForPlayer(playerId);
+      if (!entry) return;
+
+      setExportingId(playerId);
+      const family = entry.positionFamily ?? "midfielders";
+
+      try {
+        const profile = await getPlayerProfile(playerId, family);
+        const mapSlots = await loadMapSlots(playerId, family, m);
+        setPrintEntries([{ entry, profile, mapSlots }]);
+        setPrintQueue([playerId]);
+      } catch (e) {
+        setExportingId(null);
+        console.error(e);
+      }
+    },
+    [m],
   );
 
-  const handlePrint = useCallback(async () => {
-    if (!entry || !profile) return;
-
-    setPrintPreparing(true);
-    const family = entry.positionFamily ?? "midfielders";
-    const slots = await loadMapSlots(entry.playerId, family, m, mapSlots);
-    setMapSlots(slots);
-    const primary = slots.find((s) => s.pass_map_b64);
-    setMaps(primary?.pass_map_b64 ? { pass_map_b64: primary.pass_map_b64 } : maps);
-
-    setPrintEntries([
-      {
-        entry,
-        profile,
-        mapSlots: slots,
-      },
-    ]);
-    setPrintPreparing(false);
-    setPrintQueue([entry.playerId]);
-  }, [entry, profile, mapSlots, maps, m]);
-
-  const busy = optionsLoading || loading || printPreparing;
-  const selectedLabel = options.find((o) => o.player_id === selectedId)?.label;
+  const busy = listLoading || printing || exportingId != null;
 
   return (
     <div className={`reports-page${printing ? " reports-printing" : ""}`}>
@@ -238,59 +198,24 @@ export function ReportsClient() {
         </div>
       </header>
 
-      <section className="reports-player-select-panel report-screen-only">
-        <div className="reports-player-select-field">
-          <label className="filter-label" htmlFor="report-player-select">
-            {m.reports.selectPlayerLabel}
-          </label>
-          <select
-            id="report-player-select"
-            className="player-select"
-            value={selectedId}
-            disabled={optionsLoading || !options.length}
-            onChange={(e) => setSelectedId(e.target.value)}
-          >
-            {optionsLoading && (
-              <option value="">{m.reports.loadingPlayer}</option>
-            )}
-            {!optionsLoading && !options.length && (
-              <option value="">{m.reports.selectPlayerPlaceholder}</option>
-            )}
-            {options.map((o) => (
-              <option key={o.player_id} value={o.player_id}>
-                {o.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="reports-player-select-actions">
-          <PeerScopeToggle scope={peerScope} onChange={setPeerScope} />
-        </div>
+      <section className="reports-list-toolbar report-screen-only">
+        <p className="reports-list-toolbar-copy muted">{m.reports.listLead}</p>
+        <PeerScopeToggle scope={peerScope} onChange={setPeerScope} />
       </section>
 
-      {optionsLoading && (
-        <LoadingState message={m.reports.loadingFirst} />
+      {listLoading && <LoadingState message={m.reports.loadingFirst} />}
+
+      {listError && !listLoading && (
+        <div className="error-box">{listError}</div>
       )}
 
-      {!optionsLoading && loading && (
-        <LoadingState
-          message={
-            selectedLabel
-              ? m.reports.loadingPlayer
-              : m.reports.loadingPlayerId.replace("{id}", selectedId)
-          }
+      {!listLoading && !listError && (
+        <ReportsPlayerList
+          rows={rows}
+          exportingId={exportingId}
+          exportDisabled={busy}
+          onExport={handleExport}
         />
-      )}
-
-      {loadError && !loading && (
-        <div className="player-report-bundle report-error-bundle">
-          <div className="player-report-sheet report-error-sheet">
-            <p className="error-box">
-              {m.reports.loadPlayerFailedPrefix} {selectedId}: {loadError}
-            </p>
-          </div>
-        </div>
       )}
 
       <div id="report-print-root" className="report-print-root" aria-hidden={!printing}>
@@ -311,26 +236,6 @@ export function ReportsClient() {
           />
         ))}
       </div>
-
-      {!loading && profile && entry && (
-        <div className="reports-stack reports-screen-stack">
-          <PlayerReportSheet
-            entry={entry}
-            profile={profile}
-            maps={maps}
-            mapSlots={mapSlots}
-            expandAll={printing}
-            preloadMaps
-            peerScope={peerScope}
-            exportDisabled={busy}
-            onExportPdf={() => handlePrint()}
-            onMapsLoaded={(nextMaps, slots) => {
-              setMaps(nextMaps);
-              setMapSlots(slots);
-            }}
-          />
-        </div>
-      )}
     </div>
   );
 }

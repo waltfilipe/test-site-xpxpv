@@ -7,6 +7,8 @@ import { PassGradePanel } from "@/components/PassGradePanel";
 import { PassLengthMix } from "@/components/PassLengthMix";
 import { ProfileClusterCard } from "@/components/ProfileClusterCard";
 import { ReportPassScoreAccordion } from "@/components/ReportPassScoreAccordion";
+import { ReportRoundCard } from "@/components/ReportRoundCard";
+import { RoundGradeChart } from "@/components/RoundGradeChart";
 import { XpIndicesPanel } from "@/components/XpIndicesPanel";
 import { XpProfilePanel } from "@/components/XpProfilePanel";
 import { LoadingState } from "@/components/LoadingState";
@@ -374,6 +376,9 @@ export function PlayerReportSheet({
   );
   const loadedMaps = mapSlots.filter((s) => s.pass_map_b64);
   const anyLoading = mapSlots.some((s) => s.loading);
+  const roundGrades = profile.xp_round_grades ?? [];
+  const gradedRounds = roundGrades.filter((point) => point.grade != null);
+  const showPerformancePage = expandAll && gradedRounds.length >= 2;
 
   return (
     <div
@@ -555,6 +560,50 @@ export function PlayerReportSheet({
           </span>
         </footer>
       </section>
+
+      {showPerformancePage && (
+        <section className="player-report-sheet report-page-3">
+          <header className="report-sheet-header report-sheet-header-compact">
+            <div className="report-sheet-brand">
+              <span className="brand-icon report-brand-icon">
+                <i className="fa-solid fa-chart-line" />
+              </span>
+              <div>
+                <span className="report-sheet-eyebrow">{m.reports.performanceEyebrow}</span>
+                <h2 className="report-sheet-category" style={{ color: accent }}>
+                  {displayName}
+                </h2>
+              </div>
+            </div>
+            <div className="report-sheet-meta report-maps-header-meta">
+              <span className="report-sheet-page-label report-print-only">
+                {m.reports.performancePageLabel}
+              </span>
+              <span className="report-sheet-index tabular">
+                {String(categoryIndex).padStart(2, "0")}
+              </span>
+            </div>
+          </header>
+
+          <div className="report-performance-page">
+            <RoundGradeChart points={roundGrades} accent={accent} printPage />
+            <div className="report-round-cards-grid">
+              {gradedRounds.map((point) => (
+                <ReportRoundCard key={point.round} point={point} accent={accent} />
+              ))}
+            </div>
+          </div>
+
+          <footer className="report-sheet-footer">
+            <span>
+              <strong>Pass Scout</strong> · {m.reports.performancePageLabel} · {displayName}
+            </span>
+            <span className="report-sheet-footer-right report-print-only tabular">
+              {displayName}
+            </span>
+          </footer>
+        </section>
+      )}
     </div>
   );
 }

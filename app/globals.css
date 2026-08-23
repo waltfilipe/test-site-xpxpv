@@ -5582,10 +5582,13 @@ tr:last-child td { border-bottom: none; }
     break-after: page;
   }
 
-  .player-report-sheet.report-page-2,
-  .report-print-root .report-page-2 {
-    page-break-before: auto !important;
-    break-before: auto !important;
+  .player-report-sheet.report-page-2:not(:last-child) {
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .player-report-sheet.report-page-2:last-child,
+  .player-report-sheet.report-page-3:last-child {
     page-break-after: avoid !important;
     break-after: avoid !important;
   }
@@ -5614,7 +5617,8 @@ tr:last-child td { border-bottom: none; }
     print-color-adjust: exact;
   }
 
-  .player-report-bundle:last-child .report-page-2:last-child {
+  .player-report-bundle:last-child .report-page-2:last-child,
+  .player-report-bundle:last-child .report-page-3:last-child {
     page-break-after: auto;
   }
 
@@ -6075,7 +6079,35 @@ tr:last-child td { border-bottom: none; }
     padding-top: 0.2rem;
   }
 
-  .report-print-root .report-page-2 {
+  .report-print-root .report-page-2:not(:last-child) {
+    page-break-before: auto !important;
+    break-before: auto !important;
+    page-break-after: page !important;
+    break-after: page !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    max-height: calc(210mm - 16mm);
+    overflow: hidden;
+    box-sizing: border-box;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .report-print-root .report-page-2:last-child {
+    page-break-before: auto !important;
+    break-before: auto !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    max-height: calc(210mm - 16mm);
+    overflow: hidden;
+    box-sizing: border-box;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .report-print-root .report-page-3 {
     page-break-before: auto !important;
     break-before: auto !important;
     page-break-after: avoid !important;
@@ -6101,6 +6133,41 @@ tr:last-child td { border-bottom: none; }
   .report-print-root .report-page-2 .report-sheet-footer {
     margin-top: 0.1rem !important;
     padding-top: 0.12rem !important;
+  }
+
+  .report-print-root .round-grade-chart-print {
+    margin-bottom: 0.15rem !important;
+  }
+
+  .report-print-root .round-grade-chart-print .round-grade-chart-svg {
+    max-height: 42mm !important;
+    width: 100%;
+  }
+
+  .report-print-root .report-round-cards-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.18rem !important;
+  }
+
+  .report-print-root .report-round-card {
+    padding: 0.18rem 0.22rem !important;
+    border-radius: 7px;
+  }
+
+  .report-print-root .report-round-card-label {
+    font-size: 0.48rem !important;
+  }
+
+  .report-print-root .report-round-card-grade {
+    font-size: 0.62rem !important;
+  }
+
+  .report-print-root .report-round-card-stats em {
+    font-size: 0.42rem !important;
+  }
+
+  .report-print-root .report-round-card-stats strong {
+    font-size: 0.5rem !important;
   }
 
   .report-print-root .report-page-1 .report-sheet-header {
@@ -6297,6 +6364,8 @@ tr:last-child td { border-bottom: none; }
   }
 
   body[data-print-mode="dedicated"] .reports-screen-stack,
+  body[data-print-mode="dedicated"] .reports-player-list,
+  body[data-print-mode="dedicated"] .reports-list-toolbar,
   body[data-print-mode="dedicated"] .site-header,
   body[data-print-mode="dedicated"] .reports-toolbar,
   body[data-print-mode="dedicated"] .reports-hero,
@@ -6350,6 +6419,284 @@ tr:last-child td { border-bottom: none; }
   z-index: -1;
   pointer-events: none;
   overflow: visible;
+}
+
+.reports-list-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem 1.25rem;
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(51, 65, 85, 0.55);
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.reports-list-toolbar-copy {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.reports-player-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.reports-player-list-head,
+.reports-player-list-main {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.4fr) minmax(120px, 0.7fr) minmax(170px, 0.9fr) minmax(130px, 0.75fr) auto;
+  gap: 0.85rem;
+  align-items: center;
+}
+
+.reports-player-list-head {
+  padding: 0.35rem 1rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.reports-player-list-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.reports-player-list-row {
+  border-radius: 14px;
+  border: 1px solid rgba(51, 65, 85, 0.55);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--row-accent, #a78bfa) 7%, transparent), transparent 42%),
+    rgba(15, 23, 42, 0.58);
+}
+
+.reports-player-list-main {
+  padding: 0.9rem 1rem;
+}
+
+.reports-player-list-identity {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.reports-player-list-index {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--row-accent, var(--accent-purple));
+  padding-top: 0.15rem;
+}
+
+.reports-player-list-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  min-width: 0;
+}
+
+.reports-player-list-name {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: var(--text);
+  text-decoration: none;
+  line-height: 1.25;
+}
+
+.reports-player-list-name:hover {
+  color: var(--row-accent, var(--accent-purple));
+}
+
+.reports-player-list-note {
+  margin-left: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.reports-player-list-subline {
+  font-size: 0.78rem;
+}
+
+.reports-player-list-meta,
+.reports-player-list-category {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  font-size: 0.8rem;
+}
+
+.reports-player-list-ratings {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.55rem;
+}
+
+.reports-player-list-score {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.reports-player-list-letters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.28rem;
+}
+
+.reports-player-list-category-tag {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 0.16rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--row-accent, var(--accent-purple));
+  background: color-mix(in srgb, var(--row-accent, #a78bfa) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--row-accent, #a78bfa) 24%, transparent);
+}
+
+.reports-player-list-group {
+  font-size: 0.74rem;
+}
+
+.reports-player-list-export {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.48rem 0.82rem;
+  border-radius: 999px;
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  background: rgba(248, 113, 113, 0.08);
+  color: #fca5a5;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.reports-player-list-export:hover:not(:disabled) {
+  background: rgba(248, 113, 113, 0.14);
+}
+
+.reports-player-list-export:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.report-performance-page {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.report-round-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.report-round-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  padding: 0.38rem 0.42rem;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--round-accent, #a78bfa) 10%, transparent), rgba(15, 23, 42, 0.72));
+}
+
+.report-round-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem;
+}
+
+.report-round-card-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  line-height: 1.2;
+}
+
+.report-round-card-grade {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--round-grade-color, var(--text));
+}
+
+.report-round-card-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.18rem;
+}
+
+.report-round-card-stats span {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+}
+
+.report-round-card-stats em {
+  font-style: normal;
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.report-round-card-stats strong {
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.round-grade-chart-print .round-grade-chart-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.2rem;
+}
+
+.round-grade-chart-print .round-grade-chart-title {
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.round-grade-chart-print .round-grade-chart-range {
+  font-size: 0.72rem;
+}
+
+@media (max-width: 1100px) {
+  .reports-player-list-head {
+    display: none;
+  }
+
+  .reports-player-list-main {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .reports-player-list-action {
+    justify-self: start;
+  }
 }
 
 .reports-hero-card {

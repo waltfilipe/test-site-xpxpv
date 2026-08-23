@@ -271,6 +271,19 @@ export type Messages = {
     progressiveLinkPasses: string;
     minutesShort: string;
     ageYears: string;
+    listAria: string;
+    listLead: string;
+    listEmpty: string;
+    listColPlayer: string;
+    listColMeta: string;
+    listColRatings: string;
+    listColCategory: string;
+    listColAction: string;
+    exportingPdf: string;
+    performanceEyebrow: string;
+    performancePageLabel: string;
+    performancePageTitle: string;
+    performancePageLead: string;
     categories: {
       all: { title: string; description: string };
       u23: { title: string; description: string };
@@ -591,7 +604,7 @@ const en: Messages = {
     heroTitle: "Midfielder reports",
     heroSubtitle: "Curated pool with full-pool rankings — export PDF by age group.",
     heroLead:
-      "{count} curated profiles — pick a player for a full report with profile metrics and pass maps.",
+      "{count} curated midfielders — browse pass grades and pillar letters, then export the full 3-page PDF for any profile.",
     scoutingEyebrow: "Scouting intelligence",
     preparingMaps: "Preparing maps…",
     loadingBatches: "Loading reports in batches…",
@@ -624,6 +637,19 @@ const en: Messages = {
     progressiveLinkPasses: "{count} passes",
     minutesShort: "Min",
     ageYears: "{age} yrs",
+    listAria: "Curated midfielder report list",
+    listLead: "Rankings scope applies to the PDF export. Each row opens Profile or exports overview, maps and round performance.",
+    listEmpty: "No report players found.",
+    listColPlayer: "Player",
+    listColMeta: "League · Age",
+    listColRatings: "Pass grade · Pillars",
+    listColCategory: "Group",
+    listColAction: "Export",
+    exportingPdf: "Preparing PDF…",
+    performanceEyebrow: "Round performance",
+    performancePageLabel: "Performance",
+    performancePageTitle: "Pass grade by round",
+    performancePageLead: "Match-to-match pass grade trend with per-round productivity cards.",
     categories: {
       all: {
         title: "All players",
@@ -1154,7 +1180,7 @@ const pt: Messages = {
     heroTitle: "Relatórios de meias",
     heroSubtitle: "Pool curado com rankings no pool completo — exporte PDF por faixa etária.",
     heroLead:
-      "{count} perfis curados — escolha um jogador para o relatório completo com métricas e mapas.",
+      "{count} meias curados — veja notas e letras dos pilares e exporte o PDF completo de 3 páginas para qualquer perfil.",
     scoutingEyebrow: "Scouting intelligence",
     preparingMaps: "Preparando mapas…",
     loadingBatches: "Carregando relatórios em lotes…",
@@ -1187,6 +1213,19 @@ const pt: Messages = {
     progressiveLinkPasses: "{count} passes",
     minutesShort: "Min",
     ageYears: "{age} anos",
+    listAria: "Lista de relatórios de meias curados",
+    listLead: "O escopo de rankings vale para o PDF exportado. Cada linha abre o Perfil ou exporta overview, mapas e desempenho por rodada.",
+    listEmpty: "Nenhum jogador encontrado na lista de relatórios.",
+    listColPlayer: "Jogador",
+    listColMeta: "Liga · Idade",
+    listColRatings: "Pass grade · Pilares",
+    listColCategory: "Grupo",
+    listColAction: "Exportar",
+    exportingPdf: "Preparando PDF…",
+    performanceEyebrow: "Desempenho por rodada",
+    performancePageLabel: "Performance",
+    performancePageTitle: "Pass grade por rodada",
+    performancePageLead: "Tendência match-to-match com cards de produtividade por rodada.",
     categories: {
       all: {
         title: "Todos os jogadores",
