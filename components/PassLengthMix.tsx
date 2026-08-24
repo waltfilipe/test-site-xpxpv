@@ -22,16 +22,18 @@ export type PassLengthData = {
   xp?: Record<string, unknown>;
 };
 
-function resolveDefensiveOriginPct(data: PassLengthData): number | null {
-  if (data.defensive_origin_pct != null && Number.isFinite(data.defensive_origin_pct)) {
-    return Number(data.defensive_origin_pct);
-  }
-  const offensive =
+function resolveOffensiveOriginPct(data: PassLengthData): number | null {
+  const direct =
     data.midfield_offensive_origin_pct
     ?? data.player?.midfield_offensive_origin_pct
     ?? data.xp?.midfield_offensive_origin_pct;
-  if (offensive == null || !Number.isFinite(Number(offensive))) return null;
-  return Math.round((100 - Number(offensive)) * 10) / 10;
+  if (direct != null && Number.isFinite(Number(direct))) {
+    return Number(direct);
+  }
+  if (data.defensive_origin_pct != null && Number.isFinite(data.defensive_origin_pct)) {
+    return Math.round((100 - Number(data.defensive_origin_pct)) * 10) / 10;
+  }
+  return null;
 }
 
 function MixBar({
@@ -87,11 +89,11 @@ function MixBar({
 export function PassLengthMix({ data }: { data: PassLengthData }) {
   const { m } = useI18n();
   const longShare = data.long_pass_share_pct;
-  const defensiveShare = resolveDefensiveOriginPct(data);
-  if (longShare == null && defensiveShare == null) return null;
+  const offensiveShare = resolveOffensiveOriginPct(data);
+  if (longShare == null && offensiveShare == null) return null;
 
   const shortShare = longShare != null ? 100 - longShare : null;
-  const offensiveShare = defensiveShare != null ? 100 - defensiveShare : null;
+  const defensiveShare = offensiveShare != null ? 100 - offensiveShare : null;
 
   const card = (
     <div className="pass-location-length-card">
@@ -108,11 +110,11 @@ export function PassLengthMix({ data }: { data: PassLengthData }) {
           <MixBar
             leftLabel={m.passLengthMix.defensive}
             rightLabel={m.passLengthMix.offensive}
-            markerPct={defensiveShare}
+            markerPct={offensiveShare}
             refCenterPct={REF_DEFENSIVE_CENTER_PCT}
-            markerTitle={m.passLengthMix.playerDefensiveTitle.replace(
+            markerTitle={m.passLengthMix.playerOffensiveTitle.replace(
               "{pct}",
-              defensiveShare.toFixed(1),
+              offensiveShare.toFixed(1),
             )}
             refTitle={m.passLengthMix.halfLineRefTitle.replace(
               "{pct}",

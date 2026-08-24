@@ -198,6 +198,7 @@ export type Messages = {
     halfLineRefTitle: string;
     playerLongTitle: string;
     playerDefensiveTitle: string;
+    playerOffensiveTitle: string;
     shortLegend: string;
     longLegend: string;
     defensiveLegend: string;
@@ -843,6 +844,7 @@ const en: Messages = {
     halfLineRefTitle: "Halfway line: {pct}% defensive",
     playerLongTitle: "Player: {pct}% long",
     playerDefensiveTitle: "Player: {pct}% from defensive half",
+    playerOffensiveTitle: "Player: {pct}% from attacking half",
     shortLegend: "{pct}% short",
     longLegend: "{pct}% long",
     defensiveLegend: "{pct}% defensive",
@@ -1464,6 +1466,7 @@ const pt: Messages = {
     halfLineRefTitle: "Linha de meio: {pct}% defensivo",
     playerLongTitle: "Jogador: {pct}% longos",
     playerDefensiveTitle: "Jogador: {pct}% na metade defensiva",
+    playerOffensiveTitle: "Jogador: {pct}% na metade ofensiva",
     shortLegend: "{pct}% curtos",
     longLegend: "{pct}% longos",
     defensiveLegend: "{pct}% defensivo",
