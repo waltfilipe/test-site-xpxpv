@@ -24,7 +24,7 @@ function resolveOffensiveOriginPct(data: {
 test("pass location marker uses attacking share for offensive-heavy players", () => {
   const offensive = resolveOffensiveOriginPct({ midfield_offensive_origin_pct: 69.1 });
   assert.equal(offensive, 69.1);
-  assert.equal(100 - offensive!, 30.9);
+  assert.ok(Math.abs(100 - offensive! - 30.9) < 0.01);
 });
 
 test("pass location marker falls back from defensive share when needed", () => {
