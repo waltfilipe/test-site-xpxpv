@@ -4,6 +4,7 @@ import { REPORT_MAP_FILTER_KEYS } from "./reportMapKeys.ts";
 import {
   REPORT_MAPS_PER_PLAYER,
   REPORT_PAGES_PER_PLAYER,
+  buildReportPdfFilename,
   sheetsPerPrintJob,
 } from "./reportPrint.ts";
 
@@ -21,5 +22,14 @@ describe("reportPrint", () => {
       "report_progressive_dest",
       "report_impact_final_third",
     ]);
+  });
+
+  it("builds the default PDF filename from player name and rating", () => {
+    assert.equal(buildReportPdfFilename("Pedri", 8.42), "Pedri - 8.4 - Pass Report");
+    assert.equal(buildReportPdfFilename("Vitinha", null), "Vitinha - — - Pass Report");
+    assert.equal(
+      buildReportPdfFilename('Player: "A"/B', 7),
+      'Player- -A--B - 7.0 - Pass Report',
+    );
   });
 });

@@ -9,7 +9,7 @@ import {
 } from "@/components/PlayerReportSheet";
 import { ReportsPlayerList, type ReportListRow } from "@/components/ReportsPlayerList";
 import { REPORT_MAP_FILTER_KEYS } from "@/lib/reportMapKeys";
-import { waitForReportMapImages } from "@/lib/reportPrint";
+import { waitForReportMapImages, buildReportPdfFilename } from "@/lib/reportPrint";
 import {
   getPassMap,
   getPlayerProfile,
@@ -160,7 +160,23 @@ export function ReportsClient() {
         );
       }
 
+      const printItem = printEntries[0];
+      const playerRecord = printItem?.profile.player ?? {};
+      const rawName = playerRecord.player_name;
+      const playerName =
+        typeof rawName === "string" && rawName.trim()
+          ? rawName.trim()
+          : printItem?.entry.playerId ?? "Player";
+      const rating = printItem
+        ? overallPassGradeFromProfile(
+            printItem.profile.player as Parameters<typeof overallPassGradeFromProfile>[0],
+          )
+        : null;
+      const previousTitle = document.title;
+      document.title = buildReportPdfFilename(playerName, rating);
+
       const restore = () => {
+        document.title = previousTitle;
         delete document.body.dataset.printMode;
         setPrinting(false);
         setPrintEntries([]);

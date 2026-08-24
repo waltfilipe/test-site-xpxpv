@@ -3,6 +3,18 @@ import { REPORT_MAP_FILTER_KEYS } from "@/lib/reportMapKeys";
 export const REPORT_PAGES_PER_PLAYER = 2;
 export const REPORT_MAPS_PER_PLAYER = REPORT_MAP_FILTER_KEYS.length;
 
+const INVALID_FILENAME_CHARS = /[/\\?%*:|"<>]/g;
+
+export function buildReportPdfFilename(
+  playerName: string,
+  rating: number | null | undefined,
+): string {
+  const safeName = playerName.replace(INVALID_FILENAME_CHARS, "-").trim() || "Player";
+  const ratingLabel =
+    rating != null && Number.isFinite(rating) ? rating.toFixed(1) : "—";
+  return `${safeName} - ${ratingLabel} - Pass Report`;
+}
+
 export type ReportMapImageStatus = {
   ready: boolean;
   loaded: number;
