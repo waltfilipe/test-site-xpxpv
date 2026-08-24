@@ -6,7 +6,7 @@ import { LoadingState } from "@/components/LoadingState";
 import { PlayerSearchRow } from "@/components/PlayerSearchRow";
 import { ProfileGroupCards } from "@/components/ProfileGroupCards";
 import { ProfileView } from "@/components/ProfileView";
-import { getPlayerOptions, getPlayers, type PeerScope } from "@/lib/api";
+import { getPlayerOptions, getPlayers, type PeerScope, type PlayerOption } from "@/lib/api";
 import { PROFILE_ALL_GROUP, profileGroupCounts, profileLeagueCounts } from "@/lib/playerReports";
 import { filtersFromRecord, type ProfileFilterState } from "@/lib/profileParams";
 import { useI18n } from "@/lib/i18n/context";
@@ -31,7 +31,7 @@ function ProfilePageBodyInner() {
   const profileGroup = filters.profile_group ?? PROFILE_ALL_GROUP.id;
   const activeFilters = useMemo(() => filtersForGroup(filters), [filters]);
 
-  const [options, setOptions] = useState<{ player_id: string; label: string }[]>([]);
+  const [options, setOptions] = useState<PlayerOption[]>([]);
   const [groupCounts, setGroupCounts] = useState<Record<string, number>>({});
   const [leagueCounts, setLeagueCounts] = useState<Record<string, number>>({});
   const [peerScope, setPeerScope] = useState<PeerScope>("league");
@@ -46,10 +46,11 @@ function ProfilePageBodyInner() {
     setError(null);
 
     const currentFilters = filtersFromRecord(Object.fromEntries(searchParams.entries()));
+    const { search: _search, ...optionFilters } = filtersForGroup(currentFilters);
 
     Promise.all([
       getPlayers({ position_family: family, limit: 100 }),
-      getPlayerOptions(filtersForGroup(currentFilters)),
+      getPlayerOptions(optionFilters),
     ])
       .then(([playersRes, optionsRes]) => {
         if (cancelled) return;

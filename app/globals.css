@@ -1122,7 +1122,7 @@ button, input, select { font: inherit; }
 
 .player-search-row {
   display: grid;
-  grid-template-columns: minmax(180px, 0.85fr) minmax(220px, 1.15fr) minmax(180px, auto);
+  grid-template-columns: minmax(240px, 1fr) minmax(180px, auto);
   gap: 0.75rem;
   align-items: end;
   margin-bottom: 0.65rem;
@@ -7690,6 +7690,26 @@ tr:last-child td { border-bottom: none; }
 .compare-player-picker-option.active {
   background: rgba(167, 139, 250, 0.12);
   color: var(--text);
+}
+
+.compare-player-picker-empty {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.98);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.player-search-autocomplete {
+  margin-bottom: 0;
+  min-width: 0;
 }
 
 .compare-xp-indices-strip {
