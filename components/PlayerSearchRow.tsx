@@ -63,6 +63,8 @@ export function PlayerSearchRow({
 
   const selectValue = currentId ?? selectOptions[0]?.player_id ?? options[0]?.player_id;
 
+  const showSearchResults = searchOpen && search.trim().length > 0;
+
   if (!options.length) return null;
 
   function navigateToPlayer(playerId: string) {
@@ -83,7 +85,7 @@ export function PlayerSearchRow({
   }
 
   return (
-    <div className="player-search-row">
+    <div className={`player-search-row${showSearchResults ? " is-elevated" : ""}`}>
       <div className={`player-search-form player-search-live${searchOpen ? " is-open" : ""}`}>
         <label className="filter-label" htmlFor="player-search">
           {m.profile.searchPlayer}
@@ -110,7 +112,7 @@ export function PlayerSearchRow({
             onKeyDown={onSearchKeyDown}
           />
         </div>
-        {searchOpen && search.trim() ? (
+        {showSearchResults ? (
           searchResults.length > 0 ? (
             <ul id="player-search-results" className="player-search-results" role="listbox">
               {searchResults.map((option) => (

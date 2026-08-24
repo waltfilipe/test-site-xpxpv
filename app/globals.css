@@ -1125,11 +1125,21 @@ button, input, select { font: inherit; }
   grid-template-columns: minmax(180px, 0.85fr) minmax(220px, 1.15fr) minmax(180px, auto);
   gap: 0.75rem;
   align-items: end;
+  position: relative;
+  z-index: 5;
   margin-bottom: 0.65rem;
   padding: 0.85rem 1rem;
   border-radius: var(--radius);
   background: rgba(15, 23, 42, 0.45);
   border: 1px solid var(--border-subtle);
+}
+
+.player-search-row.is-elevated {
+  z-index: 300;
+}
+
+.profile-page-body .player-search-row.is-elevated {
+  isolation: isolate;
 }
 
 .player-search-actions {
@@ -1185,7 +1195,7 @@ button, input, select { font: inherit; }
   top: calc(100% + 0.25rem);
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 301;
   max-height: 220px;
   overflow: auto;
   margin: 0;
