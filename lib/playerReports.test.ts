@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
 import {
   enrichedReportPlayers,
+  mergedReportPlayers,
   PLAYER_REPORT_CATEGORIES,
   playerIdsForProfileGroup,
 } from "./playerReports.ts";
@@ -38,5 +39,17 @@ describe("playerReports", () => {
       .filter((playerId) => !POOL_IDS.has(playerId));
 
     assert.deepEqual(missing, [], `Report players missing from pool data: ${missing.join(", ")}`);
+  });
+
+  it("dedupes merged report players by id while keeping all group labels", () => {
+    const merged = mergedReportPlayers();
+    const raw = enrichedReportPlayers();
+    assert.ok(merged.length < raw.length);
+    assert.equal(new Set(merged.map((entry) => entry.playerId)).size, merged.length);
+
+    const pedri = merged.find((entry) => entry.playerId === "992587");
+    assert.ok(pedri);
+    assert.equal(raw.filter((entry) => entry.playerId === "992587").length, 2);
+    assert.ok(pedri.groupLabels.includes("La Liga"));
   });
 });

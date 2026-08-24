@@ -113,10 +113,14 @@ export type Messages = {
     rankOf: string;
     rankTopPct: string;
     xpvPerGame: string;
-    prodRelVolume: string;
+    xpvPerGameMetricTip: string;
+    prodRelGapMetricTip: string;
     coePerPass: string;
+    coePerPassMetricTip: string;
     coeShortPass: string;
+    coeShortPassMetricTip: string;
     coeLongPass: string;
+    coeLongPassMetricTip: string;
     consistencyTip: string;
     clusterTip: string;
   };
@@ -541,10 +545,19 @@ const en: Messages = {
     rankOf: "of",
     rankTopPct: "Top {pct}%",
     xpvPerGame: "Pass Value per Game",
-    prodRelVolume: "Volume rate (relative)",
+    xpvPerGameMetricTip:
+      "xPV per game — total expected pass value created per match (xPV ÷ games). Measures how much passing threat, progression and chance creation the player adds each game.",
+    prodRelGapMetricTip:
+      "Gap vs expected — Pass Value per game minus the volume-adjusted expectation ({gap}; actual {actual}, expected {expected}). Positive means outperforming peers with similar pass volume.",
     coePerPass: "xAccuracy+",
+    coePerPassMetricTip:
+      "xAccuracy+ on all passes — completion above or below expected for this player's pass mix, in percentage points.",
     coeShortPass: "Short xAcc+",
+    coeShortPassMetricTip:
+      "xAccuracy+ on short passes — short-pass completion vs expected for the same pass length and context.",
     coeLongPass: "Long xAcc+",
+    coeLongPassMetricTip:
+      "xAccuracy+ on long passes — long-pass completion vs expected for the same pass length and context.",
     consistencyTip:
       "How steady match-to-match pass grades are. Less swing from game to game means higher consistency.",
     clusterTip: "Pass-profile cluster on raw absolute metrics. About {pct}% of the eligible pool shares this archetype.",
@@ -1122,10 +1135,19 @@ const pt: Messages = {
     rankOf: "de",
     rankTopPct: "Top {pct}%",
     xpvPerGame: "Pass Value por jogo",
-    prodRelVolume: "Taxa de volume (relativo)",
+    xpvPerGameMetricTip:
+      "xPV por jogo — valor esperado total de passe criado por partida (xPV ÷ jogos). Mede quanta ameaça, progressão e criação o jogador gera com o passe em cada jogo.",
+    prodRelGapMetricTip:
+      "Diferença vs esperado — Pass Value por jogo menos o esperado para o volume de passes ({gap}; real {actual}, esperado {expected}). Positivo indica desempenho acima do esperado para o volume.",
     coePerPass: "xAccuracy+",
+    coePerPassMetricTip:
+      "xAccuracy+ em todos os passes — acerto acima ou abaixo do esperado para o mix de passes do jogador, em pontos percentuais.",
     coeShortPass: "Short xAcc+",
+    coeShortPassMetricTip:
+      "xAccuracy+ em passes curtos — acerto no curto vs o esperado para o mesmo comprimento e contexto.",
     coeLongPass: "Long xAcc+",
+    coeLongPassMetricTip:
+      "xAccuracy+ em passes longos — acerto no longo vs o esperado para o mesmo comprimento e contexto.",
     consistencyTip:
       "Quão estáveis são as notas de passe de jogo em jogo. Menos oscilação entre partidas = mais consistência.",
     clusterTip: "Cluster de perfil de passe em métricas absolutas cruas. Cerca de {pct}% do pool elegível compartilha este arquétipo.",

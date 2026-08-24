@@ -61,6 +61,16 @@ function pillarLetter(grade: number | null | undefined) {
   return displayScoreLetterGrade(grade);
 }
 
+function MetricHelp({ tip }: { tip: string }) {
+  return (
+    <Tooltip content={tip}>
+      <span className="pass-metric-help pass-metric-help-white" aria-label="Metric info">
+        ?
+      </span>
+    </Tooltip>
+  );
+}
+
 function MetricRow({
   label,
   value,
@@ -77,20 +87,18 @@ function MetricRow({
   formatValue?: (value: unknown) => string;
 }) {
   const formatted = formatValue ? formatValue(value) : formatMetric(value, rawKey);
-  const body = (
+
+  return (
     <div className="xp-profile-metric-row">
       <div className="pass-metric-head">
-        <span className="pass-metric-label">{label}</span>
+        <span className="pass-metric-label">
+          {label}
+          {tip ? <MetricHelp tip={tip} /> : null}
+        </span>
         <span className="pass-metric-value tabular">{formatted}</span>
       </div>
       {barValue != null && <XpHeatBar value={barValue} />}
     </div>
-  );
-  if (!tip) return body;
-  return (
-    <Tooltip content={tip} block>
-      {body}
-    </Tooltip>
   );
 }
 
@@ -131,8 +139,6 @@ function ProductivityCard({ xp, peerScope }: { xp: XpRecord; peerScope: PeerScop
   const residual = xp.prod_rel_xpv as number | null | undefined;
   const actual = xp.prod_xpv_per_game as number | null | undefined;
   const expected = xp.prod_xpv_expected as number | null | undefined;
-  const scopeTip =
-    peerScope === "pool" ? m.profile.peerScopePoolTip : m.profile.peerScopeLeagueTip;
 
   return (
     <article className="xp-profile-pillar-card xp-profile-pillar-productivity">
@@ -151,13 +157,13 @@ function ProductivityCard({ xp, peerScope }: { xp: XpRecord; peerScope: PeerScop
           value={xp.prod_xpv_per_game}
           barValue={bars.general}
           rawKey="prod_xpv_per_game"
-          tip={`${m.productivity.generalTip} ${scopeTip}`}
+          tip={m.profile.xpvPerGameMetricTip}
         />
         <MetricRow
           label={m.productivity.relative}
           value={residual}
           barValue={bars.relative}
-          tip={relativeTip(m.productivity.relativeTip, residual, actual, expected)}
+          tip={relativeTip(m.profile.prodRelGapMetricTip, residual, actual, expected)}
           formatValue={formatRelativeDelta}
         />
       </div>
@@ -169,8 +175,6 @@ function PrecisionCard({ xp, peerScope }: { xp: XpRecord; peerScope: PeerScope }
   const { m } = useI18n();
   const bars = precisionBars(xp, peerScope);
   const grade = xp.prec_grade_geral as number | null | undefined;
-  const scopeTip =
-    peerScope === "pool" ? m.profile.peerScopePoolTip : m.profile.peerScopeLeagueTip;
 
   return (
     <article className="xp-profile-pillar-card xp-profile-pillar-precision">
@@ -188,21 +192,21 @@ function PrecisionCard({ xp, peerScope }: { xp: XpRecord; peerScope: PeerScope }
           label={m.profile.coePerPass}
           value={xp.prec_coe_per_pass}
           barValue={bars.coe}
-          tip={`${m.precision.generalCoeTip} ${scopeTip}`}
+          tip={m.profile.coePerPassMetricTip}
           formatValue={formatXAccPlus}
         />
         <MetricRow
           label={m.profile.coeShortPass}
           value={xp.xpass_coe_pct}
           barValue={bars.short}
-          tip={`${m.precision.generalCoeTip} ${scopeTip}`}
+          tip={m.profile.coeShortPassMetricTip}
           formatValue={formatXAccPlus}
         />
         <MetricRow
           label={m.profile.coeLongPass}
           value={xp.xpass_long_coe_pct}
           barValue={bars.long}
-          tip={`${m.precision.generalCoeTip} ${scopeTip}`}
+          tip={m.profile.coeLongPassMetricTip}
           formatValue={formatXAccPlus}
         />
       </div>

@@ -68,6 +68,11 @@ export type EnrichedReportPlayer = ReportPlayerRef & {
   categoryIndex: number;
 };
 
+export type MergedReportPlayer = EnrichedReportPlayer & {
+  groupLabels: string[];
+  categoryIds: string[];
+};
+
 export function enrichedReportPlayers(): EnrichedReportPlayer[] {
   const out: EnrichedReportPlayer[] = [];
   for (const category of PLAYER_REPORT_CATEGORIES) {
@@ -85,6 +90,31 @@ export function enrichedReportPlayers(): EnrichedReportPlayer[] {
     }
   }
   return out;
+}
+
+export function mergedReportPlayers(): MergedReportPlayer[] {
+  const byId = new Map<string, MergedReportPlayer>();
+
+  for (const entry of enrichedReportPlayers()) {
+    const existing = byId.get(entry.playerId);
+    if (!existing) {
+      byId.set(entry.playerId, {
+        ...entry,
+        groupLabels: entry.groupLabel ? [entry.groupLabel] : [],
+        categoryIds: [entry.category.id],
+      });
+      continue;
+    }
+
+    if (entry.groupLabel && !existing.groupLabels.includes(entry.groupLabel)) {
+      existing.groupLabels.push(entry.groupLabel);
+    }
+    if (!existing.categoryIds.includes(entry.category.id)) {
+      existing.categoryIds.push(entry.category.id);
+    }
+  }
+
+  return Array.from(byId.values());
 }
 
 export function reportEntryForPlayer(playerId: string): EnrichedReportPlayer | null {

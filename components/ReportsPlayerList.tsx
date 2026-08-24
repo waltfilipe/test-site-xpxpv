@@ -5,12 +5,12 @@ import type { PlayerSummary } from "@/lib/api";
 import { GradeBadge } from "@/components/ui/GradeBadge";
 import { formatLeagueName } from "@/lib/formatters";
 import { overallPassGradeFromProfile } from "@/lib/passGrades";
-import type { EnrichedReportPlayer } from "@/lib/playerReports";
+import type { MergedReportPlayer } from "@/lib/playerReports";
 import { useI18n } from "@/lib/i18n/context";
 import type { Messages } from "@/lib/i18n/messages";
 
 export type ReportListRow = {
-  entry: EnrichedReportPlayer;
+  entry: MergedReportPlayer;
   summary: PlayerSummary | null;
 };
 
@@ -30,8 +30,14 @@ function passRatingDisplay(summary: PlayerSummary | null): number | null {
   return Math.round(raw * 100) / 10;
 }
 
-function categoryTitle(m: Messages, entry: EnrichedReportPlayer): string {
-  return m.profileCategories[entry.category.id]?.title ?? entry.category.title ?? entry.category.id;
+function categoryTitle(m: Messages, categoryId: string, fallback?: string): string {
+  return m.profileCategories[categoryId]?.title ?? fallback ?? categoryId;
+}
+
+function translateGroupLabel(m: Messages, label: string): string {
+  if (label === "Top 10") return m.groupLabels.top10;
+  if (label === "Extended watchlist") return m.groupLabels.extendedWatchlist;
+  return label;
 }
 
 function ratingLetters(summary: PlayerSummary | null) {
@@ -125,9 +131,17 @@ export function ReportsPlayerList({
                 </div>
 
                 <div className="reports-player-list-category">
-                  <span className="reports-player-list-category-tag">{categoryTitle(m, entry)}</span>
-                  {entry.groupLabel ? (
-                    <span className="reports-player-list-group muted">{entry.groupLabel}</span>
+                  <div className="reports-player-list-category-tags">
+                    {entry.categoryIds.map((categoryId) => (
+                      <span key={categoryId} className="reports-player-list-category-tag">
+                        {categoryTitle(m, categoryId, entry.category.title)}
+                      </span>
+                    ))}
+                  </div>
+                  {entry.groupLabels.length > 0 ? (
+                    <span className="reports-player-list-group muted">
+                      {entry.groupLabels.map((label) => translateGroupLabel(m, label)).join(" · ")}
+                    </span>
                   ) : null}
                 </div>
 

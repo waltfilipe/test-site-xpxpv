@@ -19,7 +19,7 @@ import {
 } from "@/lib/api";
 import { overallPassGradeFromProfile } from "@/lib/passGrades";
 import {
-  enrichedReportPlayers,
+  mergedReportPlayers,
   reportEntryForPlayer,
   totalReportCount,
 } from "@/lib/playerReports";
@@ -91,7 +91,7 @@ export function ReportsClient() {
 
   const rows = useMemo<ReportListRow[]>(() => {
     const byId = new Map(summaries.map((player) => [player.player_id, player]));
-    return enrichedReportPlayers().map((entry) => ({
+    return mergedReportPlayers().map((entry) => ({
       entry,
       summary: byId.get(entry.playerId) ?? null,
     }));
