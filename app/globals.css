@@ -6249,9 +6249,15 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-round-card-metrics div {
+    align-items: center;
     padding: 0.1rem 0.14rem;
     border-radius: 5px;
     background: rgba(148, 163, 184, 0.06);
+  }
+
+  .report-print-root .report-round-card-metrics {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.08rem;
   }
 
   .report-print-root .report-performance-compact .round-grade-chart-print .round-grade-chart-svg {
