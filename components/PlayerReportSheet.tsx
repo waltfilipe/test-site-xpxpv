@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { PassGradePanel } from "@/components/PassGradePanel";
 import { PassLengthMix } from "@/components/PassLengthMix";
 import { ProfileClusterCard } from "@/components/ProfileClusterCard";
+import { ReportMapCaption } from "@/components/ReportMapCaption";
 import { ReportPassScoreAccordion } from "@/components/ReportPassScoreAccordion";
 import { ReportRoundCard } from "@/components/ReportRoundCard";
 import { RoundGradeChart } from "@/components/RoundGradeChart";
@@ -17,7 +18,7 @@ import type { EnrichedReportPlayer } from "@/lib/playerReports";
 import { formatContractUntil, formatLeagueName } from "@/lib/formatters";
 import { overallPassGradeFromProfile } from "@/lib/passGrades";
 import { selectProfileView } from "@/lib/profileView";
-import { REPORT_MAP_FILTER_KEYS } from "@/lib/reportMapKeys";
+import { REPORT_MAP_FILTER_KEYS, type ReportMapFilterKey } from "@/lib/reportMapKeys";
 import { useI18n } from "@/lib/i18n/context";
 import type { Messages } from "@/lib/i18n/messages";
 
@@ -535,6 +536,7 @@ export function PlayerReportSheet({
                       />
                     </div>
                   )}
+                  <ReportMapCaption mapKey={slot.key as ReportMapFilterKey} profile={profile} />
                   {!slot.loading && !slot.error && !slot.pass_map_b64 && shouldLoadMaps && (
                     <p className="placeholder-note">{m.common.unavailable}</p>
                   )}

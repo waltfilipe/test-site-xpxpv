@@ -289,6 +289,30 @@ export type Messages = {
     performancePageLabel: string;
     performancePageTitle: string;
     performancePageLead: string;
+    mapCaptions: {
+      progVolume: string;
+      halfSplit: string;
+      dominantOrigin: string;
+      dominantOriginDefensive: string;
+      dominantOriginOffensive: string;
+      constructionSplit: string;
+      leagueRank: string;
+      finalThirdShare: string;
+      finalThirdVolume: string;
+      lineBreakShare: string;
+      creationXpv: string;
+      impactRate: string;
+      highImpactShare: string;
+      keyBox: string;
+      riskThreat: string;
+      summaryOriginDeep: string;
+      summaryOriginAttacking: string;
+      summaryOriginBalanced: string;
+      summaryDestFinalThird: string;
+      summaryDestMiddle: string;
+      summaryImpactActive: string;
+      summaryImpactSelective: string;
+    };
     categories: {
       all: { title: string; description: string };
       u23: { title: string; description: string };
@@ -669,6 +693,37 @@ const en: Messages = {
     performancePageLabel: "Performance",
     performancePageTitle: "Pass grade by round",
     performancePageLead: "Match-to-match pass grade trend with per-round productivity cards.",
+    mapCaptions: {
+      progVolume: "{prog} prog /90 · {share}% of all passes",
+      halfSplit: "{def}% from defensive half · {off}% from attacking half",
+      dominantOrigin: "Main origin: {zone}",
+      dominantOriginDefensive: "deep / defensive half",
+      dominantOriginOffensive: "attacking half",
+      constructionSplit: "{con} construction · {agg} aggression",
+      leagueRank: "Prog /90: P{pct} in league",
+      finalThirdShare: "{pct}% of progressive passes reach final third",
+      finalThirdVolume: "{value} final-third passes /90",
+      lineBreakShare: "{pct}% line-break share of passes",
+      creationXpv: "Creation xPV /game: {value}",
+      impactRate: "Impact rate: {rate}% · {count} impact passes",
+      highImpactShare: "{count} high-impact · {share}% of impact passes",
+      keyBox: "{key} key passes /90 · {box} into box /90",
+      riskThreat: "Risk: {risk}% · Threat: {threat}%",
+      summaryOriginDeep:
+        "Starts most progressive actions from deep zones; majority of origins in the defensive/middle third.",
+      summaryOriginAttacking:
+        "Starts progressive actions higher up the pitch, mainly from the attacking half.",
+      summaryOriginBalanced:
+        "Spreads progressive pass origins across both halves of the pitch.",
+      summaryDestFinalThird:
+        "Progression frequently reaches the final third and central attacking zones.",
+      summaryDestMiddle:
+        "Progression builds through middle zones with selective final-third entries.",
+      summaryImpactActive:
+        "Final-third impact is active with consistent chance-creation volume.",
+      summaryImpactSelective:
+        "Final-third impact is selective — lower volume but targeted in the attacking third.",
+    },
     categories: {
       all: {
         title: "All players",
@@ -1259,6 +1314,37 @@ const pt: Messages = {
     performancePageLabel: "Performance",
     performancePageTitle: "Pass grade por rodada",
     performancePageLead: "Tendência match-to-match com cards de produtividade por rodada.",
+    mapCaptions: {
+      progVolume: "{prog} prog /90 · {share}% de todos os passes",
+      halfSplit: "{def}% no terço defensivo · {off}% no terço ofensivo",
+      dominantOrigin: "Origem principal: {zone}",
+      dominantOriginDefensive: "zonas profundas / terço defensivo",
+      dominantOriginOffensive: "terço ofensivo",
+      constructionSplit: "{con} construction · {agg} aggression",
+      leagueRank: "Prog /90: P{pct} na liga",
+      finalThirdShare: "{pct}% dos passes progressivos chegam ao terço final",
+      finalThirdVolume: "{value} passes no terço final /90",
+      lineBreakShare: "{pct}% line-break share dos passes",
+      creationXpv: "Creation xPV /jogo: {value}",
+      impactRate: "Impact rate: {rate}% · {count} impact passes",
+      highImpactShare: "{count} high-impact · {share}% dos impact passes",
+      keyBox: "{key} key passes /90 · {box} passes na área /90",
+      riskThreat: "Risk: {risk}% · Threat: {threat}%",
+      summaryOriginDeep:
+        "Inicia a maioria das ações progressivas em zonas profundas; origens concentradas no terço defensivo/médio.",
+      summaryOriginAttacking:
+        "Inicia ações progressivas mais avançadas, principalmente a partir do terço ofensivo.",
+      summaryOriginBalanced:
+        "Distribui as origens dos passes progressivos entre os dois terços do campo.",
+      summaryDestFinalThird:
+        "A progressão chega com frequência ao terço final e às zonas centrais ofensivas.",
+      summaryDestMiddle:
+        "A progressão se constrói pelo meio, com entradas seletivas no terço final.",
+      summaryImpactActive:
+        "Impacto no terço final é ativo, com volume consistente de criação de chances.",
+      summaryImpactSelective:
+        "Impacto no terço final é seletivo — menor volume, porém direcionado ao terço ofensivo.",
+    },
     categories: {
       all: {
         title: "Todos os jogadores",
