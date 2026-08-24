@@ -52,6 +52,13 @@ function originZoneLabel(
   return null;
 }
 
+function progressivePenaltyAreaShare(source: Record<string, unknown>): number | null {
+  const progressive = num(source, "special_progressive");
+  const inBox = num(source, "special_in_box");
+  if (progressive == null || inBox == null || progressive <= 0) return null;
+  return (inBox / progressive) * 100;
+}
+
 function buildOriginCaption(
   source: Record<string, unknown>,
   c: Messages["reports"]["mapCaptions"],
@@ -64,9 +71,7 @@ function buildOriginCaption(
   const progShare =
     prog != null && passesTotal != null && passesTotal > 0
       ? (prog / passesTotal) * 100
-      : null;
-  const construction = num(source, "construction_aip");
-  const aggression = num(source, "aggression_aip");
+      : num(source, "build_prog_share_pct");
   const leagueBar = num(source, "progressive_passes_league_bar");
   const zone = originZoneLabel(source, c);
 
@@ -77,26 +82,12 @@ function buildOriginCaption(
     }),
   ];
 
-  if (defensivePct != null && offensivePct != null) {
-    stats.push(
-      replaceAll(c.halfSplit, {
-        def: fmtPct(defensivePct),
-        off: fmtPct(offensivePct),
-      }),
-    );
+  if (defensivePct != null) {
+    stats.push(replaceAll(c.defensiveHalf, { def: fmtPct(defensivePct) }));
   }
 
   if (zone) {
     stats.push(replaceAll(c.dominantOrigin, { zone }));
-  }
-
-  if (construction != null && aggression != null) {
-    stats.push(
-      replaceAll(c.constructionSplit, {
-        con: String(Math.round(construction)),
-        agg: String(Math.round(aggression)),
-      }),
-    );
   }
 
   if (leagueBar != null) {
@@ -122,9 +113,9 @@ function buildDestCaption(
   c: Messages["reports"]["mapCaptions"],
 ): ReportMapCaption {
   const finalThirdShare = num(source, "build_final_third_share_pct");
+  const penaltyAreaShare = progressivePenaltyAreaShare(source);
   const finalThirdVol = num(source, "final_third_passes");
   const lineBreakShare = num(source, "build_line_break_share_pct");
-  const creationXpv = num(source, "chance_creation_xpv_per_game");
 
   const stats: string[] = [];
 
@@ -132,13 +123,15 @@ function buildDestCaption(
     stats.push(replaceAll(c.finalThirdShare, { pct: fmtPct(finalThirdShare) }));
   }
 
+  if (penaltyAreaShare != null) {
+    stats.push(replaceAll(c.penaltyAreaShare, { pct: fmtPct(penaltyAreaShare) }));
+  }
+
   stats.push(replaceAll(c.finalThirdVolume, { value: fmt1(finalThirdVol) }));
 
   if (lineBreakShare != null) {
     stats.push(replaceAll(c.lineBreakShare, { pct: fmtPct(lineBreakShare) }));
   }
-
-  stats.push(replaceAll(c.creationXpv, { value: fmt2(creationXpv) }));
 
   const summary =
     finalThirdShare != null && finalThirdShare >= 32
@@ -152,52 +145,19 @@ function buildImpactCaption(
   source: Record<string, unknown>,
   c: Messages["reports"]["mapCaptions"],
 ): ReportMapCaption {
+  const ipFtCount = num(source, "test_impact_v2_start_final_third_count");
+  const ipFtPerGame = num(source, "test_impact_v2_start_final_third_p90");
   const threatPct = num(source, "threat_pass_pct");
-  const impactPasses = num(source, "impact_passes");
-  const highImpact = num(source, "high_impact_passes");
-  const keyPasses = num(source, "key_passes");
-  const boxPasses = num(source, "passes_to_box");
   const creationXpv = num(source, "chance_creation_xpv_per_game");
-  const riskPct = num(source, "risk_pass_pct");
-
-  const highImpactShare =
-    highImpact != null && impactPasses != null && impactPasses > 0
-      ? (highImpact / impactPasses) * 100
-      : null;
 
   const stats: string[] = [
-    replaceAll(c.impactRate, {
-      rate: fmtPct(threatPct),
-      count: impactPasses != null ? String(Math.round(impactPasses)) : "—",
+    replaceAll(c.ipFtTotal, {
+      count: ipFtCount != null ? String(Math.round(ipFtCount)) : "—",
     }),
+    replaceAll(c.impactPassesGame, { value: fmt1(ipFtPerGame) }),
+    replaceAll(c.impactRate, { rate: fmtPct(threatPct) }),
+    replaceAll(c.creationXpv, { value: fmt2(creationXpv) }),
   ];
-
-  if (highImpact != null && highImpactShare != null) {
-    stats.push(
-      replaceAll(c.highImpactShare, {
-        count: String(Math.round(highImpact)),
-        share: fmtPct(highImpactShare),
-      }),
-    );
-  }
-
-  stats.push(
-    replaceAll(c.keyBox, {
-      key: fmt1(keyPasses),
-      box: fmt1(boxPasses),
-    }),
-  );
-
-  stats.push(replaceAll(c.creationXpv, { value: fmt2(creationXpv) }));
-
-  if (riskPct != null && threatPct != null) {
-    stats.push(
-      replaceAll(c.riskThreat, {
-        risk: fmtPct(riskPct),
-        threat: fmtPct(threatPct),
-      }),
-    );
-  }
 
   const summary =
     threatPct != null && threatPct >= 7 ? c.summaryImpactActive : c.summaryImpactSelective;

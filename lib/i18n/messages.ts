@@ -292,20 +292,19 @@ export type Messages = {
     mapCaptions: {
       insights: string;
       progVolume: string;
-      halfSplit: string;
+      defensiveHalf: string;
       dominantOrigin: string;
       dominantOriginDefensive: string;
       dominantOriginOffensive: string;
-      constructionSplit: string;
       leagueRank: string;
       finalThirdShare: string;
+      penaltyAreaShare: string;
       finalThirdVolume: string;
       lineBreakShare: string;
-      creationXpv: string;
+      ipFtTotal: string;
+      impactPassesGame: string;
       impactRate: string;
-      highImpactShare: string;
-      keyBox: string;
-      riskThreat: string;
+      creationXpv: string;
       summaryOriginDeep: string;
       summaryOriginAttacking: string;
       summaryOriginBalanced: string;
@@ -697,20 +696,19 @@ const en: Messages = {
     mapCaptions: {
       insights: "Insights",
       progVolume: "{prog} prog /90 · {share}% of all passes",
-      halfSplit: "{def}% from defensive half · {off}% from attacking half",
+      defensiveHalf: "{def}% from defensive half",
       dominantOrigin: "Main origin: {zone}",
       dominantOriginDefensive: "deep / defensive half",
       dominantOriginOffensive: "attacking half",
-      constructionSplit: "{con} construction · {agg} aggression",
       leagueRank: "Prog /90: P{pct} in league",
       finalThirdShare: "{pct}% of progressive passes reach final third",
+      penaltyAreaShare: "{pct}% of progressive passes reach penalty area",
       finalThirdVolume: "{value} final-third passes /90",
       lineBreakShare: "{pct}% line-break share of passes",
+      ipFtTotal: "IP FT: {count}",
+      impactPassesGame: "Impact Passes/game: {value}",
+      impactRate: "Impact rate: {rate}%",
       creationXpv: "Creation xPV /game: {value}",
-      impactRate: "Impact rate: {rate}% · {count} impact passes",
-      highImpactShare: "{count} high-impact · {share}% of impact passes",
-      keyBox: "{key} key passes /90 · {box} into box /90",
-      riskThreat: "Risk: {risk}% · Threat: {threat}%",
       summaryOriginDeep:
         "Starts most progressive actions from deep zones; majority of origins in the defensive/middle third.",
       summaryOriginAttacking:
@@ -1319,20 +1317,19 @@ const pt: Messages = {
     mapCaptions: {
       insights: "Insights",
       progVolume: "{prog} prog /90 · {share}% de todos os passes",
-      halfSplit: "{def}% no terço defensivo · {off}% no terço ofensivo",
+      defensiveHalf: "{def}% no terço defensivo",
       dominantOrigin: "Origem principal: {zone}",
       dominantOriginDefensive: "zonas profundas / terço defensivo",
       dominantOriginOffensive: "terço ofensivo",
-      constructionSplit: "{con} construction · {agg} aggression",
       leagueRank: "Prog /90: P{pct} na liga",
       finalThirdShare: "{pct}% dos passes progressivos chegam ao terço final",
+      penaltyAreaShare: "{pct}% dos passes progressivos chegam à área",
       finalThirdVolume: "{value} passes no terço final /90",
       lineBreakShare: "{pct}% line-break share dos passes",
+      ipFtTotal: "IP FT: {count}",
+      impactPassesGame: "Impact Passes/game: {value}",
+      impactRate: "Impact rate: {rate}%",
       creationXpv: "Creation xPV /jogo: {value}",
-      impactRate: "Impact rate: {rate}% · {count} impact passes",
-      highImpactShare: "{count} high-impact · {share}% dos impact passes",
-      keyBox: "{key} key passes /90 · {box} passes na área /90",
-      riskThreat: "Risk: {risk}% · Threat: {threat}%",
       summaryOriginDeep:
         "Inicia a maioria das ações progressivas em zonas profundas; origens concentradas no terço defensivo/médio.",
       summaryOriginAttacking:
