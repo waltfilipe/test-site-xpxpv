@@ -5417,6 +5417,12 @@ tr:last-child td { border-bottom: none; }
   background: rgba(15, 23, 42, 0.45);
 }
 
+.report-map-viewport {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 7px;
+}
+
 .report-map-img {
   width: 100%;
   height: auto;
@@ -6128,11 +6134,19 @@ tr:last-child td { border-bottom: none; }
     break-after: avoid !important;
     page-break-inside: avoid;
     break-inside: avoid;
+    display: flex;
+    flex-direction: column;
+    height: calc(210mm - 16mm);
     max-height: calc(210mm - 16mm);
     overflow: hidden;
     box-sizing: border-box;
     padding-top: 0;
     padding-bottom: 0;
+  }
+
+  .report-print-root .report-page-3 > .report-sheet-header,
+  .report-print-root .report-page-3 > .report-sheet-footer {
+    flex: 0 0 auto;
   }
 
   .report-print-root .report-page-2 .report-sheet-header-compact {
@@ -6168,6 +6182,8 @@ tr:last-child td { border-bottom: none; }
   .report-print-root .report-performance-page {
     gap: 0.35rem;
     width: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
   }
 
   .report-print-root .round-grade-axis-label {
@@ -6192,11 +6208,19 @@ tr:last-child td { border-bottom: none; }
   .report-print-root .report-round-card {
     padding: 0.24rem 0.28rem !important;
     border-radius: 7px;
-    background: linear-gradient(165deg, rgba(21, 27, 43, 0.88) 0%, rgba(15, 23, 42, 0.94) 100%) !important;
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--round-accent, #a78bfa) 7%, transparent), transparent 45%),
+      linear-gradient(165deg, rgba(21, 27, 43, 0.9) 0%, rgba(10, 16, 29, 0.96) 100%) !important;
     border: 1px solid rgba(148, 163, 184, 0.18) !important;
     border-top: 2px solid color-mix(in srgb, var(--round-accent, #a78bfa) 55%, transparent) !important;
     gap: 0.18rem !important;
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset;
+    min-width: 0;
+  }
+
+  .report-print-root .report-round-card-head {
+    padding-bottom: 0.13rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
   }
 
   .report-print-root .report-round-card-match {
@@ -6221,6 +6245,70 @@ tr:last-child td { border-bottom: none; }
 
   .report-print-root .report-round-card-metrics dd {
     font-size: 0.54rem !important;
+  }
+
+  .report-print-root .report-round-card-metrics div {
+    padding: 0.1rem 0.14rem;
+    border-radius: 4px;
+    background: rgba(148, 163, 184, 0.045);
+  }
+
+  .report-print-root .report-performance-compact .round-grade-chart-print .round-grade-chart-svg {
+    height: 38mm;
+  }
+
+  .report-print-root .report-performance-compact .report-round-cards-grid {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.18rem !important;
+  }
+
+  .report-print-root .report-performance-dense .round-grade-chart-print .round-grade-chart-svg {
+    height: 33mm;
+  }
+
+  .report-print-root .report-performance-dense .report-round-cards-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 0.14rem !important;
+  }
+
+  .report-print-root .report-performance-compact .report-round-card,
+  .report-print-root .report-performance-dense .report-round-card {
+    padding: 0.16rem 0.19rem !important;
+    gap: 0.12rem !important;
+    border-radius: 6px;
+  }
+
+  .report-print-root .report-performance-compact .report-round-card-metrics,
+  .report-print-root .report-performance-dense .report-round-card-metrics {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.08rem;
+  }
+
+  .report-print-root .report-performance-compact .report-round-card-metrics div,
+  .report-print-root .report-performance-dense .report-round-card-metrics div {
+    align-items: center;
+    padding: 0.07rem 0.04rem;
+  }
+
+  .report-print-root .report-performance-dense .report-round-card-match {
+    font-size: 0.46rem !important;
+  }
+
+  .report-print-root .report-performance-dense .report-round-card-vs,
+  .report-print-root .report-performance-dense .report-round-card-opponent {
+    font-size: 0.4rem !important;
+  }
+
+  .report-print-root .report-performance-dense .report-round-card-grade {
+    font-size: 0.6rem !important;
+  }
+
+  .report-print-root .report-performance-dense .report-round-card-metrics dt {
+    font-size: 0.34rem !important;
+  }
+
+  .report-print-root .report-performance-dense .report-round-card-metrics dd {
+    font-size: 0.46rem !important;
   }
 
   .report-print-root .report-page-1 .report-sheet-header {
@@ -6252,20 +6340,24 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-page-1 .identity-photo-side {
-    width: 74px !important;
-    max-width: 74px !important;
-    min-width: 74px !important;
-    min-height: 88px !important;
+    width: 148px !important;
+    max-width: 148px !important;
+    min-width: 148px !important;
+    min-height: 132px !important;
+  }
+
+  .report-print-root .report-page-1 .identity-hero-side {
+    gap: 0.35rem;
   }
 
   .report-print-root .report-page-1 .identity-hero-text .identity-title,
   .report-print-root .report-page-1 .identity-hero-text .report-player-name {
-    font-size: 0.78rem !important;
+    font-size: 0.68rem !important;
     line-height: 1.22 !important;
   }
 
   .report-print-root .report-page-1 .identity-hero-text .identity-subline {
-    font-size: 0.56rem !important;
+    font-size: 0.5rem !important;
   }
 
   .report-print-root .report-page-1 .identity-facts-side .identity-fact {
@@ -6275,11 +6367,11 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-page-1 .identity-facts-side .identity-fact-label {
-    font-size: 0.52rem !important;
+    font-size: 0.46rem !important;
   }
 
   .report-print-root .report-page-1 .identity-facts-side .identity-fact-value {
-    font-size: 0.6rem !important;
+    font-size: 0.54rem !important;
   }
 
   .report-print-root .report-page-1 .identity-fact-icon {
@@ -6289,11 +6381,11 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-page-1 .profile-cluster-inline .profile-cluster-title {
-    font-size: 0.52rem;
+    font-size: 0.46rem;
   }
 
   .report-print-root .report-page-1 .profile-cluster-inline .profile-cluster-summary {
-    font-size: 0.46rem;
+    font-size: 0.4rem;
     -webkit-line-clamp: 1;
   }
 
@@ -6389,18 +6481,38 @@ tr:last-child td { border-bottom: none; }
 
   .report-print-root .report-maps-grid-3 .report-map-card,
   .report-print-root .report-maps-grid .report-map-card {
-    padding: 0.14rem 0.18rem !important;
+    padding: 0.12rem !important;
+    border-radius: 6px;
+    background: rgba(15, 23, 42, 0.24) !important;
   }
 
   .report-print-root .report-maps-grid-3 .section-label-sm,
   .report-print-root .report-maps-grid .section-label-sm {
-    font-size: 0.52rem !important;
-    margin-bottom: 0.1rem !important;
+    font-size: 0.56rem !important;
+    margin-bottom: 0.06rem !important;
     line-height: 1.2;
+    text-align: center;
+  }
+
+  .report-print-root .report-map-viewport {
+    width: 100%;
+    aspect-ratio: 1.22;
+    overflow: hidden;
+    border-radius: 5px;
+  }
+
+  .report-print-root .report-map-viewport .report-map-img {
+    width: 128% !important;
+    max-width: none !important;
+    height: 100% !important;
+    max-height: none !important;
+    margin-left: -14%;
+    object-fit: cover;
+    object-position: center;
   }
 
   .report-print-root .report-map-img {
-    max-height: 58mm !important;
+    max-height: 72mm !important;
   }
 
   .report-maps-grid,

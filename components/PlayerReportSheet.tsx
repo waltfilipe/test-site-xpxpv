@@ -530,11 +530,13 @@ export function PlayerReportSheet({
                     <p className="placeholder-note report-map-error">{slot.error}</p>
                   )}
                   {slot.pass_map_b64 && (
-                    <img
-                      src={`data:image/png;base64,${slot.pass_map_b64}`}
-                      alt={slot.label}
-                      className="report-map-img"
-                    />
+                    <div className="report-map-viewport">
+                      <img
+                        src={`data:image/png;base64,${slot.pass_map_b64}`}
+                        alt={slot.label}
+                        className="report-map-img"
+                      />
+                    </div>
                   )}
                   {!slot.loading && !slot.error && !slot.pass_map_b64 && shouldLoadMaps && (
                     <p className="placeholder-note">{m.common.unavailable}</p>
@@ -562,7 +564,17 @@ export function PlayerReportSheet({
       </section>
 
       {showPerformancePage && (
-        <section className="player-report-sheet report-page-3">
+        <section
+          className={[
+            "player-report-sheet",
+            "report-page-3",
+            gradedRounds.length > 28
+              ? "report-performance-dense"
+              : gradedRounds.length > 22
+                ? "report-performance-compact"
+                : "",
+          ].filter(Boolean).join(" ")}
+        >
           <header className="report-sheet-header report-sheet-header-compact">
             <div className="report-sheet-brand">
               <span className="brand-icon report-brand-icon">
