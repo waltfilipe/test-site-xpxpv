@@ -39,6 +39,7 @@ export type PlayerSummary = {
   pass_rating_rank?: number | null;
   progression_rating?: number | null;
   xp_pass_rating?: number | null;
+  pass_grade_overall?: number | null;
   total_passes?: number | null;
   xt_per_pass?: number | null;
   pass_volume_letter?: string | null;

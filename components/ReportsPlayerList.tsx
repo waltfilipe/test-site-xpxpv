@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { PlayerSummary } from "@/lib/api";
 import { GradeBadge } from "@/components/ui/GradeBadge";
 import { formatLeagueName } from "@/lib/formatters";
+import { overallPassGradeFromProfile } from "@/lib/passGrades";
 import type { EnrichedReportPlayer } from "@/lib/playerReports";
 import { useI18n } from "@/lib/i18n/context";
 import type { Messages } from "@/lib/i18n/messages";
@@ -22,6 +23,8 @@ type Props = {
 
 function passRatingDisplay(summary: PlayerSummary | null): number | null {
   if (!summary) return null;
+  const overall = overallPassGradeFromProfile(summary);
+  if (overall != null) return overall;
   const raw = summary.xp_pass_rating ?? summary.pass_rating;
   if (raw == null || Number.isNaN(raw)) return null;
   return Math.round(raw * 100) / 10;
@@ -64,7 +67,7 @@ export function ReportsPlayerList({
       </div>
 
       <ul className="reports-player-list-rows">
-        {rows.map(({ entry, summary }) => {
+        {rows.map(({ entry, summary }, index) => {
           const playerId = entry.playerId;
           const name = summary?.player_name ?? playerId;
           const team = summary?.team ?? "—";
@@ -74,6 +77,7 @@ export function ReportsPlayerList({
           const passRating = passRatingDisplay(summary);
           const letters = ratingLetters(summary);
           const isExporting = exportingId === playerId;
+          const rankLabel = String(index + 1).padStart(2, "0");
 
           return (
             <li
@@ -84,7 +88,7 @@ export function ReportsPlayerList({
               <div className="reports-player-list-main">
                 <div className="reports-player-list-identity">
                   <span className="reports-player-list-index tabular">
-                    {String(entry.categoryIndex).padStart(2, "0")}
+                    {rankLabel}
                   </span>
                   <div className="reports-player-list-copy">
                     <Link

@@ -36,6 +36,12 @@ const PASS_LETTER_FIELDS: Record<string, string> = {
   chance_grade: "pass_chance_creation_letter",
 };
 
+const PLAYER_LIST_RATING_FIELDS = [
+  "xp_pass_rating",
+  "pass_grade_overall",
+  "pass_grade_overall_rank_in_pool",
+] as const;
+
 const PLAYER_LIST_LETTER_FIELDS = [
   "pass_volume_letter",
   "pass_efficiency_letter",
@@ -124,6 +130,10 @@ function mergePlayerListRow(player: JsonRecord): JsonRecord {
   const pid = String(player.player_id);
   const xp = getXpById()[pid] ?? {};
   const merged: JsonRecord = { ...player };
+
+  for (const field of PLAYER_LIST_RATING_FIELDS) {
+    if (xp[field] != null) merged[field] = xp[field];
+  }
 
   for (const field of PLAYER_LIST_LETTER_FIELDS) {
     if (xp[field] != null) merged[field] = xp[field];

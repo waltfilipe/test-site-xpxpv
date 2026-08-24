@@ -19,6 +19,7 @@ import {
   type PlayerProfile,
   type PlayerSummary,
 } from "@/lib/api";
+import { overallPassGradeFromProfile } from "@/lib/passGrades";
 import {
   enrichedReportPlayers,
   reportEntryForPlayer,
@@ -32,6 +33,15 @@ type PrintReportEntry = {
   profile: PlayerProfile;
   mapSlots: ReportMapSlot[];
 };
+
+function reportRating(summary: PlayerSummary | null): number | null {
+  if (!summary) return null;
+  const overall = overallPassGradeFromProfile(summary);
+  if (overall != null) return overall;
+  const raw = summary.xp_pass_rating ?? summary.pass_rating;
+  if (raw == null || Number.isNaN(raw)) return null;
+  return Math.round(raw * 1000) / 100;
+}
 
 async function loadMapSlots(
   playerId: string,
@@ -80,6 +90,34 @@ export function ReportsClient() {
   const [exportingId, setExportingId] = useState<string | null>(null);
   const [printEntries, setPrintEntries] = useState<PrintReportEntry[]>([]);
   const [printQueue, setPrintQueue] = useState<string[] | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const rows = useMemo<ReportListRow[]>(() => {
+    const byId = new Map(summaries.map((player) => [player.player_id, player]));
+    return enrichedReportPlayers().map((entry) => ({
+      entry,
+      summary: byId.get(entry.playerId) ?? null,
+    }));
+  }, [summaries]);
+
+  const visibleRows = useMemo<ReportListRow[]>(() => {
+    const query = searchQuery.trim().toLowerCase();
+    let list = rows;
+    if (query) {
+      list = list.filter(({ entry, summary }) => {
+        const name = summary?.player_name ?? entry.playerId;
+        return name.toLowerCase().includes(query);
+      });
+    }
+    return [...list].sort((a, b) => {
+      const left = reportRating(a.summary) ?? -Infinity;
+      const right = reportRating(b.summary) ?? -Infinity;
+      if (right !== left) return right - left;
+      const leftName = a.summary?.player_name ?? a.entry.playerId;
+      const rightName = b.summary?.player_name ?? b.entry.playerId;
+      return leftName.localeCompare(rightName);
+    });
+  }, [rows, searchQuery]);
 
   useEffect(() => {
     let cancelled = false;
@@ -104,14 +142,6 @@ export function ReportsClient() {
       cancelled = true;
     };
   }, [m.common.loadFailed]);
-
-  const rows = useMemo<ReportListRow[]>(() => {
-    const byId = new Map(summaries.map((player) => [player.player_id, player]));
-    return enrichedReportPlayers().map((entry) => ({
-      entry,
-      summary: byId.get(entry.playerId) ?? null,
-    }));
-  }, [summaries]);
 
   useEffect(() => {
     if (!printQueue?.length || !printEntries.length) return;
@@ -200,7 +230,20 @@ export function ReportsClient() {
 
       <section className="reports-list-toolbar report-screen-only">
         <p className="reports-list-toolbar-copy muted">{m.reports.listLead}</p>
-        <PeerScopeToggle scope={peerScope} onChange={setPeerScope} />
+        <div className="reports-list-toolbar-actions">
+          <label className="reports-search-field">
+            <span className="sr-only">{m.common.search}</span>
+            <i className="fa-solid fa-magnifying-glass" aria-hidden="true" />
+            <input
+              type="search"
+              className="reports-search-input"
+              placeholder={m.reports.searchPlaceholder}
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+            />
+          </label>
+          <PeerScopeToggle scope={peerScope} onChange={setPeerScope} />
+        </div>
       </section>
 
       {listLoading && <LoadingState message={m.reports.loadingFirst} />}
@@ -211,7 +254,7 @@ export function ReportsClient() {
 
       {!listLoading && !listError && (
         <ReportsPlayerList
-          rows={rows}
+          rows={visibleRows}
           exportingId={exportingId}
           exportDisabled={busy}
           onExport={handleExport}

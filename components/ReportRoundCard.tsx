@@ -2,6 +2,7 @@
 
 import type { XpRoundGrade } from "@/lib/api";
 import { passGradeGradientColor, passGradePct } from "@/lib/gradeColors";
+import { formatRoundXAcc, formatRoundXpv, roundXAccPct } from "@/lib/roundMetrics";
 import { useI18n } from "@/lib/i18n/context";
 
 type Props = {
@@ -9,17 +10,12 @@ type Props = {
   accent?: string;
 };
 
-function formatXpv(value?: number | null): string {
-  if (value == null || Number.isNaN(value)) return "—";
-  return value.toFixed(2);
-}
-
 export function ReportRoundCard({ point, accent = "#a78bfa" }: Props) {
   const { m } = useI18n();
   const grade = point.grade;
   const gradeColor =
     grade != null ? passGradeGradientColor(passGradePct(grade)) : "var(--muted)";
-  const header = `R${point.round}${point.opponent ? ` · ${point.opponent}` : ""}`;
+  const xAcc = roundXAccPct(point);
 
   return (
     <article
@@ -27,25 +23,32 @@ export function ReportRoundCard({ point, accent = "#a78bfa" }: Props) {
       style={{ "--round-accent": accent, "--round-grade-color": gradeColor } as React.CSSProperties}
     >
       <div className="report-round-card-head">
-        <span className="report-round-card-label tabular">{header}</span>
+        <span className="report-round-card-label tabular">
+          R{point.round}
+          {point.opponent ? <span className="report-round-card-opponent">{point.opponent}</span> : null}
+        </span>
         <span className="report-round-card-grade tabular">
           {grade != null ? grade.toFixed(1) : "—"}
         </span>
       </div>
-      <div className="report-round-card-stats">
-        <span>
-          <em>{m.roundStats.passes}</em>
-          <strong className="tabular">{point.passes ?? "—"}</strong>
-        </span>
-        <span>
-          <em>{m.roundStats.xpv}</em>
-          <strong className="tabular">{formatXpv(point.xp)}</strong>
-        </span>
-        <span>
-          <em>{m.roundStats.impact}</em>
-          <strong className="tabular">{point.impact ?? "—"}</strong>
-        </span>
-      </div>
+      <dl className="report-round-card-metrics">
+        <div>
+          <dt>{m.roundStats.passes}</dt>
+          <dd className="tabular">{point.passes ?? "—"}</dd>
+        </div>
+        <div>
+          <dt>{m.roundStats.xpv}</dt>
+          <dd className="tabular">{formatRoundXpv(point.xp)}</dd>
+        </div>
+        <div>
+          <dt>{m.roundStats.ip}</dt>
+          <dd className="tabular">{point.impact ?? "—"}</dd>
+        </div>
+        <div>
+          <dt>{m.roundStats.xAcc}</dt>
+          <dd className="tabular">{formatRoundXAcc(xAcc)}</dd>
+        </div>
+      </dl>
     </article>
   );
 }

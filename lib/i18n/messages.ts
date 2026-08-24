@@ -279,6 +279,7 @@ export type Messages = {
     listColRatings: string;
     listColCategory: string;
     listColAction: string;
+    searchPlaceholder: string;
     exportingPdf: string;
     performanceEyebrow: string;
     performancePageLabel: string;
@@ -315,8 +316,12 @@ export type Messages = {
     xpPerPass: string;
     breakline: string;
     impact: string;
+    ip: string;
+    xAcc: string;
     keyPasses: string;
     chartAria: string;
+    axisRound: string;
+    axisGrade: string;
   };
   stratumStar: string;
   tooltips: {
@@ -645,6 +650,7 @@ const en: Messages = {
     listColRatings: "Pass grade · Pillars",
     listColCategory: "Group",
     listColAction: "Export",
+    searchPlaceholder: "Search by player name…",
     exportingPdf: "Preparing PDF…",
     performanceEyebrow: "Round performance",
     performancePageLabel: "Performance",
@@ -696,8 +702,12 @@ const en: Messages = {
     xpPerPass: "xP",
     breakline: "Breakline passes",
     impact: "Impact passes",
+    ip: "IP",
+    xAcc: "xAcc",
     keyPasses: "Key passes",
     chartAria: "Grades by match",
+    axisRound: "Round",
+    axisGrade: "Grade",
   },
   stratumStar: "Top quartile vs pass-volume peers",
   passGrade: {
@@ -1221,6 +1231,7 @@ const pt: Messages = {
     listColRatings: "Pass grade · Pilares",
     listColCategory: "Grupo",
     listColAction: "Exportar",
+    searchPlaceholder: "Buscar por nome do jogador…",
     exportingPdf: "Preparando PDF…",
     performanceEyebrow: "Desempenho por rodada",
     performancePageLabel: "Performance",
@@ -1272,8 +1283,12 @@ const pt: Messages = {
     xpPerPass: "xP",
     breakline: "Line breaks",
     impact: "Impact passes",
+    ip: "IP",
+    xAcc: "xAcc",
     keyPasses: "Key passes",
     chartAria: "Notas por rodada",
+    axisRound: "Rodada",
+    axisGrade: "Nota",
   },
   stratumStar: "Top quartil vs pares de volume de passe",
   passGrade: {
