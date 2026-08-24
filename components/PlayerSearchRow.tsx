@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type KeyboardEvent } from "react";
+import { useMemo, useState, type KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
 import { PeerScopeToggle } from "@/components/PeerScopeToggle";
 import { buildProfileUrl, type ProfileFilterState } from "@/lib/profileParams";
@@ -8,21 +8,17 @@ import { prefetchPlayerProfile } from "@/lib/profileClientCache";
 import type { PeerScope, PlayerOption } from "@/lib/api";
 import { useI18n } from "@/lib/i18n/context";
 
-const MAX_RESULTS = 20;
-const PREVIEW_RESULTS = 12;
+const MAX_SEARCH_RESULTS = 16;
+
+function matchesQuery(option: PlayerOption, query: string): boolean {
+  const haystack = `${option.player_name} ${option.team} ${option.label}`.toLowerCase();
+  return haystack.includes(query);
+}
 
 function filterOptions(options: PlayerOption[], query: string): PlayerOption[] {
   const trimmed = query.trim().toLowerCase();
-  if (!trimmed) {
-    return options.slice(0, PREVIEW_RESULTS);
-  }
-
-  return options
-    .filter((option) => {
-      const haystack = `${option.player_name} ${option.team} ${option.label}`.toLowerCase();
-      return haystack.includes(trimmed);
-    })
-    .slice(0, MAX_RESULTS);
+  if (!trimmed) return options;
+  return options.filter((option) => matchesQuery(option, trimmed));
 }
 
 export function PlayerSearchRow({
@@ -42,101 +38,129 @@ export function PlayerSearchRow({
   const router = useRouter();
   const { m } = useI18n();
   const [search, setSearch] = useState("");
-  const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const family = filters.position_family ?? "midfielders";
 
-  const selected = useMemo(
-    () => options.find((option) => option.player_id === currentId),
-    [options, currentId],
+  const filteredOptions = useMemo(
+    () => filterOptions(options, search),
+    [options, search],
   );
 
-  useEffect(() => {
-    if (!open) {
-      setSearch("");
-    }
-  }, [currentId, open]);
+  const searchResults = useMemo(() => {
+    const trimmed = search.trim();
+    if (!trimmed) return [];
+    return filteredOptions.slice(0, MAX_SEARCH_RESULTS);
+  }, [filteredOptions, search]);
 
-  const filtered = useMemo(() => filterOptions(options, search), [options, search]);
-  const displayValue = open ? search : (selected?.player_name ?? search);
-  const family = filters.position_family ?? "midfielders";
+  const selectOptions = useMemo(() => {
+    if (!currentId) return filteredOptions;
+    if (filteredOptions.some((option) => option.player_id === currentId)) {
+      return filteredOptions;
+    }
+    const current = options.find((option) => option.player_id === currentId);
+    return current ? [current, ...filteredOptions] : filteredOptions;
+  }, [filteredOptions, currentId, options]);
+
+  const selectValue = currentId ?? selectOptions[0]?.player_id ?? options[0]?.player_id;
 
   if (!options.length) return null;
 
-  function selectPlayer(playerId: string) {
+  function navigateToPlayer(playerId: string) {
     prefetchPlayerProfile(playerId, family);
     router.push(buildProfileUrl({ ...filters, player: playerId, search: undefined }));
-    setOpen(false);
     setSearch("");
+    setSearchOpen(false);
   }
 
-  function onInputKeyDown(event: KeyboardEvent<HTMLInputElement>) {
-    if (event.key === "Enter" && filtered[0]) {
+  function onSearchKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Enter" && searchResults[0]) {
       event.preventDefault();
-      selectPlayer(filtered[0].player_id);
+      navigateToPlayer(searchResults[0].player_id);
     }
     if (event.key === "Escape") {
-      setOpen(false);
-      setSearch("");
+      setSearchOpen(false);
     }
   }
 
   return (
     <div className="player-search-row">
-      <div className={`compare-player-picker player-search-autocomplete${open ? " is-open" : ""}`}>
-        <label className="filter-label compare-player-picker-label" htmlFor="player-search">
+      <div className={`player-search-form player-search-live${searchOpen ? " is-open" : ""}`}>
+        <label className="filter-label" htmlFor="player-search">
           {m.profile.searchPlayer}
         </label>
-        <div className="compare-player-picker-wrap">
+        <div className="player-search-input-wrap">
           <input
             id="player-search"
             type="search"
-            className="compare-player-picker-input player-search-input"
-            value={displayValue}
+            className="player-search-input"
             placeholder={m.profile.searchPlaceholder}
+            value={search}
             autoComplete="off"
             role="combobox"
-            aria-expanded={open}
-            aria-controls="player-search-listbox"
-            aria-autocomplete="list"
+            aria-expanded={searchOpen && search.trim().length > 0}
+            aria-controls="player-search-results"
             onChange={(event) => {
               setSearch(event.target.value);
-              setOpen(true);
+              setSearchOpen(true);
             }}
-            onFocus={() => {
-              setSearch(selected?.player_name ?? "");
-              setOpen(true);
-            }}
+            onFocus={() => setSearchOpen(true)}
             onBlur={() => {
-              window.setTimeout(() => setOpen(false), 150);
+              window.setTimeout(() => setSearchOpen(false), 150);
             }}
-            onKeyDown={onInputKeyDown}
+            onKeyDown={onSearchKeyDown}
           />
-          {open ? (
-            filtered.length > 0 ? (
-              <ul
-                id="player-search-listbox"
-                className="compare-player-picker-list"
-                role="listbox"
-              >
-                {filtered.map((option) => (
-                  <li key={option.player_id}>
-                    <button
-                      type="button"
-                      className={`compare-player-picker-option${option.player_id === currentId ? " active" : ""}`}
-                      role="option"
-                      aria-selected={option.player_id === currentId}
-                      onMouseDown={(event) => event.preventDefault()}
-                      onClick={() => selectPlayer(option.player_id)}
-                    >
-                      {option.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <div className="compare-player-picker-empty">{m.common.noResults}</div>
-            )
-          ) : null}
         </div>
+        {searchOpen && search.trim() ? (
+          searchResults.length > 0 ? (
+            <ul id="player-search-results" className="player-search-results" role="listbox">
+              {searchResults.map((option) => (
+                <li key={option.player_id}>
+                  <button
+                    type="button"
+                    className={`player-search-result${option.player_id === currentId ? " active" : ""}`}
+                    role="option"
+                    aria-selected={option.player_id === currentId}
+                    onMouseDown={(event) => event.preventDefault()}
+                    onClick={() => navigateToPlayer(option.player_id)}
+                  >
+                    {option.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="player-search-results player-search-results-empty">
+              {m.common.noResults}
+            </div>
+          )
+        ) : null}
+      </div>
+
+      <div className="player-select-field">
+        <label className="filter-label" htmlFor="player-select">
+          {m.profile.selectPlayer}
+        </label>
+        <select
+          id="player-select"
+          className="player-select"
+          value={selectValue}
+          onChange={(event) => navigateToPlayer(event.target.value)}
+          onFocus={() => {
+            if (currentId) {
+              prefetchPlayerProfile(currentId, family);
+            }
+          }}
+        >
+          {selectOptions.length > 0 ? (
+            selectOptions.map((option) => (
+              <option key={option.player_id} value={option.player_id}>
+                {option.label}
+              </option>
+            ))
+          ) : (
+            <option value="">{m.common.noResults}</option>
+          )}
+        </select>
       </div>
 
       {peerScope ? (
