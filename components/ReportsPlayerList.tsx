@@ -138,10 +138,18 @@ export function ReportsPlayerList({
                       </span>
                     ))}
                   </div>
-                  {entry.groupLabels.length > 0 ? (
-                    <span className="reports-player-list-group muted">
-                      {entry.groupLabels.map((label) => translateGroupLabel(m, label)).join(" · ")}
-                    </span>
+                  {entry.groups.length > 0 ? (
+                    <div className="reports-player-list-group-tags">
+                      {entry.groups.map((group) => (
+                        <span
+                          key={group.label}
+                          className="reports-player-list-group-tag"
+                          style={{ "--group-accent": group.accent } as React.CSSProperties}
+                        >
+                          {translateGroupLabel(m, group.label)}
+                        </span>
+                      ))}
+                    </div>
                   ) : null}
                 </div>
 

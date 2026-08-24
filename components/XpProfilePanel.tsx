@@ -147,7 +147,10 @@ function ProductivityCard({ xp, peerScope }: { xp: XpRecord; peerScope: PeerScop
           <i className="fa-solid fa-chart-simple" />
         </span>
         <div className="xp-profile-pillar-title-wrap">
-          <h4 className="xp-profile-pillar-title">{m.productivity.title}</h4>
+          <h4 className="xp-profile-pillar-title">
+            {m.productivity.title}
+            <span className="xp-profile-pillar-unit"> (xPV)</span>
+          </h4>
         </div>
         <GradeBadge letter={pillarLetter(grade)} size="sm" />
       </header>
@@ -183,7 +186,10 @@ function PrecisionCard({ xp, peerScope }: { xp: XpRecord; peerScope: PeerScope }
           <i className="fa-solid fa-gauge-high" />
         </span>
         <div className="xp-profile-pillar-title-wrap">
-          <h4 className="xp-profile-pillar-title">{m.precision.title}</h4>
+          <h4 className="xp-profile-pillar-title">
+            {m.precision.title}
+            <span className="xp-profile-pillar-unit"> (xP)</span>
+          </h4>
         </div>
         <GradeBadge letter={pillarLetter(grade)} size="sm" />
       </header>

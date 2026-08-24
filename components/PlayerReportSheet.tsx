@@ -224,10 +224,7 @@ export function PlayerReportSheet({
         </div>
 
         <div className="identity-hero-text">
-          <h3 className="identity-title report-player-name">
-            {displayName}
-            {entry.note && <span className="report-player-note">{entry.note}</span>}
-          </h3>
+          <h3 className="identity-title report-player-name">{displayName}</h3>
           <p className="identity-subline">
             {String(p.team ?? "—")} · {String(p.position ?? "—")}
           </p>

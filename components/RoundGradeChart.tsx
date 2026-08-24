@@ -9,7 +9,7 @@ import { useI18n } from "@/lib/i18n/context";
 
 const CHART_SIZES = {
   embedded: { width: 280, height: 58, padLeft: 8, padRight: 8, padTop: 6, padBottom: 6, dotR: 1.25, hitR: 6, stroke: 1.2 },
-  print: { width: 980, height: 148, padLeft: 32, padRight: 10, padTop: 12, padBottom: 24, dotR: 2.6, hitR: 0, stroke: 2.4 },
+  print: { width: 1200, height: 148, padLeft: 32, padRight: 10, padTop: 12, padBottom: 14, dotR: 2.6, hitR: 0, stroke: 2.4 },
   default: { width: 280, height: 58, padLeft: 8, padRight: 8, padTop: 6, padBottom: 6, dotR: 1.25, hitR: 6, stroke: 1.2 },
 } as const;
 
@@ -245,27 +245,6 @@ export function RoundGradeChart({
               );
             })}
 
-            {printPage && (
-              <>
-                <text
-                  x={size.padLeft + innerW / 2}
-                  y={size.height - 1}
-                  className="round-grade-axis-title round-grade-axis-title-x"
-                  textAnchor="middle"
-                >
-                  {m.roundStats.axisRound}
-                </text>
-                <text
-                  x={10}
-                  y={size.padTop + innerH / 2}
-                  className="round-grade-axis-title round-grade-axis-title-y"
-                  textAnchor="middle"
-                  transform={`rotate(-90 10 ${size.padTop + innerH / 2})`}
-                >
-                  {m.roundStats.axisGrade}
-                </text>
-              </>
-            )}
           </svg>
         </div>
       </div>

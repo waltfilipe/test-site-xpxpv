@@ -1400,11 +1400,7 @@ button, input, select { font: inherit; }
 
 .profile-identity-head-copy .profile-cluster-inline .profile-cluster-summary {
   font-size: 0.68rem;
-  line-height: 1.35;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  line-height: 1.4;
 }
 
 .profile-identity-photo.identity-photo-side {
@@ -1430,6 +1426,16 @@ button, input, select { font: inherit; }
   margin-top: 0.35rem;
   padding-top: 0.45rem;
   border-top: 1px solid rgba(148, 163, 184, 0.12);
+  min-width: 0;
+}
+
+.profile-cluster-inline .profile-cluster-copy {
+  overflow: visible;
+}
+
+.profile-cluster-inline .profile-cluster-summary {
+  overflow: visible;
+  word-break: break-word;
 }
 
 .profile-cluster-inline .profile-cluster-body {
@@ -2418,6 +2424,13 @@ button, input, select { font: inherit; }
   font-size: 0.84rem;
   font-weight: 800;
   color: #f1f5f9;
+}
+
+.xp-profile-pillar-unit {
+  font-size: 0.72em;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.02em;
 }
 
 .xp-profile-pillar-body {
@@ -3783,6 +3796,36 @@ tr:last-child td { border-bottom: none; }
 .compare-side {
   padding: 0.85rem 0.95rem;
   height: 100%;
+}
+
+.compare-side .identity-hero-side {
+  width: 100%;
+}
+
+.compare-side .identity-hero-text {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+.compare-side .identity-facts-side {
+  width: 100%;
+  align-self: stretch;
+}
+
+.compare-side .identity-facts-side .identity-fact {
+  grid-template-columns: 1.35rem minmax(0, 1fr) auto;
+  width: 100%;
+  gap: 0.35rem 0.65rem;
+}
+
+.compare-side .identity-facts-side .identity-fact-label {
+  min-width: 0;
+}
+
+.compare-side .identity-facts-side .identity-fact-value {
+  justify-self: end;
+  min-width: 1.75rem;
 }
 
 .compare-side-a {
@@ -6172,6 +6215,17 @@ tr:last-child td { border-bottom: none; }
   .report-print-root .round-grade-chart-print {
     margin-bottom: 0.25rem !important;
     width: 100%;
+    max-width: none;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box;
+  }
+
+  .report-print-root .report-page-3 .round-grade-chart-print {
+    flex: 0 0 auto;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .report-print-root .round-grade-chart-print .round-grade-chart-wrap,
@@ -6233,28 +6287,28 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-round-card-match {
-    font-size: 0.68rem !important;
+    font-size: 0.52rem !important;
   }
 
   .report-print-root .report-round-card-vs {
-    font-size: 0.56rem !important;
+    font-size: 0.4rem !important;
   }
 
   .report-print-root .report-round-card-opponent {
-    font-size: 0.6rem !important;
+    font-size: 0.44rem !important;
     max-width: 6rem;
   }
 
   .report-print-root .report-round-card-grade {
-    font-size: 0.88rem !important;
+    font-size: 0.72rem !important;
   }
 
   .report-print-root .report-round-card-metrics dt {
-    font-size: 0.48rem !important;
+    font-size: 0.32rem !important;
   }
 
   .report-print-root .report-round-card-metrics dd {
-    font-size: 0.66rem !important;
+    font-size: 0.5rem !important;
   }
 
   .report-print-root .report-round-card-metrics div {
@@ -6296,20 +6350,30 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-page-1 .identity-photo-side {
-    width: 270px !important;
-    max-width: 270px !important;
-    min-width: 270px !important;
-    min-height: 228px !important;
+    width: 189px !important;
+    max-width: 189px !important;
+    min-width: 189px !important;
+    min-height: 296px !important;
   }
 
   .report-print-root .report-page-1 .identity-hero-side {
     gap: 0.42rem;
+    align-items: stretch;
+  }
+
+  .report-print-root .report-page-1 .identity-hero-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100%;
   }
 
   .report-print-root .report-page-1 .identity-hero-text .identity-title,
   .report-print-root .report-page-1 .identity-hero-text .report-player-name {
-    font-size: 0.92rem !important;
-    line-height: 1.24 !important;
+    font-size: 1.12rem !important;
+    line-height: 1.22 !important;
   }
 
   .report-print-root .report-page-1 .identity-hero-text .identity-subline {
@@ -6346,8 +6410,17 @@ tr:last-child td { border-bottom: none; }
 
   .report-print-root .report-page-1 .identity-facts-side .identity-fact {
     padding: 0.14rem 0;
-    grid-template-columns: 1rem 1fr auto;
+    grid-template-columns: 1rem minmax(0, 1fr) auto;
     gap: 0.22rem;
+    flex: 1;
+  }
+
+  .report-print-root .report-page-1 .identity-facts-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-top: 0.28rem;
   }
 
   .report-print-root .report-page-1 .identity-facts-side .identity-fact-label {
@@ -6387,6 +6460,7 @@ tr:last-child td { border-bottom: none; }
 
   .report-print-root .report-page-1 .report-identity-card {
     gap: 0.5rem !important;
+    min-height: 296px;
   }
 
   .report-print-root .report-page-1 .xp-profile-bars,
@@ -6814,6 +6888,25 @@ tr:last-child td { border-bottom: none; }
   color: var(--row-accent, var(--accent-purple));
   background: color-mix(in srgb, var(--row-accent, #a78bfa) 12%, transparent);
   border: 1px solid color-mix(in srgb, var(--row-accent, #a78bfa) 24%, transparent);
+}
+
+.reports-player-list-group-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.28rem;
+  margin-top: 0.22rem;
+}
+
+.reports-player-list-group-tag {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 0.14rem 0.46rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--group-accent, var(--accent));
+  background: color-mix(in srgb, var(--group-accent, #a78bfa) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--group-accent, #a78bfa) 24%, transparent);
 }
 
 .reports-player-list-group {

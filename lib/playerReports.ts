@@ -68,10 +68,59 @@ export type EnrichedReportPlayer = ReportPlayerRef & {
   categoryIndex: number;
 };
 
+export type ReportGroupRef = {
+  label: string;
+  accent: string;
+};
+
 export type MergedReportPlayer = EnrichedReportPlayer & {
+  groups: ReportGroupRef[];
   groupLabels: string[];
   categoryIds: string[];
 };
+
+const GROUP_LABEL_ACCENTS: Record<string, string> = {
+  "Premier League": "#a78bfa",
+  "La Liga": "#38bdf8",
+  Bundesliga: "#f472b6",
+  "Serie A": "#34d399",
+  "Ligue 1": "#fb923c",
+  "Top 10": "#facc15",
+  "Extended watchlist": "#94a3b8",
+};
+
+const GROUP_ACCENT_PALETTE = [
+  "#38bdf8",
+  "#a78bfa",
+  "#34d399",
+  "#fb923c",
+  "#f472b6",
+  "#facc15",
+  "#818cf8",
+  "#2dd4bf",
+];
+
+const groupAccentByLabel = new Map<string, string>();
+
+function accentForGroupLabel(label: string): string {
+  const preset = GROUP_LABEL_ACCENTS[label];
+  if (preset) {
+    groupAccentByLabel.set(label, preset);
+    return preset;
+  }
+
+  const cached = groupAccentByLabel.get(label);
+  if (cached) return cached;
+
+  const accent = GROUP_ACCENT_PALETTE[groupAccentByLabel.size % GROUP_ACCENT_PALETTE.length];
+  groupAccentByLabel.set(label, accent);
+  return accent;
+}
+
+function upsertGroup(groups: ReportGroupRef[], label: string): ReportGroupRef[] {
+  if (groups.some((group) => group.label === label)) return groups;
+  return [...groups, { label, accent: accentForGroupLabel(label) }];
+}
 
 export function enrichedReportPlayers(): EnrichedReportPlayer[] {
   const out: EnrichedReportPlayer[] = [];
@@ -100,14 +149,18 @@ export function mergedReportPlayers(): MergedReportPlayer[] {
     if (!existing) {
       byId.set(entry.playerId, {
         ...entry,
+        groups: entry.groupLabel ? upsertGroup([], entry.groupLabel) : [],
         groupLabels: entry.groupLabel ? [entry.groupLabel] : [],
         categoryIds: [entry.category.id],
       });
       continue;
     }
 
-    if (entry.groupLabel && !existing.groupLabels.includes(entry.groupLabel)) {
-      existing.groupLabels.push(entry.groupLabel);
+    if (entry.groupLabel) {
+      existing.groups = upsertGroup(existing.groups, entry.groupLabel);
+      if (!existing.groupLabels.includes(entry.groupLabel)) {
+        existing.groupLabels.push(entry.groupLabel);
+      }
     }
     if (!existing.categoryIds.includes(entry.category.id)) {
       existing.categoryIds.push(entry.category.id);
