@@ -290,6 +290,7 @@ export type Messages = {
     performancePageTitle: string;
     performancePageLead: string;
     mapCaptions: {
+      insights: string;
       progVolume: string;
       halfSplit: string;
       dominantOrigin: string;
@@ -694,6 +695,7 @@ const en: Messages = {
     performancePageTitle: "Pass grade by round",
     performancePageLead: "Match-to-match pass grade trend with per-round productivity cards.",
     mapCaptions: {
+      insights: "Insights",
       progVolume: "{prog} prog /90 · {share}% of all passes",
       halfSplit: "{def}% from defensive half · {off}% from attacking half",
       dominantOrigin: "Main origin: {zone}",
@@ -1315,6 +1317,7 @@ const pt: Messages = {
     performancePageTitle: "Pass grade por rodada",
     performancePageLead: "Tendência match-to-match com cards de produtividade por rodada.",
     mapCaptions: {
+      insights: "Insights",
       progVolume: "{prog} prog /90 · {share}% de todos os passes",
       halfSplit: "{def}% no terço defensivo · {off}% no terço ofensivo",
       dominantOrigin: "Origem principal: {zone}",

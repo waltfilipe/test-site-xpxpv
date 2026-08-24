@@ -17,19 +17,32 @@ export function ReportMapCaption({ mapKey, profile }: Props) {
   if (!caption.stats.length && !caption.summary) return null;
 
   return (
-    <div className="report-map-caption report-print-only">
-      {caption.stats.length > 0 ? (
-        <ul className="report-map-caption-stats">
-          {caption.stats.map((line) => (
-            <li key={line} className="report-map-caption-stat">
-              {line}
-            </li>
-          ))}
-        </ul>
-      ) : null}
-      {caption.summary ? (
-        <p className="report-map-caption-summary">{caption.summary}</p>
-      ) : null}
+    <div className="report-map-caption report-print-only" data-map-key={mapKey}>
+      <div className="report-map-caption-card">
+        <div className="report-map-caption-head">
+          <span className="report-map-caption-kicker">{m.reports.mapCaptions.insights}</span>
+        </div>
+        {caption.stats.length > 0 ? (
+          <ul className="report-map-caption-stats">
+            {caption.stats.map((line) => {
+              const parts = line.split(" · ");
+              const primary = parts[0] ?? line;
+              const secondary = parts.slice(1).join(" · ");
+              return (
+                <li key={line} className="report-map-caption-stat">
+                  <span className="report-map-caption-stat-main">{primary}</span>
+                  {secondary ? (
+                    <span className="report-map-caption-stat-meta">{secondary}</span>
+                  ) : null}
+                </li>
+              );
+            })}
+          </ul>
+        ) : null}
+        {caption.summary ? (
+          <p className="report-map-caption-summary">{caption.summary}</p>
+        ) : null}
+      </div>
     </div>
   );
 }
