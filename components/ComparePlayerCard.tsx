@@ -222,11 +222,16 @@ export function ComparePlayerCard({
 
       <CompareXpIndicesStrip indices={xpIndices} />
 
-      <PassLengthMix data={{
-        long_pass_share_pct: player.long_pass_share_pct as number | null | undefined,
-        long_pass_share_ref_avg_pct: player.long_pass_share_ref_avg_pct as number | null | undefined,
-        long_pass_share_pctile: player.long_pass_share_pctile as number | null | undefined,
-      }} />
+      <PassLengthMix
+        data={{
+          player,
+          long_pass_share_pct: player.long_pass_share_pct as number | null | undefined,
+          long_pass_share_ref_avg_pct: player.long_pass_share_ref_avg_pct as number | null | undefined,
+          long_pass_share_pctile: player.long_pass_share_pctile as number | null | undefined,
+          defensive_origin_pct: player.defensive_origin_pct as number | null | undefined,
+          midfield_offensive_origin_pct: player.midfield_offensive_origin_pct as number | null | undefined,
+        }}
+      />
 
       {onToggleMaps && (
         <button type="button" className="compare-maps-toggle-btn" onClick={onToggleMaps}>

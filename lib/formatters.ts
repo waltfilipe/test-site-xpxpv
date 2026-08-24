@@ -27,6 +27,12 @@ export function formatContractUntil(value: unknown): string {
   return s;
 }
 
+const XPV_PER_PASS_KEYS = new Set([
+  "xpv_per_pass",
+  "leth_xpv_per_pass",
+  "chance_creation_xpv_per_pass",
+]);
+
 const CHANCE_CREATION_METRIC_KEYS = new Set([
   "key_passes",
   "passes_to_box",
@@ -64,6 +70,9 @@ export function formatMetric(value: unknown, key?: string): string {
     }
     if (key?.includes("pct") || key?.includes("coe")) {
       return `${value >= 0 ? "+" : ""}${value.toFixed(1)} pp`;
+    }
+    if (key && XPV_PER_PASS_KEYS.has(key)) {
+      return value.toFixed(2);
     }
     if (key && CHANCE_CREATION_METRIC_KEYS.has(key)) {
       if (key === "chance_creation_xpv") return value.toFixed(2);

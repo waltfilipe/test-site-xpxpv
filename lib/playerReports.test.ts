@@ -51,8 +51,6 @@ describe("playerReports", () => {
     assert.ok(pedri);
     assert.equal(raw.filter((entry) => entry.playerId === "992587").length, 2);
     assert.ok(pedri.groupLabels.includes("La Liga"));
-    assert.equal(pedri.groups.length, 1);
-    assert.equal(pedri.groups[0]?.label, "La Liga");
-    assert.ok(pedri.groups[0]?.accent);
+    assert.deepEqual(pedri.categoryIds.sort(), ["top-overall-league", "top-u23-league"].sort());
   });
 });

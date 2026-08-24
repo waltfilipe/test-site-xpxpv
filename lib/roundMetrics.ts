@@ -16,5 +16,5 @@ export function formatRoundXAcc(value: number | null | undefined): string {
 
 export function formatRoundXpv(value?: number | null): string {
   if (value == null || Number.isNaN(value)) return "—";
-  return value.toFixed(1);
+  return value.toFixed(2);
 }

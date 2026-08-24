@@ -1264,6 +1264,25 @@ button, input, select { font: inherit; }
   align-items: start;
 }
 
+.profile-view-shell .pa-layout {
+  align-items: stretch;
+}
+
+.pa-col-identity .identity-card-bare {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.pa-col-identity .identity-card-bare .heatmap-img {
+  flex: 1 1 auto;
+  width: 100%;
+  max-height: 172px;
+  object-fit: contain;
+  margin-top: auto;
+}
+
 @media (max-width: 1100px) {
   .pa-layout { grid-template-columns: 1fr; }
 }
@@ -6372,12 +6391,44 @@ tr:last-child td { border-bottom: none; }
 
   .report-print-root .report-page-1 .identity-hero-text .identity-title,
   .report-print-root .report-page-1 .identity-hero-text .report-player-name {
-    font-size: 1.12rem !important;
-    line-height: 1.22 !important;
+    font-size: 1.32rem !important;
+    line-height: 1.18 !important;
   }
 
   .report-print-root .report-page-1 .identity-hero-text .identity-subline {
-    font-size: 0.66rem !important;
+    font-size: 0.82rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 0.12rem !important;
+  }
+
+  .report-print-root .report-page-1 .profile-cluster-inline {
+    margin-top: 0.18rem;
+    padding-top: 0.28rem;
+  }
+
+  .report-print-root .report-page-1 .profile-cluster-inline .profile-cluster-body {
+    gap: 0.32rem;
+  }
+
+  .report-print-root .report-page-1 .profile-cluster-inline .profile-cluster-icon {
+    font-size: 0.82rem;
+    margin-top: 0.06rem;
+  }
+
+  .report-print-root .report-page-1 .profile-cluster-inline .profile-cluster-eyebrow {
+    font-size: 0.46rem;
+    margin-bottom: 0.08rem;
+  }
+
+  .report-print-root .report-page-1 .profile-cluster-inline .profile-cluster-title {
+    font-size: 0.72rem;
+    line-height: 1.22;
+  }
+
+  .report-print-root .report-page-1 .profile-cluster-inline .profile-cluster-summary {
+    font-size: 0.58rem;
+    line-height: 1.35;
+    -webkit-line-clamp: 3;
   }
 
   .report-print-root .report-page-1 .report-sheet-header {
@@ -6409,9 +6460,9 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-page-1 .identity-facts-side .identity-fact {
-    padding: 0.14rem 0;
-    grid-template-columns: 1rem minmax(0, 1fr) auto;
-    gap: 0.22rem;
+    padding: 0.06rem 0;
+    grid-template-columns: 0.9rem minmax(0, 1fr) auto;
+    gap: 0.16rem;
     flex: 1;
   }
 
@@ -6420,30 +6471,21 @@ tr:last-child td { border-bottom: none; }
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    margin-top: 0.28rem;
+    margin-top: 0.18rem;
   }
 
   .report-print-root .report-page-1 .identity-facts-side .identity-fact-label {
-    font-size: 0.5rem !important;
+    font-size: 0.42rem !important;
   }
 
   .report-print-root .report-page-1 .identity-facts-side .identity-fact-value {
-    font-size: 0.58rem !important;
+    font-size: 0.48rem !important;
   }
 
   .report-print-root .report-page-1 .identity-fact-icon {
-    width: 1rem;
-    height: 1rem;
-    font-size: 0.52rem;
-  }
-
-  .report-print-root .report-page-1 .profile-cluster-inline .profile-cluster-title {
-    font-size: 0.5rem;
-  }
-
-  .report-print-root .report-page-1 .profile-cluster-inline .profile-cluster-summary {
-    font-size: 0.43rem;
-    -webkit-line-clamp: 1;
+    width: 0.9rem;
+    height: 0.9rem;
+    font-size: 0.46rem;
   }
 
   .report-print-root .report-page-1 .pa-col-score .score-stack {
@@ -7613,6 +7655,12 @@ tr:last-child td { border-bottom: none; }
   border: 1px solid rgba(148, 163, 184, 0.12);
 }
 
+.compare-side .pass-location-length-card {
+  margin-top: 0.35rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
+}
+
 .compare-map-slot-skeleton {
   min-height: 140px;
   border-radius: var(--radius-sm);
@@ -7623,6 +7671,34 @@ tr:last-child td { border-bottom: none; }
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
+  align-items: center;
+}
+
+.compare-pass-grid-table {
+  margin-top: 0;
+}
+
+.compare-pass-grid-table th.compare-radar-th-a,
+.compare-pass-grid-table th.compare-radar-th-b {
+  text-align: center;
+}
+
+.compare-pass-grid-table .compare-radar-val-a,
+.compare-pass-grid-table .compare-radar-val-b {
+  text-align: center;
+}
+
+.compare-pass-grid-table .compare-radar-val-a .grade-badge,
+.compare-pass-grid-table .compare-radar-val-b .grade-badge {
+  margin-inline: auto;
+}
+
+.compare-pass-grid-table-wrap .compare-radar-legend-pro {
+  justify-content: center;
+}
+
+.compare-pass-grid-table-wrap .compare-legend-item {
+  justify-content: center;
 }
 
 .game-stats-modal-backdrop {

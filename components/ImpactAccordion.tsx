@@ -43,6 +43,9 @@ export function formatImpactValue(key: string, value: number | null | undefined)
   if (key === "threat_pass_pct") return `${value.toFixed(1)}%`;
   if (key.startsWith("def_") || key === "defensive_actions_p90") return formatMetric(value, key);
   if (key === "chance_creation_xpv") return value.toFixed(2);
+  if (key === "leth_xpv_per_pass" || key === "xpv_per_pass" || key === "chance_creation_xpv_per_pass") {
+    return value.toFixed(2);
+  }
   if (key === "xp_residual_mean") {
     const cents = value * 100;
     return `${cents >= 0 ? "+" : ""}${cents.toFixed(2)}¢`;

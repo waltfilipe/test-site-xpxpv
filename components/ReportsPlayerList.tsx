@@ -5,7 +5,7 @@ import type { PlayerSummary } from "@/lib/api";
 import { GradeBadge } from "@/components/ui/GradeBadge";
 import { formatLeagueName } from "@/lib/formatters";
 import { overallPassGradeFromProfile } from "@/lib/passGrades";
-import type { MergedReportPlayer } from "@/lib/playerReports";
+import { PLAYER_REPORT_CATEGORIES, type MergedReportPlayer } from "@/lib/playerReports";
 import { useI18n } from "@/lib/i18n/context";
 import type { Messages } from "@/lib/i18n/messages";
 
@@ -32,6 +32,14 @@ function passRatingDisplay(summary: PlayerSummary | null): number | null {
 
 function categoryTitle(m: Messages, categoryId: string, fallback?: string): string {
   return m.profileCategories[categoryId]?.title ?? fallback ?? categoryId;
+}
+
+function categoryAccent(categoryId: string, fallback?: string): string {
+  return (
+    PLAYER_REPORT_CATEGORIES.find((category) => category.id === categoryId)?.accent
+    ?? fallback
+    ?? "#a78bfa"
+  );
 }
 
 function translateGroupLabel(m: Messages, label: string): string {
@@ -133,23 +141,19 @@ export function ReportsPlayerList({
                 <div className="reports-player-list-category">
                   <div className="reports-player-list-category-tags">
                     {entry.categoryIds.map((categoryId) => (
-                      <span key={categoryId} className="reports-player-list-category-tag">
+                      <span
+                        key={categoryId}
+                        className="reports-player-list-category-tag"
+                        style={{ "--row-accent": categoryAccent(categoryId, entry.category.accent) } as React.CSSProperties}
+                      >
                         {categoryTitle(m, categoryId, entry.category.title)}
                       </span>
                     ))}
                   </div>
-                  {entry.groups.length > 0 ? (
-                    <div className="reports-player-list-group-tags">
-                      {entry.groups.map((group) => (
-                        <span
-                          key={group.label}
-                          className="reports-player-list-group-tag"
-                          style={{ "--group-accent": group.accent } as React.CSSProperties}
-                        >
-                          {translateGroupLabel(m, group.label)}
-                        </span>
-                      ))}
-                    </div>
+                  {entry.groupLabels.length > 0 ? (
+                    <span className="reports-player-list-group muted">
+                      {entry.groupLabels.map((label) => translateGroupLabel(m, label)).join(" · ")}
+                    </span>
                   ) : null}
                 </div>
 
