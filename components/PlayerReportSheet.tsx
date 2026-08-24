@@ -568,9 +568,9 @@ export function PlayerReportSheet({
           className={[
             "player-report-sheet",
             "report-page-3",
-            gradedRounds.length > 28
+            gradedRounds.length > 35
               ? "report-performance-dense"
-              : gradedRounds.length > 22
+              : gradedRounds.length > 30
                 ? "report-performance-compact"
                 : "",
           ].filter(Boolean).join(" ")}
