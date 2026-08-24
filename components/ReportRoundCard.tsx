@@ -23,10 +23,16 @@ export function ReportRoundCard({ point, accent = "#a78bfa" }: Props) {
       style={{ "--round-accent": accent, "--round-grade-color": gradeColor } as React.CSSProperties}
     >
       <div className="report-round-card-head">
-        <span className="report-round-card-label tabular">
+        <span className="report-round-card-match tabular">
           R{point.round}
-          {point.opponent ? <span className="report-round-card-opponent">{point.opponent}</span> : null}
+          {point.opponent ? (
+            <>
+              <span className="report-round-card-vs">vs</span>
+              <span className="report-round-card-opponent">{point.opponent}</span>
+            </>
+          ) : null}
         </span>
+        <span className="report-round-card-divider" aria-hidden="true" />
         <span className="report-round-card-grade tabular">
           {grade != null ? grade.toFixed(1) : "—"}
         </span>

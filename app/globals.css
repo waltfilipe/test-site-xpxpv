@@ -5710,17 +5710,17 @@ tr:last-child td { border-bottom: none; }
 
   .identity-title,
   .report-player-name {
-    font-size: 0.95rem !important;
+    font-size: 1.05rem !important;
   }
 
   .identity-subline,
   .report-league-line {
-    font-size: 0.76rem !important;
+    font-size: 0.82rem !important;
   }
 
   .identity-fact-label,
   .identity-fact-value {
-    font-size: 0.72rem !important;
+    font-size: 0.78rem !important;
   }
 
   .pass-metric-label,
@@ -5764,12 +5764,30 @@ tr:last-child td { border-bottom: none; }
     max-width: 100%;
   }
 
-  .report-print-root .report-identity-card {
+  .report-print-root .report-identity-card,
+  .report-print-root .profile-identity-head-card,
+  .report-print-root .pa-col-identity .identity-card-bare {
     display: flex;
     flex-direction: column;
-    padding: 0.45rem 0.5rem !important;
     gap: 0.45rem !important;
-    height: 100%;
+    height: auto;
+  }
+
+  .report-print-root .profile-identity-head-card {
+    padding: 0.75rem 0.9rem !important;
+    break-inside: avoid;
+  }
+
+  .report-print-root .pa-col-identity .identity-card-bare {
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .report-print-root .profile-identity-head-grid {
+    gap: 0.85rem;
   }
 
   .report-print-root .identity-hero-side {
@@ -5787,12 +5805,13 @@ tr:last-child td { border-bottom: none; }
     overflow: visible;
   }
 
-  .report-print-root .identity-photo-side {
-    width: 38% !important;
-    max-width: 82px;
-    min-width: 64px;
-    min-height: 96px;
-    align-self: stretch;
+  .report-print-root .identity-photo-side,
+  .report-print-root .profile-identity-photo.identity-photo-side {
+    width: 132px !important;
+    max-width: none !important;
+    min-width: 132px !important;
+    min-height: 132px !important;
+    align-self: start;
     border-radius: 12px;
     box-shadow: none;
     flex-shrink: 0;
@@ -5800,14 +5819,14 @@ tr:last-child td { border-bottom: none; }
 
   .report-print-root .identity-title,
   .report-print-root .report-player-name {
-    font-size: 0.92rem !important;
+    font-size: 1.05rem !important;
     line-height: 1.28 !important;
     overflow: visible;
     word-break: break-word;
   }
 
   .report-print-root .identity-subline {
-    font-size: 0.68rem !important;
+    font-size: 0.82rem !important;
     margin-bottom: 0 !important;
   }
 
@@ -5842,12 +5861,12 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .identity-facts-side .identity-fact-label {
-    font-size: 0.6rem !important;
+    font-size: 0.72rem !important;
     letter-spacing: 0.04em;
   }
 
   .report-print-root .identity-facts-side .identity-fact-value {
-    font-size: 0.72rem !important;
+    font-size: 0.82rem !important;
     text-align: right;
   }
 
@@ -5868,18 +5887,18 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .identity-meta-pill span {
-    font-size: 0.56rem;
+    font-size: 0.68rem;
     gap: 0.25rem;
   }
 
   .report-print-root .identity-meta-pill .identity-fact-icon {
     width: 1rem;
     height: 1rem;
-    font-size: 0.54rem;
+    font-size: 0.58rem;
   }
 
   .report-print-root .identity-meta-pill strong {
-    font-size: 0.7rem;
+    font-size: 0.82rem;
   }
 
   .report-print-root .identity-meta-pill-minutes {
@@ -5937,12 +5956,12 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .pass-grade-card {
-    padding: 0.42rem 0.48rem !important;
+    padding: 0.75rem 0.9rem !important;
     break-inside: avoid;
   }
 
   .report-print-root .pass-grade-score {
-    font-size: 1.55rem !important;
+    font-size: 1.75rem !important;
   }
 
   .report-print-root .pass-grade-scale {
@@ -6057,7 +6076,6 @@ tr:last-child td { border-bottom: none; }
     display: block;
     flex: 1 1 auto;
     min-height: 0;
-    zoom: 0.74;
     break-inside: avoid;
     page-break-inside: avoid;
     padding-top: 0.5mm;
@@ -6136,11 +6154,23 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .round-grade-chart-print {
-    margin-bottom: 0.15rem !important;
+    margin-bottom: 0.25rem !important;
+    width: 100%;
+  }
+
+  .report-print-root .round-grade-chart-print .round-grade-chart-wrap,
+  .report-print-root .round-grade-chart-print .round-grade-chart-body {
+    width: 100%;
   }
 
   .report-print-root .round-grade-chart-print .round-grade-chart-svg {
-    max-height: 50mm !important;
+    width: 100% !important;
+    max-height: none !important;
+    height: 44mm;
+  }
+
+  .report-print-root .report-performance-page {
+    gap: 0.35rem;
     width: 100%;
   }
 
@@ -6160,38 +6190,41 @@ tr:last-child td { border-bottom: none; }
 
   .report-print-root .report-round-cards-grid {
     grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 0.14rem !important;
+    gap: 0.22rem !important;
   }
 
   .report-print-root .report-round-card {
-    padding: 0.14rem 0.16rem !important;
-    border-radius: 5px;
-    background: rgba(15, 23, 42, 0.72) !important;
-    border-color: rgba(148, 163, 184, 0.14) !important;
-    gap: 0.12rem !important;
+    padding: 0.24rem 0.28rem !important;
+    border-radius: 7px;
+    background: linear-gradient(165deg, rgba(21, 27, 43, 0.88) 0%, rgba(15, 23, 42, 0.94) 100%) !important;
+    border: 1px solid rgba(148, 163, 184, 0.18) !important;
+    border-top: 2px solid color-mix(in srgb, var(--round-accent, #a78bfa) 55%, transparent) !important;
+    gap: 0.18rem !important;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset;
   }
 
-  .report-print-root .report-round-card-label {
+  .report-print-root .report-round-card-match {
+    font-size: 0.52rem !important;
+  }
+
+  .report-print-root .report-round-card-vs {
     font-size: 0.46rem !important;
   }
 
   .report-print-root .report-round-card-opponent {
-    display: block;
-    font-size: 0.4rem !important;
-    font-weight: 600;
-    color: var(--muted);
+    font-size: 0.5rem !important;
   }
 
   .report-print-root .report-round-card-grade {
-    font-size: 0.58rem !important;
+    font-size: 0.68rem !important;
   }
 
   .report-print-root .report-round-card-metrics dt {
-    font-size: 0.38rem !important;
+    font-size: 0.42rem !important;
   }
 
   .report-print-root .report-round-card-metrics dd {
-    font-size: 0.48rem !important;
+    font-size: 0.54rem !important;
   }
 
   .report-print-root .report-page-1 .report-sheet-header {
@@ -6219,56 +6252,24 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-page-1 .report-sheet-body.pa-layout {
-    gap: 1.5mm !important;
-  }
-
-  .report-print-root .report-page-1 .identity-photo-side {
-    width: 46px !important;
-    min-height: 52px !important;
+    gap: 2mm !important;
   }
 
   .report-print-root .report-page-1 .pa-col-score .score-stack {
-    gap: 0.22rem !important;
+    gap: 0.38rem !important;
   }
 
-  .report-print-root .report-page-1 .identity-card,
-  .report-print-root .report-page-1 .report-identity-card,
+  .report-print-root .report-page-1 .profile-identity-head-card,
+  .report-print-root .report-page-1 .pass-grade-card,
   .report-print-root .report-page-1 .report-xp-card,
   .report-print-root .report-page-1 .report-pillars-card,
-  .report-print-root .report-page-1 .pass-grade-card {
-    padding: 0.32rem 0.38rem !important;
+  .report-print-root .report-page-1 .profile-indices-mix-card {
+    padding: inherit;
   }
 
   .report-print-root .report-page-1 .xp-profile-bars,
   .report-print-root .report-page-1 .xp-indices-list {
-    gap: 0.18rem !important;
-  }
-
-  .report-print-root .report-page-1 .consistency-accordion,
-  .report-print-root .report-page-1 .impact-accordion {
-    margin-bottom: 0.1rem !important;
-  }
-
-  .report-print-root .report-page-1 .report-pass-flat-item {
-    margin-bottom: 0.08rem !important;
-    padding: 0.14rem 0.22rem !important;
-  }
-
-  .report-print-root .report-page-1 .pass-metric-block {
-    margin-bottom: 0.08rem !important;
-  }
-
-  .report-print-root .report-page-1 .pass-grade-score {
-    font-size: 1.35rem !important;
-  }
-
-  .report-print-root .report-page-1 .identity-meta-row {
-    gap: 0.2rem !important;
-    margin-top: 0.2rem !important;
-  }
-
-  .report-print-root .report-page-1 .identity-meta-pill {
-    padding: 0.22rem 0.28rem !important;
+    gap: 0.28rem !important;
   }
 
   .report-print-root .report-pass-flat-item,
@@ -6669,17 +6670,56 @@ tr:last-child td { border-bottom: none; }
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  padding: 0.42rem 0.48rem;
-  border-radius: 8px;
-  border: 1px solid rgba(148, 163, 184, 0.14);
-  background: rgba(15, 23, 42, 0.72);
+  padding: 0.48rem 0.52rem;
+  border-radius: 9px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-top: 2px solid color-mix(in srgb, var(--round-accent, #a78bfa) 50%, transparent);
+  background: linear-gradient(165deg, rgba(21, 27, 43, 0.82) 0%, rgba(15, 23, 42, 0.92) 100%);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
 }
 
 .report-round-card-head {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
   gap: 0.35rem;
+  min-width: 0;
+}
+
+.report-round-card-match {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.22rem;
+  flex-shrink: 0;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--text-secondary);
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.report-round-card-vs {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: var(--muted);
+}
+
+.report-round-card-opponent {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  max-width: 4.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.report-round-card-divider {
+  flex: 1;
+  min-width: 0.35rem;
+  height: 0;
+  border-bottom: 1px dashed rgba(148, 163, 184, 0.38);
+  transform: translateY(-0.05rem);
 }
 
 .report-round-card-label {
@@ -6689,16 +6729,9 @@ tr:last-child td { border-bottom: none; }
   line-height: 1.15;
 }
 
-.report-round-card-opponent {
-  display: block;
-  margin-top: 0.08rem;
-  font-size: 0.54rem;
-  font-weight: 600;
-  color: var(--muted);
-}
-
 .report-round-card-grade {
-  font-size: 0.86rem;
+  flex-shrink: 0;
+  font-size: 0.92rem;
   font-weight: 800;
   color: var(--round-grade-color, var(--text));
   line-height: 1;
@@ -6754,6 +6787,12 @@ tr:last-child td { border-bottom: none; }
   justify-content: space-between;
   gap: 0.75rem;
   margin-bottom: 0.2rem;
+  width: 100%;
+}
+
+.round-grade-chart-print .round-grade-chart-body,
+.round-grade-chart-print .round-grade-chart-wrap {
+  width: 100%;
 }
 
 .round-grade-chart-print .round-grade-chart-title {

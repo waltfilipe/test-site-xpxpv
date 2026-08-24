@@ -202,141 +202,125 @@ export function PlayerReportSheet({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldLoadMaps, playerId, entry.positionFamily]);
 
-  const renderIdentity = (compact = false) => (
-    <div className={`player-card identity-card report-identity-card${compact ? " report-identity-compact" : ""}`}>
-      <div className={`identity-hero identity-hero-side${compact ? " identity-hero-compact" : ""}`}>
-        <div className="identity-photo-side">
-          {p.photo_url ? (
-            <Image
-              src={String(p.photo_url)}
-              alt=""
-              fill
-              className="identity-photo"
-              unoptimized
-              priority={categoryIndex <= 3}
-              sizes={compact ? "72px" : "160px"}
-            />
-          ) : (
-            <div className="identity-photo-placeholder identity-photo-placeholder-side">
-              {displayName.charAt(0)}
-            </div>
-          )}
-        </div>
+  const renderIdentity = () => (
+    <>
+      <div className="player-card profile-identity-head-card">
+        <div className="profile-identity-head-grid">
+          <div className="identity-photo-side profile-identity-photo">
+            {p.photo_url ? (
+              <Image
+                src={String(p.photo_url)}
+                alt=""
+                fill
+                className="identity-photo"
+                unoptimized
+                priority={categoryIndex <= 3}
+                sizes="180px"
+              />
+            ) : (
+              <div className="identity-photo-placeholder identity-photo-placeholder-side">
+                {displayName.charAt(0)}
+              </div>
+            )}
+          </div>
 
-        <div className="identity-hero-text">
-          <h3 className="identity-title report-player-name">
-            {displayName}
-            {entry.note && <span className="report-player-note">{entry.note}</span>}
-          </h3>
-          <p className="identity-subline">
-            {String(p.team ?? "—")} · {String(p.position ?? "—")}
-          </p>
-          {profile.profile_cluster ? (
-            <ProfileClusterCard cluster={profile.profile_cluster} compact />
-          ) : null}
-          {!compact && (
-            <p className="report-league-line muted">
-              {leagueLabel}
+          <div className="profile-identity-head-copy">
+            <h3 className="identity-title report-player-name">
+              {displayName}
+              {entry.note && <span className="report-player-note">{entry.note}</span>}
+            </h3>
+            <p className="identity-subline">
+              {String(p.team ?? "—")} · {String(p.position ?? "—")}
             </p>
-          )}
-
-          {!compact && (
-            <div className="identity-facts identity-facts-side">
-              <div className="identity-fact">
-                <FactIcon icon="fa-cake-candles" />
-                <span className="identity-fact-label">{m.common.age}</span>
-                <span className="identity-fact-value tabular">
-                  {p.age != null ? String(p.age) : "—"}
-                </span>
-              </div>
-              <div className="identity-fact">
-                <FactIcon icon="fa-ruler-vertical" />
-                <span className="identity-fact-label">{m.common.height}</span>
-                <span className="identity-fact-value">{String(p.height ?? "—")}</span>
-              </div>
-              <div className="identity-fact">
-                <FactIcon icon="fa-earth-americas" />
-                <span className="identity-fact-label">{m.common.nationality}</span>
-                <span className="identity-fact-value">{String(p.nationality ?? "—")}</span>
-              </div>
-              <div className="identity-fact">
-                <FactIcon icon="fa-shoe-prints" />
-                <span className="identity-fact-label">{m.common.foot}</span>
-                <span className="identity-fact-value">{String(p.dominant_foot ?? "—")}</span>
-              </div>
-            </div>
-          )}
-
-          {compact && (
-            <div className="identity-facts identity-facts-compact">
-              <span className="identity-fact-inline tabular">
-                {p.age != null ? m.reports.ageYears.replace("{age}", String(p.age)) : "—"}
-              </span>
-              <span className="identity-fact-inline">{leagueLabel}</span>
-            </div>
-          )}
+            {profile.profile_cluster ? (
+              <ProfileClusterCard cluster={profile.profile_cluster} compact />
+            ) : null}
+          </div>
         </div>
       </div>
 
-      <div className={`identity-meta-row${compact ? " identity-meta-row-compact" : ""}`}>
-        {!compact && (
-          <>
-            <div className="identity-meta-pill">
-              <span><FactIcon icon="fa-coins" /> {m.common.value}</span>
-              <strong>{String(p.market_value ?? "—")}</strong>
-            </div>
-            <div className="identity-meta-pill">
-              <span><FactIcon icon="fa-calendar-days" /> {m.common.contract}</span>
-              <strong>{formatContractUntil(p.contract_until)}</strong>
-            </div>
-          </>
+      <div className="identity-card identity-card-bare">
+        <div className="identity-facts identity-facts-side">
+          <div className="identity-fact">
+            <FactIcon icon="fa-cake-candles" />
+            <span className="identity-fact-label">{m.common.age}</span>
+            <span className="identity-fact-value tabular">
+              {p.age != null ? String(p.age) : "—"}
+            </span>
+          </div>
+          <div className="identity-fact">
+            <FactIcon icon="fa-ruler-vertical" />
+            <span className="identity-fact-label">{m.common.height}</span>
+            <span className="identity-fact-value">{String(p.height ?? "—")}</span>
+          </div>
+          <div className="identity-fact">
+            <FactIcon icon="fa-earth-americas" />
+            <span className="identity-fact-label">{m.common.nationality}</span>
+            <span className="identity-fact-value">{String(p.nationality ?? "—")}</span>
+          </div>
+          <div className="identity-fact">
+            <FactIcon icon="fa-shoe-prints" />
+            <span className="identity-fact-label">{m.common.foot}</span>
+            <span className="identity-fact-value">{String(p.dominant_foot ?? "—")}</span>
+          </div>
+        </div>
+
+        <div className="identity-meta-row">
+          <div className="identity-meta-pill">
+            <span><FactIcon icon="fa-coins" /> {m.common.value}</span>
+            <strong>{String(p.market_value ?? "—")}</strong>
+          </div>
+          <div className="identity-meta-pill">
+            <span><FactIcon icon="fa-calendar-days" /> {m.common.contract}</span>
+            <strong>{formatContractUntil(p.contract_until)}</strong>
+          </div>
+          <div
+            className="identity-meta-pill identity-meta-pill-minutes"
+            style={minutesPillStyle(minutesPct)}
+            title={
+              minutesPct != null
+                ? `${(minutesPct * 100).toFixed(0)}${m.common.minutesPct}`
+                : undefined
+            }
+          >
+            <span><FactIcon icon="fa-clock" /> {m.common.minutes}</span>
+            <strong className="tabular">{p.minutes != null ? String(p.minutes) : "—"}</strong>
+          </div>
+        </div>
+
+        {profile.origin_heatmap_b64 && (
+          <img
+            src={`data:image/png;base64,${profile.origin_heatmap_b64}`}
+            alt={m.profile.passOriginAlt}
+            className="heatmap-img report-heatmap"
+          />
         )}
-        <div
-          className="identity-meta-pill identity-meta-pill-minutes"
-          style={minutesPillStyle(minutesPct)}
-          title={
-            minutesPct != null
-              ? `${(minutesPct * 100).toFixed(0)}${m.common.minutesPct}`
-              : undefined
-          }
-        >
-          <span><FactIcon icon="fa-clock" /> {m.common.minutes}</span>
-          <strong className="tabular">{p.minutes != null ? String(p.minutes) : "—"}</strong>
+
+        <div className="report-card-actions report-screen-only">
+          {activePage === 1 ? (
+            <button
+              type="button"
+              className="report-card-maps-btn"
+              style={{ borderColor: `${accent}44`, color: accent }}
+              onClick={() => setActivePage(2)}
+            >
+              <i className="fa-solid fa-map-location-dot" />
+              <span>{m.reports.viewMaps}</span>
+              <i className="fa-solid fa-arrow-right report-card-maps-arrow" />
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="report-card-maps-btn report-card-maps-btn-back"
+              onClick={() => setActivePage(1)}
+            >
+              <i className="fa-solid fa-arrow-left" />
+              <span>{m.reports.backToProfile}</span>
+            </button>
+          )}
         </div>
       </div>
-
-      {!compact && profile.origin_heatmap_b64 && (
-        <img
-          src={`data:image/png;base64,${profile.origin_heatmap_b64}`}
-          alt={m.profile.passOriginAlt}
-          className="heatmap-img report-heatmap"
-        />
-      )}
-
-      <div className="report-card-actions report-screen-only">
-        {activePage === 1 ? (
-          <button
-            type="button"
-            className="report-card-maps-btn"
-            style={{ borderColor: `${accent}44`, color: accent }}
-            onClick={() => setActivePage(2)}
-          >
-            <i className="fa-solid fa-map-location-dot" />
-            <span>{m.reports.viewMaps}</span>
-            <i className="fa-solid fa-arrow-right report-card-maps-arrow" />
-          </button>
-        ) : (
-          <button
-            type="button"
-            className="report-card-maps-btn report-card-maps-btn-back"
-            onClick={() => setActivePage(1)}
-          >
-            <i className="fa-solid fa-arrow-left" />
-            <span>{m.reports.backToProfile}</span>
-          </button>
-        )}
-      </div>
-    </div>
+    </>
   );
 
   const renderMapsStrip = () => (
@@ -430,7 +414,7 @@ export function PlayerReportSheet({
           <p className="report-sheet-description">{categoryDescription}</p>
 
           <div className="report-sheet-body pa-layout report-layout-v2">
-            <div className="pa-col pa-col-identity">{renderIdentity(false)}</div>
+            <div className="pa-col pa-col-identity">{renderIdentity()}</div>
 
             <div className="pa-col pa-col-score">
               <div className="score-stack">

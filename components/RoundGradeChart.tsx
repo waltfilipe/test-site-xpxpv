@@ -9,7 +9,7 @@ import { useI18n } from "@/lib/i18n/context";
 
 const CHART_SIZES = {
   embedded: { width: 280, height: 58, padLeft: 8, padRight: 8, padTop: 6, padBottom: 6, dotR: 1.25, hitR: 6, stroke: 1.2 },
-  print: { width: 720, height: 168, padLeft: 34, padRight: 16, padTop: 14, padBottom: 26, dotR: 2.4, hitR: 0, stroke: 2.2 },
+  print: { width: 980, height: 148, padLeft: 32, padRight: 10, padTop: 12, padBottom: 24, dotR: 2.6, hitR: 0, stroke: 2.4 },
   default: { width: 280, height: 58, padLeft: 8, padRight: 8, padTop: 6, padBottom: 6, dotR: 1.25, hitR: 6, stroke: 1.2 },
 } as const;
 
