@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import { playerIdsForProfileGroup } from "@/lib/playerReports";
 import { enrichPlayerProfile } from "@/lib/enrichProfile.server";
+import { formatDominantFoot, formatPlayerHeight } from "@/lib/formatters";
 import { overallPassGradeFromProfile } from "@/lib/passGrades";
 
 const DATA_DIR = path.join(process.cwd(), "data");
@@ -67,15 +68,10 @@ const POSITION_BLOCKS: Record<string, string | null> = {
 type JsonRecord = Record<string, unknown>;
 
 let footOverrides: Record<string, string> | null = null;
+let heightOverrides: Record<string, string> | null = null;
 
 function normalizeFoot(value: unknown): string | null {
-  if (value == null) return null;
-  const text = String(value).trim().toLowerCase();
-  if (!text) return null;
-  if (text === "both") return "Both";
-  if (text.startsWith("left")) return "Left";
-  if (text.startsWith("right")) return "Right";
-  return String(value).trim();
+  return formatDominantFoot(value);
 }
 
 function getFootOverrides(): Record<string, string> {
@@ -89,8 +85,23 @@ function getFootOverrides(): Record<string, string> {
   return footOverrides;
 }
 
+function getHeightOverrides(): Record<string, string> {
+  if (!heightOverrides) {
+    try {
+      heightOverrides = readJson<Record<string, string>>("height-overrides.json");
+    } catch {
+      heightOverrides = {};
+    }
+  }
+  return heightOverrides;
+}
+
 function resolveDominantFoot(playerId: string, value: unknown): string | null {
   return normalizeFoot(getFootOverrides()[playerId] ?? value);
+}
+
+function resolvePlayerHeight(playerId: string, value: unknown): string | null {
+  return formatPlayerHeight(getHeightOverrides()[playerId] ?? value);
 }
 
 function readJson<T>(filename: string): T {
@@ -144,6 +155,12 @@ function mergePlayerListRow(player: JsonRecord): JsonRecord {
   if (profilePlayer?.age != null) {
     merged.age = profilePlayer.age;
   }
+  if (profilePlayer?.height != null) {
+    merged.height = profilePlayer.height;
+  }
+  if (profilePlayer?.dominant_foot != null) {
+    merged.dominant_foot = profilePlayer.dominant_foot;
+  }
 
   return merged;
 }
@@ -162,6 +179,9 @@ function getProfile(playerId: string): JsonRecord | null {
   if (player) {
     const foot = resolveDominantFoot(playerId, player.dominant_foot);
     if (foot) player.dominant_foot = foot;
+
+    const height = resolvePlayerHeight(playerId, player.height);
+    player.height = height ?? null;
   }
   return profile;
 }
@@ -368,6 +388,7 @@ export function getStaticCompare(playerA: string, playerB: string) {
   const playerCard = (pid: string, source: JsonRecord, xp: JsonRecord, profile: JsonRecord) => {
     const poolPlayer = getPlayersData().players.find((row) => String(row.player_id) === pid);
     const dominantFoot = resolveDominantFoot(pid, source.dominant_foot ?? poolPlayer?.dominant_foot);
+    const height = resolvePlayerHeight(pid, source.height ?? poolPlayer?.height);
 
     return {
       player_id: pid,
@@ -380,7 +401,7 @@ export function getStaticCompare(playerA: string, playerB: string) {
       contract_until: source.contract_until,
       dominant_foot: dominantFoot,
       age: source.age,
-      height: source.height,
+      height,
       nationality: source.nationality,
       minutes: source.minutes,
       minutes_pct: source.minutes_pct,

@@ -11,7 +11,7 @@ import { ProfileClusterCard } from "@/components/ProfileClusterCard";
 import { XpIndicesPanel } from "@/components/XpIndicesPanel";
 import { XpProfilePanel } from "@/components/XpProfilePanel";
 import type { PeerScope, PlayerProfile } from "@/lib/api";
-import { formatContractUntil } from "@/lib/formatters";
+import { formatContractUntil, formatDominantFoot, formatPlayerHeight } from "@/lib/formatters";
 import {
   getCachedPlayerProfile,
   loadPlayerProfile,
@@ -138,7 +138,7 @@ export function ProfileView({
                 <div className="identity-fact">
                   <FactIcon icon="fa-ruler-vertical" />
                   <span className="identity-fact-label">{m.common.height}</span>
-                  <span className="identity-fact-value">{String(p.height ?? "—")}</span>
+                  <span className="identity-fact-value">{formatPlayerHeight(p.height) ?? "—"}</span>
                 </div>
                 <div className="identity-fact">
                   <FactIcon icon="fa-earth-americas" />
@@ -148,7 +148,7 @@ export function ProfileView({
                 <div className="identity-fact">
                   <FactIcon icon="fa-shoe-prints" />
                   <span className="identity-fact-label">{m.common.foot}</span>
-                  <span className="identity-fact-value">{String(p.dominant_foot ?? "—")}</span>
+                  <span className="identity-fact-value">{formatDominantFoot(p.dominant_foot) ?? "—"}</span>
                 </div>
               </div>
 

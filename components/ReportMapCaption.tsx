@@ -14,7 +14,7 @@ export function ReportMapCaption({ mapKey, profile }: Props) {
   const { m } = useI18n();
   const caption = buildReportMapCaption(mapKey, profile, m);
 
-  if (!caption.stats.length && !caption.summary) return null;
+  if (!caption.stats.length) return null;
 
   return (
     <div className="report-map-caption report-print-only" data-map-key={mapKey}>
@@ -38,9 +38,6 @@ export function ReportMapCaption({ mapKey, profile }: Props) {
               );
             })}
           </ul>
-        ) : null}
-        {caption.summary ? (
-          <p className="report-map-caption-summary">{caption.summary}</p>
         ) : null}
       </div>
     </div>

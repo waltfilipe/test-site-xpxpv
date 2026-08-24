@@ -44,6 +44,5 @@ describe("reportMapCaptions", () => {
     assert.ok(caption.stats.some((line) => line.includes("Impact Passes/game: 1.4")));
     assert.ok(caption.stats.some((line) => line === "Impact rate: 6.0%"));
     assert.ok(caption.stats.some((line) => line.includes("Creation xPV /game: 1.65")));
-    assert.ok(caption.summary.length > 0);
   });
 });

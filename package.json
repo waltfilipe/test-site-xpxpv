@@ -9,7 +9,7 @@
     "build:clean": "rm -rf .next node_modules/.cache && next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node --import tsx --test lib/reportPrint.test.ts lib/playerReports.test.ts lib/reportMapCaptions.test.ts && node scripts/verify-report-map-assets.mjs && node scripts/verify-round-grade-coe.mjs"
+    "test": "node --import tsx --test lib/reportPrint.test.ts lib/playerReports.test.ts lib/reportMapCaptions.test.ts lib/formatters.test.ts && node scripts/verify-report-map-assets.mjs && node scripts/verify-round-grade-coe.mjs"
   },
   "dependencies": {
     "next": "^15.1.0",

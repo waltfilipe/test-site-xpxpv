@@ -17,6 +17,48 @@ export function formatLeagueName(
   return LEAGUE_LABELS[source] ?? source.replace(/_/g, " ");
 }
 
+export function formatPlayerHeight(value: unknown): string | null {
+  if (value == null || value === "") return null;
+  const text = String(value).trim().replace(",", ".");
+  if (!text) return null;
+
+  const metersMatch = text.match(/(\d+(?:\.\d+)?)\s*m\b/i);
+  if (metersMatch) {
+    const meters = Number(metersMatch[1]);
+    if (Number.isFinite(meters) && meters >= 1.4 && meters <= 2.2) {
+      return `${meters.toFixed(2)} m`;
+    }
+  }
+
+  const cmMatch = text.match(/(\d{2,3})\s*cm\b/i);
+  if (cmMatch) {
+    const cm = Number(cmMatch[1]);
+    if (Number.isFinite(cm) && cm >= 140 && cm <= 220) {
+      return `${(cm / 100).toFixed(2)} m`;
+    }
+  }
+
+  if (typeof value === "number" && Number.isFinite(value)) {
+    const meters = value > 3 ? value / 100 : value;
+    if (meters >= 1.4 && meters <= 2.2) {
+      return `${meters.toFixed(2)} m`;
+    }
+  }
+
+  return null;
+}
+
+export function formatDominantFoot(value: unknown): string | null {
+  if (value == null) return null;
+  const text = String(value).trim();
+  if (!text) return null;
+  const lower = text.toLowerCase();
+  if (lower === "both") return "Both";
+  if (lower.startsWith("left")) return "Left";
+  if (lower.startsWith("right")) return "Right";
+  return text;
+}
+
 export function formatContractUntil(value: unknown): string {
   if (value == null || value === "") return "—";
   const s = String(value).trim();

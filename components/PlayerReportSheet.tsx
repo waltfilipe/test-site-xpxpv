@@ -15,7 +15,12 @@ import { XpProfilePanel } from "@/components/XpProfilePanel";
 import { LoadingState } from "@/components/LoadingState";
 import { getPassMap, type PeerScope, type PlayerProfile } from "@/lib/api";
 import type { EnrichedReportPlayer } from "@/lib/playerReports";
-import { formatContractUntil, formatLeagueName } from "@/lib/formatters";
+import {
+  formatContractUntil,
+  formatDominantFoot,
+  formatLeagueName,
+  formatPlayerHeight,
+} from "@/lib/formatters";
 import { overallPassGradeFromProfile } from "@/lib/passGrades";
 import { selectProfileView } from "@/lib/profileView";
 import { REPORT_MAP_FILTER_KEYS, type ReportMapFilterKey } from "@/lib/reportMapKeys";
@@ -250,7 +255,9 @@ export function PlayerReportSheet({
               <div className="identity-fact">
                 <FactIcon icon="fa-ruler-vertical" />
                 <span className="identity-fact-label">{m.common.height}</span>
-                <span className="identity-fact-value">{String(p.height ?? "—")}</span>
+                <span className="identity-fact-value">
+                  {formatPlayerHeight(p.height) ?? "—"}
+                </span>
               </div>
               <div className="identity-fact">
                 <FactIcon icon="fa-earth-americas" />
@@ -260,7 +267,9 @@ export function PlayerReportSheet({
               <div className="identity-fact">
                 <FactIcon icon="fa-shoe-prints" />
                 <span className="identity-fact-label">{m.common.foot}</span>
-                <span className="identity-fact-value">{String(p.dominant_foot ?? "—")}</span>
+                <span className="identity-fact-value">
+                  {formatDominantFoot(p.dominant_foot) ?? "—"}
+                </span>
               </div>
             </div>
           )}

@@ -8,7 +8,7 @@ import { PassLengthMix } from "@/components/PassLengthMix";
 import { REPORT_MAP_FILTER_KEYS } from "@/lib/reportMapKeys";
 import { mapFilterLabel } from "@/components/PlayerReportSheet";
 import { getPassMap } from "@/lib/api";
-import { formatContractUntil } from "@/lib/formatters";
+import { formatContractUntil, formatDominantFoot, formatPlayerHeight } from "@/lib/formatters";
 import { useI18n } from "@/lib/i18n/context";
 
 const POSITION_FAMILY = "midfielders";
@@ -185,7 +185,7 @@ export function ComparePlayerCard({
             <div className="identity-fact">
               <FactIcon icon="fa-ruler-vertical" />
               <span className="identity-fact-label">{m.common.height}</span>
-              <span className="identity-fact-value">{String(player.height ?? "—")}</span>
+              <span className="identity-fact-value">{formatPlayerHeight(player.height) ?? "—"}</span>
             </div>
             <div className="identity-fact">
               <FactIcon icon="fa-earth-americas" />
@@ -195,7 +195,7 @@ export function ComparePlayerCard({
             <div className="identity-fact">
               <FactIcon icon="fa-shoe-prints" />
               <span className="identity-fact-label">{m.common.foot}</span>
-              <span className="identity-fact-value">{String(player.dominant_foot ?? "—")}</span>
+              <span className="identity-fact-value">{formatDominantFoot(player.dominant_foot) ?? "—"}</span>
             </div>
           </div>
         </div>
