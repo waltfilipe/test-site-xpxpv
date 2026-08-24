@@ -6207,6 +6207,9 @@ tr:last-child td { border-bottom: none; }
 
   .report-print-root .report-round-card {
     padding: 0.23rem 0.28rem !important;
+    height: 15mm;
+    box-sizing: border-box;
+    overflow: hidden !important;
     border-radius: 8px;
     background:
       linear-gradient(145deg, color-mix(in srgb, var(--round-accent, #a78bfa) 7%, transparent), transparent 45%),
@@ -6256,8 +6259,8 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-round-card-metrics {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.08rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 0.08rem !important;
   }
 
   .report-print-root .report-performance-compact .round-grade-chart-print .round-grade-chart-svg {
