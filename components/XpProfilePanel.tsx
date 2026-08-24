@@ -110,8 +110,8 @@ function productivityBars(xp: XpRecord, peerScope: PeerScope) {
     };
   }
   return {
-    general: xp.prod_geral_display as number | null | undefined,
-    relative: xp.prod_rel_display as number | null | undefined,
+    general: xp.prod_xpv_per_game_league_bar as number | null | undefined,
+    relative: xp.prod_rel_xpv_league_bar as number | null | undefined,
   };
 }
 
