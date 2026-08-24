@@ -5611,6 +5611,10 @@ tr:last-child td { border-bottom: none; }
     display: none !important;
   }
 
+  .pass-metric-help {
+    display: none !important;
+  }
+
   .tip-wrap {
     display: contents !important;
   }
@@ -6446,9 +6450,9 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-page-1 .identity-facts-side .identity-fact {
-    padding: 0.06rem 0;
-    grid-template-columns: 0.9rem minmax(0, 1fr) auto;
-    gap: 0.16rem;
+    padding: 0.12rem 0;
+    grid-template-columns: 1.15rem minmax(0, 1fr) auto;
+    gap: 0.28rem;
     flex: 1;
   }
 
@@ -6457,21 +6461,23 @@ tr:last-child td { border-bottom: none; }
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    margin-top: 0.18rem;
+    margin-top: 0.22rem;
   }
 
   .report-print-root .report-page-1 .identity-facts-side .identity-fact-label {
-    font-size: 0.42rem !important;
+    font-size: 0.88rem !important;
+    letter-spacing: 0.03em;
   }
 
   .report-print-root .report-page-1 .identity-facts-side .identity-fact-value {
-    font-size: 0.48rem !important;
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
   }
 
   .report-print-root .report-page-1 .identity-fact-icon {
-    width: 0.9rem;
-    height: 0.9rem;
-    font-size: 0.46rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    font-size: 0.62rem;
   }
 
   .report-print-root .report-page-1 .pa-col-score .score-stack {
