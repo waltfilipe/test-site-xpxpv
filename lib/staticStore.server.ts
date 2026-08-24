@@ -387,6 +387,8 @@ export function getStaticCompare(playerA: string, playerB: string) {
       long_pass_share_pct: xp.long_pass_share_pct,
       long_pass_share_ref_avg_pct: xp.long_pass_share_ref_avg_pct,
       long_pass_share_pctile: xp.long_pass_share_pctile,
+      midfield_offensive_origin_pct:
+        xp.midfield_offensive_origin_pct ?? source.midfield_offensive_origin_pct,
       xp,
       xp_bars: profile.xp_bars,
       xp_indices: profile.xp_indices,

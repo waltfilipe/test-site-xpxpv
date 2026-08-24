@@ -1264,25 +1264,6 @@ button, input, select { font: inherit; }
   align-items: start;
 }
 
-.profile-view-shell .pa-layout {
-  align-items: stretch;
-}
-
-.pa-col-identity .identity-card-bare {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-.pa-col-identity .identity-card-bare .heatmap-img {
-  flex: 1 1 auto;
-  width: 100%;
-  max-height: 172px;
-  object-fit: contain;
-  margin-top: auto;
-}
-
 @media (max-width: 1100px) {
   .pa-layout { grid-template-columns: 1fr; }
 }
@@ -6391,43 +6372,48 @@ tr:last-child td { border-bottom: none; }
 
   .report-print-root .report-page-1 .identity-hero-text .identity-title,
   .report-print-root .report-page-1 .identity-hero-text .report-player-name {
-    font-size: 1.32rem !important;
-    line-height: 1.18 !important;
+    font-size: 1.85rem !important;
+    line-height: 1.14 !important;
+    font-weight: 800 !important;
   }
 
   .report-print-root .report-page-1 .identity-hero-text .identity-subline {
-    font-size: 0.82rem !important;
-    line-height: 1.25 !important;
-    margin-bottom: 0.12rem !important;
+    font-size: 1.05rem !important;
+    line-height: 1.22 !important;
+    margin-bottom: 0.14rem !important;
+    font-weight: 600 !important;
   }
 
   .report-print-root .report-page-1 .profile-cluster-inline {
-    margin-top: 0.18rem;
-    padding-top: 0.28rem;
+    margin-top: 0.22rem;
+    padding-top: 0.32rem;
   }
 
   .report-print-root .report-page-1 .profile-cluster-inline .profile-cluster-body {
-    gap: 0.32rem;
+    gap: 0.38rem;
+    align-items: flex-start;
   }
 
   .report-print-root .report-page-1 .profile-cluster-inline .profile-cluster-icon {
-    font-size: 0.82rem;
-    margin-top: 0.06rem;
+    font-size: 1.05rem !important;
+    margin-top: 0.08rem;
   }
 
   .report-print-root .report-page-1 .profile-cluster-inline .profile-cluster-eyebrow {
-    font-size: 0.46rem;
-    margin-bottom: 0.08rem;
+    font-size: 0.62rem !important;
+    margin-bottom: 0.1rem;
+    letter-spacing: 0.07em;
   }
 
   .report-print-root .report-page-1 .profile-cluster-inline .profile-cluster-title {
-    font-size: 0.72rem;
-    line-height: 1.22;
+    font-size: 1rem !important;
+    line-height: 1.2 !important;
+    font-weight: 800 !important;
   }
 
   .report-print-root .report-page-1 .profile-cluster-inline .profile-cluster-summary {
-    font-size: 0.58rem;
-    line-height: 1.35;
+    font-size: 0.82rem !important;
+    line-height: 1.32 !important;
     -webkit-line-clamp: 3;
   }
 

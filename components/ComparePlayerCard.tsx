@@ -225,10 +225,10 @@ export function ComparePlayerCard({
       <PassLengthMix
         data={{
           player,
+          xp: (player.xp as Record<string, unknown> | undefined) ?? undefined,
           long_pass_share_pct: player.long_pass_share_pct as number | null | undefined,
           long_pass_share_ref_avg_pct: player.long_pass_share_ref_avg_pct as number | null | undefined,
           long_pass_share_pctile: player.long_pass_share_pctile as number | null | undefined,
-          defensive_origin_pct: player.defensive_origin_pct as number | null | undefined,
           midfield_offensive_origin_pct: player.midfield_offensive_origin_pct as number | null | undefined,
         }}
       />
