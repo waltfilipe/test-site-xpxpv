@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { LoadingState } from "@/components/LoadingState";
-import { PeerScopeToggle } from "@/components/PeerScopeToggle";
 import {
   PlayerReportSheet,
   mapFilterLabel,
@@ -15,7 +14,6 @@ import {
   getPassMap,
   getPlayerProfile,
   getPlayers,
-  type PeerScope,
   type PlayerProfile,
   type PlayerSummary,
 } from "@/lib/api";
@@ -85,7 +83,6 @@ export function ReportsClient() {
   const [summaries, setSummaries] = useState<PlayerSummary[]>([]);
   const [listLoading, setListLoading] = useState(true);
   const [listError, setListError] = useState<string | null>(null);
-  const [peerScope, setPeerScope] = useState<PeerScope>("league");
   const [printing, setPrinting] = useState(false);
   const [exportingId, setExportingId] = useState<string | null>(null);
   const [printEntries, setPrintEntries] = useState<PrintReportEntry[]>([]);
@@ -211,6 +208,7 @@ export function ReportsClient() {
           <div className="reports-hero-copy">
             <p className="reports-hero-eyebrow">{m.reports.scoutingEyebrow}</p>
             <h1 className="reports-hero-title">{m.reports.heroTitle}</h1>
+            <p className="reports-hero-subtitle">{m.reports.heroSubtitle}</p>
             <p className="reports-hero-lead">
               {m.reports.heroLead.replace("{count}", String(totalReportCount()))}
             </p>
@@ -242,7 +240,6 @@ export function ReportsClient() {
               onChange={(event) => setSearchQuery(event.target.value)}
             />
           </label>
-          <PeerScopeToggle scope={peerScope} onChange={setPeerScope} />
         </div>
       </section>
 
@@ -275,7 +272,7 @@ export function ReportsClient() {
             mapSlots={item.mapSlots}
             expandAll
             preloadMaps
-            peerScope={peerScope}
+            peerScope="pool"
           />
         ))}
       </div>

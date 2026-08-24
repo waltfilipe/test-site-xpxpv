@@ -607,7 +607,7 @@ const en: Messages = {
   },
   reports: {
     heroTitle: "Midfielder reports",
-    heroSubtitle: "Curated pool with full-pool rankings — export PDF by age group.",
+    heroSubtitle: "All reports rank against the European pool (top-five leagues).",
     heroLead:
       "{count} curated midfielders — browse pass grades and pillar letters, then export the full 3-page PDF for any profile.",
     scoutingEyebrow: "Scouting intelligence",
@@ -643,7 +643,7 @@ const en: Messages = {
     minutesShort: "Min",
     ageYears: "{age} yrs",
     listAria: "Curated midfielder report list",
-    listLead: "Rankings scope applies to the PDF export. Each row opens Profile or exports overview, maps and round performance.",
+    listLead: "Each row opens Profile or exports the 3-page PDF: overview, pass maps and round performance.",
     listEmpty: "No report players found.",
     listColPlayer: "Player",
     listColMeta: "League · Age",
@@ -1188,7 +1188,7 @@ const pt: Messages = {
   },
   reports: {
     heroTitle: "Relatórios de meias",
-    heroSubtitle: "Pool curado com rankings no pool completo — exporte PDF por faixa etária.",
+    heroSubtitle: "Todos os relatórios usam rankings no pool europeu (cinco grandes ligas).",
     heroLead:
       "{count} meias curados — veja notas e letras dos pilares e exporte o PDF completo de 3 páginas para qualquer perfil.",
     scoutingEyebrow: "Scouting intelligence",
@@ -1224,7 +1224,7 @@ const pt: Messages = {
     minutesShort: "Min",
     ageYears: "{age} anos",
     listAria: "Lista de relatórios de meias curados",
-    listLead: "O escopo de rankings vale para o PDF exportado. Cada linha abre o Perfil ou exporta overview, mapas e desempenho por rodada.",
+    listLead: "Cada linha abre o Perfil ou exporta o PDF de 3 páginas: overview, mapas de passe e desempenho por rodada.",
     listEmpty: "Nenhum jogador encontrado na lista de relatórios.",
     listColPlayer: "Jogador",
     listColMeta: "Liga · Idade",

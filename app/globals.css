@@ -4469,7 +4469,16 @@ tr:last-child td { border-bottom: none; }
   font-size: clamp(1.6rem, 3vw, 2rem);
   font-weight: 800;
   letter-spacing: -0.03em;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.reports-hero-subtitle {
+  margin: 0 0 0.45rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #c4b5fd;
+  line-height: 1.4;
+  max-width: 58ch;
 }
 
 .reports-hero-lead {
@@ -5353,6 +5362,11 @@ tr:last-child td { border-bottom: none; }
   gap: 0.75rem;
 }
 
+.report-maps-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
 .report-maps-grid-4 {
   gap: 0.65rem;
   max-width: 100%;
@@ -5888,8 +5902,8 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-heatmap {
-    max-height: 66mm !important;
-    min-height: 49mm !important;
+    max-height: 79mm !important;
+    min-height: 59mm !important;
     width: 100%;
     object-fit: contain;
     object-position: center bottom;
@@ -6238,8 +6252,49 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-page-1 .identity-photo-side {
-    width: 46px !important;
-    min-height: 52px !important;
+    width: 74px !important;
+    max-width: 74px !important;
+    min-width: 74px !important;
+    min-height: 88px !important;
+  }
+
+  .report-print-root .report-page-1 .identity-hero-text .identity-title,
+  .report-print-root .report-page-1 .identity-hero-text .report-player-name {
+    font-size: 0.78rem !important;
+    line-height: 1.22 !important;
+  }
+
+  .report-print-root .report-page-1 .identity-hero-text .identity-subline {
+    font-size: 0.56rem !important;
+  }
+
+  .report-print-root .report-page-1 .identity-facts-side .identity-fact {
+    padding: 0.14rem 0;
+    grid-template-columns: 1rem 1fr auto;
+    gap: 0.22rem;
+  }
+
+  .report-print-root .report-page-1 .identity-facts-side .identity-fact-label {
+    font-size: 0.52rem !important;
+  }
+
+  .report-print-root .report-page-1 .identity-facts-side .identity-fact-value {
+    font-size: 0.6rem !important;
+  }
+
+  .report-print-root .report-page-1 .identity-fact-icon {
+    width: 1rem;
+    height: 1rem;
+    font-size: 0.52rem;
+  }
+
+  .report-print-root .report-page-1 .profile-cluster-inline .profile-cluster-title {
+    font-size: 0.52rem;
+  }
+
+  .report-print-root .report-page-1 .profile-cluster-inline .profile-cluster-summary {
+    font-size: 0.46rem;
+    -webkit-line-clamp: 1;
   }
 
   .report-print-root .report-page-1 .pa-col-score .score-stack {
@@ -6325,19 +6380,34 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-print-root .report-maps-grid,
+  .report-print-root .report-maps-grid-3,
   .report-print-root .report-maps-grid-4 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.35rem;
+    align-items: start;
+  }
+
+  .report-print-root .report-maps-grid-3 .report-map-card,
+  .report-print-root .report-maps-grid .report-map-card {
+    padding: 0.14rem 0.18rem !important;
+  }
+
+  .report-print-root .report-maps-grid-3 .section-label-sm,
+  .report-print-root .report-maps-grid .section-label-sm {
+    font-size: 0.52rem !important;
+    margin-bottom: 0.1rem !important;
+    line-height: 1.2;
   }
 
   .report-print-root .report-map-img {
-    max-height: 70mm !important;
+    max-height: 58mm !important;
   }
 
   .report-maps-grid,
+  .report-maps-grid-3,
   .report-maps-grid-4 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.3rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.28rem;
   }
 
   .report-map-card {
@@ -6377,8 +6447,8 @@ tr:last-child td { border-bottom: none; }
   }
 
   .report-heatmap {
-    max-height: 66mm;
-    min-height: 49mm;
+    max-height: 79mm;
+    min-height: 59mm;
     object-fit: contain;
     object-position: center bottom;
   }
