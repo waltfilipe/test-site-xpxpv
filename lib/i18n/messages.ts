@@ -138,11 +138,12 @@ export type Messages = {
     league: string;
     allBadges: string;
     passRating: string;
+    passGrade: string;
     volume: string;
-    efficiency: string;
+    precision: string;
     buildup: string;
     chanceCreation: string;
-    defense: string;
+    lethality: string;
     badgesPromoTitle: string;
     badgesPromoDesc: string;
     reportsLink: string;
@@ -626,11 +627,12 @@ const en: Messages = {
     league: "League",
     allBadges: "All badges",
     passRating: "Pass Rating",
+    passGrade: "Pass grade",
     volume: "Volume",
-    efficiency: "Efficiency",
+    precision: "Precision",
     buildup: "Build-up",
     chanceCreation: "Chance creation",
-    defense: "Defense",
+    lethality: "Lethality",
     badgesPromoTitle: "Pool badges",
     badgesPromoDesc:
       "Seven composite pass profiles from the eligible midfielder pool — filter the table by league and badge to find Elite Passers, Metronomes, Progressors and more.",
@@ -1319,11 +1321,12 @@ const pt: Messages = {
     league: "Liga",
     allBadges: "Todos os badges",
     passRating: "Pass Rating",
+    passGrade: "Nota de passe",
     volume: "Volume",
-    efficiency: "Efficiency",
+    precision: "Precisão",
     buildup: "Build-up",
-    chanceCreation: "Chance creation",
-    defense: "Defense",
+    chanceCreation: "Criação de chances",
+    lethality: "Letalidade",
     badgesPromoTitle: "Badges de pool",
     badgesPromoDesc:
       "Sete perfis compostos de passe no pool elegível — filtre a tabela por liga e badge para encontrar Elite Passers, Metronomes, Progressors e mais.",

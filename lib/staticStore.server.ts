@@ -6,6 +6,7 @@ import { playerIdsForProfileGroup } from "@/lib/playerReports";
 import { enrichPlayerProfile } from "@/lib/enrichProfile.server";
 import { formatDominantFoot, formatPlayerHeight } from "@/lib/formatters";
 import { overallPassGradeFromProfile } from "@/lib/passGrades";
+import { isPlayerBadgeKey, type PlayerBadgeKey } from "@/lib/playerBadges";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 
@@ -39,7 +40,11 @@ const PASS_LETTER_FIELDS: Record<string, string> = {
 
 const PLAYER_LIST_RATING_FIELDS = [
   "xp_pass_rating",
+  "pass_rating",
   "pass_grade_overall",
+  "pass_grade_general",
+  "pass_grade_expected",
+  "pass_grade_relative",
   "pass_grade_overall_rank_in_pool",
 ] as const;
 
@@ -48,6 +53,7 @@ const PLAYER_LIST_LETTER_FIELDS = [
   "pass_efficiency_letter",
   "pass_buildup_letter",
   "pass_chance_creation_letter",
+  "pv_abs_leth_letter",
   "defense_letter",
   "defense_display",
 ] as const;
@@ -157,6 +163,9 @@ function mergePlayerListRow(player: JsonRecord): JsonRecord {
   for (const field of PLAYER_LIST_LETTER_FIELDS) {
     if (xp[field] != null) merged[field] = xp[field];
   }
+
+  const badges = getPlayerBadgesById()[pid] ?? [];
+  merged.player_badges = badges.filter(isPlayerBadgeKey);
 
   const profile = getProfile(pid);
   const profilePlayer = profile?.player as JsonRecord | undefined;

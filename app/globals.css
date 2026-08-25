@@ -7929,6 +7929,29 @@ tr:last-child td { border-bottom: none; }
   white-space: nowrap;
 }
 
+.players-badge-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  max-width: 12rem;
+}
+
+.players-badge-pill {
+  display: inline-block;
+  padding: 0.12rem 0.38rem;
+  border-radius: 999px;
+  border: 1px solid;
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.players-table .rating {
+  font-weight: 700;
+  color: var(--accent-purple);
+}
+
 .grade-letter {
   font-weight: 700;
   font-size: 0.82rem;

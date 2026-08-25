@@ -41,14 +41,20 @@ export type PlayerSummary = {
   progression_rating?: number | null;
   xp_pass_rating?: number | null;
   pass_grade_overall?: number | null;
+  pass_grade_general?: number | null;
+  pass_grade_expected?: number | null;
+  pass_grade_relative?: number | null;
+  pass_grade_overall_rank_in_pool?: number | null;
   total_passes?: number | null;
   xt_per_pass?: number | null;
   pass_volume_letter?: string | null;
   pass_efficiency_letter?: string | null;
   pass_buildup_letter?: string | null;
   pass_chance_creation_letter?: string | null;
+  pv_abs_leth_letter?: string | null;
   defense_letter?: string | null;
   defense_display?: number | null;
+  player_badges?: PlayerBadgeKey[];
 };
 
 export type PlayerOption = {
