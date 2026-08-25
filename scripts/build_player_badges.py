@@ -60,15 +60,13 @@ def main() -> None:
                 "impact": float(_get(player, derived, "pass_impact_index") or -999.0),
                 "short_d": short_d,
                 "long_d": long_d,
-                "gap_d": short_d - long_d,
+                "gap_short_long": short_d - long_d,
+                "gap_long_short": long_d - short_d,
             }
         )
 
     def pct(key: str, q: float) -> float:
         return _pctile([row[key] for row in rows], q)
-
-    def pct_gap_long_short(q: float) -> float:
-        return _pctile([row["long_d"] - row["short_d"] for row in rows], q)
 
     thresholds = {
         "vol_p80": pct("vol", 0.80),
@@ -80,12 +78,10 @@ def main() -> None:
         "chance_p80": pct("chance", 0.80),
         "buildup_p80": pct("buildup", 0.80),
         "impact_p80": pct("impact", 0.80),
-        "short_d_p70": pct("short_d", 0.70),
-        "short_d_p40": pct("short_d", 0.40),
-        "long_d_p70": pct("long_d", 0.70),
-        "long_d_p40": pct("long_d", 0.40),
-        "gap_d_p65": pct("gap_d", 0.65),
-        "gap_long_short_p65": pct_gap_long_short(0.65),
+        "short_d_p50": pct("short_d", 0.50),
+        "long_d_p50": pct("long_d", 0.50),
+        "gap_short_long_p80": pct("gap_short_long", 0.80),
+        "gap_long_short_p80": pct("gap_long_short", 0.80),
         "xpv_pp_p75": pct("xpv_pp", 0.75),
     }
 
@@ -109,15 +105,13 @@ def main() -> None:
         if row["buildup"] >= thresholds["buildup_p80"] and row["impact"] >= thresholds["impact_p80"]:
             badges.append("progressor")
         if (
-            row["short_d"] >= thresholds["short_d_p70"]
-            and row["long_d"] <= thresholds["long_d_p40"]
-            and row["gap_d"] >= thresholds["gap_d_p65"]
+            row["gap_short_long"] >= thresholds["gap_short_long_p80"]
+            and row["short_d"] >= thresholds["short_d_p50"]
         ):
             badges.append("mestre_curto")
         if (
-            row["long_d"] >= thresholds["long_d_p70"]
-            and row["short_d"] <= thresholds["short_d_p40"]
-            and (row["long_d"] - row["short_d"]) >= thresholds["gap_long_short_p65"]
+            row["gap_long_short"] >= thresholds["gap_long_short_p80"]
+            and row["long_d"] >= thresholds["long_d_p50"]
         ):
             badges.append("bombeiro_longo")
         if row["vol"] >= thresholds["vol_p75"] and row["xpv_pp"] >= thresholds["xpv_pp_p75"]:
@@ -137,8 +131,8 @@ def main() -> None:
             "organizador": "passes_total >= P80 AND xpass_coe_pct >= P80 AND threat_pass_pct <= P50",
             "criativo": "leth_xpv_per_pass >= P80 AND pass_chance_creation_index >= P80 AND passes_total < P70",
             "progressor": "pass_buildup_index >= P80 AND pass_impact_index >= P80",
-            "mestre_curto": "short_delta >= P70 AND long_delta <= P40 AND (short-long) >= P65",
-            "bombeiro_longo": "long_delta >= P70 AND short_delta <= P40 AND (long-short) >= P65",
+            "mestre_curto": "gap(short-long) >= P80 AND short_delta >= P50",
+            "bombeiro_longo": "gap(long-short) >= P80 AND long_delta >= P50",
             "motor": "passes_total >= P75 AND xpv_per_pass >= P75",
         },
         "thresholds": thresholds,

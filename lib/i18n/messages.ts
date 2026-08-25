@@ -793,12 +793,12 @@ const en: Messages = {
     mestre_curto: {
       label: "Short specialist",
       tooltip:
-        "Strong short-pass COE stratum lift with weak long-pass lift — specialist on short distribution, not long balls.",
+        "Short-pass COE stratum lift well above long-pass lift (gap ≥ P80) with at least median short accuracy vs volume peers.",
     },
     bombeiro_longo: {
       label: "Long specialist",
       tooltip:
-        "Strong long-pass COE stratum lift with weak short-pass lift — specialist on long distribution, not short touches.",
+        "Long-pass COE stratum lift well above short-pass lift (gap ≥ P80) with at least median long accuracy vs volume peers.",
     },
     motor: {
       label: "Engine",
@@ -1447,12 +1447,12 @@ const pt: Messages = {
     mestre_curto: {
       label: "Especialista curto",
       tooltip:
-        "COE no curto forte e no longo fraco vs pares de volume — especialista na distribuição curta, não no longo.",
+        "COE no curto bem acima do longo vs pares de volume (gap ≥ P80), com short_Δ pelo menos na mediana do pool.",
     },
     bombeiro_longo: {
       label: "Especialista longo",
       tooltip:
-        "COE no longo forte e no curto fraco vs pares de volume — especialista no passe longo, não no toque curto.",
+        "COE no longo bem acima do curto vs pares de volume (gap ≥ P80), com long_Δ pelo menos na mediana do pool.",
     },
     motor: {
       label: "Motor",
