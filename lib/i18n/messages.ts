@@ -516,14 +516,14 @@ const en: Messages = {
         pillarTag: "Productivity",
         title: "How valuable is the destination?",
         body:
-          "xPV is the productivity side of passing: how much value you create through where the ball goes. It scores completed passes by destination quality — advance, rarity and reach — not whether the pass was easy.",
+          "xPV is the productivity side of passing: the pitch is split into zones and each destination gets a value — advance, reach and rarity. Completed passes are scored by where the ball lands, not how easy the pass was. High xPV means your distribution moves the team into valuable spaces.",
       },
       xp: {
         tag: "xP",
         pillarTag: "Precision",
         title: "How hard was the pass?",
         body:
-          "xP is the precision side: how cleanly you complete passes for the situation — distance, angle and pressure. It is the difficulty model; both completed and missed passes count.",
+          "xP is the precision side: for each pass, the model estimates how likely it is to be completed from origin to destination — like a simplified xG, but for passes. It uses distance and angle on a zoned pitch; both completed and missed passes count. You beat xP when you complete harder passes than expected.",
       },
       grades: {
         tag: "Grades",
@@ -679,7 +679,7 @@ const en: Messages = {
     heroSubtitle: "All reports rank against the European pool (top-five leagues).",
     heroLead:
       "{count} midfielders with full PDF reports — browse pass grades and pillar letters, then export the 3-page PDF.",
-    scoutingEyebrow: "Inteligência de scouting",
+    scoutingEyebrow: "Scouting intelligence",
     preparingMaps: "Preparing maps…",
     loadingBatches: "Loading reports in batches…",
     loadingFirst: "Loading first reports…",
@@ -1209,14 +1209,14 @@ const pt: Messages = {
         pillarTag: "Produtividade",
         title: "Quanto vale chegar lá?",
         body:
-          "O xPV é o lado produtividade do passe: quanto valor você cria pelo destino da bola. Mede passes completados pela qualidade do ponto de chegada — avanço, raridade e alcance — não se o passe era fácil.",
+          "O xPV é o lado produtividade: o campo é dividido em zonas e cada destino recebe um valor — avanço, alcance e raridade. Passes completados são pontuados pelo lugar onde a bola chega, não pela facilidade do passe. xPV alto significa distribuir para espaços que atacam o adversário.",
       },
       xp: {
         tag: "xP",
         pillarTag: "Precisão",
         title: "Quão difícil era o passe?",
         body:
-          "O xP é o lado precisão: quão limpo você completa passes para a situação — distância, ângulo e pressão. É o modelo de dificuldade; entram passes certos e errados.",
+          "O xP é o lado precisão: para cada passe, o modelo estima a chance de completar da origem ao destino — como um xG bem mais simplificado, mas para passes. Usa distância e ângulo num campo zonado; entram passes certos e errados. Você supera o xP quando acerta passes mais difíceis que o esperado.",
       },
       grades: {
         tag: "Grades",
