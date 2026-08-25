@@ -2423,6 +2423,13 @@ button, input, select { font: inherit; }
   padding: 0.62rem 0.72rem 0.72rem;
 }
 
+.xp-profile-pillar-intro {
+  margin: 0 0 0.15rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
 .xp-profile-metric-row {
   display: flex;
   flex-direction: column;

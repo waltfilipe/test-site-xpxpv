@@ -149,6 +149,7 @@ function ProductivityCard({ xp, peerScope }: { xp: XpRecord; peerScope: PeerScop
         />
       </header>
       <div className="xp-profile-pillar-body">
+        <p className="xp-profile-pillar-intro">{m.productivity.modelBody}</p>
         <MetricRow
           label={m.profile.xpvPerGame}
           value={xp.prod_xpv_per_game}

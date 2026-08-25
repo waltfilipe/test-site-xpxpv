@@ -159,6 +159,7 @@ export type Messages = {
   };
   productivity: {
     title: string;
+    modelBody: string;
     general: string;
     relative: string;
     expected: string;
@@ -427,9 +428,9 @@ const en: Messages = {
     insights: {
       xpv: {
         tag: "xPV",
-        title: "How valuable is the destination?",
+        title: "How valuable is the connection?",
         body:
-          "xPV measures how much it’s worth arriving at a point on the pitch. It doesn’t ask whether the pass will arrive — it asks whether the destination is good: does it advance play, is it a rare or strategic spot, and is it reachable in that situation. Only completed passes count.",
+          "xPV is the productivity side of the model. The pitch is divided into zones, and each completed pass is scored by its origin–destination pair — how much it advances play, how far it reaches, and how rare or strategic that link is from where it starts. It does not measure pass difficulty or completion probability (that is xP); it measures whether the connection was worth making. Only completed passes count.",
       },
       xp: {
         tag: "xP",
@@ -680,6 +681,8 @@ const en: Messages = {
   },
   productivity: {
     title: "Productivity",
+    modelBody:
+      "Each completed pass earns value from its origin–destination pair — advance, reach, and how rare that link is — not from pass difficulty.",
     general: "General",
     relative: "Gap vs expected",
     expected: "Expected",
@@ -708,7 +711,7 @@ const en: Messages = {
     xpvPerPass: "xPV / pass",
     impactRate: "Impact rate",
     xpvPerPassTip:
-      "Destination value per completed pass ({value}). Scaled 0–100 within your league — top midfielder in the league = 100.",
+      "Average origin–destination xPV per completed pass ({value}). Scaled 0–100 within your league — top midfielder in the league = 100.",
     impactRateTip:
       "Share of passes classified as impact passes ({value}%). Scaled 0–100 within your league — top in the league = 100.",
   },
@@ -730,7 +733,7 @@ const en: Messages = {
     passScores: {
       Volume: "How much they pass.",
       Efficiency: "How cleanly they complete passes.",
-      Lethality: "Threat per pass: destination value and impact-pass rate.",
+      Lethality: "Threat per pass: origin–destination value and impact-pass rate.",
       "Build-up": "Progression and line-breaking.",
       "Chance creation": "Passes that threaten the goal.",
       Impact: "xPV/Pass and Impact Rate combined.",
@@ -759,7 +762,7 @@ const en: Messages = {
       def_block_p90: "Blocks.",
       def_tackle_won_pct: "Tackle success rate.",
       def_aerial_won_pct: "Aerial success rate.",
-      xpv_per_pass: "Average destination value per pass.",
+      xpv_per_pass: "Average origin–destination value per pass.",
       xp_residual_mean: "How much they beat the expected model.",
       vol_passes_team_share_pct: "Share of team passes per game.",
       vol_long_team_share_pct: "Share of team long passes per game.",
@@ -775,7 +778,7 @@ const en: Messages = {
       chance_creation_xpv_per_pass:
         "Creation xPV per creation pass (key + into box + final-third impact).",
       chance_creation_xpv_per_game: "Chance-creation xPV per game.",
-      leth_xpv_per_pass: "Destination value per completed pass.",
+      leth_xpv_per_pass: "Origin–destination value per completed pass.",
       leth_impact_rate_pct: "Share of passes classified as impact passes.",
       prod_rel_xpv: "xPV residual vs expected for pass volume.",
       prec_z_coe_stratum: "COE stratum z-score within volume band.",
@@ -833,7 +836,7 @@ const en: Messages = {
     passLength: "Share of long passes vs league midpoint.",
     impactExtra: {
       threat_pass_pct: "Impact passes divided by total passes.",
-      xpv_per_pass: "Average destination value on completed passes.",
+      xpv_per_pass: "Average origin–destination value on completed passes.",
       xp_residual_mean: "Mean edge over the geometric model per pass.",
     },
   },
@@ -974,9 +977,9 @@ const pt: Messages = {
     insights: {
       xpv: {
         tag: "xPV",
-        title: "Quanto vale chegar lá?",
+        title: "Quanto vale a ligação?",
         body:
-          "O xPV mede quanto vale chegar num ponto do campo. Não pergunta se o passe vai chegar — pergunta se o destino é bom: avança o jogo, é um lugar raro ou estratégico, e é acessível na situação. Só entra quando o passe foi completado.",
+          "O xPV é o lado produtividade do modelo. O campo é dividido em zonas e cada passe completado é pontuado pelo par origem–destino — quanto avança o jogo, o alcance e o quão raro ou estratégico é aquele caminho a partir de onde a bola saiu. Não mede a dificuldade nem a probabilidade de acerto (isso é xP); mede se a ligação valia a pena. Só entram passes completados.",
       },
       xp: {
         tag: "xP",
@@ -1227,6 +1230,8 @@ const pt: Messages = {
   },
   productivity: {
     title: "Produtividade",
+    modelBody:
+      "Cada passe completado ganha valor pelo par origem–destino — avanço, alcance e raridade do caminho —, não pela dificuldade do passe.",
     general: "Geral",
     relative: "Diferença vs esperado",
     expected: "Esperado",
@@ -1255,7 +1260,7 @@ const pt: Messages = {
     xpvPerPass: "xPV / passe",
     impactRate: "Taxa de impacto",
     xpvPerPassTip:
-      "Valor de destino por passe completado ({value}). Escala 0–100 na liga — o melhor médio da liga = 100.",
+      "xPV médio origem–destino por passe completado ({value}). Escala 0–100 na liga — o melhor médio da liga = 100.",
     impactRateTip:
       "% de passes classificados como impact passes ({value}%). Escala 0–100 na liga — o melhor da liga = 100.",
   },
@@ -1279,7 +1284,7 @@ const pt: Messages = {
     passScores: {
       Volume: "Quanto o jogador passa.",
       Efficiency: "Quão limpo é o passe.",
-      Lethality: "Ameaça por passe: valor de destino e taxa de impact passes.",
+      Lethality: "Ameaça por passe: valor origem–destino e taxa de impact passes.",
       "Build-up": "Progressão e quebra de linha.",
       "Chance creation": "Passes que ameaçam o gol.",
       Impact: "xPV/Pass e Impact Rate combinados.",
@@ -1308,7 +1313,7 @@ const pt: Messages = {
       def_block_p90: "Bloqueios.",
       def_tackle_won_pct: "Taxa de desarme.",
       def_aerial_won_pct: "Taxa aérea.",
-      xpv_per_pass: "Valor médio de destino por passe.",
+      xpv_per_pass: "Valor médio origem–destino por passe.",
       xp_residual_mean: "Quanto superam o modelo esperado.",
       vol_passes_team_share_pct: "Participação nos passes do time.",
       vol_long_team_share_pct: "Participação nos longos do time.",
@@ -1324,7 +1329,7 @@ const pt: Messages = {
       chance_creation_xpv_per_pass:
         "xPV de criação por passe de criação (key + na área + impact terço final).",
       chance_creation_xpv_per_game: "xPV de criação por jogo.",
-      leth_xpv_per_pass: "Valor de destino por passe completado.",
+      leth_xpv_per_pass: "Valor origem–destino por passe completado.",
       leth_impact_rate_pct: "Percentual de passes classificados como impact passes.",
       prod_rel_xpv: "Residual de xPV vs volume esperado.",
       prec_z_coe_stratum: "Z-score de COE no estrato de volume.",
@@ -1382,7 +1387,7 @@ const pt: Messages = {
     passLength: "Share de passes longos vs média da liga.",
     impactExtra: {
       threat_pass_pct: "Impact passes dividido pelo total de passes.",
-      xpv_per_pass: "Valor médio de destino nos passes completados.",
+      xpv_per_pass: "Valor médio origem–destino nos passes completados.",
       xp_residual_mean: "Média de superação do modelo geométrico.",
     },
   },
