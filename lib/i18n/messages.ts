@@ -547,19 +547,19 @@ const en: Messages = {
     modules: {
       reports: {
         title: "Reports",
-        description: "Export PDF reports with pass grades, pillar letters and pass maps — ready to share in scouting.",
+        description: "Generate a PDF with the full profile, pass grades, maps and match-to-match consistency.",
       },
       profile: {
         title: "Profile",
-        description: "Everything on one screen: pass pillars, letter grades, xP indices and where passes start from.",
+        description: "Who the player is on the ball — stats, pass maps, xPV and xP in one view.",
       },
       compare: {
         title: "Compare",
-        description: "Two midfielders, same European pool — head-to-head on the same cross-league benchmarks.",
+        description: "Compare any two players in the app — pillars, grades and pass maps side by side.",
       },
       maps: {
         title: "Maps",
-        description: "See where passes go: progression, impact, line breaks and value created in the final third.",
+        description: "Progressive pass maps, impact passes and line-breaking routes.",
       },
       players: {
         title: "Players",
@@ -1240,19 +1240,19 @@ const pt: Messages = {
     modules: {
       reports: {
         title: "Relatórios",
-        description: "Gere PDFs com nota de passe, letras dos pilares e mapas — prontos para usar no scouting.",
+        description: "Gere um PDF com perfil completo, avaliações, mapas e consistência jogo a jogo.",
       },
       profile: {
         title: "Perfil",
-        description: "Tudo numa tela: pilares de passe, letras, índices xP e de onde saem os passes.",
+        description: "Como é o atleta com a bola — stats, mapas, xPV e xP numa só visão.",
       },
       compare: {
         title: "Comparar",
-        description: "Dois meio-campistas, mesmo pool europeu — confronto direto nos mesmos benchmarks cross-liga.",
+        description: "Compare dois atletas do app lado a lado — pilares, notas e mapas de passe.",
       },
       maps: {
         title: "Mapas",
-        description: "Veja para onde vai o passe: progressão, impacto, quebra de linha e valor no terço final.",
+        description: "Mapas de passes progressivos, impact passes e line breaking.",
       },
       players: {
         title: "Jogadores",
