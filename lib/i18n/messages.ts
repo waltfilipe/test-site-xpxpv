@@ -547,23 +547,23 @@ const en: Messages = {
     modules: {
       reports: {
         title: "Reports",
-        description: "PDF-ready reports — pass grades, pillar letters and maps, grouped by scouting category.",
+        description: "Export PDF reports with pass grades, pillar letters and pass maps — ready to share in scouting.",
       },
       profile: {
         title: "Profile",
-        description: "Full player view — pass scores, xP pillars with letter grades, indices and origin heatmaps.",
+        description: "Everything on one screen: pass pillars, letter grades, xP indices and where passes start from.",
       },
       compare: {
         title: "Compare",
-        description: "Head-to-head comparison on the full European pool — always cross-league.",
+        description: "Two midfielders, same European pool — head-to-head on the same cross-league benchmarks.",
       },
       maps: {
         title: "Maps",
-        description: "Pass maps and scatter — progressive, impact, line break and final-third xPV.",
+        description: "See where passes go: progression, impact, line breaks and value created in the final third.",
       },
       players: {
         title: "Players",
-        description: "Full eligible pool with pass grades, composite badges and sortable pillars.",
+        description: "Browse the full eligible pool — filter by league and badge, sort by pass grade and pillars.",
       },
     },
   },
@@ -1240,23 +1240,23 @@ const pt: Messages = {
     modules: {
       reports: {
         title: "Relatórios",
-        description: "Relatórios PDF — notas de passe, letras dos pilares e mapas, por categoria de scouting.",
+        description: "Gere PDFs com nota de passe, letras dos pilares e mapas — prontos para usar no scouting.",
       },
       profile: {
         title: "Perfil",
-        description: "Visão completa — pass scores, pilares xP com letras, índices e heatmaps de origem.",
+        description: "Tudo numa tela: pilares de passe, letras, índices xP e de onde saem os passes.",
       },
       compare: {
         title: "Comparar",
-        description: "Confronto direto no pool europeu completo — sempre cross-liga.",
+        description: "Dois meio-campistas, mesmo pool europeu — confronto direto nos mesmos benchmarks cross-liga.",
       },
       maps: {
         title: "Mapas",
-        description: "Mapas de passe e scatter — progressive, impact, line break e xPV no terço final.",
+        description: "Veja para onde vai o passe: progressão, impacto, quebra de linha e valor no terço final.",
       },
       players: {
         title: "Jogadores",
-        description: "Pool elegível completo com notas de passe, badges compostos e pilares ordenáveis.",
+        description: "Navegue pelo pool elegível — filtre por liga e badge, ordene por nota e pilares.",
       },
     },
   },
