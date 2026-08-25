@@ -16,7 +16,6 @@ BADGE_ORDER = (
     "progressor",
     "mestre_curto",
     "bombeiro_longo",
-    "motor",
 )
 
 # Lethality letter tier (A+ best). Organizador requires lethality B or worse.
@@ -139,8 +138,6 @@ def main() -> None:
             and row["long_d"] >= thresholds["long_d_p50"]
         ):
             badges.append("bombeiro_longo")
-        if row["vol"] >= thresholds["vol_p75"] and row["xpv_pp"] >= thresholds["xpv_pp_p75"]:
-            badges.append("motor")
 
         ordered = [key for key in BADGE_ORDER if key in badges]
         if ordered:
@@ -161,7 +158,6 @@ def main() -> None:
             "progressor": "pass_buildup_index >= P75 AND xpv_per_pass >= P75",
             "mestre_curto": "gap(short-long) >= P80 AND short_delta >= P50",
             "bombeiro_longo": "gap(long-short) >= P80 AND long_delta >= P50",
-            "motor": "passes_total >= P75 AND xpv_per_pass >= P75",
         },
         "thresholds": thresholds,
         "counts": counts,

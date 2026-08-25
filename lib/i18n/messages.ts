@@ -345,7 +345,6 @@ export type Messages = {
     progressor: { label: string; tooltip: string };
     mestre_curto: { label: string; tooltip: string };
     bombeiro_longo: { label: string; tooltip: string };
-    motor: { label: string; tooltip: string };
   };
   roundStats: {
     grade: string;
@@ -799,10 +798,6 @@ const en: Messages = {
       label: "Long specialist",
       tooltip:
         "Long-pass COE stratum lift well above short-pass lift (gap ≥ P80) with at least median long accuracy vs volume peers.",
-    },
-    motor: {
-      label: "Engine",
-      tooltip: "High pass volume and xPV per pass — heavy involvement with strong destination value in the pool.",
     },
   },
   roundStats: {
@@ -1470,10 +1465,6 @@ const pt: Messages = {
       label: "Especialista longo",
       tooltip:
         "COE no longo bem acima do curto vs pares de volume (gap ≥ P80), com long_Δ pelo menos na mediana do pool.",
-    },
-    motor: {
-      label: "Motor",
-      tooltip: "Alto volume de passes e xPV por passe — muita participação com valor de destino forte no pool.",
     },
   },
   roundStats: {

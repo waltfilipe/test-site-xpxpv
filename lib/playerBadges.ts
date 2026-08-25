@@ -4,7 +4,6 @@ export const PLAYER_BADGE_KEYS = [
   "progressor",
   "mestre_curto",
   "bombeiro_longo",
-  "motor",
 ] as const;
 
 export type PlayerBadgeKey = (typeof PLAYER_BADGE_KEYS)[number];
@@ -20,7 +19,6 @@ export const PLAYER_BADGE_CATALOG: Record<PlayerBadgeKey, PlayerBadgeSpec> = {
   progressor: { icon: "fa-arrow-trend-up", accent: "#a3e635" },
   mestre_curto: { icon: "fa-compress", accent: "#22d3ee" },
   bombeiro_longo: { icon: "fa-bullseye", accent: "#fb923c" },
-  motor: { icon: "fa-bolt", accent: "#facc15" },
 };
 
 export function sortPlayerBadges(badges: Iterable<PlayerBadgeKey>): PlayerBadgeKey[] {
