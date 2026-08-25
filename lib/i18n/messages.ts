@@ -340,6 +340,17 @@ export type Messages = {
   };
   profileBadges: {
     empty: string;
+    criteriaAll: string;
+    criteriaMetrics: {
+      volume: string;
+      buildup: string;
+      precision: string;
+      chanceCreation: string;
+      lethality: string;
+      xpvPerPass: string;
+      shortPass: string;
+      longPass: string;
+    };
     elite_passer: { label: string; tooltip: string };
     metronome: { label: string; tooltip: string };
     organizador: { label: string; tooltip: string };
@@ -776,6 +787,17 @@ const en: Messages = {
   },
   profileBadges: {
     empty: "No pool badges for this profile.",
+    criteriaAll: "All",
+    criteriaMetrics: {
+      volume: "Volume",
+      buildup: "Build-up",
+      precision: "Precision",
+      chanceCreation: "Chance creation",
+      lethality: "Lethality",
+      xpvPerPass: "xPV per pass",
+      shortPass: "Short passes",
+      longPass: "Long passes",
+    },
     elite_passer: {
       label: "Elite Passer",
       tooltip:
@@ -1453,6 +1475,17 @@ const pt: Messages = {
   },
   profileBadges: {
     empty: "Nenhum badge de pool neste perfil.",
+    criteriaAll: "All",
+    criteriaMetrics: {
+      volume: "Volume",
+      buildup: "Build-up",
+      precision: "Precisão",
+      chanceCreation: "Criação de chances",
+      lethality: "Letalidade",
+      xpvPerPass: "xPV/passe",
+      shortPass: "Passes curtos",
+      longPass: "Passes longos",
+    },
     elite_passer: {
       label: "Elite Passer",
       tooltip:

@@ -1,5 +1,6 @@
 "use client";
 
+import { BadgeCriteriaTooltip } from "@/components/BadgeCriteriaTooltip";
 import { Tooltip } from "@/components/ui/Tooltip";
 import type { PlayerBadgeKey } from "@/lib/playerBadges";
 import { PLAYER_BADGE_CATALOG, sortPlayerBadges } from "@/lib/playerBadges";
@@ -26,7 +27,7 @@ export function ProfileBadgesCard({ badges, compact = false }: Props) {
             const spec = PLAYER_BADGE_CATALOG[key];
             const copy = m.profileBadges[key];
             return (
-              <Tooltip key={key} content={copy.tooltip}>
+              <Tooltip key={key} content={<BadgeCriteriaTooltip badgeKey={key} />}>
                 <div
                   className={`profile-badge-tile profile-badge-tile-${key}`}
                   role="listitem"
