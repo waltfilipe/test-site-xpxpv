@@ -778,7 +778,7 @@ const en: Messages = {
     organizador: {
       label: "Organiser",
       tooltip:
-        "High pass volume and COE with below-median threat rate — organises through safe distribution in the eligible pool.",
+        "High build-up and pass volume (both ≥ P75) with contained lethality (letter B or below) — progresses the team without high attacking threat.",
     },
     criativo: {
       label: "Creative",
@@ -788,7 +788,7 @@ const en: Messages = {
     progressor: {
       label: "Progressor",
       tooltip:
-        "High build-up and impact indices — progressive passes that carry offensive impact vs eligible peers.",
+        "High build-up index and xPV per pass (both ≥ P75) — advances play with strong destination value vs eligible peers.",
     },
     mestre_curto: {
       label: "Short specialist",
@@ -1449,7 +1449,7 @@ const pt: Messages = {
     organizador: {
       label: "Organizador",
       tooltip:
-        "Alto volume e COE com taxa de ameaça abaixo da mediana — organiza com distribuição segura no pool elegível.",
+        "Build-up e volume altos (ambos ≥ P75) com letalidade contida (letra B ou inferior) — progride o jogo sem ameaça ofensiva elevada.",
     },
     criativo: {
       label: "Criativo",
@@ -1459,7 +1459,7 @@ const pt: Messages = {
     progressor: {
       label: "Progressor",
       tooltip:
-        "Índices altos de construção e impacto — passes progressivos com impacto ofensivo vs pares elegíveis.",
+        "Índice de construção e xPV/passe altos (ambos ≥ P75) — avança o jogo com forte valor de destino vs pares elegíveis.",
     },
     mestre_curto: {
       label: "Especialista curto",

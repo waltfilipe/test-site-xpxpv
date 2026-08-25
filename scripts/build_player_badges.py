@@ -19,6 +19,26 @@ BADGE_ORDER = (
     "motor",
 )
 
+# Lethality letter tier (A+ best). Organizador requires lethality B or worse.
+_LETTER_TIER: dict[str, int] = {
+    "A+": 10,
+    "A": 9,
+    "A-": 8,
+    "B+": 7,
+    "B": 6,
+    "B-": 5,
+    "C+": 4,
+    "C": 3,
+    "C-": 2,
+    "D": 1,
+    "—": 0,
+}
+
+
+def _lethality_at_most_b(letter: str | None) -> bool:
+    tier = _LETTER_TIER.get(str(letter or "—").strip(), 0)
+    return tier <= _LETTER_TIER["B"]
+
 
 def _pctile(values: list[float], q: float) -> float:
     if not values:
@@ -58,6 +78,7 @@ def main() -> None:
                 "chance": float(_get(player, derived, "pass_chance_creation_index") or -999.0),
                 "buildup": float(_get(player, derived, "pass_buildup_index") or -999.0),
                 "impact": float(_get(player, derived, "pass_impact_index") or -999.0),
+                "leth_letter": str(_get(player, derived, "pv_abs_leth_letter") or "—"),
                 "short_d": short_d,
                 "long_d": long_d,
                 "gap_short_long": short_d - long_d,
@@ -77,6 +98,7 @@ def main() -> None:
         "leth_p80": pct("leth", 0.80),
         "chance_p80": pct("chance", 0.80),
         "buildup_p80": pct("buildup", 0.80),
+        "buildup_p75": pct("buildup", 0.75),
         "impact_p80": pct("impact", 0.80),
         "short_d_p50": pct("short_d", 0.50),
         "long_d_p50": pct("long_d", 0.50),
@@ -91,9 +113,9 @@ def main() -> None:
     for row in rows:
         badges: list[str] = []
         if (
-            row["vol"] >= thresholds["vol_p80"]
-            and row["coe"] >= thresholds["coe_p80"]
-            and row["threat"] <= thresholds["threat_p50"]
+            row["buildup"] >= thresholds["buildup_p75"]
+            and row["vol"] >= thresholds["vol_p75"]
+            and _lethality_at_most_b(row["leth_letter"])
         ):
             badges.append("organizador")
         if (
@@ -102,7 +124,10 @@ def main() -> None:
             and row["vol"] < thresholds["vol_p70"]
         ):
             badges.append("criativo")
-        if row["buildup"] >= thresholds["buildup_p80"] and row["impact"] >= thresholds["impact_p80"]:
+        if (
+            row["buildup"] >= thresholds["buildup_p75"]
+            and row["xpv_pp"] >= thresholds["xpv_pp_p75"]
+        ):
             badges.append("progressor")
         if (
             row["gap_short_long"] >= thresholds["gap_short_long_p80"]
@@ -128,9 +153,12 @@ def main() -> None:
         "eligible_count": len(rows),
         "badge_order": list(BADGE_ORDER),
         "criteria": {
-            "organizador": "passes_total >= P80 AND xpass_coe_pct >= P80 AND threat_pass_pct <= P50",
+            "organizador": (
+                "pass_buildup_index >= P75 AND passes_total >= P75 "
+                "AND lethality letter <= B (pv_abs_leth_letter)"
+            ),
             "criativo": "leth_xpv_per_pass >= P80 AND pass_chance_creation_index >= P80 AND passes_total < P70",
-            "progressor": "pass_buildup_index >= P80 AND pass_impact_index >= P80",
+            "progressor": "pass_buildup_index >= P75 AND xpv_per_pass >= P75",
             "mestre_curto": "gap(short-long) >= P80 AND short_delta >= P50",
             "bombeiro_longo": "gap(long-short) >= P80 AND long_delta >= P50",
             "motor": "passes_total >= P75 AND xpv_per_pass >= P75",
