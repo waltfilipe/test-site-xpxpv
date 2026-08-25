@@ -514,9 +514,9 @@ const en: Messages = {
       xpv: {
         tag: "xPV",
         pillarTag: "Productivity",
-        title: "How valuable is the destination?",
+        title: "How valuable is the pass route?",
         body:
-          "xPV is the productivity side of passing: the pitch is split into zones and each destination gets a value — advance, reach and rarity. Completed passes are scored by where the ball lands, not how easy the pass was. High xPV means your distribution moves the team into valuable spaces.",
+          "xPV is the productivity side: the pitch is split into zones and each origin→destination pair gets a value — how much the ball advances, how rare that route is, and how far it travels. Only completed passes count. A pass from deep to the final third scores more than a safe lateral in the same zone.",
       },
       xp: {
         tag: "xP",
@@ -1207,9 +1207,9 @@ const pt: Messages = {
       xpv: {
         tag: "xPV",
         pillarTag: "Produtividade",
-        title: "Quanto vale chegar lá?",
+        title: "Quanto vale essa rota de passe?",
         body:
-          "O xPV é o lado produtividade: o campo é dividido em zonas e cada destino recebe um valor — avanço, alcance e raridade. Passes completados são pontuados pelo lugar onde a bola chega, não pela facilidade do passe. xPV alto significa distribuir para espaços que atacam o adversário.",
+          "O xPV é o lado produtividade: o campo é dividido em zonas e cada par origem→destino recebe um valor — quanto a bola avança, quão rara é aquela rota e quanto ela percorre. Só entram passes completados. Um passe da defesa ao terço final vale mais que um lateral seguro na mesma zona.",
       },
       xp: {
         tag: "xP",
