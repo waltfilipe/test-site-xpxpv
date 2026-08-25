@@ -15,15 +15,11 @@
     "metronome": "pass_volume_letter >= B+ AND pass_efficiency_letter >= B+ AND pass_chance_creation_letter < A-",
     "organizador": "pass_buildup_letter >= B AND pass_volume_letter >= B AND xpv_per_pass < P60 AND NOT metronome/elite_passer",
     "progressor": "pass_volume_letter <= B AND pass_buildup_letter >= B+ AND xpv_per_pass > P70",
-    "criativo": "leth_xpv_per_pass >= P80 AND pass_chance_creation_index >= P80 AND passes_total < P70",
+    "criativo": "pass_volume_letter <= B AND pass_chance_creation_letter >= B+ AND pv_abs_leth_letter >= B+",
     "mestre_curto": "gap(short-long) >= 3pp AND short_delta >= P50 AND long_pass_share_pctile <= 60 (short share >= P40)",
     "bombeiro_longo": "gap(long-short) >= 3pp AND long_delta >= P50 AND long_pass_share_pctile >= 40"
   },
   "thresholds": {
-    "vol_p80": 58.360600000000005,
-    "vol_p70": 54.0109,
-    "leth_p80": 0.36976,
-    "chance_p80": 0.8491068457354641,
     "short_d_p50": 0.11499999999999999,
     "long_d_p50": 0.395,
     "gap_min_pp": 3.0,
@@ -35,7 +31,7 @@
     "metronome": 15,
     "organizador": 8,
     "progressor": 11,
-    "criativo": 6,
+    "criativo": 12,
     "mestre_curto": 40,
     "bombeiro_longo": 49
   },
@@ -107,10 +103,12 @@
     ],
     "190883": [
       "progressor",
+      "criativo",
       "bombeiro_longo"
     ],
     "288205": [
       "progressor",
+      "criativo",
       "bombeiro_longo"
     ],
     "866469": [
@@ -122,6 +120,9 @@
     ],
     "1199043": [
       "mestre_curto"
+    ],
+    "832427": [
+      "criativo"
     ],
     "122951": [
       "progressor"
@@ -175,6 +176,7 @@
       "bombeiro_longo"
     ],
     "798835": [
+      "criativo",
       "bombeiro_longo"
     ],
     "117777": [
@@ -344,6 +346,9 @@
     "1082981": [
       "mestre_curto"
     ],
+    "1410217": [
+      "criativo"
+    ],
     "48480": [
       "organizador",
       "bombeiro_longo"
@@ -383,6 +388,9 @@
     ],
     "150383": [
       "mestre_curto"
+    ],
+    "944660": [
+      "criativo"
     ],
     "800419": [
       "mestre_curto"

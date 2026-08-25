@@ -89,6 +89,7 @@ def main() -> None:
                 "buildup_letter": str(_get(player, derived, "pass_buildup_letter") or "—"),
                 "precision_letter": str(_get(player, derived, "pass_efficiency_letter") or "—"),
                 "chance_letter": str(_get(player, derived, "pass_chance_creation_letter") or "—"),
+                "leth_letter": str(_get(player, derived, "pv_abs_leth_letter") or "—"),
                 "short_d": short_d,
                 "long_d": long_d,
                 "gap_short_long": short_d - long_d,
@@ -103,10 +104,6 @@ def main() -> None:
         return _pctile([row[key] for row in rows], q)
 
     thresholds = {
-        "vol_p80": pct("vol", 0.80),
-        "vol_p70": pct("vol", 0.70),
-        "leth_p80": pct("leth", 0.80),
-        "chance_p80": pct("chance", 0.80),
         "short_d_p50": pct("short_d", 0.50),
         "long_d_p50": pct("long_d", 0.50),
         "gap_min_pp": _GAP_MIN_PP,
@@ -143,9 +140,9 @@ def main() -> None:
         ):
             badges.append("progressor")
         if (
-            row["leth"] >= thresholds["leth_p80"]
-            and row["chance"] >= thresholds["chance_p80"]
-            and row["vol"] < thresholds["vol_p70"]
+            _at_most(row["vol_letter"], "B")
+            and _at_least(row["chance_letter"], "B+")
+            and _at_least(row["leth_letter"], "B+")
         ):
             badges.append("criativo")
         if (
@@ -189,8 +186,8 @@ def main() -> None:
                 "AND xpv_per_pass > P70"
             ),
             "criativo": (
-                "leth_xpv_per_pass >= P80 AND pass_chance_creation_index >= P80 "
-                "AND passes_total < P70"
+                "pass_volume_letter <= B AND pass_chance_creation_letter >= B+ "
+                "AND pv_abs_leth_letter >= B+"
             ),
             "mestre_curto": (
                 "gap(short-long) >= 3pp AND short_delta >= P50 "

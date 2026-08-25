@@ -794,7 +794,7 @@ const en: Messages = {
     criativo: {
       label: "Creative",
       tooltip:
-        "High lethality and chance-creation index with contained pass volume — low-volume chance creator in the pool.",
+        "Contained pass volume (≤ B) with strong chance creation and lethality (both ≥ B+) — low-volume chance creator.",
     },
     progressor: {
       label: "Progressor",
@@ -1471,7 +1471,7 @@ const pt: Messages = {
     criativo: {
       label: "Criativo",
       tooltip:
-        "Alta letalidade e índice de criação com volume contido — criador de chances de baixo volume no pool.",
+        "Volume contido (≤ B) com criação de chances e letalidade fortes (ambos ≥ B+) — criador de baixo volume.",
     },
     progressor: {
       label: "Progressor",
