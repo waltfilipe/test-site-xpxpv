@@ -1454,17 +1454,17 @@ const pt: Messages = {
     progressor: {
       label: "Progressor",
       tooltip:
-        "Índice de construção e xPV/passe altos (ambos ≥ P75) — avança o jogo com forte valor de destino vs pares elegíveis.",
+        "Índice de construção (≥ P75) e xPV/passe (≥ P70) — avança o jogo com forte valor de destino vs pares elegíveis.",
     },
     mestre_curto: {
       label: "Especialista curto",
       tooltip:
-        "COE no curto bem acima do longo (gap ≥ P80), short_Δ ≥ mediana e % de passes curtos ≥ P40 (longo ≤ P60).",
+        "COE no curto ≥ 3pp acima do longo, short_Δ ≥ mediana e % de passes curtos ≥ P40 (longo ≤ P60).",
     },
     bombeiro_longo: {
       label: "Especialista longo",
       tooltip:
-        "COE no longo bem acima do curto (gap ≥ P80), long_Δ ≥ mediana e % de passes longos ≥ P40.",
+        "COE no longo ≥ 3pp acima do curto, long_Δ ≥ mediana e % de passes longos ≥ P40.",
     },
   },
   roundStats: {

@@ -18,6 +18,8 @@ BADGE_ORDER = (
     "bombeiro_longo",
 )
 
+_GAP_MIN_PP = 3.0
+
 # Lethality letter tier (A+ best). Organizador requires lethality B or worse.
 _LETTER_TIER: dict[str, int] = {
     "A+": 10,
@@ -104,9 +106,8 @@ def main() -> None:
         "impact_p80": pct("impact", 0.80),
         "short_d_p50": pct("short_d", 0.50),
         "long_d_p50": pct("long_d", 0.50),
-        "gap_short_long_p80": pct("gap_short_long", 0.80),
-        "gap_long_short_p80": pct("gap_long_short", 0.80),
-        "xpv_pp_p75": pct("xpv_pp", 0.75),
+        "gap_min_pp": _GAP_MIN_PP,
+        "xpv_pp_p70": pct("xpv_pp", 0.70),
     }
 
     by_player_id: dict[str, list[str]] = {}
@@ -128,17 +129,17 @@ def main() -> None:
             badges.append("criativo")
         if (
             row["buildup"] >= thresholds["buildup_p75"]
-            and row["xpv_pp"] >= thresholds["xpv_pp_p75"]
+            and row["xpv_pp"] >= thresholds["xpv_pp_p70"]
         ):
             badges.append("progressor")
         if (
-            row["gap_short_long"] >= thresholds["gap_short_long_p80"]
+            row["gap_short_long"] >= _GAP_MIN_PP
             and row["short_d"] >= thresholds["short_d_p50"]
             and row["long_share_pctile"] <= 60.0
         ):
             badges.append("mestre_curto")
         if (
-            row["gap_long_short"] >= thresholds["gap_long_short_p80"]
+            row["gap_long_short"] >= _GAP_MIN_PP
             and row["long_d"] >= thresholds["long_d_p50"]
             and row["long_share_pctile"] >= 40.0
         ):
@@ -160,13 +161,13 @@ def main() -> None:
                 "AND lethality letter <= B (pv_abs_leth_letter)"
             ),
             "criativo": "leth_xpv_per_pass >= P80 AND pass_chance_creation_index >= P80 AND passes_total < P70",
-            "progressor": "pass_buildup_index >= P75 AND xpv_per_pass >= P75",
+            "progressor": "pass_buildup_index >= P75 AND xpv_per_pass >= P70",
             "mestre_curto": (
-                "gap(short-long) >= P80 AND short_delta >= P50 "
+                "gap(short-long) >= 3pp AND short_delta >= P50 "
                 "AND long_pass_share_pctile <= 60 (short share >= P40)"
             ),
             "bombeiro_longo": (
-                "gap(long-short) >= P80 AND long_delta >= P50 "
+                "gap(long-short) >= 3pp AND long_delta >= P50 "
                 "AND long_pass_share_pctile >= 40"
             ),
         },
