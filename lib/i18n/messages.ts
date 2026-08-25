@@ -551,7 +551,7 @@ const en: Messages = {
       },
       profile: {
         title: "Profile",
-        description: "Who the player is on the ball — stats, pass maps, xPV and xP in one view.",
+        description: "How the player passes — stats, maps, xPV and xP in one view.",
       },
       compare: {
         title: "Compare",
@@ -1244,7 +1244,7 @@ const pt: Messages = {
       },
       profile: {
         title: "Perfil",
-        description: "Como é o atleta com a bola — stats, mapas, xPV e xP numa só visão.",
+        description: "Como é o atleta passando — stats, mapas, xPV e xP numa só visão.",
       },
       compare: {
         title: "Comparar",
