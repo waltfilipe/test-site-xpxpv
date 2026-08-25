@@ -3,7 +3,7 @@ import { ReportsFootnote } from "./ReportsFootnote";
 
 export const metadata = {
   title: "Reports | xP & xPV Analysis",
-  description: "Curated midfielder scouting reports with xP grades, pass scores and pass maps",
+  description: "Midfielder PDF reports with pass grades, pillar letters and pass maps",
 };
 
 export default function ReportsPage() {

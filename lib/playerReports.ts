@@ -29,8 +29,8 @@ function p(playerId: string, note?: string): ReportPlayerRef {
 export const PROFILE_ALL_GROUP = {
   id: "all",
   title: "All Players",
-  subtitle: "Full curated pool",
-  description: "All curated midfielders ranked by overall pass grade.",
+  subtitle: "Report watchlist",
+  description: "All report profiles ranked by overall pass grade.",
   accent: "#cbd5e1",
 } as const;
 

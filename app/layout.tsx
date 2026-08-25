@@ -5,7 +5,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "xP & xPV Analysis",
-  description: "Pass analysis of top midfielders from non-Champions League teams across Europe's top five leagues.",
+  description: "Pass intelligence for midfielders across Europe's top-five leagues — xP difficulty, xPV destination value, pass grades and tactical maps.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
