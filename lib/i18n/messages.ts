@@ -527,21 +527,21 @@ const en: Messages = {
       },
       grades: {
         tag: "Grades",
-        title: "Easy to read at a glance",
+        title: "Readable at a glance",
         body:
-          "Pass Grades turn the model into letter tiers and a 1–10 score, compared to peers in the same position pool. Elite letters signal top-end passing among European midfielders — not just within one league.",
+          "Pass grades boil xP and xPV down to letters and a 1–10 score, ranked against midfield peers across Europe — not just within one league. You see quickly who distributes at an elite level.",
       },
       analyzed: {
         tag: "Scope",
-        title: "What we study",
+        title: "What we look at",
         body:
-          "Pass maps, volume, consistency, progression into the final third, chance creation and defensive work. Together they show how a player builds play, when they take risks, and where they hurt opponents.",
+          "Pass maps, volume, match-to-match consistency, progression into the final third and chance creation — plus composite pass profiles. Together they show how a player builds play, when they take risks and where their distribution hurts opponents.",
       },
       mission: {
         tag: "Reports",
         title: "Why this project exists",
         body:
-          "To identify midfielders with outstanding passing ability under these new metrics — athletes who can orchestrate play and create value through distribution, before the market fully catches on.",
+          "To surface midfielders whose passing profile stands out on xP and xPV — players who move the team forward with the ball — and package that in profiles, comparisons and PDF reports ready for scouting.",
       },
     },
     modules: {
@@ -1220,21 +1220,21 @@ const pt: Messages = {
       },
       grades: {
         tag: "Grades",
-        title: "Fácil de ler de relance",
+        title: "Leitura rápida",
         body:
-          "As notas de passe transformam o modelo em letras e nota 1–10, comparadas aos pares do pool. Letras elite indicam passe de ponta entre meio-campistas europeus — não só dentro de uma liga.",
+          "As notas de passe resumem xP e xPV em letras e uma nota de 1 a 10, comparadas aos pares entre meio-campistas europeus — não só da mesma liga. Dá para ver de relance quem distribui em nível elite.",
       },
       analyzed: {
         tag: "Escopo",
-        title: "O que analisamos",
+        title: "O que olhamos",
         body:
-          "Mapas de passe, volume, consistência, progressão no terço final, criação de chances e trabalho defensivo. Juntos mostram como o jogador constrói o jogo, quando arrisca e onde machuca o adversário.",
+          "Mapas de passe, volume, consistência de jogo a jogo, progressão no terço final e criação de chances — além de perfis compostos de passe. Juntos mostram como o jogador constrói o jogo, quando arrisca e onde a distribuição machuca o adversário.",
       },
       mission: {
         tag: "Relatórios",
         title: "Por que este projeto existe",
         body:
-          "Identificar meio-campistas com capacidade excepcional de passe nas novas métricas — atletas que orquestram o jogo e criam valor pela distribuição, antes que o mercado capture isso por completo.",
+          "Destacar meio-campistas cujo perfil de passe se sobressai em xP e xPV — quem faz o time avançar com a bola — e entregar isso em perfis, comparações e relatórios PDF prontos para scouting.",
       },
     },
     modules: {
