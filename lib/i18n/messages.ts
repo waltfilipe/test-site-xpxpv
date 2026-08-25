@@ -937,6 +937,8 @@ const en: Messages = {
       eff_short_stratum_delta_pp: "Short COE above volume-stratum peers.",
       eff_long_stratum_delta_pp: "Long COE above volume-stratum peers.",
       build_prog_share_pct: "Progressive passes as a share of all passes.",
+      build_final_third_share_pct: "Final-third entries as a share of all passes.",
+      build_line_break_share_pct: "Line breaks as a share of all passes.",
       build_final_third_exclusive_share_pct:
         "Non-progressive final-third entries as a share of all passes.",
       build_line_break_exclusive_share_pct:
@@ -944,6 +946,7 @@ const en: Messages = {
       chance_box_exclusive_share_pct:
         "Into-box passes that are not key passes, as a share of all passes.",
       chance_key_share_pct: "Key passes as a share of all passes.",
+      chance_box_share_pct: "Into-box passes as a share of all passes.",
       buildup_final_third_exclusive_pg:
         "Final-third entries that are not already progressive passes.",
       buildup_line_break_exclusive_pg:
@@ -980,12 +983,15 @@ const en: Messages = {
       eff_short_stratum_delta_pp: "Short COE vs stratum",
       eff_long_stratum_delta_pp: "Long COE vs stratum",
       build_prog_share_pct: "Progressive %",
+      build_final_third_share_pct: "Final third %",
+      build_line_break_share_pct: "Line break %",
       buildup_final_third_exclusive_pg: "Final third (non-prog) / game",
       buildup_line_break_exclusive_pg: "Line breaks (exclusive) / game",
       chance_box_exclusive_pg: "Into box (non-key) / game",
       build_final_third_exclusive_share_pct: "Final third (non-prog) %",
       build_line_break_exclusive_share_pct: "Line break (exclusive) %",
       chance_box_exclusive_share_pct: "Into box (non-key) %",
+      chance_box_share_pct: "Into box %",
       chance_key_share_pct: "Key pass %",
       chance_impact_ft_share_pct: "Final-third impact %",
       chance_xpv_share_pct: "Creation xPV % of xP",
@@ -1604,6 +1610,8 @@ const pt: Messages = {
       eff_short_stratum_delta_pp: "COE curto acima do estrato de volume.",
       eff_long_stratum_delta_pp: "COE longo acima do estrato de volume.",
       build_prog_share_pct: "Passes progressivos como % do total.",
+      build_final_third_share_pct: "Terço final como % dos passes.",
+      build_line_break_share_pct: "Line breaks como % dos passes.",
       build_final_third_exclusive_share_pct:
         "Entradas no terço final não progressivas como % dos passes.",
       build_line_break_exclusive_share_pct:
@@ -1611,6 +1619,7 @@ const pt: Messages = {
       chance_box_exclusive_share_pct:
         "Passes na área que não são key passes, como % dos passes.",
       chance_key_share_pct: "Key passes como % dos passes.",
+      chance_box_share_pct: "Passes na área como % dos passes.",
       buildup_final_third_exclusive_pg:
         "Entradas no terço final que não são passes progressivos.",
       buildup_line_break_exclusive_pg:
@@ -1647,12 +1656,15 @@ const pt: Messages = {
       eff_short_stratum_delta_pp: "COE curto vs estrato",
       eff_long_stratum_delta_pp: "COE longo vs estrato",
       build_prog_share_pct: "Progressivo %",
+      build_final_third_share_pct: "Terço final %",
+      build_line_break_share_pct: "Line break %",
       buildup_final_third_exclusive_pg: "Terço final (não prog) / jogo",
       buildup_line_break_exclusive_pg: "Line breaks (exclusivos) / jogo",
       chance_box_exclusive_pg: "Na área (não key) / jogo",
       build_final_third_exclusive_share_pct: "Terço final (não prog) %",
       build_line_break_exclusive_share_pct: "Line break (exclusivo) %",
       chance_box_exclusive_share_pct: "Na área (não key) %",
+      chance_box_share_pct: "Na área %",
       chance_key_share_pct: "Key pass %",
       chance_impact_ft_share_pct: "Impacto terço final %",
       chance_xpv_share_pct: "xPV criação % do xP",
