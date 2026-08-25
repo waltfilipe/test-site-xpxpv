@@ -8,6 +8,9 @@ export type Messages = {
     compare: string;
     maps: string;
     players: string;
+    primary: string;
+    openMenu: string;
+    closeMenu: string;
   };
   lang: {
     switchToPt: string;
@@ -441,6 +444,9 @@ const en: Messages = {
     compare: "Compare",
     maps: "Maps",
     players: "Players",
+    primary: "Primary navigation",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
   },
   lang: {
     switchToPt: "Português",
@@ -1131,6 +1137,9 @@ const pt: Messages = {
     compare: "Comparar",
     maps: "Mapas",
     players: "Jogadores",
+    primary: "Navegação principal",
+    openMenu: "Abrir menu",
+    closeMenu: "Fechar menu",
   },
   lang: {
     switchToPt: "Português",
