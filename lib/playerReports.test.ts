@@ -5,9 +5,11 @@ import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
 import {
   enrichedReportPlayers,
+  isSiteCohortPlayer,
   mergedReportPlayers,
   PLAYER_REPORT_CATEGORIES,
   playerIdsForProfileGroup,
+  siteCohortPlayerIds,
 } from "./playerReports.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -39,6 +41,13 @@ describe("playerReports", () => {
       .filter((playerId) => !POOL_IDS.has(playerId));
 
     assert.deepEqual(missing, [], `Report players missing from pool data: ${missing.join(", ")}`);
+  });
+
+  it("site cohort matches player-ids.json", () => {
+    assert.deepEqual([...siteCohortPlayerIds()].sort(), [...POOL_IDS].sort());
+    for (const entry of enrichedReportPlayers()) {
+      assert.ok(isSiteCohortPlayer(entry.playerId));
+    }
   });
 
   it("dedupes merged report players by id while keeping all group labels", () => {

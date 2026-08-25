@@ -2,7 +2,7 @@ import "server-only";
 
 import fs from "fs";
 import path from "path";
-import { playerIdsForProfileGroup } from "@/lib/playerReports";
+import { isSiteCohortPlayer, playerIdsForProfileGroup, siteCohortPlayerIds } from "@/lib/playerReports";
 import { enrichPlayerProfile } from "@/lib/enrichProfile.server";
 import { formatDominantFoot, formatPlayerHeight } from "@/lib/formatters";
 import { overallPassGradeFromProfile } from "@/lib/passGrades";
@@ -255,6 +255,7 @@ function filterPool(players: JsonRecord[], params: URLSearchParams): JsonRecord[
 
   let filtered = players.filter((player) => {
     const pid = String(player.player_id);
+    if (!siteCohortPlayerIds().has(pid)) return false;
     const xp = xpById[pid] ?? player;
 
     if (league !== "all" && String(player.league_source ?? "") !== league) return false;
@@ -382,6 +383,7 @@ export function getStaticPlayerOptions(params: URLSearchParams) {
 }
 
 export function getStaticPlayerProfile(playerId: string) {
+  if (!isSiteCohortPlayer(playerId)) return null;
   const profile = getProfile(playerId);
   if (!profile) return null;
   return enrichPlayerProfile(profile);
@@ -390,6 +392,7 @@ export function getStaticPlayerProfile(playerId: string) {
 const PASS_SCORE_ORDER = ["Volume", "Build-up", "Chance creation", "Lethality"] as const;
 
 export function getStaticCompare(playerA: string, playerB: string) {
+  if (!isSiteCohortPlayer(playerA) || !isSiteCohortPlayer(playerB)) return null;
   const profileA = enrichPlayerProfile(getProfile(playerA) ?? {});
   const profileB = enrichPlayerProfile(getProfile(playerB) ?? {});
   if (!profileA?.player || !profileB?.player) return null;
@@ -507,7 +510,8 @@ export function getStaticCompare(playerA: string, playerB: string) {
 }
 
 export function getStaticScatter(xKey: string, yKey: string, highlight?: string | null) {
-  const metrics = getPoolMetrics();
+  const cohortIds = siteCohortPlayerIds();
+  const metrics = getPoolMetrics().filter((row) => cohortIds.has(String(row.player_id)));
   const points = metrics
     .map((row) => {
       const x = row[xKey];
@@ -552,6 +556,7 @@ export function getStaticScatter(xKey: string, yKey: string, highlight?: string 
 }
 
 export function getStaticPassMap(playerId: string, passFilter: string) {
+  if (!isSiteCohortPlayer(playerId)) return null;
   const relativePath = `pass-maps/${playerId}/${passFilter}.json`;
   const filePath = path.join(DATA_DIR, relativePath);
   if (!fs.existsSync(filePath)) return null;

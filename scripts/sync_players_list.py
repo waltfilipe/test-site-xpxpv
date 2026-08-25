@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refresh players.json and pool-metrics.json from the backend API pool."""
+"""Refresh site player data for the published cohort only."""
 
 from __future__ import annotations
 
@@ -10,6 +10,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 POOL_PATH = Path("/agent/repos/xpv-xp_site/backend/data/api_pool_midfielders.json")
+COHORT_PATH = DATA / "profile-cohort-blocks.json"
 
 PLAYER_LIST_FIELDS = (
     "player_id",
@@ -74,14 +75,30 @@ SYNC_FIELDS = {
 }
 
 
+def _load_cohort_ids() -> set[str]:
+    cohort = json.loads(COHORT_PATH.read_text(encoding="utf-8"))
+    ids = cohort.get("all_player_ids") or []
+    if not ids:
+        raise SystemExit(f"No all_player_ids in {COHORT_PATH}")
+    return {str(pid) for pid in ids}
+
+
 def _pick(player: dict[str, Any], fields: tuple[str, ...]) -> dict[str, Any]:
     return {key: player.get(key) for key in fields if key in player}
 
 
 def main() -> None:
+    cohort_ids = _load_cohort_ids()
     pool = json.loads(POOL_PATH.read_text(encoding="utf-8"))
-    eligible = [p for p in pool["players"] if p.get("xp_profile_bars_eligible")]
+    eligible = [
+        p for p in pool["players"]
+        if p.get("xp_profile_bars_eligible") and str(p["player_id"]) in cohort_ids
+    ]
     by_id = {str(p["player_id"]): p for p in eligible}
+
+    missing = sorted(cohort_ids - set(by_id.keys()))
+    if missing:
+        raise SystemExit(f"Cohort ids missing from backend pool: {', '.join(missing)}")
 
     existing_metrics: list[dict[str, Any]] = []
     metrics_path = DATA / "pool-metrics.json"
@@ -91,7 +108,8 @@ def main() -> None:
     metrics_by_id = {str(row["player_id"]): row for row in existing_metrics}
     merged_metrics: list[dict[str, Any]] = []
 
-    for pid, player in sorted(by_id.items(), key=lambda item: item[1].get("player_name", "")):
+    for pid in sorted(cohort_ids, key=lambda item: by_id[item].get("player_name", "")):
+        player = by_id[pid]
         base = dict(metrics_by_id.get(pid, player))
         base["player_id"] = pid
         for key, value in player.items():
@@ -100,8 +118,8 @@ def main() -> None:
         merged_metrics.append(base)
 
     rows = []
-    for player in eligible:
-        pid = str(player["player_id"])
+    for pid in sorted(cohort_ids, key=lambda item: by_id[item].get("player_name", "")):
+        player = by_id[pid]
         metrics = metrics_by_id.get(pid, player)
         row = _pick({**metrics, **player}, PLAYER_LIST_FIELDS)
         row["player_id"] = pid
@@ -144,8 +162,14 @@ def main() -> None:
     meta["leagues"] = leagues
     meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    print(f"Synced {len(rows)} eligible players ({len(leagues)} leagues)")
-    print(f"  wrote {players_payload_path.name}, {metrics_path.name}, {meta_path.name}")
+    player_ids_path = DATA / "player-ids.json"
+    player_ids_path.write_text(
+        json.dumps(sorted(cohort_ids), ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+
+    print(f"Synced {len(rows)} cohort players ({len(leagues)} leagues)")
+    print(f"  wrote {players_payload_path.name}, {metrics_path.name}, {meta_path.name}, {player_ids_path.name}")
 
 
 if __name__ == "__main__":

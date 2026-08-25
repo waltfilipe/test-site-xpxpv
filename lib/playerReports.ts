@@ -58,6 +58,19 @@ export function allReportPlayerRefs(): ReportPlayerRef[] {
   return out;
 }
 
+/** Unique player ids published on the site (top-5 / top-10 / top-u23 cohorts, overlaps allowed). */
+export function siteCohortPlayerIds(): Set<string> {
+  const ids = cohortData.all_player_ids;
+  if (Array.isArray(ids) && ids.length) {
+    return new Set(ids.map(String));
+  }
+  return new Set(allReportPlayerRefs().map((entry) => entry.playerId));
+}
+
+export function isSiteCohortPlayer(playerId: string): boolean {
+  return siteCohortPlayerIds().has(String(playerId));
+}
+
 export function totalReportCount(): number {
   return allReportPlayerRefs().length;
 }

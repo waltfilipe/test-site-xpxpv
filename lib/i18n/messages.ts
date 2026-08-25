@@ -563,7 +563,7 @@ const en: Messages = {
       },
       players: {
         title: "Players",
-        description: "Browse the full eligible pool — filter by league and badge, sort by pass grade and pillars.",
+        description: "Browse the published cohort — filter by league and badge, sort by pass grade and pillars.",
       },
     },
   },
@@ -616,7 +616,7 @@ const en: Messages = {
     clusterTip: "Pass-profile cluster on raw absolute metrics. About {pct}% of the eligible pool shares this archetype.",
   },
   players: {
-    subtitle: "Eligible midfielders from Europe's top-five leagues — pass grades and pool pillar letters.",
+    subtitle: "Published midfielder cohort — pass grades and pool pillar letters.",
     loadingFilters: "Loading filters…",
     found: "player found",
     foundPlural: "players found",
@@ -1256,7 +1256,7 @@ const pt: Messages = {
       },
       players: {
         title: "Jogadores",
-        description: "Navegue pelo pool elegível — filtre por liga e badge, ordene por nota e pilares.",
+        description: "Navegue pelo cohort publicado — filtre por liga e badge, ordene por nota e pilares.",
       },
     },
   },
@@ -1309,7 +1309,7 @@ const pt: Messages = {
     clusterTip: "Cluster de perfil de passe em métricas absolutas cruas. Cerca de {pct}% do pool elegível compartilha este arquétipo.",
   },
   players: {
-    subtitle: "Meio-campistas elegíveis das cinco grandes ligas europeias — notas de passe e pilares do pool.",
+    subtitle: "Cohort publicado de meio-campistas — notas de passe e pilares do pool.",
     loadingFilters: "Carregando filtros…",
     found: "jogador encontrado",
     foundPlural: "jogadores encontrados",
