@@ -24,8 +24,8 @@
     "coe_p80": 2.624,
     "threat_p50": 6.3,
     "leth_p80": 0.36976,
-    "chance_p80": 0.8404516194365931,
-    "buildup_p80": 0.9145585097992214,
+    "chance_p80": 0.8491068457354641,
+    "buildup_p80": 0.7321290289474374,
     "impact_p80": 0.8190971019875005,
     "short_d_p50": 0.11499999999999999,
     "long_d_p50": 0.395,
@@ -35,7 +35,7 @@
   },
   "counts": {
     "organizador": 19,
-    "criativo": 7,
+    "criativo": 6,
     "progressor": 39,
     "mestre_curto": 40,
     "bombeiro_longo": 58,
@@ -94,7 +94,6 @@
       "mestre_curto"
     ],
     "1142248": [
-      "criativo",
       "bombeiro_longo"
     ],
     "1465307": [
@@ -300,6 +299,7 @@
       "motor"
     ],
     "296434": [
+      "progressor",
       "bombeiro_longo"
     ],
     "1493305": [
@@ -347,7 +347,6 @@
     ],
     "799251": [
       "criativo",
-      "progressor",
       "bombeiro_longo"
     ],
     "859027": [
@@ -397,6 +396,7 @@
     ],
     "954056": [
       "organizador",
+      "progressor",
       "mestre_curto"
     ],
     "363856": [
@@ -489,9 +489,6 @@
     "150383": [
       "organizador",
       "mestre_curto"
-    ],
-    "944660": [
-      "progressor"
     ],
     "800419": [
       "mestre_curto"
