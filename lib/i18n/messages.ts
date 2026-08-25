@@ -133,15 +133,16 @@ export type Messages = {
     loadFailed: string;
     searchPlaceholder: string;
     league: string;
+    allBadges: string;
     passRating: string;
     volume: string;
     efficiency: string;
     buildup: string;
     chanceCreation: string;
     defense: string;
-    reportsPromoTitle: string;
-    reportsPromoDesc: string;
-    reportsPromoCta: string;
+    badgesPromoTitle: string;
+    badgesPromoDesc: string;
+    reportsLink: string;
   };
   passGrade: {
     title: string;
@@ -617,15 +618,17 @@ const en: Messages = {
     loadFailed: "Failed to load players",
     searchPlaceholder: "Search player…",
     league: "League",
+    allBadges: "All badges",
     passRating: "Pass Rating",
     volume: "Volume",
     efficiency: "Efficiency",
     buildup: "Build-up",
     chanceCreation: "Chance creation",
     defense: "Defense",
-    reportsPromoTitle: "Reports",
-    reportsPromoDesc: "PDF-ready reports — U23 Breakout, Prime Prospects 24–30 and Experience 30+",
-    reportsPromoCta: "View reports",
+    badgesPromoTitle: "Pool badges",
+    badgesPromoDesc:
+      "Seven composite pass profiles from the eligible midfielder pool — filter the table by league and badge to find Elite Passers, Metronomes, Progressors and more.",
+    reportsLink: "PDF scouting reports",
   },
     compare: {
     subtitle: "Compare two midfielders on xP pillars, pass scores and origin heatmaps.",
@@ -1305,15 +1308,17 @@ const pt: Messages = {
     loadFailed: "Falha ao carregar jogadores",
     searchPlaceholder: "Buscar jogador…",
     league: "Liga",
+    allBadges: "Todos os badges",
     passRating: "Pass Rating",
     volume: "Volume",
     efficiency: "Efficiency",
     buildup: "Build-up",
     chanceCreation: "Chance creation",
     defense: "Defense",
-    reportsPromoTitle: "Relatórios",
-    reportsPromoDesc: "Relatórios PDF — U23 Breakout, Prime Prospects 24–30 e Experience 30+",
-    reportsPromoCta: "Ver relatórios",
+    badgesPromoTitle: "Badges de pool",
+    badgesPromoDesc:
+      "Sete perfis compostos de passe no pool elegível — filtre a tabela por liga e badge para encontrar Elite Passers, Metronomes, Progressors e mais.",
+    reportsLink: "Relatórios PDF",
   },
   compare: {
     subtitle: "Compare dois meias em pilares xP, pass scores e heatmaps de origem.",

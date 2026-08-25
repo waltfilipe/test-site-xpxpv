@@ -219,6 +219,7 @@ export function getMeta(positionFamily = "midfielders") {
 
 export function getPlayers(params?: {
   league?: string;
+  badge?: string;
   position_group?: string;
   position_family?: string;
   search?: string;
@@ -226,6 +227,7 @@ export function getPlayers(params?: {
 }) {
   const qs = new URLSearchParams();
   if (params?.league) qs.set("league", params.league);
+  if (params?.badge) qs.set("badge", params.badge);
   if (params?.position_group) qs.set("position_group", params.position_group);
   if (params?.position_family) qs.set("position_family", params.position_family);
   if (params?.search) qs.set("search", params.search);

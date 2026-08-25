@@ -15,13 +15,10 @@ type Props = {
   family: string;
   filters: {
     leagues: string[];
-    position_groups: string[];
   };
-  positionFamilies: { key: string; label: string }[];
   params: {
     league?: string;
-    position_group?: string;
-    search?: string;
+    badge?: string;
   };
 };
 
@@ -31,7 +28,6 @@ export function PlayersPageContent({
   error,
   family,
   filters,
-  positionFamilies,
   params,
 }: Props) {
   const { m } = useI18n();
@@ -44,12 +40,8 @@ export function PlayersPageContent({
       <Suspense fallback={<div className="muted">{m.players.loadingFilters}</div>}>
         <PlayersFilters
           leagues={filters.leagues}
-          positionGroups={filters.position_groups}
-          positionFamilies={positionFamilies}
           currentLeague={params.league}
-          currentPositionGroup={params.position_group}
-          currentPositionFamily={family}
-          currentSearch={params.search}
+          currentBadge={params.badge}
         />
       </Suspense>
 
@@ -59,18 +51,18 @@ export function PlayersPageContent({
         {total} {foundLabel}
       </p>
 
-      <Link href="/reports" className="reports-promo-card report-screen-only">
-        <span className="reports-promo-icon">
-          <i className="fa-solid fa-file-lines" />
+      <div className="players-promo-card report-screen-only">
+        <span className="players-promo-icon">
+          <i className="fa-solid fa-award" />
         </span>
-        <span className="reports-promo-text">
-          <strong>{m.players.reportsPromoTitle}</strong>
-          <span className="muted">{m.players.reportsPromoDesc}</span>
+        <span className="players-promo-text">
+          <strong>{m.players.badgesPromoTitle}</strong>
+          <span className="muted">{m.players.badgesPromoDesc}</span>
         </span>
-        <span className="reports-promo-cta">
-          {m.players.reportsPromoCta} <i className="fa-solid fa-arrow-right" />
-        </span>
-      </Link>
+        <Link href="/reports" className="players-promo-cta">
+          {m.players.reportsLink} <i className="fa-solid fa-arrow-right" />
+        </Link>
+      </div>
 
       <PlayersTable players={players} positionFamily={family} />
     </div>

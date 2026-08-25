@@ -2,25 +2,16 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useTransition } from "react";
+import { PLAYER_BADGE_KEYS } from "@/lib/playerBadges";
 import { useI18n } from "@/lib/i18n/context";
 
 type Props = {
   leagues: string[];
-  positionGroups: string[];
-  positionFamilies: readonly { key: string; label: string }[];
   currentLeague?: string;
-  currentPositionGroup?: string;
-  currentPositionFamily?: string;
-  currentSearch?: string;
+  currentBadge?: string;
 };
 
-export function PlayersFilters({
-  leagues,
-  positionGroups,
-  currentLeague,
-  currentPositionGroup,
-  currentSearch,
-}: Props) {
+export function PlayersFilters({ leagues, currentLeague, currentBadge }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { m } = useI18n();
@@ -31,13 +22,9 @@ export function PlayersFilters({
     const form = new FormData(e.currentTarget);
     const params = new URLSearchParams();
     const league = String(form.get("league") || "");
-    const positionGroup = String(form.get("position_group") || "");
-    const positionFamily = String(form.get("position_family") || "midfielders");
-    const search = String(form.get("search") || "").trim();
+    const badge = String(form.get("badge") || "");
     if (league) params.set("league", league);
-    if (positionGroup) params.set("position_group", positionGroup);
-    if (positionFamily && positionFamily !== "midfielders") params.set("position_family", positionFamily);
-    if (search) params.set("search", search);
+    if (badge) params.set("badge", badge);
     startTransition(() => {
       router.push(`/players?${params.toString()}`);
     });
@@ -51,12 +38,6 @@ export function PlayersFilters({
 
   return (
     <form className="filters" onSubmit={onSubmit}>
-      <input
-        name="search"
-        type="search"
-        placeholder={m.players.searchPlaceholder}
-        defaultValue={currentSearch ?? searchParams.get("search") ?? ""}
-      />
       <select name="league" defaultValue={currentLeague ?? searchParams.get("league") ?? ""}>
         <option value="">{m.common.allLeagues}</option>
         {leagues.map((l) => (
@@ -65,21 +46,23 @@ export function PlayersFilters({
           </option>
         ))}
       </select>
-      <select
-        name="position_group"
-        defaultValue={currentPositionGroup ?? searchParams.get("position_group") ?? ""}
-      >
-        <option value="">{m.common.allPositions}</option>
-        {positionGroups.map((pg) => (
-          <option key={pg} value={pg}>
-            {pg}
+      <select name="badge" defaultValue={currentBadge ?? searchParams.get("badge") ?? ""}>
+        <option value="">{m.players.allBadges}</option>
+        {PLAYER_BADGE_KEYS.map((key) => (
+          <option key={key} value={key}>
+            {m.profileBadges[key].label}
           </option>
         ))}
       </select>
       <button type="submit" className="btn" disabled={isPending}>
         {isPending ? m.common.filtering : m.common.filter}
       </button>
-      <button type="button" className="btn" style={{ background: "var(--surface-2)", color: "var(--text)" }} onClick={clearFilters}>
+      <button
+        type="button"
+        className="btn"
+        style={{ background: "var(--surface-2)", color: "var(--text)" }}
+        onClick={clearFilters}
+      >
         {m.common.clear}
       </button>
     </form>

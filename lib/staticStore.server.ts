@@ -112,11 +112,19 @@ function readJson<T>(filename: string): T {
 let cache: {
   meta?: JsonRecord;
   players?: { players: JsonRecord[]; total: number };
+  playerBadges?: { by_player_id?: Record<string, string[]> };
   mapsOptions?: JsonRecord;
   aggregated?: JsonRecord;
   poolMetrics?: JsonRecord[];
   profiles?: Map<string, JsonRecord>;
 } = {};
+
+function getPlayerBadgesById(): Record<string, string[]> {
+  if (!cache.playerBadges) {
+    cache.playerBadges = readJson("player-badges.json");
+  }
+  return cache.playerBadges?.by_player_id ?? {};
+}
 
 function getPlayersData(): { players: JsonRecord[]; total: number } {
   if (!cache.players) cache.players = readJson("players.json");
@@ -214,9 +222,10 @@ function parseHeightMeters(value: unknown): number | null {
 }
 
 function filterPool(players: JsonRecord[], params: URLSearchParams): JsonRecord[] {
-  const league = params.get("league") ?? "all";
+  const league = params.get("league") || "all";
   const search = (params.get("search") ?? "").toLowerCase();
   const positionGroup = params.get("position_group");
+  const badge = params.get("badge") || "all";
   const [ageMin, ageMax] = parseAgeBand(params.get("age_band"));
   const ageSliderMin = Number(params.get("age_slider_min") ?? 16);
   const ageSliderMax = Number(params.get("age_slider_max") ?? 42);
@@ -301,6 +310,11 @@ function filterPool(players: JsonRecord[], params: URLSearchParams): JsonRecord[
     if (allowed.size) {
       filtered = filtered.filter((p) => allowed.has(String(p.player_id)));
     }
+  }
+
+  if (badge !== "all") {
+    const byPlayerId = getPlayerBadgesById();
+    filtered = filtered.filter((p) => (byPlayerId[String(p.player_id)] ?? []).includes(badge));
   }
 
   return filtered;
