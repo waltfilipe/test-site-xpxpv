@@ -7,7 +7,7 @@ import { LoadingState } from "@/components/LoadingState";
 import { PassGradePanel } from "@/components/PassGradePanel";
 import { PassLengthMix } from "@/components/PassLengthMix";
 import { PassScoreSections } from "@/components/PassScoreSections";
-import { ProfileClusterCard } from "@/components/ProfileClusterCard";
+import { ProfileBadgesCard } from "@/components/ProfileBadgesCard";
 import { XpIndicesPanel } from "@/components/XpIndicesPanel";
 import { XpProfilePanel } from "@/components/XpProfilePanel";
 import type { PeerScope, PlayerProfile } from "@/lib/api";
@@ -121,9 +121,7 @@ export function ProfileView({
                   <p className="identity-subline">
                     {String(p.team ?? "—")} · {String(p.position ?? "—")}
                   </p>
-                  {data.profile_cluster ? (
-                    <ProfileClusterCard cluster={data.profile_cluster} compact />
-                  ) : null}
+                  <ProfileBadgesCard badges={data.player_badges} compact />
                 </div>
               </div>
             </div>

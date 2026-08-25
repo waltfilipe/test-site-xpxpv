@@ -3,6 +3,8 @@ import "server-only";
 import fs from "fs";
 import path from "path";
 
+import { isPlayerBadgeKey, type PlayerBadgeKey } from "@/lib/playerBadges";
+
 type JsonRecord = Record<string, unknown>;
 
 type DerivedPlayerMetrics = {
@@ -19,8 +21,8 @@ type DerivedPoolFile = {
   players: Record<string, DerivedPlayerMetrics>;
 };
 
-type ProfileClusterFile = {
-  by_player_id?: Record<string, JsonRecord>;
+type PlayerBadgesFile = {
+  by_player_id?: Record<string, string[]>;
 };
 
 const DEFENSE_REPLACE_KEYS = new Set([
@@ -30,7 +32,7 @@ const DEFENSE_REPLACE_KEYS = new Set([
 ]);
 
 let derivedCache: DerivedPoolFile | null = null;
-let profileClustersCache: ProfileClusterFile | null = null;
+let playerBadgesCache: PlayerBadgesFile | null = null;
 
 function getDerivedPool(): DerivedPoolFile {
   if (!derivedCache) {
@@ -40,21 +42,21 @@ function getDerivedPool(): DerivedPoolFile {
   return derivedCache;
 }
 
-function getProfileClusters(): ProfileClusterFile {
-  if (!profileClustersCache) {
-    const filePath = path.join(process.cwd(), "data", "profile-clusters.json");
-    profileClustersCache = JSON.parse(fs.readFileSync(filePath, "utf-8")) as ProfileClusterFile;
+function getPlayerBadges(): PlayerBadgesFile {
+  if (!playerBadgesCache) {
+    const filePath = path.join(process.cwd(), "data", "player-badges.json");
+    playerBadgesCache = JSON.parse(fs.readFileSync(filePath, "utf-8")) as PlayerBadgesFile;
   }
-  return profileClustersCache;
+  return playerBadgesCache;
 }
 
 function getDerivedForPlayer(playerId: string): DerivedPlayerMetrics | null {
   return getDerivedPool().players[playerId] ?? null;
 }
 
-function getProfileCluster(playerId: string): JsonRecord | null {
-  const cluster = getProfileClusters().by_player_id?.[playerId];
-  return cluster ?? null;
+function getBadgesForPlayer(playerId: string): PlayerBadgeKey[] {
+  const raw = getPlayerBadges().by_player_id?.[playerId] ?? [];
+  return raw.filter(isPlayerBadgeKey);
 }
 
 function enrichDefenseComponents(
@@ -86,9 +88,12 @@ export function enrichPlayerProfile(profile: JsonRecord): JsonRecord {
   if (!playerId) return profile;
 
   const derived = getDerivedForPlayer(playerId);
-  const cluster = profile.profile_cluster ?? getProfileCluster(playerId);
+  const player_badges = getBadgesForPlayer(playerId);
 
-  let next: JsonRecord = cluster ? { ...profile, profile_cluster: cluster } : { ...profile };
+  let next: JsonRecord = {
+    ...profile,
+    player_badges,
+  };
 
   if (!derived) return next;
 

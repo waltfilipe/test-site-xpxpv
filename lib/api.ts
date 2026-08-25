@@ -3,6 +3,7 @@
  */
 import type { ProfileFilterState } from "@/lib/profileParams";
 import { filtersToApiParams } from "@/lib/profileParams";
+import type { PlayerBadgeKey } from "@/lib/playerBadges";
 
 async function getApiBase(): Promise<string> {
   if (typeof window !== "undefined") return "";
@@ -128,18 +129,6 @@ export type XpRoundGrade = {
   key_passes?: number | null;
 };
 
-export type ProfileCluster = {
-  key: string;
-  rank?: number | null;
-  pool_pct?: number | null;
-  icon?: string | null;
-  accent?: string | null;
-  title_en?: string | null;
-  title_pt?: string | null;
-  summary_en?: string | null;
-  summary_pt?: string | null;
-};
-
 export type PlayerProfile = {
   player: Record<string, unknown>;
   xp: Record<string, unknown>;
@@ -166,7 +155,7 @@ export type PlayerProfile = {
   test_impact_v2_p90?: number | null;
   xp_indices?: XpIndexItem[];
   xp_round_grades?: XpRoundGrade[];
-  profile_cluster?: ProfileCluster | null;
+  player_badges?: PlayerBadgeKey[];
 };
 
 export type CompareMetric = {

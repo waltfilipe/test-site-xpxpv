@@ -1,0 +1,425 @@
+{
+  "cache_version": 1,
+  "eligible_count": 314,
+  "badge_order": [
+    "organizador",
+    "criativo",
+    "progressor",
+    "mestre_curto",
+    "bombeiro_longo",
+    "motor"
+  ],
+  "criteria": {
+    "organizador": "passes_total >= P80 AND xpass_coe_pct >= P80 AND threat_pass_pct <= P50",
+    "criativo": "leth_xpv_per_pass >= P80 AND pass_chance_creation_index >= P80 AND passes_total < P70",
+    "progressor": "pass_buildup_index >= P80 AND pass_impact_index >= P80",
+    "mestre_curto": "short_delta >= P70 AND long_delta <= P40 AND (short-long) >= P65",
+    "bombeiro_longo": "long_delta >= P70 AND short_delta <= P40 AND (long-short) >= P65",
+    "motor": "passes_total >= P75 AND xpv_per_pass >= P75"
+  },
+  "thresholds": {
+    "vol_p80": 58.360600000000005,
+    "vol_p70": 54.0109,
+    "vol_p75": 56.252250000000004,
+    "coe_p80": 2.624,
+    "threat_p50": 6.3,
+    "leth_p80": 0.36976,
+    "chance_p80": 0.8404516194365931,
+    "buildup_p80": 0.9145585097992214,
+    "impact_p80": 0.8190971019875005,
+    "short_d_p70": 1.1429999999999998,
+    "short_d_p40": -0.348,
+    "long_d_p70": 2.12,
+    "long_d_p40": -0.6559999999999999,
+    "gap_d_p65": 1.4580000000000006,
+    "gap_long_short_p65": 1.4690000000000003,
+    "xpv_pp_p75": 0.36397500000000005
+  },
+  "counts": {
+    "organizador": 19,
+    "criativo": 7,
+    "progressor": 39,
+    "mestre_curto": 25,
+    "bombeiro_longo": 30,
+    "motor": 33
+  },
+  "by_player_id": {
+    "1109771": [
+      "criativo",
+      "bombeiro_longo"
+    ],
+    "186845": [
+      "mestre_curto"
+    ],
+    "796047": [
+      "organizador",
+      "progressor"
+    ],
+    "1142251": [
+      "organizador",
+      "progressor",
+      "motor"
+    ],
+    "328109": [
+      "bombeiro_longo"
+    ],
+    "895324": [
+      "mestre_curto"
+    ],
+    "67647": [
+      "bombeiro_longo"
+    ],
+    "1105779": [
+      "mestre_curto"
+    ],
+    "901882": [
+      "motor"
+    ],
+    "1142335": [
+      "mestre_curto"
+    ],
+    "1142248": [
+      "criativo",
+      "bombeiro_longo"
+    ],
+    "1465307": [
+      "progressor"
+    ],
+    "859025": [
+      "progressor",
+      "motor"
+    ],
+    "35612": [
+      "mestre_curto"
+    ],
+    "1564180": [
+      "bombeiro_longo"
+    ],
+    "51665": [
+      "motor"
+    ],
+    "331209": [
+      "organizador"
+    ],
+    "845385": [
+      "bombeiro_longo"
+    ],
+    "190883": [
+      "progressor",
+      "bombeiro_longo",
+      "motor"
+    ],
+    "288205": [
+      "progressor",
+      "bombeiro_longo",
+      "motor"
+    ],
+    "866469": [
+      "criativo",
+      "progressor"
+    ],
+    "186855": [
+      "motor"
+    ],
+    "1199043": [
+      "mestre_curto"
+    ],
+    "1464641": [
+      "bombeiro_longo"
+    ],
+    "105734": [
+      "bombeiro_longo"
+    ],
+    "343067": [
+      "bombeiro_longo"
+    ],
+    "878938": [
+      "bombeiro_longo"
+    ],
+    "927353": [
+      "progressor"
+    ],
+    "138383": [
+      "mestre_curto"
+    ],
+    "973887": [
+      "mestre_curto"
+    ],
+    "838232": [
+      "mestre_curto"
+    ],
+    "994546": [
+      "motor"
+    ],
+    "988639": [
+      "bombeiro_longo"
+    ],
+    "822600": [
+      "progressor",
+      "motor"
+    ],
+    "784655": [
+      "progressor",
+      "motor"
+    ],
+    "831808": [
+      "progressor"
+    ],
+    "835484": [
+      "organizador"
+    ],
+    "795222": [
+      "progressor",
+      "motor"
+    ],
+    "902019": [
+      "bombeiro_longo"
+    ],
+    "798835": [
+      "progressor"
+    ],
+    "117777": [
+      "bombeiro_longo"
+    ],
+    "609752": [
+      "mestre_curto"
+    ],
+    "135700": [
+      "organizador",
+      "motor"
+    ],
+    "927340": [
+      "mestre_curto"
+    ],
+    "37151": [
+      "progressor",
+      "motor"
+    ],
+    "1120669": [
+      "motor"
+    ],
+    "106337": [
+      "mestre_curto"
+    ],
+    "537552": [
+      "bombeiro_longo"
+    ],
+    "825271": [
+      "mestre_curto"
+    ],
+    "227894": [
+      "mestre_curto"
+    ],
+    "259117": [
+      "progressor",
+      "motor"
+    ],
+    "1015267": [
+      "bombeiro_longo"
+    ],
+    "1190933": [
+      "organizador"
+    ],
+    "1083832": [
+      "bombeiro_longo"
+    ],
+    "70996": [
+      "motor"
+    ],
+    "84539": [
+      "progressor"
+    ],
+    "996820": [
+      "bombeiro_longo"
+    ],
+    "1151803": [
+      "bombeiro_longo"
+    ],
+    "1389846": [
+      "motor"
+    ],
+    "296434": [
+      "bombeiro_longo"
+    ],
+    "1493305": [
+      "progressor"
+    ],
+    "184661": [
+      "organizador",
+      "progressor"
+    ],
+    "911848": [
+      "organizador"
+    ],
+    "15466": [
+      "progressor",
+      "motor"
+    ],
+    "916041": [
+      "mestre_curto"
+    ],
+    "1064697": [
+      "motor"
+    ],
+    "363860": [
+      "progressor",
+      "motor"
+    ],
+    "133908": [
+      "bombeiro_longo"
+    ],
+    "190437": [
+      "progressor",
+      "bombeiro_longo",
+      "motor"
+    ],
+    "100389": [
+      "motor"
+    ],
+    "1100646": [
+      "mestre_curto"
+    ],
+    "799251": [
+      "criativo",
+      "progressor"
+    ],
+    "859027": [
+      "progressor",
+      "mestre_curto"
+    ],
+    "352802": [
+      "progressor"
+    ],
+    "928777": [
+      "mestre_curto"
+    ],
+    "907072": [
+      "criativo"
+    ],
+    "149370": [
+      "progressor",
+      "motor"
+    ],
+    "987650": [
+      "organizador"
+    ],
+    "948261": [
+      "bombeiro_longo"
+    ],
+    "1086286": [
+      "organizador"
+    ],
+    "368120": [
+      "progressor"
+    ],
+    "327755": [
+      "criativo",
+      "bombeiro_longo"
+    ],
+    "1175821": [
+      "motor"
+    ],
+    "954056": [
+      "organizador"
+    ],
+    "363856": [
+      "progressor",
+      "motor"
+    ],
+    "901850": [
+      "organizador",
+      "motor"
+    ],
+    "814882": [
+      "bombeiro_longo",
+      "motor"
+    ],
+    "816763": [
+      "progressor",
+      "motor"
+    ],
+    "927066": [
+      "bombeiro_longo"
+    ],
+    "1410217": [
+      "progressor",
+      "mestre_curto"
+    ],
+    "48480": [
+      "progressor"
+    ],
+    "992587": [
+      "progressor",
+      "motor"
+    ],
+    "826948": [
+      "mestre_curto"
+    ],
+    "149593": [
+      "organizador",
+      "progressor",
+      "motor"
+    ],
+    "138605": [
+      "progressor",
+      "motor"
+    ],
+    "959805": [
+      "mestre_curto"
+    ],
+    "1048650": [
+      "bombeiro_longo"
+    ],
+    "827606": [
+      "organizador",
+      "progressor",
+      "motor"
+    ],
+    "904897": [
+      "mestre_curto"
+    ],
+    "1605921": [
+      "organizador"
+    ],
+    "371222": [
+      "bombeiro_longo"
+    ],
+    "110783": [
+      "bombeiro_longo"
+    ],
+    "359272": [
+      "organizador"
+    ],
+    "150383": [
+      "organizador",
+      "mestre_curto"
+    ],
+    "944660": [
+      "progressor"
+    ],
+    "581314": [
+      "progressor"
+    ],
+    "1127057": [
+      "progressor"
+    ],
+    "902029": [
+      "organizador",
+      "progressor",
+      "motor"
+    ],
+    "1000366": [
+      "mestre_curto"
+    ],
+    "1142672": [
+      "organizador",
+      "progressor"
+    ],
+    "193554": [
+      "mestre_curto"
+    ],
+    "1112327": [
+      "criativo"
+    ]
+  }
+}

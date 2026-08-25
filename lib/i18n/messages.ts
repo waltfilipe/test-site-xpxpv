@@ -338,6 +338,15 @@ export type Messages = {
     precStratumLift: string;
     precStratumLiftTooltip: string;
   };
+  profileBadges: {
+    empty: string;
+    organizador: { label: string; tooltip: string };
+    criativo: { label: string; tooltip: string };
+    progressor: { label: string; tooltip: string };
+    mestre_curto: { label: string; tooltip: string };
+    bombeiro_longo: { label: string; tooltip: string };
+    motor: { label: string; tooltip: string };
+  };
   roundStats: {
     grade: string;
     passes: string;
@@ -763,6 +772,38 @@ const en: Messages = {
     precStratumLift: "Volume stratum lift",
     precStratumLiftTooltip:
       "COE in volume stratum exceeds General COE by {gap} pts — above P70 in the eligible pool (threshold {p70}; pool mean gap {mean}).",
+  },
+  profileBadges: {
+    empty: "No pool badges for this profile.",
+    organizador: {
+      label: "Organiser",
+      tooltip:
+        "High pass volume and COE with below-median threat rate — organises through safe distribution in the eligible pool.",
+    },
+    criativo: {
+      label: "Creative",
+      tooltip:
+        "High lethality and chance-creation index with contained pass volume — low-volume chance creator in the pool.",
+    },
+    progressor: {
+      label: "Progressor",
+      tooltip:
+        "High build-up and impact indices — progressive passes that carry offensive impact vs eligible peers.",
+    },
+    mestre_curto: {
+      label: "Short specialist",
+      tooltip:
+        "Strong short-pass COE stratum lift with weak long-pass lift — specialist on short distribution, not long balls.",
+    },
+    bombeiro_longo: {
+      label: "Long specialist",
+      tooltip:
+        "Strong long-pass COE stratum lift with weak short-pass lift — specialist on long distribution, not short touches.",
+    },
+    motor: {
+      label: "Engine",
+      tooltip: "High pass volume and xPV per pass — heavy involvement with strong destination value in the pool.",
+    },
   },
   roundStats: {
     grade: "Grade",
@@ -1385,6 +1426,38 @@ const pt: Messages = {
     precStratumLift: "Extrato de volume",
     precStratumLiftTooltip:
       "COE no extrato supera o COE geral por {gap} pts — acima do P70 no pool elegível (corte {p70}; média do pool {mean}).",
+  },
+  profileBadges: {
+    empty: "Nenhum badge de pool neste perfil.",
+    organizador: {
+      label: "Organizador",
+      tooltip:
+        "Alto volume e COE com taxa de ameaça abaixo da mediana — organiza com distribuição segura no pool elegível.",
+    },
+    criativo: {
+      label: "Criativo",
+      tooltip:
+        "Alta letalidade e índice de criação com volume contido — criador de chances de baixo volume no pool.",
+    },
+    progressor: {
+      label: "Progressor",
+      tooltip:
+        "Índices altos de construção e impacto — passes progressivos com impacto ofensivo vs pares elegíveis.",
+    },
+    mestre_curto: {
+      label: "Especialista curto",
+      tooltip:
+        "COE no curto forte e no longo fraco vs pares de volume — especialista na distribuição curta, não no longo.",
+    },
+    bombeiro_longo: {
+      label: "Especialista longo",
+      tooltip:
+        "COE no longo forte e no curto fraco vs pares de volume — especialista no passe longo, não no toque curto.",
+    },
+    motor: {
+      label: "Motor",
+      tooltip: "Alto volume de passes e xPV por passe — muita participação com valor de destino forte no pool.",
+    },
   },
   roundStats: {
     grade: "Nota",

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PassGradePanel } from "@/components/PassGradePanel";
 import { PassLengthMix } from "@/components/PassLengthMix";
-import { ProfileClusterCard } from "@/components/ProfileClusterCard";
+import { ProfileBadgesCard } from "@/components/ProfileBadgesCard";
 import { ReportMapCaption } from "@/components/ReportMapCaption";
 import { ReportPassScoreAccordion } from "@/components/ReportPassScoreAccordion";
 import { ReportRoundCard } from "@/components/ReportRoundCard";
@@ -234,9 +234,7 @@ export function PlayerReportSheet({
           <p className="identity-subline">
             {String(p.team ?? "—")} · {String(p.position ?? "—")}
           </p>
-          {profile.profile_cluster ? (
-            <ProfileClusterCard cluster={profile.profile_cluster} compact />
-          ) : null}
+          <ProfileBadgesCard badges={profile.player_badges} compact />
           {!compact && (
             <p className="report-league-line muted">
               {leagueLabel}

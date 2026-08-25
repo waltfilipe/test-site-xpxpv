@@ -1136,6 +1136,7 @@ button, input, select { font: inherit; }
 
 .player-search-row.is-elevated {
   z-index: 300;
+  overflow: visible;
 }
 
 .profile-page-body .player-search-row.is-elevated {
@@ -1356,6 +1357,85 @@ button, input, select { font: inherit; }
   padding-left: 0.25rem;
   padding-right: 0.25rem;
   box-shadow: none;
+}
+
+.profile-badges-card {
+  margin-top: 0;
+  padding: 0.55rem 0.65rem;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  background: linear-gradient(160deg, rgba(21, 27, 43, 0.72) 0%, rgba(15, 21, 34, 0.92) 100%);
+}
+
+.profile-badges-head .section-label {
+  margin-bottom: 0.4rem;
+}
+
+.profile-badges-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.38rem;
+}
+
+.profile-badge-tile {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0.38rem 0.52rem;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.profile-badge-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  flex-shrink: 0;
+  font-size: 0.82rem;
+  line-height: 1;
+}
+
+.profile-badge-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #f8fafc;
+  line-height: 1.25;
+}
+
+.profile-badges-empty {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.profile-badges-inline {
+  margin-top: 0.35rem;
+  padding: 0.45rem 0 0;
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  background: none;
+}
+
+.profile-identity-head-copy .profile-badges-inline {
+  margin-top: 0.45rem;
+  padding-top: 0.45rem;
+}
+
+.profile-identity-head-copy .profile-badges-inline .profile-badge-label {
+  font-size: 0.68rem;
+}
+
+.profile-identity-head-copy .profile-badges-inline .profile-badge-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  font-size: 0.74rem;
 }
 
 .profile-cluster-card {
@@ -6131,6 +6211,27 @@ tr:last-child td { border-bottom: none; }
     object-position: center bottom;
     margin-top: 0.25rem;
     flex-shrink: 0;
+  }
+
+  .report-print-root .profile-badges-inline {
+    margin-top: 0.12rem;
+    padding-top: 0.18rem;
+    overflow: visible;
+  }
+
+  .report-print-root .profile-badges-inline .profile-badge-label {
+    font-size: 0.58rem;
+    line-height: 1.25;
+  }
+
+  .report-print-root .profile-badges-inline .profile-badge-icon {
+    width: 0.95rem;
+    height: 0.95rem;
+    font-size: 0.58rem;
+  }
+
+  .report-print-root .profile-badges-inline .profile-badge-tile {
+    padding: 0.18rem 0.28rem;
   }
 
   .report-print-root .profile-cluster-inline {
