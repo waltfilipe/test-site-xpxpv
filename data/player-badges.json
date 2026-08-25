@@ -2,64 +2,60 @@
   "cache_version": 1,
   "eligible_count": 314,
   "badge_order": [
+    "elite_passer",
+    "metronome",
     "organizador",
-    "criativo",
     "progressor",
+    "criativo",
     "mestre_curto",
     "bombeiro_longo"
   ],
   "criteria": {
-    "organizador": "pass_buildup_index >= P75 AND passes_total >= P75 AND lethality letter <= B (pv_abs_leth_letter)",
+    "elite_passer": "pass_volume_letter >= B+ AND pass_efficiency_letter >= B+ AND pass_chance_creation_letter >= A- (replaces metronome)",
+    "metronome": "pass_volume_letter >= B+ AND pass_efficiency_letter >= B+ AND pass_chance_creation_letter < A-",
+    "organizador": "pass_buildup_letter >= B AND pass_volume_letter >= B AND xpv_per_pass < P60 AND NOT metronome/elite_passer",
+    "progressor": "pass_volume_letter <= B AND pass_buildup_letter >= B+ AND xpv_per_pass > P70",
     "criativo": "leth_xpv_per_pass >= P80 AND pass_chance_creation_index >= P80 AND passes_total < P70",
-    "progressor": "pass_buildup_index >= P75 AND xpv_per_pass >= P70",
     "mestre_curto": "gap(short-long) >= 3pp AND short_delta >= P50 AND long_pass_share_pctile <= 60 (short share >= P40)",
     "bombeiro_longo": "gap(long-short) >= 3pp AND long_delta >= P50 AND long_pass_share_pctile >= 40"
   },
   "thresholds": {
     "vol_p80": 58.360600000000005,
     "vol_p70": 54.0109,
-    "vol_p75": 56.252250000000004,
-    "coe_p80": 2.624,
-    "threat_p50": 6.3,
     "leth_p80": 0.36976,
     "chance_p80": 0.8491068457354641,
-    "buildup_p80": 0.7321290289474374,
-    "buildup_p75": 0.6168590376282967,
-    "impact_p80": 0.8190971019875005,
     "short_d_p50": 0.11499999999999999,
     "long_d_p50": 0.395,
     "gap_min_pp": 3.0,
+    "xpv_pp_p60": 0.3519,
     "xpv_pp_p70": 0.35871000000000003
   },
   "counts": {
-    "organizador": 31,
+    "elite_passer": 10,
+    "metronome": 15,
+    "organizador": 8,
+    "progressor": 11,
     "criativo": 6,
-    "progressor": 49,
     "mestre_curto": 40,
     "bombeiro_longo": 49
   },
   "by_player_id": {
     "1109771": [
       "criativo",
-      "progressor",
       "bombeiro_longo"
     ],
     "1507384": [
       "bombeiro_longo"
     ],
-    "250737": [
-      "progressor"
-    ],
     "186845": [
       "mestre_curto"
     ],
     "796047": [
-      "organizador",
+      "elite_passer",
       "bombeiro_longo"
     ],
     "1142251": [
-      "organizador",
-      "progressor"
+      "metronome"
     ],
     "328109": [
       "bombeiro_longo"
@@ -74,11 +70,10 @@
       "mestre_curto"
     ],
     "845693": [
-      "progressor",
       "bombeiro_longo"
     ],
     "901882": [
-      "progressor",
+      "elite_passer",
       "bombeiro_longo"
     ],
     "837080": [
@@ -95,17 +90,13 @@
       "bombeiro_longo"
     ],
     "859025": [
-      "progressor"
+      "metronome"
     ],
     "35612": [
       "mestre_curto"
     ],
     "1564180": [
       "bombeiro_longo"
-    ],
-    "51665": [
-      "organizador",
-      "progressor"
     ],
     "331209": [
       "organizador",
@@ -123,8 +114,8 @@
       "bombeiro_longo"
     ],
     "866469": [
-      "criativo",
-      "progressor"
+      "progressor",
+      "criativo"
     ],
     "186855": [
       "progressor"
@@ -133,9 +124,6 @@
       "mestre_curto"
     ],
     "122951": [
-      "progressor"
-    ],
-    "1464641": [
       "progressor"
     ],
     "105734": [
@@ -149,26 +137,17 @@
       "bombeiro_longo"
     ],
     "927353": [
+      "metronome",
       "mestre_curto"
     ],
     "794338": [
       "bombeiro_longo"
     ],
-    "39182": [
-      "organizador"
-    ],
     "317301": [
       "mestre_curto"
     ],
-    "856714": [
-      "organizador",
-      "progressor"
-    ],
     "138383": [
       "mestre_curto"
-    ],
-    "869856": [
-      "organizador"
     ],
     "973887": [
       "organizador"
@@ -176,31 +155,26 @@
     "838232": [
       "mestre_curto"
     ],
-    "994546": [
-      "progressor"
-    ],
     "974505": [
-      "organizador",
       "progressor"
     ],
     "822600": [
-      "progressor"
+      "metronome"
     ],
     "784655": [
-      "progressor"
+      "elite_passer"
     ],
     "910121": [
       "mestre_curto"
     ],
     "795222": [
-      "progressor",
+      "metronome",
       "bombeiro_longo"
     ],
     "902019": [
       "bombeiro_longo"
     ],
     "798835": [
-      "progressor",
       "bombeiro_longo"
     ],
     "117777": [
@@ -209,10 +183,6 @@
     ],
     "609752": [
       "mestre_curto"
-    ],
-    "135700": [
-      "organizador",
-      "progressor"
     ],
     "927340": [
       "mestre_curto"
@@ -227,16 +197,13 @@
       "mestre_curto"
     ],
     "1120669": [
-      "progressor"
+      "metronome"
     ],
     "106337": [
       "mestre_curto"
     ],
     "899982": [
       "bombeiro_longo"
-    ],
-    "96365": [
-      "progressor"
     ],
     "537552": [
       "bombeiro_longo"
@@ -257,7 +224,7 @@
       "mestre_curto"
     ],
     "259117": [
-      "progressor"
+      "elite_passer"
     ],
     "1066042": [
       "bombeiro_longo"
@@ -272,31 +239,26 @@
       "mestre_curto"
     ],
     "84539": [
-      "organizador"
+      "metronome"
     ],
     "996820": [
       "bombeiro_longo"
     ],
-    "1389846": [
-      "organizador",
-      "progressor"
-    ],
     "296434": [
-      "organizador",
+      "metronome",
       "bombeiro_longo"
     ],
     "1493305": [
-      "progressor"
+      "metronome"
     ],
     "184661": [
-      "organizador",
-      "progressor"
+      "metronome"
     ],
     "911848": [
       "organizador"
     ],
     "15466": [
-      "progressor"
+      "elite_passer"
     ],
     "916041": [
       "mestre_curto"
@@ -304,18 +266,14 @@
     "1410148": [
       "bombeiro_longo"
     ],
-    "1064697": [
-      "organizador",
-      "progressor"
-    ],
     "363860": [
-      "progressor"
+      "elite_passer"
     ],
     "133908": [
       "bombeiro_longo"
     ],
     "190437": [
-      "progressor",
+      "elite_passer",
       "bombeiro_longo"
     ],
     "100389": [
@@ -329,11 +287,10 @@
       "bombeiro_longo"
     ],
     "859027": [
-      "progressor",
       "mestre_curto"
     ],
     "352802": [
-      "organizador"
+      "elite_passer"
     ],
     "147289": [
       "bombeiro_longo"
@@ -345,7 +302,7 @@
       "criativo"
     ],
     "149370": [
-      "progressor"
+      "metronome"
     ],
     "948261": [
       "bombeiro_longo"
@@ -354,35 +311,22 @@
       "bombeiro_longo"
     ],
     "1086286": [
-      "organizador"
-    ],
-    "368120": [
-      "progressor"
+      "metronome"
     ],
     "327755": [
       "criativo",
       "bombeiro_longo"
     ],
     "1175821": [
-      "organizador",
       "progressor"
     ],
     "954056": [
-      "organizador",
       "mestre_curto"
-    ],
-    "363856": [
-      "progressor"
-    ],
-    "901850": [
-      "organizador",
-      "progressor"
     ],
     "794995": [
       "bombeiro_longo"
     ],
     "814882": [
-      "progressor",
       "bombeiro_longo"
     ],
     "957921": [
@@ -390,9 +334,6 @@
     ],
     "1149113": [
       "bombeiro_longo"
-    ],
-    "816763": [
-      "progressor"
     ],
     "1084381": [
       "mestre_curto"
@@ -411,20 +352,13 @@
       "bombeiro_longo"
     ],
     "992587": [
-      "progressor"
+      "elite_passer"
     ],
     "900669": [
       "mestre_curto"
     ],
-    "1091303": [
-      "organizador"
-    ],
-    "149593": [
-      "organizador",
-      "progressor"
-    ],
     "138605": [
-      "progressor"
+      "metronome"
     ],
     "959805": [
       "mestre_curto"
@@ -433,8 +367,7 @@
       "bombeiro_longo"
     ],
     "827606": [
-      "organizador",
-      "progressor"
+      "metronome"
     ],
     "195850": [
       "bombeiro_longo"
@@ -464,14 +397,13 @@
       "organizador"
     ],
     "902029": [
-      "organizador",
-      "progressor"
+      "elite_passer"
     ],
     "1000366": [
       "mestre_curto"
     ],
     "1142672": [
-      "organizador"
+      "metronome"
     ],
     "193554": [
       "mestre_curto"
@@ -486,8 +418,7 @@
       "bombeiro_longo"
     ],
     "1112327": [
-      "criativo",
-      "progressor"
+      "criativo"
     ],
     "900008": [
       "mestre_curto"

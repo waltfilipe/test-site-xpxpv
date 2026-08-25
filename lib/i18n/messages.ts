@@ -340,6 +340,8 @@ export type Messages = {
   };
   profileBadges: {
     empty: string;
+    elite_passer: { label: string; tooltip: string };
+    metronome: { label: string; tooltip: string };
     organizador: { label: string; tooltip: string };
     criativo: { label: string; tooltip: string };
     progressor: { label: string; tooltip: string };
@@ -774,10 +776,20 @@ const en: Messages = {
   },
   profileBadges: {
     empty: "No pool badges for this profile.",
+    elite_passer: {
+      label: "Elite Passer",
+      tooltip:
+        "High pass volume and precision (both ≥ B+) with elite chance creation (≥ A-) — metronome who also creates at the top tier.",
+    },
+    metronome: {
+      label: "Metronome",
+      tooltip:
+        "High pass volume and precision (both ≥ B+) with chance creation below A- — reliable, accurate distributor.",
+    },
     organizador: {
       label: "Organiser",
       tooltip:
-        "High build-up and pass volume (both ≥ P75) with contained lethality (letter B or below) — progresses the team without high attacking threat.",
+        "Build-up and volume (both ≥ B) with xPV per pass below P60 — progresses the team without metronome-level precision volume.",
     },
     criativo: {
       label: "Creative",
@@ -787,17 +799,17 @@ const en: Messages = {
     progressor: {
       label: "Progressor",
       tooltip:
-        "High build-up index and xPV per pass (both ≥ P75) — advances play with strong destination value vs eligible peers.",
+        "Contained volume (≤ B), strong build-up (≥ B+) and xPV per pass above P70 — advances play with strong destination value.",
     },
     mestre_curto: {
       label: "Short specialist",
       tooltip:
-        "Short-pass COE stratum lift well above long-pass lift (gap ≥ P80), median+ short accuracy, and short-pass share ≥ P40 (long share ≤ P60).",
+        "Short-pass COE stratum lift ≥ 3pp above long-pass lift, median+ short accuracy, and short-pass share ≥ P40 (long share ≤ P60).",
     },
     bombeiro_longo: {
       label: "Long specialist",
       tooltip:
-        "Long-pass COE stratum lift well above short-pass lift (gap ≥ P80), median+ long accuracy, and long-pass share ≥ P40.",
+        "Long-pass COE stratum lift ≥ 3pp above short-pass lift, median+ long accuracy, and long-pass share ≥ P40.",
     },
   },
   roundStats: {
@@ -1441,10 +1453,20 @@ const pt: Messages = {
   },
   profileBadges: {
     empty: "Nenhum badge de pool neste perfil.",
+    elite_passer: {
+      label: "Elite Passer",
+      tooltip:
+        "Volume e precisão altos (ambos ≥ B+) com criação de chances elite (≥ A-) — metrónomo que também cria no topo.",
+    },
+    metronome: {
+      label: "Metronome",
+      tooltip:
+        "Volume e precisão altos (ambos ≥ B+) com criação abaixo de A- — distribuidor fiável e preciso.",
+    },
     organizador: {
       label: "Organizador",
       tooltip:
-        "Build-up e volume altos (ambos ≥ P75) com letalidade contida (letra B ou inferior) — progride o jogo sem ameaça ofensiva elevada.",
+        "Build-up e volume (ambos ≥ B) com xPV/passe abaixo de P60 — progride o jogo sem perfil metronome.",
     },
     criativo: {
       label: "Criativo",
@@ -1454,7 +1476,7 @@ const pt: Messages = {
     progressor: {
       label: "Progressor",
       tooltip:
-        "Índice de construção (≥ P75) e xPV/passe (≥ P70) — avança o jogo com forte valor de destino vs pares elegíveis.",
+        "Volume contido (≤ B), build-up forte (≥ B+) e xPV/passe acima de P70 — avança com forte valor de destino.",
     },
     mestre_curto: {
       label: "Especialista curto",

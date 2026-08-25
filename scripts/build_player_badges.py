@@ -11,16 +11,17 @@ DERIVED_PATH = Path(__file__).resolve().parents[1] / "data" / "pool-derived-metr
 OUTPUT_PATH = Path(__file__).resolve().parents[1] / "data" / "player-badges.json"
 
 BADGE_ORDER = (
+    "elite_passer",
+    "metronome",
     "organizador",
-    "criativo",
     "progressor",
+    "criativo",
     "mestre_curto",
     "bombeiro_longo",
 )
 
 _GAP_MIN_PP = 3.0
 
-# Lethality letter tier (A+ best). Organizador requires lethality B or worse.
 _LETTER_TIER: dict[str, int] = {
     "A+": 10,
     "A": 9,
@@ -36,9 +37,16 @@ _LETTER_TIER: dict[str, int] = {
 }
 
 
-def _lethality_at_most_b(letter: str | None) -> bool:
-    tier = _LETTER_TIER.get(str(letter or "—").strip(), 0)
-    return tier <= _LETTER_TIER["B"]
+def _letter_tier(letter: str | None) -> int:
+    return _LETTER_TIER.get(str(letter or "—").strip(), 0)
+
+
+def _at_least(letter: str | None, floor: str) -> bool:
+    return _letter_tier(letter) >= _LETTER_TIER[floor]
+
+
+def _at_most(letter: str | None, ceiling: str) -> bool:
+    return _letter_tier(letter) <= _LETTER_TIER[ceiling]
 
 
 def _pctile(values: list[float], q: float) -> float:
@@ -71,15 +79,16 @@ def main() -> None:
         rows.append(
             {
                 "player_id": str(player["player_id"]),
+                "player_name": str(player.get("player_name") or ""),
                 "vol": float(_get(player, derived, "passes_total") or 0.0),
-                "coe": float(_get(player, derived, "xpass_coe_pct") or 0.0),
-                "threat": float(_get(player, derived, "threat_pass_pct") or 0.0),
                 "leth": float(_get(player, derived, "leth_xpv_per_pass") or 0.0),
                 "xpv_pp": float(_get(player, derived, "xpv_per_pass") or 0.0),
                 "chance": float(_get(player, derived, "pass_chance_creation_index") or -999.0),
                 "buildup": float(_get(player, derived, "pass_buildup_index") or -999.0),
-                "impact": float(_get(player, derived, "pass_impact_index") or -999.0),
-                "leth_letter": str(_get(player, derived, "pv_abs_leth_letter") or "—"),
+                "vol_letter": str(_get(player, derived, "pass_volume_letter") or "—"),
+                "buildup_letter": str(_get(player, derived, "pass_buildup_letter") or "—"),
+                "precision_letter": str(_get(player, derived, "pass_efficiency_letter") or "—"),
+                "chance_letter": str(_get(player, derived, "pass_chance_creation_letter") or "—"),
                 "short_d": short_d,
                 "long_d": long_d,
                 "gap_short_long": short_d - long_d,
@@ -96,17 +105,12 @@ def main() -> None:
     thresholds = {
         "vol_p80": pct("vol", 0.80),
         "vol_p70": pct("vol", 0.70),
-        "vol_p75": pct("vol", 0.75),
-        "coe_p80": pct("coe", 0.80),
-        "threat_p50": pct("threat", 0.50),
         "leth_p80": pct("leth", 0.80),
         "chance_p80": pct("chance", 0.80),
-        "buildup_p80": pct("buildup", 0.80),
-        "buildup_p75": pct("buildup", 0.75),
-        "impact_p80": pct("impact", 0.80),
         "short_d_p50": pct("short_d", 0.50),
         "long_d_p50": pct("long_d", 0.50),
         "gap_min_pp": _GAP_MIN_PP,
+        "xpv_pp_p60": pct("xpv_pp", 0.60),
         "xpv_pp_p70": pct("xpv_pp", 0.70),
     }
 
@@ -115,23 +119,35 @@ def main() -> None:
 
     for row in rows:
         badges: list[str] = []
+        is_metronome_base = _at_least(row["vol_letter"], "B+") and _at_least(
+            row["precision_letter"], "B+"
+        )
+        if is_metronome_base:
+            if _at_least(row["chance_letter"], "A-"):
+                badges.append("elite_passer")
+            else:
+                badges.append("metronome")
+
         if (
-            row["buildup"] >= thresholds["buildup_p75"]
-            and row["vol"] >= thresholds["vol_p75"]
-            and _lethality_at_most_b(row["leth_letter"])
+            _at_least(row["buildup_letter"], "B")
+            and _at_least(row["vol_letter"], "B")
+            and row["xpv_pp"] < thresholds["xpv_pp_p60"]
+            and "metronome" not in badges
+            and "elite_passer" not in badges
         ):
             badges.append("organizador")
+        if (
+            _at_most(row["vol_letter"], "B")
+            and _at_least(row["buildup_letter"], "B+")
+            and row["xpv_pp"] > thresholds["xpv_pp_p70"]
+        ):
+            badges.append("progressor")
         if (
             row["leth"] >= thresholds["leth_p80"]
             and row["chance"] >= thresholds["chance_p80"]
             and row["vol"] < thresholds["vol_p70"]
         ):
             badges.append("criativo")
-        if (
-            row["buildup"] >= thresholds["buildup_p75"]
-            and row["xpv_pp"] >= thresholds["xpv_pp_p70"]
-        ):
-            badges.append("progressor")
         if (
             row["gap_short_long"] >= _GAP_MIN_PP
             and row["short_d"] >= thresholds["short_d_p50"]
@@ -156,12 +172,26 @@ def main() -> None:
         "eligible_count": len(rows),
         "badge_order": list(BADGE_ORDER),
         "criteria": {
-            "organizador": (
-                "pass_buildup_index >= P75 AND passes_total >= P75 "
-                "AND lethality letter <= B (pv_abs_leth_letter)"
+            "elite_passer": (
+                "pass_volume_letter >= B+ AND pass_efficiency_letter >= B+ "
+                "AND pass_chance_creation_letter >= A- (replaces metronome)"
             ),
-            "criativo": "leth_xpv_per_pass >= P80 AND pass_chance_creation_index >= P80 AND passes_total < P70",
-            "progressor": "pass_buildup_index >= P75 AND xpv_per_pass >= P70",
+            "metronome": (
+                "pass_volume_letter >= B+ AND pass_efficiency_letter >= B+ "
+                "AND pass_chance_creation_letter < A-"
+            ),
+            "organizador": (
+                "pass_buildup_letter >= B AND pass_volume_letter >= B "
+                "AND xpv_per_pass < P60 AND NOT metronome/elite_passer"
+            ),
+            "progressor": (
+                "pass_volume_letter <= B AND pass_buildup_letter >= B+ "
+                "AND xpv_per_pass > P70"
+            ),
+            "criativo": (
+                "leth_xpv_per_pass >= P80 AND pass_chance_creation_index >= P80 "
+                "AND passes_total < P70"
+            ),
             "mestre_curto": (
                 "gap(short-long) >= 3pp AND short_delta >= P50 "
                 "AND long_pass_share_pctile <= 60 (short share >= P40)"
@@ -180,6 +210,17 @@ def main() -> None:
     print(f"Wrote {OUTPUT_PATH} ({len(by_player_id)} players with badges)")
     for key in BADGE_ORDER:
         print(f"  {key}: {counts[key]}")
+
+    by_name = {r["player_id"]: r["player_name"] for r in rows}
+    for key in BADGE_ORDER:
+        ids = sorted(
+            (pid for pid, bs in by_player_id.items() if key in bs),
+            key=lambda pid: by_name.get(pid, pid),
+        )
+        if ids:
+            print(f"\n{key}:")
+            for pid in ids:
+                print(f"  - {by_name.get(pid, pid)}")
 
 
 if __name__ == "__main__":
