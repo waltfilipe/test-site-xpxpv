@@ -12,8 +12,8 @@
     "organizador": "pass_buildup_index >= P75 AND passes_total >= P75 AND lethality letter <= B (pv_abs_leth_letter)",
     "criativo": "leth_xpv_per_pass >= P80 AND pass_chance_creation_index >= P80 AND passes_total < P70",
     "progressor": "pass_buildup_index >= P75 AND xpv_per_pass >= P75",
-    "mestre_curto": "gap(short-long) >= P80 AND short_delta >= P50",
-    "bombeiro_longo": "gap(long-short) >= P80 AND long_delta >= P50"
+    "mestre_curto": "gap(short-long) >= P80 AND short_delta >= P50 AND long_pass_share_pctile <= 60 (short share >= P40)",
+    "bombeiro_longo": "gap(long-short) >= P80 AND long_delta >= P50 AND long_pass_share_pctile >= 40"
   },
   "thresholds": {
     "vol_p80": 58.360600000000005,
@@ -36,13 +36,10 @@
     "organizador": 31,
     "criativo": 6,
     "progressor": 42,
-    "mestre_curto": 40,
-    "bombeiro_longo": 58
+    "mestre_curto": 37,
+    "bombeiro_longo": 45
   },
   "by_player_id": {
-    "1930811": [
-      "bombeiro_longo"
-    ],
     "1109771": [
       "criativo",
       "progressor",
@@ -53,9 +50,6 @@
     ],
     "186845": [
       "mestre_curto"
-    ],
-    "286167": [
-      "bombeiro_longo"
     ],
     "796047": [
       "organizador",
@@ -73,9 +67,6 @@
     ],
     "1597191": [
       "mestre_curto"
-    ],
-    "67647": [
-      "bombeiro_longo"
     ],
     "1105779": [
       "mestre_curto"
@@ -140,8 +131,7 @@
       "progressor"
     ],
     "1464641": [
-      "progressor",
-      "bombeiro_longo"
+      "progressor"
     ],
     "105734": [
       "bombeiro_longo"
@@ -172,8 +162,7 @@
       "organizador"
     ],
     "973887": [
-      "organizador",
-      "mestre_curto"
+      "organizador"
     ],
     "838232": [
       "mestre_curto"
@@ -183,12 +172,6 @@
     ],
     "974505": [
       "organizador"
-    ],
-    "984014": [
-      "bombeiro_longo"
-    ],
-    "988639": [
-      "bombeiro_longo"
     ],
     "822600": [
       "progressor"
@@ -238,9 +221,6 @@
     "106337": [
       "mestre_curto"
     ],
-    "911679": [
-      "bombeiro_longo"
-    ],
     "899982": [
       "bombeiro_longo"
     ],
@@ -268,15 +248,6 @@
     "259117": [
       "progressor"
     ],
-    "1015267": [
-      "bombeiro_longo"
-    ],
-    "973556": [
-      "bombeiro_longo"
-    ],
-    "1028307": [
-      "bombeiro_longo"
-    ],
     "1083832": [
       "bombeiro_longo"
     ],
@@ -302,9 +273,6 @@
     ],
     "184661": [
       "organizador"
-    ],
-    "1048916": [
-      "bombeiro_longo"
     ],
     "911848": [
       "organizador"
@@ -356,9 +324,6 @@
     ],
     "907072": [
       "criativo"
-    ],
-    "1127590": [
-      "bombeiro_longo"
     ],
     "149370": [
       "progressor"
@@ -416,9 +381,6 @@
     "1082981": [
       "mestre_curto"
     ],
-    "1410217": [
-      "mestre_curto"
-    ],
     "48480": [
       "organizador",
       "bombeiro_longo"
@@ -428,9 +390,6 @@
     ],
     "992587": [
       "progressor"
-    ],
-    "826948": [
-      "mestre_curto"
     ],
     "1091303": [
       "organizador"
@@ -456,9 +415,6 @@
       "mestre_curto"
     ],
     "930189": [
-      "bombeiro_longo"
-    ],
-    "371222": [
       "bombeiro_longo"
     ],
     "150383": [

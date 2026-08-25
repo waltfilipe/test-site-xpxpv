@@ -792,12 +792,12 @@ const en: Messages = {
     mestre_curto: {
       label: "Short specialist",
       tooltip:
-        "Short-pass COE stratum lift well above long-pass lift (gap ≥ P80) with at least median short accuracy vs volume peers.",
+        "Short-pass COE stratum lift well above long-pass lift (gap ≥ P80), median+ short accuracy, and short-pass share ≥ P40 (long share ≤ P60).",
     },
     bombeiro_longo: {
       label: "Long specialist",
       tooltip:
-        "Long-pass COE stratum lift well above short-pass lift (gap ≥ P80) with at least median long accuracy vs volume peers.",
+        "Long-pass COE stratum lift well above short-pass lift (gap ≥ P80), median+ long accuracy, and long-pass share ≥ P40.",
     },
   },
   roundStats: {
@@ -1459,12 +1459,12 @@ const pt: Messages = {
     mestre_curto: {
       label: "Especialista curto",
       tooltip:
-        "COE no curto bem acima do longo vs pares de volume (gap ≥ P80), com short_Δ pelo menos na mediana do pool.",
+        "COE no curto bem acima do longo (gap ≥ P80), short_Δ ≥ mediana e % de passes curtos ≥ P40 (longo ≤ P60).",
     },
     bombeiro_longo: {
       label: "Especialista longo",
       tooltip:
-        "COE no longo bem acima do curto vs pares de volume (gap ≥ P80), com long_Δ pelo menos na mediana do pool.",
+        "COE no longo bem acima do curto (gap ≥ P80), long_Δ ≥ mediana e % de passes longos ≥ P40.",
     },
   },
   roundStats: {

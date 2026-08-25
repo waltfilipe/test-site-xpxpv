@@ -82,6 +82,9 @@ def main() -> None:
                 "long_d": long_d,
                 "gap_short_long": short_d - long_d,
                 "gap_long_short": long_d - short_d,
+                "long_share_pctile": float(
+                    _get(player, derived, "long_pass_share_pctile") or 50.0
+                ),
             }
         )
 
@@ -131,11 +134,13 @@ def main() -> None:
         if (
             row["gap_short_long"] >= thresholds["gap_short_long_p80"]
             and row["short_d"] >= thresholds["short_d_p50"]
+            and row["long_share_pctile"] <= 60.0
         ):
             badges.append("mestre_curto")
         if (
             row["gap_long_short"] >= thresholds["gap_long_short_p80"]
             and row["long_d"] >= thresholds["long_d_p50"]
+            and row["long_share_pctile"] >= 40.0
         ):
             badges.append("bombeiro_longo")
 
@@ -156,8 +161,14 @@ def main() -> None:
             ),
             "criativo": "leth_xpv_per_pass >= P80 AND pass_chance_creation_index >= P80 AND passes_total < P70",
             "progressor": "pass_buildup_index >= P75 AND xpv_per_pass >= P75",
-            "mestre_curto": "gap(short-long) >= P80 AND short_delta >= P50",
-            "bombeiro_longo": "gap(long-short) >= P80 AND long_delta >= P50",
+            "mestre_curto": (
+                "gap(short-long) >= P80 AND short_delta >= P50 "
+                "AND long_pass_share_pctile <= 60 (short share >= P40)"
+            ),
+            "bombeiro_longo": (
+                "gap(long-short) >= P80 AND long_delta >= P50 "
+                "AND long_pass_share_pctile >= 40"
+            ),
         },
         "thresholds": thresholds,
         "counts": counts,
