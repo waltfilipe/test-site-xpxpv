@@ -13,7 +13,7 @@ from typing import Any
 
 # Site-specific styling: softened gray→red scale on both aggregate maps, plus
 # grid-cell geometry so the UI can anchor tooltips over the rendered PNGs.
-STATIC_AGGREGATE_RENDER_VERSION = 5
+STATIC_AGGREGATE_RENDER_VERSION = 6
 
 _BACKEND_CANDIDATES = (
     Path(__file__).resolve().parents[2] / "xpv-xp_site" / "backend",
@@ -73,6 +73,17 @@ CMAP_COMMON_SOFT = LinearSegmentedColormap.from_list(
 
 def cell_key(row: int, col: int) -> str:
     return f"r{row}c{col}"
+
+
+def _style_title(fig) -> None:
+    ax = fig.axes[0]
+    ax.set_title(
+        ax.get_title(),
+        color="#f8fafc",
+        fontsize=15,
+        fontweight="bold",
+        pad=16,
+    )
 
 
 def _render(fig, *, pad_inches: float = PAD_INCHES) -> tuple[str, dict[str, dict[str, float]]]:
@@ -207,6 +218,7 @@ def build_aggregated_payload(top_n: int, position_family: str) -> dict[str, Any]
         cbar_label="Passes at destination",
         cmap=CMAP_COMMON_SOFT,
     )
+    _style_title(common_fig)
     common_b64, common_cells = _render(common_fig)
 
     difficult_fig = xsm._draw_destination_grid_map(
@@ -216,6 +228,7 @@ def build_aggregated_payload(top_n: int, position_family: str) -> dict[str, Any]
         cmap=xsm.CMAP_XP_GRAY_RED,
         vmax=xsm.XP_PASS_MAX,
     )
+    _style_title(difficult_fig)
     difficult_b64, difficult_cells = _render(difficult_fig)
 
     quadrant_stats = [
