@@ -12,8 +12,8 @@ from pathlib import Path
 from typing import Any
 
 # Site-specific styling: softened gray→red scale on both aggregate maps, plus
-# quadrant geometry so the UI can anchor tooltips over the rendered PNGs.
-STATIC_AGGREGATE_RENDER_VERSION = 4
+# grid-cell geometry so the UI can anchor tooltips over the rendered PNGs.
+STATIC_AGGREGATE_RENDER_VERSION = 5
 
 _BACKEND_CANDIDATES = (
     Path(__file__).resolve().parents[2] / "xpv-xp_site" / "backend",
@@ -51,6 +51,8 @@ OUT_PATH = DATA_DIR / "aggregated.json"
 TOP_N = 250
 POSITION_FAMILY = "midfielders"
 PAD_INCHES = 0.04
+DEST_COLS = 8
+DEST_ROWS = 6
 
 # Same gray→red family as the difficulty map, but with extra stops so the
 # volume map ramps into red gradually instead of jumping at mid-scale.
@@ -69,10 +71,14 @@ CMAP_COMMON_SOFT = LinearSegmentedColormap.from_list(
 )
 
 
-def _render(fig, *, pad_inches: float = PAD_INCHES) -> tuple[str, dict[str, dict[str, float]]]:
-    """Save the figure as base64 PNG and locate each pitch quadrant inside it.
+def cell_key(row: int, col: int) -> str:
+    return f"r{row}c{col}"
 
-    `fig_to_b64` crops with bbox_inches="tight", so quadrant boxes are measured
+
+def _render(fig, *, pad_inches: float = PAD_INCHES) -> tuple[str, dict[str, dict[str, float]]]:
+    """Save the figure as base64 PNG and locate each grid cell inside it.
+
+    `fig_to_b64` crops with bbox_inches="tight", so cell boxes are measured
     against the same cropped bbox to stay aligned with the delivered image.
     """
     import matplotlib.pyplot as plt
@@ -90,19 +96,22 @@ def _render(fig, *, pad_inches: float = PAD_INCHES) -> tuple[str, dict[str, dict
             (py / dpi - bbox.y0) / bbox.height,
         )
 
-    quadrants: dict[str, dict[str, float]] = {}
-    for key in xpe.QUADRANT_ORDER:
-        x0, y0, x1, y1 = xpe.quadrant_bounds(key)
-        fx0, fy0 = to_image_fraction(x0, y0)
-        fx1, fy1 = to_image_fraction(x1, y1)
-        left, right = sorted((fx0, fx1))
-        bottom, top = sorted((fy0, fy1))
-        quadrants[key] = {
-            "left_pct": round(left * 100.0, 3),
-            "top_pct": round((1.0 - top) * 100.0, 3),
-            "width_pct": round((right - left) * 100.0, 3),
-            "height_pct": round((top - bottom) * 100.0, 3),
-        }
+    x_bins = np.linspace(0.0, xpe.FIELD_X, DEST_COLS + 1)
+    y_bins = np.linspace(0.0, xpe.FIELD_Y, DEST_ROWS + 1)
+
+    cells: dict[str, dict[str, float]] = {}
+    for row in range(DEST_ROWS):
+        for col in range(DEST_COLS):
+            fx0, fy0 = to_image_fraction(x_bins[col], y_bins[row])
+            fx1, fy1 = to_image_fraction(x_bins[col + 1], y_bins[row + 1])
+            left, right = sorted((fx0, fx1))
+            bottom, top = sorted((fy0, fy1))
+            cells[cell_key(row, col)] = {
+                "left_pct": round(left * 100.0, 3),
+                "top_pct": round((1.0 - top) * 100.0, 3),
+                "width_pct": round((right - left) * 100.0, 3),
+                "height_pct": round((top - bottom) * 100.0, 3),
+            }
 
     buf = io.BytesIO()
     fig.savefig(
@@ -114,7 +123,37 @@ def _render(fig, *, pad_inches: float = PAD_INCHES) -> tuple[str, dict[str, dict
         pad_inches=0,
     )
     plt.close(fig)
-    return base64.b64encode(buf.getvalue()).decode("ascii"), quadrants
+    return base64.b64encode(buf.getvalue()).decode("ascii"), cells
+
+
+def _zone_keys(col: int, row: int) -> tuple[str, str]:
+    """Pitch thirds for a cell centre: defensive/middle/attacking × left/centre/right."""
+    x_centre = (col + 0.5) / DEST_COLS
+    y_centre = (row + 0.5) / DEST_ROWS
+    x_zone = ("def", "mid", "att")[min(int(x_centre * 3), 2)]
+    y_zone = ("left", "centre", "right")[min(int(y_centre * 3), 2)]
+    return x_zone, y_zone
+
+
+def _cell_metrics(count_grid, mean_xp_grid) -> list[dict[str, Any]]:
+    """Pass count, share and mean xP per destination grid cell."""
+    total = max(float(count_grid.sum()), 1.0)
+    rows: list[dict[str, Any]] = []
+    for row in range(DEST_ROWS):
+        for col in range(DEST_COLS):
+            count = int(count_grid[row, col])
+            x_zone, y_zone = _zone_keys(col, row)
+            rows.append({
+                "key": cell_key(row, col),
+                "row": row,
+                "col": col,
+                "x_zone": x_zone,
+                "y_zone": y_zone,
+                "passes": count,
+                "share_pct": round(count / total * 100.0, 2),
+                "mean_xp": round(float(mean_xp_grid[row, col]), 4),
+            })
+    return rows
 
 
 def _quadrant_metrics(passes, xp_col: str = "xp_m4") -> dict[str, dict[str, float]]:
@@ -157,7 +196,9 @@ def build_aggregated_payload(top_n: int, position_family: str) -> dict[str, Any]
         raise SystemExit("No completed passes available for the requested position family.")
 
     pool = _top_position_pass_pool(completed, top_n)
-    agg = xpe.aggregate_pass_destination_grids(pool["passes"])
+    agg = xpe.aggregate_pass_destination_grids(
+        pool["passes"], dest_cols=DEST_COLS, dest_rows=DEST_ROWS
+    )
     quadrant_metrics = _quadrant_metrics(pool["passes"])
 
     common_fig = xsm._draw_destination_grid_map(
@@ -166,7 +207,7 @@ def build_aggregated_payload(top_n: int, position_family: str) -> dict[str, Any]
         cbar_label="Passes at destination",
         cmap=CMAP_COMMON_SOFT,
     )
-    common_b64, common_quadrants = _render(common_fig)
+    common_b64, common_cells = _render(common_fig)
 
     difficult_fig = xsm._draw_destination_grid_map(
         agg["mean_xp_grid"],
@@ -175,7 +216,7 @@ def build_aggregated_payload(top_n: int, position_family: str) -> dict[str, Any]
         cmap=xsm.CMAP_XP_GRAY_RED,
         vmax=xsm.XP_PASS_MAX,
     )
-    difficult_b64, difficult_quadrants = _render(difficult_fig)
+    difficult_b64, difficult_cells = _render(difficult_fig)
 
     quadrant_stats = [
         {
@@ -192,11 +233,14 @@ def build_aggregated_payload(top_n: int, position_family: str) -> dict[str, Any]
         "total_passes": int(len(pool["passes"])),
         "min_passes_cutoff": pool["min_passes_cutoff"],
         "xp_scale_max": float(xsm.XP_PASS_MAX),
+        "dest_cols": DEST_COLS,
+        "dest_rows": DEST_ROWS,
         "quadrant_stats": quadrant_stats,
+        "cell_stats": _cell_metrics(agg["count_grid"], agg["mean_xp_grid"]),
         "common_map_b64": common_b64,
-        "common_map_quadrants": common_quadrants,
+        "common_map_cells": common_cells,
         "rare_map_b64": difficult_b64,
-        "rare_map_quadrants": difficult_quadrants,
+        "rare_map_cells": difficult_cells,
     }
 
 

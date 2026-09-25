@@ -237,12 +237,10 @@ export type Messages = {
     destMapAlt: string;
     commonPassesAlt: string;
     rarePassesAlt: string;
-    quadrants: {
-      def_left: string;
-      def_right: string;
-      att_left: string;
-      att_right: string;
-    };
+    zonesX: { def: string; mid: string; att: string };
+    zonesY: { left: string; centre: string; right: string };
+    cellLabel: string;
+    cellRef: string;
     tooltip: {
       passesLabel: string;
       shareLabel: string;
@@ -683,14 +681,14 @@ const en: Messages = {
     passOriginAlt: "Pass origin heatmap",
   },
   maps: {
-    subtitle: "Where the pool's passes land and how hard those passes are — hover any quadrant for detail.",
+    subtitle: "Where the pool's passes land and how hard those passes are — hover any pitch cell for detail.",
     playerMapsSubtitle:
       "Pass maps for the eligible midfielder pool — darker arrows mean higher xPV on impact passes.",
     generating: "Generating maps…",
     backendUnavailable: "API unavailable — try again shortly.",
     aggregateNote: "Aggregate view · top 250 by volume",
     aggregateLead:
-      "{players} midfielders · {passes} completed passes grouped by destination quadrant.",
+      "{players} midfielders · {passes} completed passes grouped by destination cell.",
     noScatterData: "No data for scatter.",
     scatterCaption: "players · gold lines = mean",
     scatterView: "Scatter",
@@ -699,27 +697,25 @@ const en: Messages = {
     destMapAlt: "Destination heatmap",
     commonPassesAlt: "Common passes",
     rarePassesAlt: "Difficult passes",
-    quadrants: {
-      def_left: "Defensive · left",
-      def_right: "Defensive · right",
-      att_left: "Attacking · left",
-      att_right: "Attacking · right",
-    },
+    zonesX: { def: "Defensive third", mid: "Middle third", att: "Attacking third" },
+    zonesY: { left: "left", centre: "centre", right: "right" },
+    cellLabel: "{x} · {y}",
+    cellRef: "Cell C{col}/R{row}",
     tooltip: {
-      passesLabel: "Passes into this quadrant",
+      passesLabel: "Passes into this cell",
       shareLabel: "Share of all passes",
       meanXpLabel: "Mean xP",
       difficultyLabel: "Difficulty",
-      compareHint: "Click two quadrants to compare their pass volume.",
-      comparePending: "Pick one more quadrant to compare.",
+      compareHint: "Click two cells to compare their pass volume.",
+      comparePending: "Pick one more cell to compare.",
       compareSelected: "Selected for comparison",
       clearSelection: "Clear selection",
-      comparisonTitle: "Quadrant comparison",
+      comparisonTitle: "Cell comparison",
       comparisonMore: "{high} has {pct}% more passes than {low}.",
-      comparisonEqual: "Both quadrants have the same pass volume.",
+      comparisonEqual: "Both cells have the same pass volume.",
       comparisonDiff: "Difference: {diff} passes ({low} is {pct}% below {high}).",
       xpExplain:
-        "Mean xP is the average expected difficulty of the passes that end in this quadrant, on a 0–1 scale. Higher values mean the passes arriving here are rarer and harder to complete.",
+        "Mean xP is the average expected difficulty of the passes that end in this cell, on a 0–1 scale. Higher values mean the passes arriving here are rarer and harder to complete.",
       xpDifficultyLow: "Low — mostly routine circulation into this area.",
       xpDifficultyMid: "Moderate — a mix of safe and demanding passes.",
       xpDifficultyHigh: "High — reaching this area usually requires a hard pass.",
@@ -1410,14 +1406,14 @@ const pt: Messages = {
     passOriginAlt: "Heatmap de origem dos passes",
   },
   maps: {
-    subtitle: "Onde os passes do pool terminam e o quão difíceis eles são — passe o mouse em cada quadrante.",
+    subtitle: "Onde os passes do pool terminam e o quão difíceis eles são — passe o mouse em cada célula do campo.",
     playerMapsSubtitle:
       "Mapas de passe do pool elegível — setas mais escuras indicam maior xPV nos impact passes.",
     generating: "Gerando mapas…",
     backendUnavailable: "API indisponível — tente novamente em instantes.",
     aggregateNote: "Visão agregada · top 250 por volume",
     aggregateLead:
-      "{players} meio-campistas · {passes} passes certos agrupados por quadrante de destino.",
+      "{players} meio-campistas · {passes} passes certos agrupados por célula de destino.",
     noScatterData: "Sem dados para scatter.",
     scatterCaption: "jogadores · linhas douradas = média",
     scatterView: "Scatter",
@@ -1426,27 +1422,25 @@ const pt: Messages = {
     destMapAlt: "Heatmap de destino",
     commonPassesAlt: "Passes comuns",
     rarePassesAlt: "Passes difíceis",
-    quadrants: {
-      def_left: "Defensivo · esquerda",
-      def_right: "Defensivo · direita",
-      att_left: "Ofensivo · esquerda",
-      att_right: "Ofensivo · direita",
-    },
+    zonesX: { def: "Terço defensivo", mid: "Meio", att: "Terço ofensivo" },
+    zonesY: { left: "esquerda", centre: "centro", right: "direita" },
+    cellLabel: "{x} · {y}",
+    cellRef: "Célula C{col}/L{row}",
     tooltip: {
-      passesLabel: "Passes para este quadrante",
+      passesLabel: "Passes para esta célula",
       shareLabel: "Fatia do total de passes",
       meanXpLabel: "xP médio",
       difficultyLabel: "Dificuldade",
-      compareHint: "Clique em dois quadrantes para comparar o volume de passes.",
-      comparePending: "Escolha mais um quadrante para comparar.",
-      compareSelected: "Selecionado para comparação",
+      compareHint: "Clique em duas células para comparar o volume de passes.",
+      comparePending: "Escolha mais uma célula para comparar.",
+      compareSelected: "Selecionada para comparação",
       clearSelection: "Limpar seleção",
-      comparisonTitle: "Comparação de quadrantes",
+      comparisonTitle: "Comparação de células",
       comparisonMore: "{high} tem {pct}% mais passes que {low}.",
-      comparisonEqual: "Os dois quadrantes têm o mesmo volume de passes.",
+      comparisonEqual: "As duas células têm o mesmo volume de passes.",
       comparisonDiff: "Diferença: {diff} passes ({low} está {pct}% abaixo de {high}).",
       xpExplain:
-        "O xP médio é a dificuldade esperada média dos passes que terminam neste quadrante, em uma escala de 0 a 1. Valores maiores indicam que os passes que chegam aqui são mais raros e mais difíceis de completar.",
+        "O xP médio é a dificuldade esperada média dos passes que terminam nesta célula, em uma escala de 0 a 1. Valores maiores indicam que os passes que chegam aqui são mais raros e mais difíceis de completar.",
       xpDifficultyLow: "Baixa — na maior parte, circulação de rotina para esta área.",
       xpDifficultyMid: "Moderada — mistura de passes seguros e exigentes.",
       xpDifficultyHigh: "Alta — chegar a esta área costuma exigir um passe difícil.",

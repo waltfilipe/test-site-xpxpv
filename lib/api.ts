@@ -322,10 +322,26 @@ export type QuadrantBox = {
   height_pct: number;
 };
 
+export type PitchZoneX = "def" | "mid" | "att";
+export type PitchZoneY = "left" | "centre" | "right";
+
+export type CellStat = {
+  key: string;
+  row: number;
+  col: number;
+  x_zone: PitchZoneX;
+  y_zone: PitchZoneY;
+  passes: number;
+  share_pct: number;
+  mean_xp: number;
+};
+
 export type AggregatedMaps = {
   player_count: number;
   total_passes: number;
   xp_scale_max?: number;
+  dest_cols?: number;
+  dest_rows?: number;
   quadrant_stats: {
     quadrant_key: QuadrantKey;
     quadrant: string;
@@ -333,10 +349,11 @@ export type AggregatedMaps = {
     share_pct: number;
     mean_xp: number;
   }[];
+  cell_stats?: CellStat[];
   common_map_b64?: string | null;
-  common_map_quadrants?: Record<QuadrantKey, QuadrantBox>;
+  common_map_cells?: Record<string, QuadrantBox>;
   rare_map_b64?: string | null;
-  rare_map_quadrants?: Record<QuadrantKey, QuadrantBox>;
+  rare_map_cells?: Record<string, QuadrantBox>;
 };
 
 export function getAggregatedMaps(positionFamily = "midfielders") {

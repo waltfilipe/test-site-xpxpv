@@ -7,37 +7,36 @@ import { Tooltip } from "@/components/ui/Tooltip";
 import {
   getAggregatedMaps,
   type AggregatedMaps,
+  type CellStat,
   type QuadrantBox,
-  type QuadrantKey,
 } from "@/lib/api";
 import { useI18n } from "@/lib/i18n/context";
-
-const QUADRANT_ORDER: QuadrantKey[] = ["def_left", "def_right", "att_left", "att_right"];
 
 function fillTemplate(template: string, values: Record<string, string>) {
   return template.replace(/\{(\w+)\}/g, (match, key) => values[key] ?? match);
 }
 
-type QuadrantOverlayProps = {
-  boxes: Record<QuadrantKey, QuadrantBox>;
-  tooltipFor: (key: QuadrantKey) => ReactNode;
-  labelFor: (key: QuadrantKey) => string;
-  selected?: QuadrantKey[];
-  onToggle?: (key: QuadrantKey) => void;
+type CellOverlayProps = {
+  cells: CellStat[];
+  boxes: Record<string, QuadrantBox>;
+  tooltipFor: (cell: CellStat) => ReactNode;
+  labelFor: (cell: CellStat) => string;
+  selected?: string[];
+  onToggle?: (key: string) => void;
 };
 
-function QuadrantOverlay({ boxes, tooltipFor, labelFor, selected, onToggle }: QuadrantOverlayProps) {
+function CellOverlay({ cells, boxes, tooltipFor, labelFor, selected, onToggle }: CellOverlayProps) {
   return (
-    <div className="quadrant-overlay">
-      {QUADRANT_ORDER.map((key) => {
-        const box = boxes[key];
+    <div className="cell-overlay">
+      {cells.map((cell) => {
+        const box = boxes[cell.key];
         if (!box) return null;
-        const isSelected = selected?.includes(key) ?? false;
+        const isSelected = selected?.includes(cell.key) ?? false;
         const interactive = Boolean(onToggle);
         return (
           <div
-            key={key}
-            className={`quadrant-hotspot${isSelected ? " is-selected" : ""}${interactive ? " is-clickable" : ""}`}
+            key={cell.key}
+            className={`cell-hotspot${isSelected ? " is-selected" : ""}${interactive ? " is-clickable" : ""}`}
             style={{
               left: `${box.left_pct}%`,
               top: `${box.top_pct}%`,
@@ -45,17 +44,17 @@ function QuadrantOverlay({ boxes, tooltipFor, labelFor, selected, onToggle }: Qu
               height: `${box.height_pct}%`,
             }}
           >
-            <Tooltip content={tooltipFor(key)} block>
+            <Tooltip content={tooltipFor(cell)} block>
               {interactive ? (
                 <button
                   type="button"
-                  className="quadrant-hitbox"
+                  className="cell-hitbox"
                   aria-pressed={isSelected}
-                  aria-label={labelFor(key)}
-                  onClick={() => onToggle?.(key)}
+                  aria-label={labelFor(cell)}
+                  onClick={() => onToggle?.(cell.key)}
                 />
               ) : (
-                <span className="quadrant-hitbox" aria-label={labelFor(key)} role="img" />
+                <span className="cell-hitbox" aria-label={labelFor(cell)} role="img" />
               )}
             </Tooltip>
           </div>
@@ -69,7 +68,7 @@ export function MapsPageContent() {
   const { m, locale } = useI18n();
   const positionFamily = "midfielders";
   const [aggregated, setAggregated] = useState<AggregatedMaps | null>(null);
-  const [selected, setSelected] = useState<QuadrantKey[]>([]);
+  const [selected, setSelected] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -86,15 +85,27 @@ export function MapsPageContent() {
     [locale],
   );
 
-  const statsByKey = useMemo(() => {
-    const map = new Map<QuadrantKey, AggregatedMaps["quadrant_stats"][number]>();
-    for (const row of aggregated?.quadrant_stats ?? []) map.set(row.quadrant_key, row);
+  const cells = useMemo(() => aggregated?.cell_stats ?? [], [aggregated]);
+
+  const cellsByKey = useMemo(() => {
+    const map = new Map<string, CellStat>();
+    for (const cell of cells) map.set(cell.key, cell);
     return map;
-  }, [aggregated]);
+  }, [cells]);
 
-  const quadrantLabel = (key: QuadrantKey) => m.maps.quadrants[key];
+  const cellLabel = (cell: CellStat) =>
+    fillTemplate(m.maps.cellLabel, {
+      x: m.maps.zonesX[cell.x_zone],
+      y: m.maps.zonesY[cell.y_zone],
+    });
 
-  const toggleQuadrant = (key: QuadrantKey) => {
+  const cellRef = (cell: CellStat) =>
+    fillTemplate(m.maps.cellRef, {
+      col: String(cell.col + 1),
+      row: String(cell.row + 1),
+    });
+
+  const toggleCell = (key: string) => {
     setSelected((current) => {
       if (current.includes(key)) return current.filter((item) => item !== key);
       return [...current, key].slice(-2);
@@ -111,44 +122,40 @@ export function MapsPageContent() {
 
   const comparison = useMemo(() => {
     if (selected.length < 2) return null;
-    const [firstKey, secondKey] = selected;
-    const first = statsByKey.get(firstKey);
-    const second = statsByKey.get(secondKey);
+    const first = cellsByKey.get(selected[0]);
+    const second = cellsByKey.get(selected[1]);
     if (!first || !second) return null;
 
     const [high, low] = first.passes >= second.passes ? [first, second] : [second, first];
     const diff = high.passes - low.passes;
-    const gainPct = low.passes ? (diff / low.passes) * 100 : 0;
-    const dropPct = high.passes ? (diff / high.passes) * 100 : 0;
 
     return {
       first,
       second,
-      highLabel: quadrantLabel(high.quadrant_key),
-      lowLabel: quadrantLabel(low.quadrant_key),
+      high,
+      low,
       diff,
-      gainPct,
-      dropPct,
+      gainPct: low.passes ? (diff / low.passes) * 100 : 0,
+      dropPct: high.passes ? (diff / high.passes) * 100 : 0,
       equal: diff === 0,
     };
-  }, [selected, statsByKey, m]);
+  }, [selected, cellsByKey]);
 
-  const commonTooltip = (key: QuadrantKey): ReactNode => {
-    const stat = statsByKey.get(key);
-    if (!stat) return null;
-    const isSelected = selected.includes(key);
+  const commonTooltip = (cell: CellStat): ReactNode => {
+    const isSelected = selected.includes(cell.key);
     return (
-      <div className="quadrant-tip">
-        <p className="quadrant-tip-title">{quadrantLabel(key)}</p>
-        <p className="quadrant-tip-row">
+      <div className="cell-tip">
+        <p className="cell-tip-title">{cellLabel(cell)}</p>
+        <p className="cell-tip-ref">{cellRef(cell)}</p>
+        <p className="cell-tip-row">
           <span>{m.maps.tooltip.passesLabel}</span>
-          <strong>{numberFormat.format(stat.passes)}</strong>
+          <strong>{numberFormat.format(cell.passes)}</strong>
         </p>
-        <p className="quadrant-tip-row">
+        <p className="cell-tip-row">
           <span>{m.maps.tooltip.shareLabel}</span>
-          <strong>{stat.share_pct.toFixed(1)}%</strong>
+          <strong>{cell.share_pct.toFixed(2)}%</strong>
         </p>
-        <p className="quadrant-tip-note">
+        <p className="cell-tip-note">
           {isSelected
             ? selected.length < 2
               ? m.maps.tooltip.comparePending
@@ -159,24 +166,21 @@ export function MapsPageContent() {
     );
   };
 
-  const difficultTooltip = (key: QuadrantKey): ReactNode => {
-    const stat = statsByKey.get(key);
-    if (!stat) return null;
-    return (
-      <div className="quadrant-tip">
-        <p className="quadrant-tip-title">{quadrantLabel(key)}</p>
-        <p className="quadrant-tip-row">
-          <span>{m.maps.tooltip.meanXpLabel}</span>
-          <strong>{stat.mean_xp.toFixed(2)}</strong>
-        </p>
-        <p className="quadrant-tip-row">
-          <span>{m.maps.tooltip.difficultyLabel}</span>
-          <strong>{difficultyBand(stat.mean_xp)}</strong>
-        </p>
-        <p className="quadrant-tip-note">{m.maps.tooltip.xpExplain}</p>
-      </div>
-    );
-  };
+  const difficultTooltip = (cell: CellStat): ReactNode => (
+    <div className="cell-tip">
+      <p className="cell-tip-title">{cellLabel(cell)}</p>
+      <p className="cell-tip-ref">{cellRef(cell)}</p>
+      <p className="cell-tip-row">
+        <span>{m.maps.tooltip.meanXpLabel}</span>
+        <strong>{cell.mean_xp.toFixed(2)}</strong>
+      </p>
+      <p className="cell-tip-row">
+        <span>{m.maps.tooltip.difficultyLabel}</span>
+        <strong>{difficultyBand(cell.mean_xp)}</strong>
+      </p>
+      <p className="cell-tip-note">{m.maps.tooltip.xpExplain}</p>
+    </div>
+  );
 
   return (
     <div className="container">
@@ -207,13 +211,14 @@ export function MapsPageContent() {
                     alt={m.maps.commonPassesAlt}
                     className="map-img"
                   />
-                  {aggregated.common_map_quadrants && (
-                    <QuadrantOverlay
-                      boxes={aggregated.common_map_quadrants}
+                  {aggregated.common_map_cells && (
+                    <CellOverlay
+                      cells={cells}
+                      boxes={aggregated.common_map_cells}
                       tooltipFor={commonTooltip}
-                      labelFor={quadrantLabel}
+                      labelFor={cellLabel}
                       selected={selected}
-                      onToggle={toggleQuadrant}
+                      onToggle={toggleCell}
                     />
                   )}
                 </div>
@@ -229,11 +234,12 @@ export function MapsPageContent() {
                     alt={m.maps.rarePassesAlt}
                     className="map-img"
                   />
-                  {aggregated.rare_map_quadrants && (
-                    <QuadrantOverlay
-                      boxes={aggregated.rare_map_quadrants}
+                  {aggregated.rare_map_cells && (
+                    <CellOverlay
+                      cells={cells}
+                      boxes={aggregated.rare_map_cells}
                       tooltipFor={difficultTooltip}
-                      labelFor={quadrantLabel}
+                      labelFor={cellLabel}
                     />
                   )}
                 </div>
@@ -251,11 +257,13 @@ export function MapsPageContent() {
                 </button>
               </div>
               <div className="quadrant-compare-values">
-                {[comparison.first, comparison.second].map((stat) => (
-                  <div key={stat.quadrant_key} className="quadrant-compare-value">
-                    <span className="quadrant-compare-label">{quadrantLabel(stat.quadrant_key)}</span>
-                    <strong>{numberFormat.format(stat.passes)}</strong>
-                    <span className="muted">{stat.share_pct.toFixed(1)}%</span>
+                {[comparison.first, comparison.second].map((cell) => (
+                  <div key={cell.key} className="quadrant-compare-value">
+                    <span className="quadrant-compare-label">
+                      {cellLabel(cell)} · {cellRef(cell)}
+                    </span>
+                    <strong>{numberFormat.format(cell.passes)}</strong>
+                    <span className="muted">{cell.share_pct.toFixed(2)}%</span>
                   </div>
                 ))}
               </div>
@@ -263,8 +271,8 @@ export function MapsPageContent() {
                 {comparison.equal
                   ? m.maps.tooltip.comparisonEqual
                   : fillTemplate(m.maps.tooltip.comparisonMore, {
-                      high: comparison.highLabel,
-                      low: comparison.lowLabel,
+                      high: `${cellLabel(comparison.high)} (${cellRef(comparison.high)})`,
+                      low: `${cellLabel(comparison.low)} (${cellRef(comparison.low)})`,
                       pct: comparison.gainPct.toFixed(1),
                     })}
               </p>
@@ -272,8 +280,8 @@ export function MapsPageContent() {
                 <p className="muted">
                   {fillTemplate(m.maps.tooltip.comparisonDiff, {
                     diff: numberFormat.format(comparison.diff),
-                    low: comparison.lowLabel,
-                    high: comparison.highLabel,
+                    low: cellRef(comparison.low),
+                    high: cellRef(comparison.high),
                     pct: comparison.dropPct.toFixed(1),
                   })}
                 </p>
