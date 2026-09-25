@@ -661,7 +661,7 @@ const en: Messages = {
     passMapAlt: "Pass map",
     destMapAlt: "Destination heatmap",
     commonPassesAlt: "Common passes",
-    rarePassesAlt: "Rare passes",
+    rarePassesAlt: "Difficult passes",
   },
   mapFilters: {
     progressive: "Progressive Passes",
@@ -1354,7 +1354,7 @@ const pt: Messages = {
     passMapAlt: "Mapa de passes",
     destMapAlt: "Heatmap de destino",
     commonPassesAlt: "Passes comuns",
-    rarePassesAlt: "Passes raros",
+    rarePassesAlt: "Passes difíceis",
   },
   mapFilters: {
     progressive: "Passes progressivos",
