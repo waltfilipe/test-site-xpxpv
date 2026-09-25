@@ -4,12 +4,13 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { useI18n } from "@/lib/i18n/context";
 
-const MODULE_KEYS = ["reports", "profile", "compare", "maps", "players"] as const;
+const MODULE_KEYS = ["reports", "profile", "compare", "maps", "playerMaps", "players"] as const;
 const MODULE_ICONS = {
   reports: "fa-file-lines",
   profile: "fa-user",
   compare: "fa-scale-balanced",
   maps: "fa-map-location-dot",
+  playerMaps: "fa-user-group",
   players: "fa-table-list",
 } as const;
 const MODULE_ACCENTS = {
@@ -17,6 +18,7 @@ const MODULE_ACCENTS = {
   profile: "#38bdf8",
   compare: "#34d399",
   maps: "#fbbf24",
+  playerMaps: "#f97316",
   players: "#94a3b8",
 } as const;
 const MODULE_HREFS = {
@@ -24,6 +26,7 @@ const MODULE_HREFS = {
   profile: "/profile",
   compare: "/compare",
   maps: "/maps",
+  playerMaps: "/player-maps",
   players: "/players",
 } as const;
 

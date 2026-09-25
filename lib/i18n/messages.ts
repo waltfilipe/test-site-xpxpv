@@ -7,6 +7,7 @@ export type Messages = {
     profile: string;
     compare: string;
     maps: string;
+    playerMaps: string;
     players: string;
     primary: string;
     openMenu: string;
@@ -84,6 +85,7 @@ export type Messages = {
       profile: { title: string; description: string };
       compare: { title: string; description: string };
       maps: { title: string; description: string };
+      playerMaps: { title: string; description: string };
       players: { title: string; description: string };
     };
   };
@@ -222,9 +224,11 @@ export type Messages = {
   };
   maps: {
     subtitle: string;
+    playerMapsSubtitle: string;
     generating: string;
     backendUnavailable: string;
     aggregateNote: string;
+    aggregateLead: string;
     noScatterData: string;
     scatterCaption: string;
     scatterView: string;
@@ -233,6 +237,30 @@ export type Messages = {
     destMapAlt: string;
     commonPassesAlt: string;
     rarePassesAlt: string;
+    quadrants: {
+      def_left: string;
+      def_right: string;
+      att_left: string;
+      att_right: string;
+    };
+    tooltip: {
+      passesLabel: string;
+      shareLabel: string;
+      meanXpLabel: string;
+      difficultyLabel: string;
+      compareHint: string;
+      comparePending: string;
+      compareSelected: string;
+      clearSelection: string;
+      comparisonTitle: string;
+      comparisonMore: string;
+      comparisonEqual: string;
+      comparisonDiff: string;
+      xpExplain: string;
+      xpDifficultyLow: string;
+      xpDifficultyMid: string;
+      xpDifficultyHigh: string;
+    };
   };
   mapFilters: {
     progressive: string;
@@ -444,6 +472,7 @@ const en: Messages = {
     profile: "Profile",
     compare: "Compare",
     maps: "Maps",
+    playerMaps: "Player Maps",
     players: "Players",
     primary: "Primary navigation",
     openMenu: "Open menu",
@@ -559,7 +588,11 @@ const en: Messages = {
       },
       maps: {
         title: "Maps",
-        description: "Progressive pass maps, impact passes and line-breaking routes.",
+        description: "Aggregate pass volume and pass difficulty across the pitch, quadrant by quadrant.",
+      },
+      playerMaps: {
+        title: "Player Maps",
+        description: "Progressive pass maps, impact passes and line-breaking routes, player by player.",
       },
       players: {
         title: "Players",
@@ -650,10 +683,14 @@ const en: Messages = {
     passOriginAlt: "Pass origin heatmap",
   },
   maps: {
-    subtitle: "Pass maps for the eligible midfielder pool — darker arrows mean higher xPV on impact passes.",
+    subtitle: "Where the pool's passes land and how hard those passes are — hover any quadrant for detail.",
+    playerMapsSubtitle:
+      "Pass maps for the eligible midfielder pool — darker arrows mean higher xPV on impact passes.",
     generating: "Generating maps…",
     backendUnavailable: "API unavailable — try again shortly.",
     aggregateNote: "Aggregate view · top 250 by volume",
+    aggregateLead:
+      "{players} midfielders · {passes} completed passes grouped by destination quadrant.",
     noScatterData: "No data for scatter.",
     scatterCaption: "players · gold lines = mean",
     scatterView: "Scatter",
@@ -662,6 +699,31 @@ const en: Messages = {
     destMapAlt: "Destination heatmap",
     commonPassesAlt: "Common passes",
     rarePassesAlt: "Difficult passes",
+    quadrants: {
+      def_left: "Defensive · left",
+      def_right: "Defensive · right",
+      att_left: "Attacking · left",
+      att_right: "Attacking · right",
+    },
+    tooltip: {
+      passesLabel: "Passes into this quadrant",
+      shareLabel: "Share of all passes",
+      meanXpLabel: "Mean xP",
+      difficultyLabel: "Difficulty",
+      compareHint: "Click two quadrants to compare their pass volume.",
+      comparePending: "Pick one more quadrant to compare.",
+      compareSelected: "Selected for comparison",
+      clearSelection: "Clear selection",
+      comparisonTitle: "Quadrant comparison",
+      comparisonMore: "{high} has {pct}% more passes than {low}.",
+      comparisonEqual: "Both quadrants have the same pass volume.",
+      comparisonDiff: "Difference: {diff} passes ({low} is {pct}% below {high}).",
+      xpExplain:
+        "Mean xP is the average expected difficulty of the passes that end in this quadrant, on a 0–1 scale. Higher values mean the passes arriving here are rarer and harder to complete.",
+      xpDifficultyLow: "Low — mostly routine circulation into this area.",
+      xpDifficultyMid: "Moderate — a mix of safe and demanding passes.",
+      xpDifficultyHigh: "High — reaching this area usually requires a hard pass.",
+    },
   },
   mapFilters: {
     progressive: "Progressive Passes",
@@ -1137,6 +1199,7 @@ const pt: Messages = {
     profile: "Perfil",
     compare: "Comparar",
     maps: "Mapas",
+    playerMaps: "Mapas por Jogador",
     players: "Jogadores",
     primary: "Navegação principal",
     openMenu: "Abrir menu",
@@ -1252,7 +1315,11 @@ const pt: Messages = {
       },
       maps: {
         title: "Mapas",
-        description: "Mapas de passes progressivos, impact passes e line breaking.",
+        description: "Volume e dificuldade de passe agregados no campo, quadrante a quadrante.",
+      },
+      playerMaps: {
+        title: "Mapas por Jogador",
+        description: "Mapas de passes progressivos, impact passes e line breaking, por jogador.",
       },
       players: {
         title: "Jogadores",
@@ -1343,10 +1410,14 @@ const pt: Messages = {
     passOriginAlt: "Heatmap de origem dos passes",
   },
   maps: {
-    subtitle: "Mapas de passe do pool elegível — setas mais escuras indicam maior xPV nos impact passes.",
+    subtitle: "Onde os passes do pool terminam e o quão difíceis eles são — passe o mouse em cada quadrante.",
+    playerMapsSubtitle:
+      "Mapas de passe do pool elegível — setas mais escuras indicam maior xPV nos impact passes.",
     generating: "Gerando mapas…",
     backendUnavailable: "API indisponível — tente novamente em instantes.",
     aggregateNote: "Visão agregada · top 250 por volume",
+    aggregateLead:
+      "{players} meio-campistas · {passes} passes certos agrupados por quadrante de destino.",
     noScatterData: "Sem dados para scatter.",
     scatterCaption: "jogadores · linhas douradas = média",
     scatterView: "Scatter",
@@ -1355,6 +1426,31 @@ const pt: Messages = {
     destMapAlt: "Heatmap de destino",
     commonPassesAlt: "Passes comuns",
     rarePassesAlt: "Passes difíceis",
+    quadrants: {
+      def_left: "Defensivo · esquerda",
+      def_right: "Defensivo · direita",
+      att_left: "Ofensivo · esquerda",
+      att_right: "Ofensivo · direita",
+    },
+    tooltip: {
+      passesLabel: "Passes para este quadrante",
+      shareLabel: "Fatia do total de passes",
+      meanXpLabel: "xP médio",
+      difficultyLabel: "Dificuldade",
+      compareHint: "Clique em dois quadrantes para comparar o volume de passes.",
+      comparePending: "Escolha mais um quadrante para comparar.",
+      compareSelected: "Selecionado para comparação",
+      clearSelection: "Limpar seleção",
+      comparisonTitle: "Comparação de quadrantes",
+      comparisonMore: "{high} tem {pct}% mais passes que {low}.",
+      comparisonEqual: "Os dois quadrantes têm o mesmo volume de passes.",
+      comparisonDiff: "Diferença: {diff} passes ({low} está {pct}% abaixo de {high}).",
+      xpExplain:
+        "O xP médio é a dificuldade esperada média dos passes que terminam neste quadrante, em uma escala de 0 a 1. Valores maiores indicam que os passes que chegam aqui são mais raros e mais difíceis de completar.",
+      xpDifficultyLow: "Baixa — na maior parte, circulação de rotina para esta área.",
+      xpDifficultyMid: "Moderada — mistura de passes seguros e exigentes.",
+      xpDifficultyHigh: "Alta — chegar a esta área costuma exigir um passe difícil.",
+    },
   },
   mapFilters: {
     progressive: "Passes progressivos",

@@ -200,7 +200,7 @@ export function ProfileView({
         <Link href={`/compare?a=${playerId}`} className="btn btn-primary">
           <i className="fa-solid fa-scale-balanced" /> {m.common.compare}
         </Link>
-        <Link href={`/maps?player=${playerId}`} className="btn btn-ghost">
+        <Link href={`/player-maps?player=${playerId}`} className="btn btn-ghost">
           <i className="fa-solid fa-map-location-dot" /> {m.common.viewMaps}
         </Link>
       </div>

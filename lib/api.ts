@@ -313,13 +313,33 @@ export function getMapsOptions() {
   }>("/api/maps/options");
 }
 
+export type QuadrantKey = "def_left" | "def_right" | "att_left" | "att_right";
+
+export type QuadrantBox = {
+  left_pct: number;
+  top_pct: number;
+  width_pct: number;
+  height_pct: number;
+};
+
+export type AggregatedMaps = {
+  player_count: number;
+  total_passes: number;
+  xp_scale_max?: number;
+  quadrant_stats: {
+    quadrant_key: QuadrantKey;
+    quadrant: string;
+    passes: number;
+    share_pct: number;
+    mean_xp: number;
+  }[];
+  common_map_b64?: string | null;
+  common_map_quadrants?: Record<QuadrantKey, QuadrantBox>;
+  rare_map_b64?: string | null;
+  rare_map_quadrants?: Record<QuadrantKey, QuadrantBox>;
+};
+
 export function getAggregatedMaps(positionFamily = "midfielders") {
   const qs = new URLSearchParams({ position_family: positionFamily });
-  return fetchApi<{
-    player_count: number;
-    total_passes: number;
-    quadrant_stats: { quadrant: string; passes: number; share_pct: number }[];
-    common_map_b64?: string | null;
-    rare_map_b64?: string | null;
-  }>(`/api/maps/aggregated?${qs}`);
+  return fetchApi<AggregatedMaps>(`/api/maps/aggregated?${qs}`);
 }

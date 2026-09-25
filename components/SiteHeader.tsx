@@ -46,6 +46,7 @@ export function SiteHeader() {
           <Link href="/profile">{m.nav.profile}</Link>
           <Link href="/compare">{m.nav.compare}</Link>
           <Link href="/maps">{m.nav.maps}</Link>
+          <Link href="/player-maps">{m.nav.playerMaps}</Link>
           <Link href="/players">{m.nav.players}</Link>
           <Link href="/reports" className="nav-link-featured">{m.nav.reports}</Link>
           <LanguageToggle />
