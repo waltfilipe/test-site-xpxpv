@@ -13,7 +13,7 @@ from typing import Any
 
 # Site-specific styling: softened gray→red scale on both aggregate maps, plus
 # grid-cell geometry so the UI can anchor tooltips over the rendered PNGs.
-STATIC_AGGREGATE_RENDER_VERSION = 6
+STATIC_AGGREGATE_RENDER_VERSION = 7
 
 _BACKEND_CANDIDATES = (
     Path(__file__).resolve().parents[2] / "xpv-xp_site" / "backend",
@@ -80,7 +80,7 @@ def _style_title(fig) -> None:
     ax.set_title(
         ax.get_title(),
         color="#f8fafc",
-        fontsize=15,
+        fontsize=13,
         fontweight="bold",
         pad=16,
     )
