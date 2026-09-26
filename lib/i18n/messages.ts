@@ -268,6 +268,15 @@ export type Messages = {
       indexExplain: string;
       destPassesLabel: string;
       summaryLine: string;
+      attThirdDestSummaryLine: string;
+      corridorDestPassesLabel: string;
+      corridorDestShareLabel: string;
+      corridorOriginSelectHint: string;
+      corridorFlowTitle: string;
+      corridorFlowOriginLabel: string;
+      corridorFlowDestBreakdown: string;
+      corridorFlowClear: string;
+      corridorFlowPickCorridor: string;
     };
     tooltip: {
       passesLabel: string;
@@ -739,11 +748,12 @@ const en: Messages = {
       sectionTitle: "Offensive half-space study",
       sectionLead:
         "Five pitch corridors (wide, half-space, central). Attack runs left → right; offensive half-space = half-space lanes in the attacking third.",
-      originMapAlt: "Pass origins · offensive half-space vs other spaces",
-      destMapAlt: "Destinations from offensive half-space passes",
+      originMapAlt: "Passes ending in attacking-third corridors",
+      destMapAlt: "Pass destinations by attacking-third origin corridor",
       originCaption:
-        "Heat index: pass origins in each cell vs the average origin volume outside offensive half-space (1.0 = typical elsewhere).",
-      destCaption: "Where completed passes that start in offensive half-space end.",
+        "Counts passes that end in the attacking third. Hover or read the badge on each colored corridor (yellow · wide, white · half-space, red · central).",
+      destCaption:
+        "Click a colored corridor to filter destinations for passes that start in that attacking-third zone. Hover destination cells for detail.",
       corridors: {
         lat_l: "Wide left",
         hs_l: "Half-space left",
@@ -759,6 +769,16 @@ const en: Messages = {
       destPassesLabel: "Passes ending in this cell",
       summaryLine:
         "Offensive half-space origins: {ohs} ({ohsPct}% of all origins) · other spaces: {other} ({otherPct}%).",
+      attThirdDestSummaryLine:
+        "Passes ending in attacking-third corridors: {total} · hover each colored band for its share.",
+      corridorDestPassesLabel: "Passes ending in this corridor",
+      corridorDestShareLabel: "Share of attacking-third arrivals",
+      corridorOriginSelectHint: "Click a corridor to see where those passes go.",
+      corridorFlowTitle: "Destinations from selected corridor",
+      corridorFlowOriginLabel: "Passes starting in this corridor",
+      corridorFlowDestBreakdown: "Where they end (by pitch corridor)",
+      corridorFlowClear: "Clear corridor",
+      corridorFlowPickCorridor: "Pick a colored corridor on the map.",
     },
     tooltip: {
       passesLabel: "Passes into this cell",
@@ -1495,11 +1515,12 @@ const pt: Messages = {
       sectionTitle: "Estudo do meio-espaço ofensivo",
       sectionLead:
         "Cinco corredores no campo (lateral, meio-espaço, central). Ataque da esquerda para a direita; meio-espaço ofensivo = faixas de meio-espaço no terço ofensivo.",
-      originMapAlt: "Origens de passe · meio-espaço ofensivo vs outros espaços",
-      destMapAlt: "Destinos dos passes do meio-espaço ofensivo",
+      originMapAlt: "Passes que terminam nos corredores do terço ofensivo",
+      destMapAlt: "Destinos dos passes por corredor de origem no terço ofensivo",
       originCaption:
-        "Índice: origens de passe em cada célula vs a média fora do meio-espaço ofensivo (1,0 = típico nos demais espaços).",
-      destCaption: "Onde terminam os passes certos que começam no meio-espaço ofensivo.",
+        "Conta passes que terminam no terço ofensivo. Passe o mouse ou veja o número em cada faixa colorida (amarelo · lateral, branco · meio-espaço, vermelho · central).",
+      destCaption:
+        "Clique numa faixa colorida para ver para onde vão os passes que começam naquele corredor do terço ofensivo. Passe o mouse nas células de destino.",
       corridors: {
         lat_l: "Lateral esquerda",
         hs_l: "Meio-espaço esquerdo",
@@ -1515,6 +1536,16 @@ const pt: Messages = {
       destPassesLabel: "Passes que terminam nesta célula",
       summaryLine:
         "Origens no meio-espaço ofensivo: {ohs} ({ohsPct}% do total) · outros espaços: {other} ({otherPct}%).",
+      attThirdDestSummaryLine:
+        "Passes que terminam nos corredores do terço ofensivo: {total} · passe o mouse em cada faixa colorida para ver a fatia.",
+      corridorDestPassesLabel: "Passes que terminam neste corredor",
+      corridorDestShareLabel: "Fatia das chegadas no terço ofensivo",
+      corridorOriginSelectHint: "Clique num corredor para ver para onde vão esses passes.",
+      corridorFlowTitle: "Destinos do corredor selecionado",
+      corridorFlowOriginLabel: "Passes que começam neste corredor",
+      corridorFlowDestBreakdown: "Onde terminam (por corredor do campo)",
+      corridorFlowClear: "Limpar corredor",
+      corridorFlowPickCorridor: "Escolha uma faixa colorida no mapa.",
     },
     tooltip: {
       passesLabel: "Passes para esta célula",

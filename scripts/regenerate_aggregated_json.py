@@ -13,7 +13,7 @@ from typing import Any
 
 # Site-specific styling: softened gray→red scale on both aggregate maps, plus
 # grid-cell geometry so the UI can anchor tooltips over the rendered PNGs.
-STATIC_AGGREGATE_RENDER_VERSION = 9
+STATIC_AGGREGATE_RENDER_VERSION = 10
 
 _BACKEND_CANDIDATES = (
     Path(__file__).resolve().parents[2] / "xpv-xp_site" / "backend",
@@ -106,13 +106,112 @@ def cell_center(row: int, col: int) -> tuple[float, float]:
     return x, y
 
 
+def is_att_third_x(x: float) -> bool:
+    return float(x) >= ATT_THIRD_X
+
+
 def is_offensive_halfspace_point(x: float, y: float) -> bool:
-    return float(x) >= ATT_THIRD_X and corridor_for_y(y) in ("hs_l", "hs_r")
+    return is_att_third_x(x) and corridor_for_y(y) in ("hs_l", "hs_r")
+
+
+def _att_third_origin_point(x: float, y: float) -> bool:
+    return is_att_third_x(x)
+
+
+def _att_third_dest_point(x: float, y: float) -> bool:
+    return is_att_third_x(x)
 
 
 def is_offensive_halfspace_cell(row: int, col: int) -> bool:
     x, y = cell_center(row, col)
     return is_offensive_halfspace_point(x, y)
+
+
+def _aggregate_dest_att_third_grid(passes) -> np.ndarray:
+    """Pass counts by destination cell for passes ending in the attacking third."""
+    grid = np.zeros((DEST_ROWS, DEST_COLS), dtype=float)
+    work = passes[passes["is_won"] & passes["has_end"]].dropna(subset=["x_end", "y_end"])
+    if work.empty:
+        return grid
+    att = work[work["x_end"].to_numpy(dtype=float) >= ATT_THIRD_X]
+    if att.empty:
+        return grid
+    x_idx, y_idx = xpe._cell_indices(
+        att["x_end"].to_numpy(dtype=float),
+        att["y_end"].to_numpy(dtype=float),
+        cols=DEST_COLS,
+        rows=DEST_ROWS,
+    )
+    for ix, iy in zip(x_idx, y_idx):
+        grid[iy, ix] += 1.0
+    return grid
+
+
+def _att_third_corridor_dest_counts(passes) -> tuple[dict[str, dict[str, Any]], int]:
+    work = passes[passes["is_won"] & passes["has_end"]].dropna(subset=["x_end", "y_end"])
+    counts: dict[str, int] = {key: 0 for _, _, key in CORRIDOR_BOUNDS}
+    for x_end, y_end in zip(
+        work["x_end"].to_numpy(dtype=float),
+        work["y_end"].to_numpy(dtype=float),
+    ):
+        if not _att_third_dest_point(x_end, y_end):
+            continue
+        counts[corridor_for_y(y_end)] += 1
+    total = max(sum(counts.values()), 1)
+    return (
+        {
+            key: {
+                "passes": int(counts[key]),
+                "share_pct": round(counts[key] / total * 100.0, 2),
+            }
+            for key in counts
+        },
+        int(sum(counts.values())),
+    )
+
+
+def _dest_corridor_counts_from_passes(passes) -> dict[str, dict[str, Any]]:
+    work = passes[passes["is_won"] & passes["has_end"]].dropna(subset=["x_end", "y_end"])
+    counts: dict[str, int] = {key: 0 for _, _, key in CORRIDOR_BOUNDS}
+    for y_end in work["y_end"].to_numpy(dtype=float):
+        counts[corridor_for_y(y_end)] += 1
+    total = max(sum(counts.values()), 1)
+    return {
+        key: {
+            "passes": int(counts[key]),
+            "share_pct": round(counts[key] / total * 100.0, 2),
+        }
+        for key in counts
+    }
+
+
+def _att_third_corridor_origin_flows(passes) -> dict[str, dict[str, Any]]:
+    base = passes[passes["is_won"] & passes["has_end"]].dropna(
+        subset=["x_start", "y_start", "x_end", "y_end"]
+    )
+    flows: dict[str, dict[str, Any]] = {}
+    for _, _, corridor in CORRIDOR_BOUNDS:
+        mask = np.array([
+            _att_third_origin_point(x, y) and corridor_for_y(y) == corridor
+            for x, y in zip(
+                base["x_start"].to_numpy(dtype=float),
+                base["y_start"].to_numpy(dtype=float),
+            )
+        ])
+        subset = base.loc[mask]
+        dest = xpe.aggregate_pass_destination_grids(
+            subset, dest_cols=DEST_COLS, dest_rows=DEST_ROWS
+        )
+        flows[corridor] = {
+            "origin_passes": int(len(subset)),
+            "dest_cell_stats": _cell_metrics_from_grid(
+                dest["count_grid"],
+                metric="dest",
+                mean_xp_grid=dest["mean_xp_grid"],
+            ),
+            "dest_corridor_counts": _dest_corridor_counts_from_passes(subset),
+        }
+    return flows
 
 
 def _aggregate_origin_grid(passes) -> np.ndarray:
@@ -390,67 +489,50 @@ def build_aggregated_payload(top_n: int, position_family: str) -> dict[str, Any]
     difficult_b64, difficult_cells = _render(difficult_fig)
 
     passes_df = pool["passes"]
-    origin_grid = _aggregate_origin_grid(passes_df)
-    comparison_grid = _origin_comparison_grid(origin_grid)
     halfspace_summary = _halfspace_summary(passes_df)
+    att_dest_counts, att_dest_total = _att_third_corridor_dest_counts(passes_df)
+    halfspace_summary["att_third_corridor_dest_counts"] = att_dest_counts
+    halfspace_summary["att_third_dest_total"] = att_dest_total
 
-    ohs_work = passes_df[passes_df["is_won"] & passes_df["has_end"]].dropna(
+    dest_att_third_grid = _aggregate_dest_att_third_grid(passes_df)
+    corridor_origin_flows = _att_third_corridor_origin_flows(passes_df)
+
+    att_origin_work = passes_df[passes_df["is_won"] & passes_df["has_end"]].dropna(
         subset=["x_start", "y_start", "x_end", "y_end"]
     )
-    ohs_mask = np.array([
-        is_offensive_halfspace_point(x, y)
-        for x, y in zip(
-            ohs_work["x_start"].to_numpy(dtype=float),
-            ohs_work["y_start"].to_numpy(dtype=float),
-        )
-    ])
-    ohs_passes = ohs_work.loc[ohs_mask]
-    ohs_dest = xpe.aggregate_pass_destination_grids(
-        ohs_passes, dest_cols=DEST_COLS, dest_rows=DEST_ROWS
+    att_origin_mask = att_origin_work["x_start"].to_numpy(dtype=float) >= ATT_THIRD_X
+    att_origin_passes = att_origin_work.loc[att_origin_mask]
+    att_origin_dest = xpe.aggregate_pass_destination_grids(
+        att_origin_passes, dest_cols=DEST_COLS, dest_rows=DEST_ROWS
     )
 
     halfspace_origin_fig = xsm._draw_destination_grid_map(
-        comparison_grid,
-        title="Offensive half-space · volume vs other spaces",
-        cbar_label="Origin index (1 = avg outside half-space)",
+        dest_att_third_grid,
+        title="Attacking third · passes into corridors",
+        cbar_label="Passes ending in attacking third",
         cmap=CMAP_COMMON_SOFT,
     )
     _style_title(halfspace_origin_fig)
     halfspace_origin_b64, halfspace_origin_cells = _render(halfspace_origin_fig)
 
     halfspace_dest_fig = xsm._draw_destination_grid_map(
-        ohs_dest["count_grid"],
-        title="Offensive half-space · pass destinations",
+        att_origin_dest["count_grid"],
+        title="Attacking third · pass destinations by origin corridor",
         cbar_label="Passes at destination",
         cmap=CMAP_COMMON_SOFT,
     )
     _style_title(halfspace_dest_fig)
     halfspace_dest_b64, halfspace_dest_cells = _render(halfspace_dest_fig)
 
-    halfspace_origin_cell_stats: list[dict[str, Any]] = []
-    for row in range(DEST_ROWS):
-        for col in range(DEST_COLS):
-            x, y = cell_center(row, col)
-            x_zone = ("def", "mid", "att")[min(int(x / xpe.FIELD_X * 3), 2)]
-            y_zone = ("left", "centre", "right")[min(int(y / xpe.FIELD_Y * 3), 2)]
-            origin_count = int(origin_grid[row, col])
-            halfspace_origin_cell_stats.append({
-                "key": cell_key(row, col),
-                "row": row,
-                "col": col,
-                "x_zone": x_zone,
-                "y_zone": y_zone,
-                "corridor": corridor_for_y(y),
-                "is_offensive_halfspace": is_offensive_halfspace_cell(row, col),
-                "passes": origin_count,
-                "share_pct": round(origin_count / max(float(origin_grid.sum()), 1.0) * 100.0, 2),
-                "index_vs_other_spaces": round(float(comparison_grid[row, col]), 3),
-            })
+    halfspace_origin_cell_stats = _cell_metrics_from_grid(
+        dest_att_third_grid,
+        metric="dest",
+    )
 
     halfspace_dest_cell_stats = _cell_metrics_from_grid(
-        ohs_dest["count_grid"],
+        att_origin_dest["count_grid"],
         metric="dest",
-        mean_xp_grid=ohs_dest["mean_xp_grid"],
+        mean_xp_grid=att_origin_dest["mean_xp_grid"],
     )
 
     quadrant_stats = [
@@ -484,6 +566,7 @@ def build_aggregated_payload(top_n: int, position_family: str) -> dict[str, Any]
         "halfspace_dest_map_b64": halfspace_dest_b64,
         "halfspace_dest_map_cells": halfspace_dest_cells,
         "halfspace_dest_cell_stats": halfspace_dest_cell_stats,
+        "att_third_corridor_origin_flows": corridor_origin_flows,
     }
 
 
