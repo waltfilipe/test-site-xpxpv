@@ -4533,6 +4533,7 @@ tr:last-child td { border-bottom: none; }
 .map-img { width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border); }
 
 .aggregate-maps-header { margin-top: 1.5rem; }
+.halfspace-maps { margin-top: 2.25rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
 .aggregate-maps-header .section-label { font-size: 0.75rem; margin-bottom: 0.35rem; }
 
 .aggregate-map { margin: 0; }

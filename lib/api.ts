@@ -325,15 +325,28 @@ export type QuadrantBox = {
 export type PitchZoneX = "def" | "mid" | "att";
 export type PitchZoneY = "left" | "centre" | "right";
 
+export type PitchCorridor = "lat_l" | "hs_l" | "cen" | "hs_r" | "lat_r";
+
 export type CellStat = {
   key: string;
   row: number;
   col: number;
   x_zone: PitchZoneX;
   y_zone: PitchZoneY;
+  corridor?: PitchCorridor;
+  is_offensive_halfspace?: boolean;
   passes: number;
   share_pct: number;
-  mean_xp: number;
+  mean_xp?: number;
+  index_vs_other_spaces?: number;
+};
+
+export type HalfspaceSummary = {
+  origin_total: number;
+  offensive_halfspace_origins: number;
+  offensive_halfspace_origin_share_pct: number;
+  attacking_third_origins: number;
+  corridor_origin_counts: Record<PitchCorridor, number>;
 };
 
 export type AggregatedMaps = {
@@ -354,6 +367,13 @@ export type AggregatedMaps = {
   common_map_cells?: Record<string, QuadrantBox>;
   rare_map_b64?: string | null;
   rare_map_cells?: Record<string, QuadrantBox>;
+  halfspace_summary?: HalfspaceSummary;
+  halfspace_origin_map_b64?: string | null;
+  halfspace_origin_map_cells?: Record<string, QuadrantBox>;
+  halfspace_origin_cell_stats?: CellStat[];
+  halfspace_dest_map_b64?: string | null;
+  halfspace_dest_map_cells?: Record<string, QuadrantBox>;
+  halfspace_dest_cell_stats?: CellStat[];
 };
 
 export function getAggregatedMaps(positionFamily = "midfielders") {

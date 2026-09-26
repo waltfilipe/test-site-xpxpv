@@ -8,6 +8,7 @@ import {
   getAggregatedMaps,
   type AggregatedMaps,
   type CellStat,
+  type PitchCorridor,
   type QuadrantBox,
 } from "@/lib/api";
 import { useI18n } from "@/lib/i18n/context";
@@ -86,6 +87,14 @@ export function MapsPageContent() {
   );
 
   const cells = useMemo(() => aggregated?.cell_stats ?? [], [aggregated]);
+  const halfspaceOriginCells = useMemo(
+    () => aggregated?.halfspace_origin_cell_stats ?? [],
+    [aggregated],
+  );
+  const halfspaceDestCells = useMemo(
+    () => aggregated?.halfspace_dest_cell_stats ?? [],
+    [aggregated],
+  );
 
   const cellsByKey = useMemo(() => {
     const map = new Map<string, CellStat>();
@@ -104,6 +113,22 @@ export function MapsPageContent() {
       col: String(cell.col + 1),
       row: String(cell.row + 1),
     });
+
+  const corridorLabel = (corridor?: PitchCorridor) =>
+    corridor ? m.maps.halfspace.corridors[corridor] : "—";
+
+  const halfspaceSummaryLine = useMemo(() => {
+    const summary = aggregated?.halfspace_summary;
+    if (!summary) return null;
+    const other = summary.origin_total - summary.offensive_halfspace_origins;
+    const otherPct = (100 - summary.offensive_halfspace_origin_share_pct).toFixed(2);
+    return fillTemplate(m.maps.halfspace.summaryLine, {
+      ohs: numberFormat.format(summary.offensive_halfspace_origins),
+      ohsPct: summary.offensive_halfspace_origin_share_pct.toFixed(2),
+      other: numberFormat.format(other),
+      otherPct,
+    });
+  }, [aggregated, m.maps.halfspace.summaryLine, numberFormat]);
 
   const toggleCell = (key: string) => {
     setSelected((current) => {
@@ -166,17 +191,57 @@ export function MapsPageContent() {
     );
   };
 
+  const halfspaceOriginTooltip = (cell: CellStat): ReactNode => (
+    <div className="cell-tip">
+      <p className="cell-tip-title">{corridorLabel(cell.corridor)}</p>
+      <p className="cell-tip-ref">{cellRef(cell)}</p>
+      <p className="cell-tip-row">
+        <span>{m.maps.halfspace.originPassesLabel}</span>
+        <strong>{numberFormat.format(cell.passes)}</strong>
+      </p>
+      {cell.index_vs_other_spaces != null && cell.index_vs_other_spaces > 0 && (
+        <p className="cell-tip-row">
+          <span>{m.maps.halfspace.indexLabel}</span>
+          <strong>{cell.index_vs_other_spaces.toFixed(2)}</strong>
+        </p>
+      )}
+      <p className="cell-tip-note">
+        {cell.is_offensive_halfspace
+          ? m.maps.halfspace.offensiveHalfspaceTag
+          : m.maps.halfspace.otherSpacesTag}
+        {" · "}
+        {m.maps.halfspace.indexExplain}
+      </p>
+    </div>
+  );
+
+  const halfspaceDestTooltip = (cell: CellStat): ReactNode => (
+    <div className="cell-tip">
+      <p className="cell-tip-title">{cellLabel(cell)}</p>
+      <p className="cell-tip-ref">{cellRef(cell)}</p>
+      <p className="cell-tip-row">
+        <span>{m.maps.halfspace.destPassesLabel}</span>
+        <strong>{numberFormat.format(cell.passes)}</strong>
+      </p>
+      <p className="cell-tip-row">
+        <span>{m.maps.tooltip.shareLabel}</span>
+        <strong>{cell.share_pct.toFixed(2)}%</strong>
+      </p>
+      <p className="cell-tip-note">{m.maps.halfspace.destCaption}</p>
+    </div>
+  );
+
   const difficultTooltip = (cell: CellStat): ReactNode => (
     <div className="cell-tip">
       <p className="cell-tip-title">{cellLabel(cell)}</p>
       <p className="cell-tip-ref">{cellRef(cell)}</p>
       <p className="cell-tip-row">
         <span>{m.maps.tooltip.meanXpLabel}</span>
-        <strong>{cell.mean_xp.toFixed(2)}</strong>
+        <strong>{(cell.mean_xp ?? 0).toFixed(2)}</strong>
       </p>
       <p className="cell-tip-row">
         <span>{m.maps.tooltip.difficultyLabel}</span>
-        <strong>{difficultyBand(cell.mean_xp)}</strong>
+        <strong>{difficultyBand(cell.mean_xp ?? 0)}</strong>
       </p>
       <p className="cell-tip-note">{m.maps.tooltip.xpExplain}</p>
     </div>
@@ -247,6 +312,57 @@ export function MapsPageContent() {
               </figure>
             )}
           </div>
+
+          {aggregated.halfspace_origin_map_b64 && (
+            <section className="halfspace-maps">
+              <header className="aggregate-maps-header">
+                <h3 className="section-label">{m.maps.halfspace.sectionTitle}</h3>
+                <p className="muted">{m.maps.halfspace.sectionLead}</p>
+                {halfspaceSummaryLine && <p className="muted">{halfspaceSummaryLine}</p>}
+              </header>
+              <div className="maps-grid">
+                <figure className="aggregate-map">
+                  <div className="aggregate-map-frame">
+                    <img
+                      src={`data:image/png;base64,${aggregated.halfspace_origin_map_b64}`}
+                      alt={m.maps.halfspace.originMapAlt}
+                      className="map-img"
+                    />
+                    {aggregated.halfspace_origin_map_cells && (
+                      <CellOverlay
+                        cells={halfspaceOriginCells}
+                        boxes={aggregated.halfspace_origin_map_cells}
+                        tooltipFor={halfspaceOriginTooltip}
+                        labelFor={(cell) => `${corridorLabel(cell.corridor)} · ${cellRef(cell)}`}
+                      />
+                    )}
+                  </div>
+                  <figcaption className="muted">{m.maps.halfspace.originCaption}</figcaption>
+                </figure>
+
+                {aggregated.halfspace_dest_map_b64 && (
+                  <figure className="aggregate-map">
+                    <div className="aggregate-map-frame">
+                      <img
+                        src={`data:image/png;base64,${aggregated.halfspace_dest_map_b64}`}
+                        alt={m.maps.halfspace.destMapAlt}
+                        className="map-img"
+                      />
+                      {aggregated.halfspace_dest_map_cells && (
+                        <CellOverlay
+                          cells={halfspaceDestCells}
+                          boxes={aggregated.halfspace_dest_map_cells}
+                          tooltipFor={halfspaceDestTooltip}
+                          labelFor={cellLabel}
+                        />
+                      )}
+                    </div>
+                    <figcaption className="muted">{m.maps.halfspace.destCaption}</figcaption>
+                  </figure>
+                )}
+              </div>
+            </section>
+          )}
 
           {comparison && (
             <div className="quadrant-compare-card" role="status">

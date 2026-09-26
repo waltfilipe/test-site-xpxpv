@@ -241,6 +241,28 @@ export type Messages = {
     zonesY: { left: string; centre: string; right: string };
     cellLabel: string;
     cellRef: string;
+    halfspace: {
+      sectionTitle: string;
+      sectionLead: string;
+      originMapAlt: string;
+      destMapAlt: string;
+      originCaption: string;
+      destCaption: string;
+      corridors: {
+        lat_l: string;
+        hs_l: string;
+        cen: string;
+        hs_r: string;
+        lat_r: string;
+      };
+      offensiveHalfspaceTag: string;
+      otherSpacesTag: string;
+      originPassesLabel: string;
+      indexLabel: string;
+      indexExplain: string;
+      destPassesLabel: string;
+      summaryLine: string;
+    };
     tooltip: {
       passesLabel: string;
       shareLabel: string;
@@ -701,6 +723,31 @@ const en: Messages = {
     zonesY: { left: "left", centre: "centre", right: "right" },
     cellLabel: "{x} · {y}",
     cellRef: "Cell C{col}/R{row}",
+    halfspace: {
+      sectionTitle: "Offensive half-space study",
+      sectionLead:
+        "Five pitch corridors (wide, half-space, central). Attack runs left → right; offensive half-space = half-space lanes in the attacking third.",
+      originMapAlt: "Pass origins · offensive half-space vs other spaces",
+      destMapAlt: "Destinations from offensive half-space passes",
+      originCaption:
+        "Heat index: pass origins in each cell vs the average origin volume outside offensive half-space (1.0 = typical elsewhere).",
+      destCaption: "Where completed passes that start in offensive half-space end.",
+      corridors: {
+        lat_l: "Wide left",
+        hs_l: "Half-space left",
+        cen: "Central corridor",
+        hs_r: "Half-space right",
+        lat_r: "Wide right",
+      },
+      offensiveHalfspaceTag: "Offensive half-space cell",
+      otherSpacesTag: "Other pitch space",
+      originPassesLabel: "Pass origins in this cell",
+      indexLabel: "Index vs other spaces",
+      indexExplain: "Values above 1.0 mean more pass origins here than the average cell outside offensive half-space.",
+      destPassesLabel: "Passes ending in this cell",
+      summaryLine:
+        "Offensive half-space origins: {ohs} ({ohsPct}% of all origins) · other spaces: {other} ({otherPct}%).",
+    },
     tooltip: {
       passesLabel: "Passes into this cell",
       shareLabel: "Share of all passes",
@@ -1426,6 +1473,31 @@ const pt: Messages = {
     zonesY: { left: "esquerda", centre: "centro", right: "direita" },
     cellLabel: "{x} · {y}",
     cellRef: "Célula C{col}/L{row}",
+    halfspace: {
+      sectionTitle: "Estudo do meio-espaço ofensivo",
+      sectionLead:
+        "Cinco corredores no campo (lateral, meio-espaço, central). Ataque da esquerda para a direita; meio-espaço ofensivo = faixas de meio-espaço no terço ofensivo.",
+      originMapAlt: "Origens de passe · meio-espaço ofensivo vs outros espaços",
+      destMapAlt: "Destinos dos passes do meio-espaço ofensivo",
+      originCaption:
+        "Índice: origens de passe em cada célula vs a média fora do meio-espaço ofensivo (1,0 = típico nos demais espaços).",
+      destCaption: "Onde terminam os passes certos que começam no meio-espaço ofensivo.",
+      corridors: {
+        lat_l: "Lateral esquerda",
+        hs_l: "Meio-espaço esquerdo",
+        cen: "Corredor central",
+        hs_r: "Meio-espaço direito",
+        lat_r: "Lateral direita",
+      },
+      offensiveHalfspaceTag: "Célula de meio-espaço ofensivo",
+      otherSpacesTag: "Outro espaço do campo",
+      originPassesLabel: "Origens de passe nesta célula",
+      indexLabel: "Índice vs outros espaços",
+      indexExplain: "Valores acima de 1,0 indicam mais origens de passe aqui do que a média fora do meio-espaço ofensivo.",
+      destPassesLabel: "Passes que terminam nesta célula",
+      summaryLine:
+        "Origens no meio-espaço ofensivo: {ohs} ({ohsPct}% do total) · outros espaços: {other} ({otherPct}%).",
+    },
     tooltip: {
       passesLabel: "Passes para esta célula",
       shareLabel: "Fatia do total de passes",
