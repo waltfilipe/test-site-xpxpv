@@ -13,7 +13,7 @@ from typing import Any
 
 # Site-specific styling: softened gray→red scale on both aggregate maps, plus
 # grid-cell geometry so the UI can anchor tooltips over the rendered PNGs.
-STATIC_AGGREGATE_RENDER_VERSION = 10
+STATIC_AGGREGATE_RENDER_VERSION = 11
 
 _BACKEND_CANDIDATES = (
     Path(__file__).resolve().parents[2] / "xpv-xp_site" / "backend",
@@ -39,6 +39,7 @@ os.environ.setdefault("HEAVY_MAPS_ENABLED", "1")
 
 import numpy as np  # noqa: E402
 from matplotlib.colors import LinearSegmentedColormap  # noqa: E402
+from matplotlib.patches import Rectangle  # noqa: E402
 
 import xp_engine as xe  # noqa: E402
 import xp_study_engine as xpe  # noqa: E402
@@ -69,6 +70,18 @@ CORRIDOR_TONE: dict[str, str] = {
     "hs_l": "white",
     "hs_r": "white",
     "cen": "red",
+}
+
+# Match UI corridor colors (RGBA) for baked-in pitch overlays.
+CORRIDOR_FACE: dict[str, tuple[float, float, float, float]] = {
+    "yellow": (250 / 255, 204 / 255, 21 / 255, 0.20),
+    "white": (248 / 255, 250 / 255, 252 / 255, 0.14),
+    "red": (239 / 255, 68 / 255, 68 / 255, 0.22),
+}
+CORRIDOR_EDGE: dict[str, tuple[float, float, float, float]] = {
+    "yellow": (250 / 255, 204 / 255, 21 / 255, 0.98),
+    "white": (248 / 255, 250 / 255, 252 / 255, 0.95),
+    "red": (239 / 255, 68 / 255, 68 / 255, 0.98),
 }
 
 # Same gray→red family as the difficulty map, but with extra stops so the
@@ -316,6 +329,59 @@ def _style_title(fig) -> None:
     )
 
 
+def _emphasize_att_third_corridors(fig, *, dim_outside: bool = True) -> None:
+    """Draw five attacking-third corridor bands (yellow / white / red) on the pitch."""
+    ax = fig.axes[0]
+    field_x = float(xpe.FIELD_X)
+    field_y = float(xpe.FIELD_Y)
+
+    if dim_outside:
+        ax.add_patch(
+            Rectangle(
+                (0.0, 0.0),
+                ATT_THIRD_X,
+                field_y,
+                facecolor=(0.06, 0.09, 0.16, 0.62),
+                edgecolor="none",
+                zorder=3,
+            )
+        )
+
+    ax.plot(
+        [ATT_THIRD_X, ATT_THIRD_X],
+        [0.0, field_y],
+        color="#facc15",
+        linewidth=2.4,
+        alpha=0.95,
+        zorder=7,
+        solid_capstyle="butt",
+    )
+
+    att_width = field_x - ATT_THIRD_X
+    for y0, y1, corridor in CORRIDOR_BOUNDS:
+        tone = CORRIDOR_TONE[corridor]
+        ax.add_patch(
+            Rectangle(
+                (ATT_THIRD_X, y0),
+                att_width,
+                y1 - y0,
+                facecolor=CORRIDOR_FACE[tone],
+                edgecolor=CORRIDOR_EDGE[tone],
+                linewidth=2.6,
+                zorder=8,
+            )
+        )
+
+    for y_split in (xpe.FIELD_Y * 0.16, xpe.FIELD_Y * 0.32, xpe.FIELD_Y * 0.48, xpe.FIELD_Y * 0.64):
+        ax.plot(
+            [ATT_THIRD_X, field_x],
+            [y_split, y_split],
+            color=(1.0, 1.0, 1.0, 0.55),
+            linewidth=1.1,
+            zorder=9,
+        )
+
+
 def _figure_image_fraction_fn(fig, *, pad_inches: float = PAD_INCHES):
     """Map pitch data coordinates to fractions of the exported PNG."""
     fig.canvas.draw()
@@ -513,6 +579,7 @@ def build_aggregated_payload(top_n: int, position_family: str) -> dict[str, Any]
         cmap=CMAP_COMMON_SOFT,
     )
     _style_title(halfspace_origin_fig)
+    _emphasize_att_third_corridors(halfspace_origin_fig, dim_outside=True)
     halfspace_origin_b64, halfspace_origin_cells = _render(halfspace_origin_fig)
 
     halfspace_dest_fig = xsm._draw_destination_grid_map(
@@ -522,6 +589,7 @@ def build_aggregated_payload(top_n: int, position_family: str) -> dict[str, Any]
         cmap=CMAP_COMMON_SOFT,
     )
     _style_title(halfspace_dest_fig)
+    _emphasize_att_third_corridors(halfspace_dest_fig, dim_outside=False)
     halfspace_dest_b64, halfspace_dest_cells = _render(halfspace_dest_fig)
 
     halfspace_origin_cell_stats = _cell_metrics_from_grid(

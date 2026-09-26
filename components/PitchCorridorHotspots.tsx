@@ -11,6 +11,8 @@ type Props = {
   tooltipFor?: (corridor: PitchCorridor, stat: AttThirdCorridorCount | undefined) => ReactNode;
   labelFor?: (corridor: PitchCorridor) => string;
   showCountBadge?: boolean;
+  /** Stronger borders + region label (half-space study maps). */
+  emphasis?: boolean;
 };
 
 export function PitchCorridorHotspots({
@@ -22,16 +24,23 @@ export function PitchCorridorHotspots({
   tooltipFor,
   labelFor,
   showCountBadge = false,
+  emphasis = false,
 }: Props) {
   if (!guides.length) return null;
 
   return (
-    <div className={`corridor-guides${interactive ? " corridor-guides--interactive" : ""}`} aria-hidden={!interactive}>
+    <div
+      className={`corridor-guides${interactive ? " corridor-guides--interactive" : ""}${emphasis ? " corridor-guides--emphasis" : ""}`}
+      aria-hidden={!interactive}
+    >
       {guides.map((guide) => {
         const stat = counts?.[guide.corridor];
         const isSelected = selected === guide.corridor;
         const inner = (
           <>
+            {emphasis && labelFor && (
+              <span className="corridor-region-label">{labelFor(guide.corridor)}</span>
+            )}
             {showCountBadge && stat != null && (
               <span className="corridor-count-badge">{stat.passes.toLocaleString()}</span>
             )}
@@ -66,7 +75,7 @@ export function PitchCorridorHotspots({
         return (
           <div
             key={guide.corridor}
-            className={`corridor-guide corridor-guide--${guide.tone}${isSelected ? " is-selected" : ""}`}
+            className={`corridor-guide corridor-guide--${guide.tone}${emphasis ? " corridor-guide--emphasis" : ""}${isSelected ? " is-selected" : ""}`}
             style={{
               left: `${guide.left_pct}%`,
               top: `${guide.top_pct}%`,

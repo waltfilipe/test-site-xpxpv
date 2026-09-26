@@ -91,30 +91,35 @@ export function MapsPageContent() {
   );
 
   const cells = useMemo(() => aggregated?.cell_stats ?? [], [aggregated]);
-  const halfspaceOriginCells = useMemo(
-    () => aggregated?.halfspace_origin_cell_stats ?? [],
-    [aggregated],
-  );
-  const halfspaceDestCells = useMemo(
-    () => aggregated?.halfspace_dest_cell_stats ?? [],
-    [aggregated],
-  );
   const corridorGuides = aggregated?.attacking_corridor_guides ?? [];
   const attThirdCorridorDest: Partial<Record<PitchCorridor, AttThirdCorridorCount>> =
     aggregated?.halfspace_summary?.att_third_corridor_dest_counts ?? {};
   const attThirdDestTotal = aggregated?.halfspace_summary?.att_third_dest_total ?? 0;
-
   const CORRIDOR_ORDER: PitchCorridor[] = ["lat_l", "hs_l", "cen", "hs_r", "lat_r"];
+
+  const attThirdCorridorOrigin = useMemo((): Partial<Record<PitchCorridor, AttThirdCorridorCount>> => {
+    const flows = aggregated?.att_third_corridor_origin_flows;
+    if (!flows) return {};
+    let total = 0;
+    for (const key of CORRIDOR_ORDER) {
+      total += flows[key]?.origin_passes ?? 0;
+    }
+    total = Math.max(total, 1);
+    const out: Partial<Record<PitchCorridor, AttThirdCorridorCount>> = {};
+    for (const key of CORRIDOR_ORDER) {
+      const passes = flows[key]?.origin_passes ?? 0;
+      out[key] = {
+        passes,
+        share_pct: Math.round((passes / total) * 10000) / 100,
+      };
+    }
+    return out;
+  }, [aggregated?.att_third_corridor_origin_flows]);
 
   const activeOriginFlow = useMemo(() => {
     if (!aggregated?.att_third_corridor_origin_flows || !selectedCorridor) return null;
     return aggregated.att_third_corridor_origin_flows[selectedCorridor] ?? null;
   }, [aggregated, selectedCorridor]);
-
-  const halfspaceDestCellsActive = useMemo(() => {
-    if (activeOriginFlow?.dest_cell_stats?.length) return activeOriginFlow.dest_cell_stats;
-    return halfspaceDestCells;
-  }, [activeOriginFlow, halfspaceDestCells]);
 
   const cellsByKey = useMemo(() => {
     const map = new Map<string, CellStat>();
@@ -231,44 +236,28 @@ export function MapsPageContent() {
           <span>{m.maps.halfspace.corridorDestShareLabel}</span>
           <strong>{(stat?.share_pct ?? 0).toFixed(2)}%</strong>
         </p>
+        <p className="cell-tip-note">{m.maps.halfspace.corridorHoverHint}</p>
       </div>
     );
   };
 
-  const halfspaceOriginCellTooltip = (cell: CellStat): ReactNode => (
-    <div className="cell-tip">
-      <p className="cell-tip-title">{cellLabel(cell)}</p>
-      <p className="cell-tip-ref">{cellRef(cell)}</p>
-      <p className="cell-tip-row">
-        <span>{m.maps.halfspace.destPassesLabel}</span>
-        <strong>{numberFormat.format(cell.passes)}</strong>
-      </p>
-      <p className="cell-tip-row">
-        <span>{m.maps.tooltip.shareLabel}</span>
-        <strong>{cell.share_pct.toFixed(2)}%</strong>
-      </p>
-    </div>
-  );
-
-  const halfspaceDestTooltip = (cell: CellStat): ReactNode => (
-    <div className="cell-tip">
-      <p className="cell-tip-title">{cellLabel(cell)}</p>
-      <p className="cell-tip-ref">{cellRef(cell)}</p>
-      <p className="cell-tip-row">
-        <span>{m.maps.halfspace.destPassesLabel}</span>
-        <strong>{numberFormat.format(cell.passes)}</strong>
-      </p>
-      <p className="cell-tip-row">
-        <span>{m.maps.tooltip.shareLabel}</span>
-        <strong>{cell.share_pct.toFixed(2)}%</strong>
-      </p>
-      {selectedCorridor && (
-        <p className="cell-tip-note">
-          {corridorLabel(selectedCorridor)} · {m.maps.halfspace.corridorFlowDestBreakdown}
+  const corridorOriginTooltip = (corridor: PitchCorridor): ReactNode => {
+    const stat = attThirdCorridorOrigin[corridor];
+    return (
+      <div className="cell-tip">
+        <p className="cell-tip-title">{corridorLabel(corridor)}</p>
+        <p className="cell-tip-row">
+          <span>{m.maps.halfspace.corridorFlowOriginLabel}</span>
+          <strong>{numberFormat.format(stat?.passes ?? 0)}</strong>
         </p>
-      )}
-    </div>
-  );
+        <p className="cell-tip-row">
+          <span>{m.maps.halfspace.corridorOriginShareLabel}</span>
+          <strong>{(stat?.share_pct ?? 0).toFixed(2)}%</strong>
+        </p>
+        <p className="cell-tip-note">{m.maps.halfspace.corridorClickHint}</p>
+      </div>
+    );
+  };
 
   const toggleCorridor = (corridor: PitchCorridor) => {
     setSelectedCorridor((prev) => (prev === corridor ? null : corridor));
@@ -381,8 +370,8 @@ export function MapsPageContent() {
                 {halfspaceSummaryLine && <p className="muted">{halfspaceSummaryLine}</p>}
                 {attThirdDestSummaryLine && <p className="muted">{attThirdDestSummaryLine}</p>}
               </header>
-              <div className="maps-grid">
-                <figure className="aggregate-map">
+              <div className="maps-grid halfspace-maps-grid">
+                <figure className="aggregate-map halfspace-map">
                   <div className="aggregate-map-frame">
                     <img
                       src={`data:image/png;base64,${aggregated.halfspace_origin_map_b64}`}
@@ -395,21 +384,14 @@ export function MapsPageContent() {
                       tooltipFor={(corridor) => corridorDestTooltip(corridor)}
                       labelFor={corridorLabel}
                       showCountBadge
+                      emphasis
                     />
-                    {aggregated.halfspace_origin_map_cells && (
-                      <CellOverlay
-                        cells={halfspaceOriginCells.filter((cell) => cell.x_zone === "att")}
-                        boxes={aggregated.halfspace_origin_map_cells}
-                        tooltipFor={halfspaceOriginCellTooltip}
-                        labelFor={cellLabel}
-                      />
-                    )}
                   </div>
                   <figcaption className="muted">{m.maps.halfspace.originCaption}</figcaption>
                 </figure>
 
                 {aggregated.halfspace_dest_map_b64 && (
-                  <figure className="aggregate-map">
+                  <figure className="aggregate-map halfspace-map">
                     <div className="aggregate-map-frame">
                       <img
                         src={`data:image/png;base64,${aggregated.halfspace_dest_map_b64}`}
@@ -418,19 +400,15 @@ export function MapsPageContent() {
                       />
                       <PitchCorridorHotspots
                         guides={corridorGuides}
+                        counts={attThirdCorridorOrigin}
+                        tooltipFor={(corridor) => corridorOriginTooltip(corridor)}
                         interactive
                         selected={selectedCorridor}
                         onSelect={toggleCorridor}
                         labelFor={corridorLabel}
+                        showCountBadge
+                        emphasis
                       />
-                      {aggregated.halfspace_dest_map_cells && (
-                        <CellOverlay
-                          cells={halfspaceDestCellsActive}
-                          boxes={aggregated.halfspace_dest_map_cells}
-                          tooltipFor={halfspaceDestTooltip}
-                          labelFor={cellLabel}
-                        />
-                      )}
                     </div>
                     <figcaption className="muted">{m.maps.halfspace.destCaption}</figcaption>
                   </figure>

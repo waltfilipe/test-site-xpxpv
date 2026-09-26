@@ -277,6 +277,9 @@ export type Messages = {
       corridorFlowDestBreakdown: string;
       corridorFlowClear: string;
       corridorFlowPickCorridor: string;
+      corridorHoverHint: string;
+      corridorClickHint: string;
+      corridorOriginShareLabel: string;
     };
     tooltip: {
       passesLabel: string;
@@ -751,9 +754,9 @@ const en: Messages = {
       originMapAlt: "Passes ending in attacking-third corridors",
       destMapAlt: "Pass destinations by attacking-third origin corridor",
       originCaption:
-        "Counts passes that end in the attacking third. Hover or read the badge on each colored corridor (yellow · wide, white · half-space, red · central).",
+        "Five marked corridors in the attacking third. Hover any band for pass totals into that region (badge shows the count).",
       destCaption:
-        "Click a colored corridor to filter destinations for passes that start in that attacking-third zone. Hover destination cells for detail.",
+        "Same corridor bands for pass origins. Hover for totals; click to open the destination breakdown below.",
       corridors: {
         lat_l: "Wide left",
         hs_l: "Half-space left",
@@ -779,6 +782,9 @@ const en: Messages = {
       corridorFlowDestBreakdown: "Where they end (by pitch corridor)",
       corridorFlowClear: "Clear corridor",
       corridorFlowPickCorridor: "Pick a colored corridor on the map.",
+      corridorHoverHint: "Passes counted for this entire corridor band.",
+      corridorClickHint: "Click to see where these passes end on the pitch.",
+      corridorOriginShareLabel: "Share of attacking-third origins",
     },
     tooltip: {
       passesLabel: "Passes into this cell",
@@ -1518,9 +1524,9 @@ const pt: Messages = {
       originMapAlt: "Passes que terminam nos corredores do terço ofensivo",
       destMapAlt: "Destinos dos passes por corredor de origem no terço ofensivo",
       originCaption:
-        "Conta passes que terminam no terço ofensivo. Passe o mouse ou veja o número em cada faixa colorida (amarelo · lateral, branco · meio-espaço, vermelho · central).",
+        "Cinco faixas demarcadas no terço ofensivo. Passe o mouse em cada banda para ver o total de passes naquela região (número no badge).",
       destCaption:
-        "Clique numa faixa colorida para ver para onde vão os passes que começam naquele corredor do terço ofensivo. Passe o mouse nas células de destino.",
+        "Mesmas faixas para origens de passe. Passe o mouse para totais; clique para ver destinos no cartão abaixo.",
       corridors: {
         lat_l: "Lateral esquerda",
         hs_l: "Meio-espaço esquerdo",
@@ -1546,6 +1552,9 @@ const pt: Messages = {
       corridorFlowDestBreakdown: "Onde terminam (por corredor do campo)",
       corridorFlowClear: "Limpar corredor",
       corridorFlowPickCorridor: "Escolha uma faixa colorida no mapa.",
+      corridorHoverHint: "Passes contados para toda a faixa deste corredor.",
+      corridorClickHint: "Clique para ver onde esses passes terminam no campo.",
+      corridorOriginShareLabel: "Fatia das origens no terço ofensivo",
     },
     tooltip: {
       passesLabel: "Passes para esta célula",
