@@ -13,7 +13,7 @@ from typing import Any
 
 # Site-specific styling: softened gray→red scale on both aggregate maps, plus
 # grid-cell geometry so the UI can anchor tooltips over the rendered PNGs.
-STATIC_AGGREGATE_RENDER_VERSION = 8
+STATIC_AGGREGATE_RENDER_VERSION = 9
 
 _BACKEND_CANDIDATES = (
     Path(__file__).resolve().parents[2] / "xpv-xp_site" / "backend",
@@ -63,6 +63,13 @@ CORRIDOR_BOUNDS: tuple[tuple[float, float, str], ...] = (
     (xpe.FIELD_Y * 0.48, xpe.FIELD_Y * 0.64, "hs_r"),
     (xpe.FIELD_Y * 0.64, xpe.FIELD_Y, "lat_r"),
 )
+CORRIDOR_TONE: dict[str, str] = {
+    "lat_l": "yellow",
+    "lat_r": "yellow",
+    "hs_l": "white",
+    "hs_r": "white",
+    "cen": "red",
+}
 
 # Same gray→red family as the difficulty map, but with extra stops so the
 # volume map ramps into red gradually instead of jumping at mid-scale.
@@ -210,17 +217,10 @@ def _style_title(fig) -> None:
     )
 
 
-def _render(fig, *, pad_inches: float = PAD_INCHES) -> tuple[str, dict[str, dict[str, float]]]:
-    """Save the figure as base64 PNG and locate each grid cell inside it.
-
-    `fig_to_b64` crops with bbox_inches="tight", so cell boxes are measured
-    against the same cropped bbox to stay aligned with the delivered image.
-    """
-    import matplotlib.pyplot as plt
-
+def _figure_image_fraction_fn(fig, *, pad_inches: float = PAD_INCHES):
+    """Map pitch data coordinates to fractions of the exported PNG."""
     fig.canvas.draw()
     bbox = fig.get_tightbbox(fig.canvas.get_renderer()).padded(pad_inches)
-
     ax = fig.axes[0]
     dpi = float(fig.dpi)
 
@@ -230,6 +230,39 @@ def _render(fig, *, pad_inches: float = PAD_INCHES) -> tuple[str, dict[str, dict
             (px / dpi - bbox.x0) / bbox.width,
             (py / dpi - bbox.y0) / bbox.height,
         )
+
+    return bbox, to_image_fraction
+
+
+def _attacking_corridor_guides(fig) -> list[dict[str, Any]]:
+    """Five corridor bands in the attacking third (yellow / white / red tones)."""
+    _, to_image_fraction = _figure_image_fraction_fn(fig)
+    guides: list[dict[str, Any]] = []
+    for y0, y1, corridor in CORRIDOR_BOUNDS:
+        fx0, fy0 = to_image_fraction(ATT_THIRD_X, y0)
+        fx1, fy1 = to_image_fraction(xpe.FIELD_X, y1)
+        left, right = sorted((fx0, fx1))
+        bottom, top = sorted((fy0, fy1))
+        guides.append({
+            "corridor": corridor,
+            "tone": CORRIDOR_TONE[corridor],
+            "left_pct": round(left * 100.0, 3),
+            "top_pct": round((1.0 - top) * 100.0, 3),
+            "width_pct": round((right - left) * 100.0, 3),
+            "height_pct": round((top - bottom) * 100.0, 3),
+        })
+    return guides
+
+
+def _render(fig, *, pad_inches: float = PAD_INCHES) -> tuple[str, dict[str, dict[str, float]]]:
+    """Save the figure as base64 PNG and locate each grid cell inside it.
+
+    `fig_to_b64` crops with bbox_inches="tight", so cell boxes are measured
+    against the same cropped bbox to stay aligned with the delivered image.
+    """
+    import matplotlib.pyplot as plt
+
+    bbox, to_image_fraction = _figure_image_fraction_fn(fig, pad_inches=pad_inches)
 
     x_bins = np.linspace(0.0, xpe.FIELD_X, DEST_COLS + 1)
     y_bins = np.linspace(0.0, xpe.FIELD_Y, DEST_ROWS + 1)
@@ -343,6 +376,7 @@ def build_aggregated_payload(top_n: int, position_family: str) -> dict[str, Any]
         cmap=CMAP_COMMON_SOFT,
     )
     _style_title(common_fig)
+    attacking_corridor_guides = _attacking_corridor_guides(common_fig)
     common_b64, common_cells = _render(common_fig)
 
     difficult_fig = xsm._draw_destination_grid_map(
@@ -436,6 +470,7 @@ def build_aggregated_payload(top_n: int, position_family: str) -> dict[str, Any]
         "xp_scale_max": float(xsm.XP_PASS_MAX),
         "dest_cols": DEST_COLS,
         "dest_rows": DEST_ROWS,
+        "attacking_corridor_guides": attacking_corridor_guides,
         "quadrant_stats": quadrant_stats,
         "cell_stats": _cell_metrics(agg["count_grid"], agg["mean_xp_grid"]),
         "common_map_b64": common_b64,

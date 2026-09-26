@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { LoadingState } from "@/components/LoadingState";
 import { PageHero } from "@/components/PageHero";
+import { PitchCorridorGuides } from "@/components/PitchCorridorGuides";
 import { Tooltip } from "@/components/ui/Tooltip";
 import {
   getAggregatedMaps,
@@ -95,6 +96,7 @@ export function MapsPageContent() {
     () => aggregated?.halfspace_dest_cell_stats ?? [],
     [aggregated],
   );
+  const corridorGuides = aggregated?.attacking_corridor_guides ?? [];
 
   const cellsByKey = useMemo(() => {
     const map = new Map<string, CellStat>();
@@ -267,6 +269,21 @@ export function MapsPageContent() {
             </p>
           </header>
 
+          {corridorGuides.length > 0 && (
+            <div className="corridor-legend" role="note">
+              <span className="corridor-legend-title">{m.maps.corridorLegendTitle}</span>
+              <span className="corridor-legend-item corridor-legend-item--yellow">
+                {m.maps.corridorLegend.yellow}
+              </span>
+              <span className="corridor-legend-item corridor-legend-item--white">
+                {m.maps.corridorLegend.white}
+              </span>
+              <span className="corridor-legend-item corridor-legend-item--red">
+                {m.maps.corridorLegend.red}
+              </span>
+            </div>
+          )}
+
           <div className="maps-grid">
             {aggregated.common_map_b64 && (
               <figure className="aggregate-map">
@@ -276,6 +293,7 @@ export function MapsPageContent() {
                     alt={m.maps.commonPassesAlt}
                     className="map-img"
                   />
+                  <PitchCorridorGuides guides={corridorGuides} />
                   {aggregated.common_map_cells && (
                     <CellOverlay
                       cells={cells}
@@ -299,6 +317,7 @@ export function MapsPageContent() {
                     alt={m.maps.rarePassesAlt}
                     className="map-img"
                   />
+                  <PitchCorridorGuides guides={corridorGuides} />
                   {aggregated.rare_map_cells && (
                     <CellOverlay
                       cells={cells}
@@ -328,6 +347,7 @@ export function MapsPageContent() {
                       alt={m.maps.halfspace.originMapAlt}
                       className="map-img"
                     />
+                    <PitchCorridorGuides guides={corridorGuides} />
                     {aggregated.halfspace_origin_map_cells && (
                       <CellOverlay
                         cells={halfspaceOriginCells}
@@ -348,6 +368,7 @@ export function MapsPageContent() {
                         alt={m.maps.halfspace.destMapAlt}
                         className="map-img"
                       />
+                      <PitchCorridorGuides guides={corridorGuides} />
                       {aggregated.halfspace_dest_map_cells && (
                         <CellOverlay
                           cells={halfspaceDestCells}

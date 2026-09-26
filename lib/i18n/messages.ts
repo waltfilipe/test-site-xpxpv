@@ -241,6 +241,12 @@ export type Messages = {
     zonesY: { left: string; centre: string; right: string };
     cellLabel: string;
     cellRef: string;
+    corridorLegendTitle: string;
+    corridorLegend: {
+      yellow: string;
+      white: string;
+      red: string;
+    };
     halfspace: {
       sectionTitle: string;
       sectionLead: string;
@@ -723,6 +729,12 @@ const en: Messages = {
     zonesY: { left: "left", centre: "centre", right: "right" },
     cellLabel: "{x} · {y}",
     cellRef: "Cell C{col}/R{row}",
+    corridorLegendTitle: "Attacking-third corridors",
+    corridorLegend: {
+      yellow: "Yellow · wide channel (lateral)",
+      white: "White · half-space (meio-espaço)",
+      red: "Red · central corridor",
+    },
     halfspace: {
       sectionTitle: "Offensive half-space study",
       sectionLead:
@@ -1473,6 +1485,12 @@ const pt: Messages = {
     zonesY: { left: "esquerda", centre: "centro", right: "direita" },
     cellLabel: "{x} · {y}",
     cellRef: "Célula C{col}/L{row}",
+    corridorLegendTitle: "Corredores no terço ofensivo",
+    corridorLegend: {
+      yellow: "Amarelo · corredor lateral",
+      white: "Branco · meio-espaço",
+      red: "Vermelho · corredor central",
+    },
     halfspace: {
       sectionTitle: "Estudo do meio-espaço ofensivo",
       sectionLead:

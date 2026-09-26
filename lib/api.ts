@@ -341,6 +341,17 @@ export type CellStat = {
   index_vs_other_spaces?: number;
 };
 
+export type CorridorTone = "yellow" | "white" | "red";
+
+export type PitchCorridorGuide = {
+  corridor: PitchCorridor;
+  tone: CorridorTone;
+  left_pct: number;
+  top_pct: number;
+  width_pct: number;
+  height_pct: number;
+};
+
 export type HalfspaceSummary = {
   origin_total: number;
   offensive_halfspace_origins: number;
@@ -355,6 +366,7 @@ export type AggregatedMaps = {
   xp_scale_max?: number;
   dest_cols?: number;
   dest_rows?: number;
+  attacking_corridor_guides?: PitchCorridorGuide[];
   quadrant_stats: {
     quadrant_key: QuadrantKey;
     quadrant: string;
