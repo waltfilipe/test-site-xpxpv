@@ -341,38 +341,12 @@ export type CellStat = {
   index_vs_other_spaces?: number;
 };
 
-export type CorridorTone = "yellow" | "white" | "red";
-
-export type PitchCorridorGuide = {
-  corridor: PitchCorridor;
-  tone: CorridorTone;
-  left_pct: number;
-  top_pct: number;
-  width_pct: number;
-  height_pct: number;
-};
-
-export type AttThirdCorridorCount = {
-  passes: number;
-  share_pct: number;
-};
-
-export type AttThirdCorridorDestBreakdown = AttThirdCorridorCount;
-
-export type AttThirdCorridorOriginFlow = {
-  origin_passes: number;
-  dest_cell_stats: CellStat[];
-  dest_corridor_counts: Record<PitchCorridor, AttThirdCorridorDestBreakdown>;
-};
-
 export type HalfspaceSummary = {
   origin_total: number;
   offensive_halfspace_origins: number;
   offensive_halfspace_origin_share_pct: number;
   attacking_third_origins: number;
   corridor_origin_counts: Record<PitchCorridor, number>;
-  att_third_corridor_dest_counts?: Record<PitchCorridor, AttThirdCorridorCount>;
-  att_third_dest_total?: number;
 };
 
 export type AggregatedMaps = {
@@ -381,7 +355,6 @@ export type AggregatedMaps = {
   xp_scale_max?: number;
   dest_cols?: number;
   dest_rows?: number;
-  attacking_corridor_guides?: PitchCorridorGuide[];
   quadrant_stats: {
     quadrant_key: QuadrantKey;
     quadrant: string;
@@ -401,7 +374,6 @@ export type AggregatedMaps = {
   halfspace_dest_map_b64?: string | null;
   halfspace_dest_map_cells?: Record<string, QuadrantBox>;
   halfspace_dest_cell_stats?: CellStat[];
-  att_third_corridor_origin_flows?: Partial<Record<PitchCorridor, AttThirdCorridorOriginFlow>>;
 };
 
 export function getAggregatedMaps(positionFamily = "midfielders") {
