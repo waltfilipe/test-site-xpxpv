@@ -8,7 +8,6 @@ import {
   getAggregatedMaps,
   type AggregatedMaps,
   type CellStat,
-  type PitchCorridor,
   type QuadrantBox,
 } from "@/lib/api";
 import { useI18n } from "@/lib/i18n/context";
@@ -114,9 +113,6 @@ export function MapsPageContent() {
       row: String(cell.row + 1),
     });
 
-  const corridorLabel = (corridor?: PitchCorridor) =>
-    corridor ? m.maps.halfspace.corridors[corridor] : "—";
-
   const halfspaceSummaryLine = useMemo(() => {
     const summary = aggregated?.halfspace_summary;
     if (!summary) return null;
@@ -193,7 +189,7 @@ export function MapsPageContent() {
 
   const halfspaceOriginTooltip = (cell: CellStat): ReactNode => (
     <div className="cell-tip">
-      <p className="cell-tip-title">{corridorLabel(cell.corridor)}</p>
+      <p className="cell-tip-title">{cellLabel(cell)}</p>
       <p className="cell-tip-ref">{cellRef(cell)}</p>
       <p className="cell-tip-row">
         <span>{m.maps.halfspace.originPassesLabel}</span>
@@ -333,7 +329,7 @@ export function MapsPageContent() {
                         cells={halfspaceOriginCells}
                         boxes={aggregated.halfspace_origin_map_cells}
                         tooltipFor={halfspaceOriginTooltip}
-                        labelFor={(cell) => `${corridorLabel(cell.corridor)} · ${cellRef(cell)}`}
+                        labelFor={cellLabel}
                       />
                     )}
                   </div>

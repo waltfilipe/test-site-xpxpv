@@ -726,7 +726,7 @@ const en: Messages = {
     halfspace: {
       sectionTitle: "Offensive half-space study",
       sectionLead:
-        "Five pitch corridors (wide, half-space, central). Attack runs left → right; offensive half-space = half-space lanes in the attacking third.",
+        "Same 8×6 destination grid as the aggregate maps. Attack runs left → right; offensive half-space cells are half-space lanes in the attacking third.",
       originMapAlt: "Pass origins · offensive half-space vs other spaces",
       destMapAlt: "Destinations from offensive half-space passes",
       originCaption:
@@ -1476,7 +1476,7 @@ const pt: Messages = {
     halfspace: {
       sectionTitle: "Estudo do meio-espaço ofensivo",
       sectionLead:
-        "Cinco corredores no campo (lateral, meio-espaço, central). Ataque da esquerda para a direita; meio-espaço ofensivo = faixas de meio-espaço no terço ofensivo.",
+        "Mesma grelha 8×6 dos mapas agregados. Ataque da esquerda para a direita; células de meio-espaço ofensivo = faixas de meio-espaço no terço ofensivo.",
       originMapAlt: "Origens de passe · meio-espaço ofensivo vs outros espaços",
       destMapAlt: "Destinos dos passes do meio-espaço ofensivo",
       originCaption:
