@@ -13,7 +13,7 @@ from typing import Any
 
 # Site-specific styling: softened gray→red scale on both aggregate maps, plus
 # grid-cell geometry so the UI can anchor tooltips over the rendered PNGs.
-STATIC_AGGREGATE_RENDER_VERSION = 12
+STATIC_AGGREGATE_RENDER_VERSION = 11
 
 _BACKEND_CANDIDATES = (
     Path(__file__).resolve().parents[2] / "xpv-xp_site" / "backend",
@@ -55,11 +55,6 @@ PAD_INCHES = 0.04
 DEST_COLS = 8
 DEST_ROWS = 6
 ATT_THIRD_X = xpe.FIELD_X * (2.0 / 3.0)
-# Offensive band: halfway line → front edge of the 18-yard box (StatsBomb x).
-OFF_ZONE_X0 = xpe.FIELD_X / 2.0
-OFF_ZONE_X1 = xpe.FIELD_X - 18.0
-PEN_BOX_Y0 = xpe.FIELD_Y * 0.275
-PEN_BOX_Y1 = xpe.FIELD_Y * 0.725
 
 # Five vertical corridors (StatsBomb y = pitch width), matching tactical-board lanes.
 CORRIDOR_BOUNDS: tuple[tuple[float, float, str], ...] = (
@@ -70,29 +65,24 @@ CORRIDOR_BOUNDS: tuple[tuple[float, float, str], ...] = (
     (xpe.FIELD_Y * 0.64, xpe.FIELD_Y, "lat_r"),
 )
 CORRIDOR_TONE: dict[str, str] = {
-    "lat_l": "blue",
-    "lat_r": "blue",
-    "hs_l": "yellow",
-    "hs_r": "yellow",
+    "lat_l": "yellow",
+    "lat_r": "yellow",
+    "hs_l": "white",
+    "hs_r": "white",
     "cen": "red",
 }
 
-# Match UI corridor colors (RGBA) for baked-in pitch overlays on full-field maps.
+# Match UI corridor colors (RGBA) for baked-in pitch overlays.
 CORRIDOR_FACE: dict[str, tuple[float, float, float, float]] = {
-    "blue": (59 / 255, 130 / 255, 246 / 255, 0.18),
     "yellow": (250 / 255, 204 / 255, 21 / 255, 0.20),
+    "white": (248 / 255, 250 / 255, 252 / 255, 0.14),
     "red": (239 / 255, 68 / 255, 68 / 255, 0.22),
 }
 CORRIDOR_EDGE: dict[str, tuple[float, float, float, float]] = {
-    "blue": (37 / 255, 99 / 255, 235 / 255, 0.98),
     "yellow": (250 / 255, 204 / 255, 21 / 255, 0.98),
+    "white": (248 / 255, 250 / 255, 252 / 255, 0.95),
     "red": (239 / 255, 68 / 255, 68 / 255, 0.98),
 }
-
-CMAP_OFF_ZONE_VOLUME = LinearSegmentedColormap.from_list(
-    "off_zone_vol_red",
-    ["#fff1f2", "#fecdd3", "#fb7185", "#e11d48", "#881337"],
-)
 
 # Same gray→red family as the difficulty map, but with extra stops so the
 # volume map ramps into red gradually instead of jumping at mid-scale.
@@ -145,11 +135,6 @@ def _att_third_dest_point(x: float, y: float) -> bool:
     return is_att_third_x(x)
 
 
-def _off_zone_dest_point(x: float, y: float) -> bool:
-    x = float(x)
-    return OFF_ZONE_X0 <= x < OFF_ZONE_X1
-
-
 def is_offensive_halfspace_cell(row: int, col: int) -> bool:
     x, y = cell_center(row, col)
     return is_offensive_halfspace_point(x, y)
@@ -182,7 +167,7 @@ def _att_third_corridor_dest_counts(passes) -> tuple[dict[str, dict[str, Any]], 
         work["x_end"].to_numpy(dtype=float),
         work["y_end"].to_numpy(dtype=float),
     ):
-        if not _off_zone_dest_point(x_end, y_end):
+        if not _att_third_dest_point(x_end, y_end):
             continue
         counts[corridor_for_y(y_end)] += 1
     total = max(sum(counts.values()), 1)
@@ -397,104 +382,6 @@ def _emphasize_att_third_corridors(fig, *, dim_outside: bool = True) -> None:
         )
 
 
-def _draw_offensive_corridor_zone_map(
-    corridor_counts: dict[str, int],
-    *,
-    title: str,
-    cbar_label: str,
-):
-    """Standalone offensive band: five corridors, fill = pass volume (red scale)."""
-    import matplotlib.pyplot as plt
-    from matplotlib.cm import ScalarMappable
-    from matplotlib.colors import Normalize
-
-    field_y = float(xpe.FIELD_Y)
-    x0, x1 = OFF_ZONE_X0, OFF_ZONE_X1
-
-    fig, ax = plt.subplots(figsize=(7.4, 5.6))
-    fig.set_facecolor("#1a1a2e")
-    fig.set_dpi(220)
-    ax.set_facecolor("#1e4620")
-    ax.set_xlim(x0 - 1.2, x1 + 1.2)
-    ax.set_ylim(-0.4, field_y + 0.4)
-    ax.set_aspect("equal")
-    ax.axis("off")
-
-    ax.plot(
-        [x0, x1, x1, x0, x0],
-        [0, 0, field_y, field_y, 0],
-        color="#f8fafc",
-        linewidth=2.4,
-        zorder=1,
-    )
-    ax.plot([x0, x0], [0, field_y], color="#cbd5e1", linewidth=2.0, linestyle="--", zorder=1)
-    ax.plot([x1, x1], [PEN_BOX_Y0, PEN_BOX_Y1], color="#f8fafc", linewidth=2.6, zorder=1)
-
-    values = np.array([float(corridor_counts.get(c, 0)) for _, _, c in CORRIDOR_BOUNDS])
-    vmax = max(float(values.max()), 1.0)
-    norm = Normalize(vmin=0.0, vmax=vmax)
-
-    for (cy0, cy1, corridor), value in zip(CORRIDOR_BOUNDS, values):
-        tone = CORRIDOR_TONE[corridor]
-        edge_rgba = CORRIDOR_EDGE[tone]
-        ax.add_patch(
-            Rectangle(
-                (x0, cy0),
-                x1 - x0,
-                cy1 - cy0,
-                facecolor=CMAP_OFF_ZONE_VOLUME(norm(value)),
-                edgecolor=edge_rgba,
-                linewidth=3.4,
-                zorder=2,
-            )
-        )
-
-    sm = ScalarMappable(norm=norm, cmap=CMAP_OFF_ZONE_VOLUME)
-    sm.set_array([])
-    cbar = fig.colorbar(sm, ax=ax, fraction=0.035, pad=0.02)
-    cbar.set_label(cbar_label, color="white", fontsize=8)
-    cbar.ax.yaxis.set_tick_params(color="white", labelcolor="white")
-    ax.set_title(title, color="#f8fafc", fontsize=13, fontweight="bold", pad=12)
-    return fig
-
-
-def _offensive_corridor_guides(fig) -> list[dict[str, Any]]:
-    _, to_image_fraction = _figure_image_fraction_fn(fig)
-    guides: list[dict[str, Any]] = []
-    for y0, y1, corridor in CORRIDOR_BOUNDS:
-        fx0, fy0 = to_image_fraction(OFF_ZONE_X0, y0)
-        fx1, fy1 = to_image_fraction(OFF_ZONE_X1, y1)
-        left, right = sorted((fx0, fx1))
-        bottom, top = sorted((fy0, fy1))
-        guides.append({
-            "corridor": corridor,
-            "tone": CORRIDOR_TONE[corridor],
-            "left_pct": round(left * 100.0, 3),
-            "top_pct": round((1.0 - top) * 100.0, 3),
-            "width_pct": round((right - left) * 100.0, 3),
-            "height_pct": round((top - bottom) * 100.0, 3),
-        })
-    return guides
-
-
-def _render_fig_png(fig, *, pad_inches: float = PAD_INCHES) -> str:
-    import matplotlib.pyplot as plt
-
-    fig.canvas.draw()
-    bbox = fig.get_tightbbox(fig.canvas.get_renderer()).padded(pad_inches)
-    buf = io.BytesIO()
-    fig.savefig(
-        buf,
-        format="png",
-        dpi=fig.dpi,
-        facecolor=fig.get_facecolor(),
-        bbox_inches=bbox,
-        pad_inches=0,
-    )
-    plt.close(fig)
-    return base64.b64encode(buf.getvalue()).decode("ascii")
-
-
 def _figure_image_fraction_fn(fig, *, pad_inches: float = PAD_INCHES):
     """Map pitch data coordinates to fractions of the exported PNG."""
     fig.canvas.draw()
@@ -673,16 +560,48 @@ def build_aggregated_payload(top_n: int, position_family: str) -> dict[str, Any]
     halfspace_summary["att_third_corridor_dest_counts"] = att_dest_counts
     halfspace_summary["att_third_dest_total"] = att_dest_total
 
-    off_corridor_counts_raw = {
-        key: int(att_dest_counts[key]["passes"]) for key in att_dest_counts
-    }
-    offensive_corridor_fig = _draw_offensive_corridor_zone_map(
-        off_corridor_counts_raw,
-        title="Offensive zone · passes into corridors",
-        cbar_label="Passes into corridor",
+    dest_att_third_grid = _aggregate_dest_att_third_grid(passes_df)
+    corridor_origin_flows = _att_third_corridor_origin_flows(passes_df)
+
+    att_origin_work = passes_df[passes_df["is_won"] & passes_df["has_end"]].dropna(
+        subset=["x_start", "y_start", "x_end", "y_end"]
     )
-    offensive_corridor_guides = _offensive_corridor_guides(offensive_corridor_fig)
-    offensive_corridor_map_b64 = _render_fig_png(offensive_corridor_fig)
+    att_origin_mask = att_origin_work["x_start"].to_numpy(dtype=float) >= ATT_THIRD_X
+    att_origin_passes = att_origin_work.loc[att_origin_mask]
+    att_origin_dest = xpe.aggregate_pass_destination_grids(
+        att_origin_passes, dest_cols=DEST_COLS, dest_rows=DEST_ROWS
+    )
+
+    halfspace_origin_fig = xsm._draw_destination_grid_map(
+        dest_att_third_grid,
+        title="Attacking third · passes into corridors",
+        cbar_label="Passes ending in attacking third",
+        cmap=CMAP_COMMON_SOFT,
+    )
+    _style_title(halfspace_origin_fig)
+    _emphasize_att_third_corridors(halfspace_origin_fig, dim_outside=True)
+    halfspace_origin_b64, halfspace_origin_cells = _render(halfspace_origin_fig)
+
+    halfspace_dest_fig = xsm._draw_destination_grid_map(
+        att_origin_dest["count_grid"],
+        title="Attacking third · pass destinations by origin corridor",
+        cbar_label="Passes at destination",
+        cmap=CMAP_COMMON_SOFT,
+    )
+    _style_title(halfspace_dest_fig)
+    _emphasize_att_third_corridors(halfspace_dest_fig, dim_outside=False)
+    halfspace_dest_b64, halfspace_dest_cells = _render(halfspace_dest_fig)
+
+    halfspace_origin_cell_stats = _cell_metrics_from_grid(
+        dest_att_third_grid,
+        metric="dest",
+    )
+
+    halfspace_dest_cell_stats = _cell_metrics_from_grid(
+        att_origin_dest["count_grid"],
+        metric="dest",
+        mean_xp_grid=att_origin_dest["mean_xp_grid"],
+    )
 
     quadrant_stats = [
         {
@@ -709,8 +628,13 @@ def build_aggregated_payload(top_n: int, position_family: str) -> dict[str, Any]
         "rare_map_b64": difficult_b64,
         "rare_map_cells": difficult_cells,
         "halfspace_summary": halfspace_summary,
-        "offensive_corridor_map_b64": offensive_corridor_map_b64,
-        "offensive_corridor_guides": offensive_corridor_guides,
+        "halfspace_origin_map_b64": halfspace_origin_b64,
+        "halfspace_origin_map_cells": halfspace_origin_cells,
+        "halfspace_origin_cell_stats": halfspace_origin_cell_stats,
+        "halfspace_dest_map_b64": halfspace_dest_b64,
+        "halfspace_dest_map_cells": halfspace_dest_cells,
+        "halfspace_dest_cell_stats": halfspace_dest_cell_stats,
+        "att_third_corridor_origin_flows": corridor_origin_flows,
     }
 
 

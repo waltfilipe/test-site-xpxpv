@@ -73,6 +73,7 @@ export function MapsPageContent() {
   const positionFamily = "midfielders";
   const [aggregated, setAggregated] = useState<AggregatedMaps | null>(null);
   const [selected, setSelected] = useState<string[]>([]);
+  const [selectedCorridor, setSelectedCorridor] = useState<PitchCorridor | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -91,10 +92,34 @@ export function MapsPageContent() {
 
   const cells = useMemo(() => aggregated?.cell_stats ?? [], [aggregated]);
   const corridorGuides = aggregated?.attacking_corridor_guides ?? [];
-  const offensiveCorridorGuides = aggregated?.offensive_corridor_guides ?? [];
   const attThirdCorridorDest: Partial<Record<PitchCorridor, AttThirdCorridorCount>> =
     aggregated?.halfspace_summary?.att_third_corridor_dest_counts ?? {};
   const attThirdDestTotal = aggregated?.halfspace_summary?.att_third_dest_total ?? 0;
+  const CORRIDOR_ORDER: PitchCorridor[] = ["lat_l", "hs_l", "cen", "hs_r", "lat_r"];
+
+  const attThirdCorridorOrigin = useMemo((): Partial<Record<PitchCorridor, AttThirdCorridorCount>> => {
+    const flows = aggregated?.att_third_corridor_origin_flows;
+    if (!flows) return {};
+    let total = 0;
+    for (const key of CORRIDOR_ORDER) {
+      total += flows[key]?.origin_passes ?? 0;
+    }
+    total = Math.max(total, 1);
+    const out: Partial<Record<PitchCorridor, AttThirdCorridorCount>> = {};
+    for (const key of CORRIDOR_ORDER) {
+      const passes = flows[key]?.origin_passes ?? 0;
+      out[key] = {
+        passes,
+        share_pct: Math.round((passes / total) * 10000) / 100,
+      };
+    }
+    return out;
+  }, [aggregated?.att_third_corridor_origin_flows]);
+
+  const activeOriginFlow = useMemo(() => {
+    if (!aggregated?.att_third_corridor_origin_flows || !selectedCorridor) return null;
+    return aggregated.att_third_corridor_origin_flows[selectedCorridor] ?? null;
+  }, [aggregated, selectedCorridor]);
 
   const cellsByKey = useMemo(() => {
     const map = new Map<string, CellStat>();
@@ -116,6 +141,19 @@ export function MapsPageContent() {
 
   const corridorLabel = (corridor?: PitchCorridor) =>
     corridor ? m.maps.halfspace.corridors[corridor] : "—";
+
+  const halfspaceSummaryLine = useMemo(() => {
+    const summary = aggregated?.halfspace_summary;
+    if (!summary) return null;
+    const other = summary.origin_total - summary.offensive_halfspace_origins;
+    const otherPct = (100 - summary.offensive_halfspace_origin_share_pct).toFixed(2);
+    return fillTemplate(m.maps.halfspace.summaryLine, {
+      ohs: numberFormat.format(summary.offensive_halfspace_origins),
+      ohsPct: summary.offensive_halfspace_origin_share_pct.toFixed(2),
+      other: numberFormat.format(other),
+      otherPct,
+    });
+  }, [aggregated, m.maps.halfspace.summaryLine, numberFormat]);
 
   const toggleCell = (key: string) => {
     setSelected((current) => {
@@ -203,6 +241,28 @@ export function MapsPageContent() {
     );
   };
 
+  const corridorOriginTooltip = (corridor: PitchCorridor): ReactNode => {
+    const stat = attThirdCorridorOrigin[corridor];
+    return (
+      <div className="cell-tip">
+        <p className="cell-tip-title">{corridorLabel(corridor)}</p>
+        <p className="cell-tip-row">
+          <span>{m.maps.halfspace.corridorFlowOriginLabel}</span>
+          <strong>{numberFormat.format(stat?.passes ?? 0)}</strong>
+        </p>
+        <p className="cell-tip-row">
+          <span>{m.maps.halfspace.corridorOriginShareLabel}</span>
+          <strong>{(stat?.share_pct ?? 0).toFixed(2)}%</strong>
+        </p>
+        <p className="cell-tip-note">{m.maps.halfspace.corridorClickHint}</p>
+      </div>
+    );
+  };
+
+  const toggleCorridor = (corridor: PitchCorridor) => {
+    setSelectedCorridor((prev) => (prev === corridor ? null : corridor));
+  };
+
   const difficultTooltip = (cell: CellStat): ReactNode => (
     <div className="cell-tip">
       <p className="cell-tip-title">{cellLabel(cell)}</p>
@@ -242,11 +302,11 @@ export function MapsPageContent() {
           {corridorGuides.length > 0 && (
             <div className="corridor-legend" role="note">
               <span className="corridor-legend-title">{m.maps.corridorLegendTitle}</span>
-              <span className="corridor-legend-item corridor-legend-item--blue">
-                {m.maps.corridorLegend.blue}
-              </span>
               <span className="corridor-legend-item corridor-legend-item--yellow">
                 {m.maps.corridorLegend.yellow}
+              </span>
+              <span className="corridor-legend-item corridor-legend-item--white">
+                {m.maps.corridorLegend.white}
               </span>
               <span className="corridor-legend-item corridor-legend-item--red">
                 {m.maps.corridorLegend.red}
@@ -302,42 +362,101 @@ export function MapsPageContent() {
             )}
           </div>
 
-          {aggregated.offensive_corridor_map_b64 && (
-            <section className="halfspace-maps offensive-corridor-section">
+          {aggregated.halfspace_origin_map_b64 && (
+            <section className="halfspace-maps">
               <header className="aggregate-maps-header">
                 <h3 className="section-label">{m.maps.halfspace.sectionTitle}</h3>
                 <p className="muted">{m.maps.halfspace.sectionLead}</p>
+                {halfspaceSummaryLine && <p className="muted">{halfspaceSummaryLine}</p>}
                 {attThirdDestSummaryLine && <p className="muted">{attThirdDestSummaryLine}</p>}
               </header>
-              <div className="corridor-legend corridor-legend--offensive" role="note">
-                <span className="corridor-legend-item corridor-legend-item--blue">
-                  {m.maps.corridorLegend.blue}
-                </span>
-                <span className="corridor-legend-item corridor-legend-item--yellow">
-                  {m.maps.corridorLegend.yellow}
-                </span>
-                <span className="corridor-legend-item corridor-legend-item--red">
-                  {m.maps.corridorLegend.red}
-                </span>
+              <div className="maps-grid halfspace-maps-grid">
+                <figure className="aggregate-map halfspace-map">
+                  <div className="aggregate-map-frame">
+                    <img
+                      src={`data:image/png;base64,${aggregated.halfspace_origin_map_b64}`}
+                      alt={m.maps.halfspace.originMapAlt}
+                      className="map-img"
+                    />
+                    <PitchCorridorHotspots
+                      guides={corridorGuides}
+                      counts={attThirdCorridorDest}
+                      tooltipFor={(corridor) => corridorDestTooltip(corridor)}
+                      labelFor={corridorLabel}
+                      showCountBadge
+                      emphasis
+                    />
+                  </div>
+                  <figcaption className="muted">{m.maps.halfspace.originCaption}</figcaption>
+                </figure>
+
+                {aggregated.halfspace_dest_map_b64 && (
+                  <figure className="aggregate-map halfspace-map">
+                    <div className="aggregate-map-frame">
+                      <img
+                        src={`data:image/png;base64,${aggregated.halfspace_dest_map_b64}`}
+                        alt={m.maps.halfspace.destMapAlt}
+                        className="map-img"
+                      />
+                      <PitchCorridorHotspots
+                        guides={corridorGuides}
+                        counts={attThirdCorridorOrigin}
+                        tooltipFor={(corridor) => corridorOriginTooltip(corridor)}
+                        interactive
+                        selected={selectedCorridor}
+                        onSelect={toggleCorridor}
+                        labelFor={corridorLabel}
+                        showCountBadge
+                        emphasis
+                      />
+                    </div>
+                    <figcaption className="muted">{m.maps.halfspace.destCaption}</figcaption>
+                  </figure>
+                )}
               </div>
-              <figure className="aggregate-map halfspace-map offensive-corridor-map">
-                <div className="aggregate-map-frame">
-                  <img
-                    src={`data:image/png;base64,${aggregated.offensive_corridor_map_b64}`}
-                    alt={m.maps.halfspace.offensiveCorridorMapAlt}
-                    className="map-img"
-                  />
-                  <PitchCorridorHotspots
-                    guides={offensiveCorridorGuides}
-                    counts={attThirdCorridorDest}
-                    tooltipFor={(corridor) => corridorDestTooltip(corridor)}
-                    labelFor={corridorLabel}
-                    showCountBadge
-                    emphasis
-                  />
+
+              <div className="corridor-flow-card" role="status">
+                <div className="corridor-flow-head">
+                  <h4>{m.maps.halfspace.corridorFlowTitle}</h4>
+                  {selectedCorridor && (
+                    <button
+                      type="button"
+                      className="btn btn-ghost"
+                      onClick={() => setSelectedCorridor(null)}
+                    >
+                      {m.maps.halfspace.corridorFlowClear}
+                    </button>
+                  )}
                 </div>
-                <figcaption className="muted">{m.maps.halfspace.offensiveCorridorCaption}</figcaption>
-              </figure>
+                {!selectedCorridor && (
+                  <p className="muted">{m.maps.halfspace.corridorFlowPickCorridor}</p>
+                )}
+                {selectedCorridor && activeOriginFlow && (
+                  <>
+                    <p className="corridor-flow-origin">
+                      <strong>{corridorLabel(selectedCorridor)}</strong>
+                      {" · "}
+                      {m.maps.halfspace.corridorFlowOriginLabel}:{" "}
+                      <strong>{numberFormat.format(activeOriginFlow.origin_passes)}</strong>
+                    </p>
+                    <ul className="corridor-flow-list">
+                      {CORRIDOR_ORDER.map((key) => {
+                        const dest = activeOriginFlow.dest_corridor_counts[key];
+                        if (!dest?.passes) return null;
+                        return (
+                          <li key={key}>
+                            <span>{corridorLabel(key)}</span>
+                            <span>
+                              {numberFormat.format(dest.passes)} ({dest.share_pct.toFixed(1)}%)
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    <p className="muted corridor-flow-note">{m.maps.halfspace.corridorOriginSelectHint}</p>
+                  </>
+                )}
+              </div>
             </section>
           )}
 

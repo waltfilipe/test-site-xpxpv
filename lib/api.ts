@@ -341,7 +341,7 @@ export type CellStat = {
   index_vs_other_spaces?: number;
 };
 
-export type CorridorTone = "blue" | "yellow" | "red";
+export type CorridorTone = "yellow" | "white" | "red";
 
 export type PitchCorridorGuide = {
   corridor: PitchCorridor;
@@ -395,8 +395,13 @@ export type AggregatedMaps = {
   rare_map_b64?: string | null;
   rare_map_cells?: Record<string, QuadrantBox>;
   halfspace_summary?: HalfspaceSummary;
-  offensive_corridor_map_b64?: string | null;
-  offensive_corridor_guides?: PitchCorridorGuide[];
+  halfspace_origin_map_b64?: string | null;
+  halfspace_origin_map_cells?: Record<string, QuadrantBox>;
+  halfspace_origin_cell_stats?: CellStat[];
+  halfspace_dest_map_b64?: string | null;
+  halfspace_dest_map_cells?: Record<string, QuadrantBox>;
+  halfspace_dest_cell_stats?: CellStat[];
+  att_third_corridor_origin_flows?: Partial<Record<PitchCorridor, AttThirdCorridorOriginFlow>>;
 };
 
 export function getAggregatedMaps(positionFamily = "midfielders") {
