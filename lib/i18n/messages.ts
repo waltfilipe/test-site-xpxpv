@@ -243,13 +243,15 @@ export type Messages = {
     cellRef: string;
     corridorLegendTitle: string;
     corridorLegend: {
+      blue: string;
       yellow: string;
-      white: string;
       red: string;
     };
     halfspace: {
       sectionTitle: string;
       sectionLead: string;
+      offensiveCorridorMapAlt: string;
+      offensiveCorridorCaption: string;
       originMapAlt: string;
       destMapAlt: string;
       originCaption: string;
@@ -743,14 +745,17 @@ const en: Messages = {
     cellRef: "Cell C{col}/R{row}",
     corridorLegendTitle: "Attacking-third corridors",
     corridorLegend: {
-      yellow: "Yellow · wide channel (lateral)",
-      white: "White · half-space (meio-espaço)",
+      blue: "Blue · wide channel (lateral)",
+      yellow: "Yellow · half-space (meio-espaço)",
       red: "Red · central corridor",
     },
     halfspace: {
-      sectionTitle: "Offensive half-space study",
+      sectionTitle: "Offensive zone · corridor map",
       sectionLead:
-        "Five pitch corridors (wide, half-space, central). Attack runs left → right; offensive half-space = half-space lanes in the attacking third.",
+        "Only the band from the halfway line to the penalty area, split into five corridors (lateral · blue, half-space · yellow, central · red). Darker red = more passes into that zone.",
+      offensiveCorridorMapAlt: "Offensive zone pass volume by corridor",
+      offensiveCorridorCaption:
+        "Passes that end in each corridor before the box. Hover a band for exact counts; fill intensity uses a red scale.",
       originMapAlt: "Passes ending in attacking-third corridors",
       destMapAlt: "Pass destinations by attacking-third origin corridor",
       originCaption:
@@ -773,7 +778,7 @@ const en: Messages = {
       summaryLine:
         "Offensive half-space origins: {ohs} ({ohsPct}% of all origins) · other spaces: {other} ({otherPct}%).",
       attThirdDestSummaryLine:
-        "Passes ending in attacking-third corridors: {total} · hover each colored band for its share.",
+        "Passes into this offensive band: {total} · hover each corridor for its share.",
       corridorDestPassesLabel: "Passes ending in this corridor",
       corridorDestShareLabel: "Share of attacking-third arrivals",
       corridorOriginSelectHint: "Click a corridor to see where those passes go.",
@@ -1513,14 +1518,17 @@ const pt: Messages = {
     cellRef: "Célula C{col}/L{row}",
     corridorLegendTitle: "Corredores no terço ofensivo",
     corridorLegend: {
-      yellow: "Amarelo · corredor lateral",
-      white: "Branco · meio-espaço",
+      blue: "Azul · corredor lateral",
+      yellow: "Amarelo · meio-espaço",
       red: "Vermelho · corredor central",
     },
     halfspace: {
-      sectionTitle: "Estudo do meio-espaço ofensivo",
+      sectionTitle: "Zona ofensiva · mapa por corredores",
       sectionLead:
-        "Cinco corredores no campo (lateral, meio-espaço, central). Ataque da esquerda para a direita; meio-espaço ofensivo = faixas de meio-espaço no terço ofensivo.",
+        "Só a faixa entre o meio-campo e a grande área, em cinco corredores (lateral · azul, meio-espaço · amarelo, central · vermelho). Vermelho mais escuro = mais passes para aquela zona.",
+      offensiveCorridorMapAlt: "Volume de passes por corredor na zona ofensiva",
+      offensiveCorridorCaption:
+        "Passes que terminam em cada corredor antes da área. Passe o mouse na faixa para ver totais; o preenchimento usa escala em vermelho.",
       originMapAlt: "Passes que terminam nos corredores do terço ofensivo",
       destMapAlt: "Destinos dos passes por corredor de origem no terço ofensivo",
       originCaption:
@@ -1543,7 +1551,7 @@ const pt: Messages = {
       summaryLine:
         "Origens no meio-espaço ofensivo: {ohs} ({ohsPct}% do total) · outros espaços: {other} ({otherPct}%).",
       attThirdDestSummaryLine:
-        "Passes que terminam nos corredores do terço ofensivo: {total} · passe o mouse em cada faixa colorida para ver a fatia.",
+        "Passes nesta zona ofensiva: {total} · passe o mouse em cada corredor para ver a fatia.",
       corridorDestPassesLabel: "Passes que terminam neste corredor",
       corridorDestShareLabel: "Fatia das chegadas no terço ofensivo",
       corridorOriginSelectHint: "Clique num corredor para ver para onde vão esses passes.",
